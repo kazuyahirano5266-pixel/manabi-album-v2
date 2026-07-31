@@ -142,6 +142,7 @@ const db = getFirestore(app);
 
 
 window.save = async function(){
+ showAdvice();
 
 await addDoc(collection(db,"manabi"),{
 
@@ -161,7 +162,6 @@ date:new Date()
 document.getElementById("msg").innerHTML =
 "🌟 保存しました！";
 
-showAdvice();
 
 };
 window.loadComment = async function(){
