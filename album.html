@@ -65,7 +65,7 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
 
 
-import { getFirestore, collection, getDocs }
+import { getFirestore, collection, onSnapshot }
 
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
@@ -95,13 +95,13 @@ const db = getFirestore(app);
 
 
 
-const querySnapshot = await getDocs(collection(db,"manabi"));
+onSnapshot(collection(db,"manabi"),(snapshot)=>{
 
 
 let html="";
 
 
-querySnapshot.forEach((doc)=>{
+snapshot.forEach((doc)=>{
 
 
 const data=doc.data();
@@ -112,9 +112,7 @@ html += `
 <div class="card">
 
 <div class="subject">
-
 ${data.subject}
-
 </div>
 
 
@@ -141,6 +139,8 @@ ${data.subject}
 
 document.getElementById("list").innerHTML=html;
 
+
+});
 
 </script>
 
