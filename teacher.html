@@ -338,8 +338,10 @@ html += `
 
 
 <p>
-📅 ${data.date?.toDate ? 
-data.date.toDate().toLocaleDateString() : ""}
+📅 ${data.date ? 
+new Date(data.date.seconds*1000).toLocaleDateString()
+:
+""}
 </p>
 
 
