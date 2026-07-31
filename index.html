@@ -139,7 +139,36 @@ document.getElementById("msg").innerHTML=
 "🌟 保存しました！";
 
 }
+window.loadComment = async function(){
 
+const name =
+document.getElementById("name").value;
+
+
+const q = query(
+collection(db,"manabi"),
+where("name","==",name)
+);
+
+
+const result = await getDocs(q);
+
+
+result.forEach((doc)=>{
+
+const data = doc.data();
+
+
+if(data.comment){
+
+document.getElementById("teacherComment").innerHTML =
+data.comment;
+
+}
+
+});
+
+}
 </script>
 
 
