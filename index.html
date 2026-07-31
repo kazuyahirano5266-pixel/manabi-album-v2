@@ -199,13 +199,42 @@ const study =
 document.getElementById("study").value;
 
 
-let advice="";
-
-
 if(subject==="国語"){
 
+if(study.includes("友達")){
+
 advice =
-"友達の考えと自分の考えの違いや共通点を見つけて、理由も書いてみよう。";
+"友達のどんな考えや言葉が印象に残りましたか。自分の考えと比べて書いてみよう。";
+
+}
+
+else if(study.includes("理由")){
+
+advice =
+"その理由を支える言葉や根拠は何ですか。本文や友達の考えをもとに説明してみよう。";
+
+}
+
+else if(study.includes("発表")){
+
+advice =
+"自分の考えを伝えるとき、相手に分かりやすくするために工夫したことを書いてみよう。";
+
+}
+
+else if(study.includes("読む")){
+
+advice =
+"文章のどの部分に注目して読みましたか。そこから何を考えましたか。";
+
+}
+
+else{
+
+advice =
+"今日の学習で一番大切だと思ったことは何ですか。理由も合わせて書いてみよう。";
+
+}
 
 }
 
