@@ -33,7 +33,20 @@ box-shadow:0 3px 8px #ccc;
 color:#2b7a78;
 font-weight:bold;
 }
+.study-text{
+background:#f7f7f7;
+padding:10px;
+border-radius:10px;
+max-height:120px;
+overflow:auto;
+}
 
+.level-box{
+background:#eaf6ff;
+padding:10px;
+border-radius:10px;
+margin:10px 0;
+}
 </style>
 
 </head>
@@ -114,8 +127,13 @@ html += `
 
 <p><b>今日の学び</b></p>
 
-<p>${data.study}</p>
+<div class="study-text">
+${data.study}
+</div>
 
+<div class="level-box">
+${data.level || "まだ判定なし"}
+</div>
 
 <p><b>次にやりたいこと</b></p>
 
