@@ -27,6 +27,7 @@ margin:15px auto;
 border-radius:20px;
 max-width:700px;
 box-shadow:0 3px 8px #ccc;
+min-height:300px;
 }
 
 .subject{
@@ -37,7 +38,7 @@ font-weight:bold;
 background:#f7f7f7;
 padding:10px;
 border-radius:10px;
-max-height:120px;
+max-height:80px;
 overflow:auto;
 }
 
@@ -47,6 +48,15 @@ padding:10px;
 border-radius:10px;
 margin:10px 0;
 }
+.comment-area{
+height:60px;
+resize:none;
+}
+textarea{
+width:90%;
+max-height:80px;
+}
+
 </style>
 
 </head>
@@ -139,7 +149,7 @@ ${data.level || "まだ判定なし"}
 
 <p><b>💬 先生コメント</b></p>
 
-<textarea id="comment-${doc.id}" rows="3">
+<textarea class="comment-area" id="comment-${doc.id}">
 ${data.comment || ""}
 </textarea>
 
