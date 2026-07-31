@@ -152,7 +152,7 @@ subject:document.getElementById("subject").value,
 study:document.getElementById("study").value,
 
 next:document.getElementById("next").value,
-
+level: window.currentLevel || "",
 date:new Date()
 
 });
@@ -412,7 +412,7 @@ levelText =
 
 document.getElementById("levelAdvice").innerHTML =
 levelText;
-
+window.currentLevel = levelText;
 }
 </script>
 
