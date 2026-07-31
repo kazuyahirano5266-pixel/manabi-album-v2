@@ -74,7 +74,15 @@ font-size:18px;
 <button onclick="save()">保存する</button>
 
 <p id="msg"></p>
+<div class="comment-box">
 
+<h3>💬 先生からのコメント</h3>
+
+<p id="teacherComment">
+先生がまだコメントしていません
+</p>
+
+</div>
 </div>
 
 
@@ -83,7 +91,7 @@ font-size:18px;
 import { initializeApp } 
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
 
-import { getFirestore, collection, addDoc } 
+import { getFirestore, collection, addDoc, query, where, getDocs }
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 
