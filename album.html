@@ -1,1 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
 
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>みんなの学びアルバム</title>
+
+<style>
+
+body{
+font-family:sans-serif;
+background:#f0f8ff;
+padding:20px;
+}
+
+h1{
+text-align:center;
+}
+
+.card{
+
+background:white;
+border-radius:20px;
+padding:20px;
+margin:15px auto;
+max-width:600px;
+box-shadow:0 3px 8px #ccc;
+
+}
+
+.subject{
+
+color:#2b7a78;
+font-weight:bold;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<h1>📚 みんなの学びアルバム</h1>
+
+
+<div id="list">
+
+読み込み中...
+
+</div>
+
+
+
+<script type="module">
+
+
+import { initializeApp }
+
+from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+
+
+import { getFirestore, collection, getDocs }
+
+from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+
+
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyA7fBz695BTUL8lxxJ06csf6AfU_DQp3iw",
+
+authDomain: "manabi-album-v2.firebaseapp.com",
+
+projectId: "manabi-album-v2",
+
+storageBucket: "manabi-album-v2.firebasestorage.app",
+
+messagingSenderId: "226258471812",
+
+appId: "1:226258471812:web:15230ba15e7e0bd7d86bd1"
+
+};
+
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+
+
+const querySnapshot = await getDocs(collection(db,"manabi"));
+
+
+let html="";
+
+
+querySnapshot.forEach((doc)=>{
+
+
+const data=doc.data();
+
+
+html += `
+
+<div class="card">
+
+<div class="subject">
+
+${data.subject}
+
+</div>
+
+
+<h3>👤 ${data.name}</h3>
+
+
+<p>✨ 今日の学び</p>
+
+<p>${data.study}</p>
+
+
+<p>🚀 次にやりたいこと</p>
+
+<p>${data.next}</p>
+
+
+</div>
+
+`;
+
+
+});
+
+
+document.getElementById("list").innerHTML=html;
+
+
+</script>
+
+
+</body>
+
+</html>
