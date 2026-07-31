@@ -58,7 +58,7 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
 
 
-import { getFirestore, collection, onSnapshot }
+import { getFirestore, collection, onSnapshot, doc, updateDoc }
 
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
@@ -119,10 +119,15 @@ html += `
 
 <p><b>次にやりたいこと</b></p>
 
-<p>${data.next}</p>
+<p><b>💬 先生コメント</b></p>
 
+<textarea id="comment-${doc.id}" rows="3">
+${data.comment || ""}
+</textarea>
 
-</div>
+<button onclick="saveComment('${doc.id}')">
+保存
+</button>
 
 `;
 
@@ -134,7 +139,22 @@ document.getElementById("list").innerHTML=html;
 
 });
 
+window.saveComment = async function(id){
 
+const text =
+document.getElementById("comment-"+id).value;
+
+
+await updateDoc(doc(db,"manabi",id),{
+
+comment:text
+
+});
+
+
+alert("コメントを保存しました");
+
+}
 </script>
 
 
