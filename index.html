@@ -142,7 +142,10 @@ const db = getFirestore(app);
 
 
 window.save = async function(){
- showAdvice();
+
+showAdvice();
+
+const level = window.currentLevel || "";
 
 await addDoc(collection(db,"manabi"),{
 
@@ -153,7 +156,7 @@ subject:document.getElementById("subject").value,
 study:document.getElementById("study").value,
 
 next:document.getElementById("next").value,
-level: window.currentLevel || "",
+level: level,,
 date:new Date()
 
 });
