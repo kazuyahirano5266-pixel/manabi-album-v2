@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>学びアルバム Ver.2</title>
+
+<style>
+body{
+font-family:sans-serif;
+background:#f0f8ff;
+text-align:center;
+padding:20px;
+}
+
+.box{
+background:white;
+padding:20px;
+border-radius:20px;
+max-width:500px;
+margin:auto;
+}
+
+input,textarea,select{
+width:90%;
+padding:10px;
+font-size:18px;
+margin:8px;
+}
+
+button{
+padding:15px 30px;
+border:none;
+border-radius:20px;
+background:#2b7a78;
+color:white;
+font-size:18px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="box">
+
+<h1>📚 学びアルバム Ver.2</h1>
+
+<p>名前</p>
+<input id="name">
+
+<p>教科</p>
+
+<select id="subject">
+<option>国語</option>
+<option>算数</option>
+<option>生活</option>
+<option>理科</option>
+<option>社会</option>
+<option>道徳</option>
+<option>体育</option>
+</select>
+
+
+<p>今日の学び</p>
+<textarea id="study"></textarea>
+
+
+<p>次にやりたいこと</p>
+<textarea id="next"></textarea>
+
+
+<button onclick="save()">保存する</button>
+
+<p id="msg"></p>
+
+</div>
+
+
+<script type="module">
+
+import { initializeApp } 
+from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+
+import { getFirestore, collection, addDoc } 
+from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+
+
+const firebaseConfig = {
+
+apiKey: "あなたのapiKey",
+
+authDomain: "manabi-album-v2.firebaseapp.com",
+
+projectId: "manabi-album-v2",
+
+storageBucket: "manabi-album-v2.firebasestorage.app",
+
+messagingSenderId: "226258471812",
+
+appId: "1:226258471812:web:15230ba15e7e0bd7d86bd1"
+
+};
+
+
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+
+
+
+window.save = async function(){
+
+await addDoc(collection(db,"manabi"),{
+
+name:document.getElementById("name").value,
+
+subject:document.getElementById("subject").value,
+
+study:document.getElementById("study").value,
+
+next:document.getElementById("next").value,
+
+date:new Date()
+
+});
+
+
+document.getElementById("msg").innerHTML=
+"🌟 保存しました！";
+
+}
+
+</script>
+
+
+</body>
+</html>
