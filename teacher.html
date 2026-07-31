@@ -303,3 +303,138 @@ document.getElementById("list").innerHTML=html;
 
 
 }
+window.openSubject=function(name,subject){
+
+
+let html="";
+
+
+html += `
+
+<button onclick="openStudent('${name}')">
+
+← 教科一覧へ
+
+</button>
+
+
+<h2>
+📚 ${name} さん　${subject}
+</h2>
+
+`;
+
+
+
+allData[name].forEach(data=>{
+
+
+if(data.subject===subject){
+
+
+html += `
+
+<div class="card">
+
+
+<p>
+📅 ${data.date?.toDate ? 
+data.date.toDate().toLocaleDateString() : ""}
+</p>
+
+
+<p><b>今日の学び</b></p>
+
+<div class="study-box">
+
+${data.study}
+
+</div>
+
+
+<div class="level-box">
+
+🌱 ${data.level || "判定なし"}
+
+</div>
+
+
+
+<p><b>次にやりたいこと</b></p>
+
+<p>
+
+${data.next || ""}
+
+</p>
+
+
+
+<div class="comment-box">
+
+<p><b>💬 先生コメント</b></p>
+
+
+<textarea id="comment-${data.id}">
+${data.comment || ""}
+
+</textarea>
+
+
+<br>
+
+
+<button onclick="saveComment('${data.id}')">
+
+コメント保存
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+`;
+
+}
+
+
+});
+
+
+document.getElementById("list").innerHTML=html;
+
+
+}
+
+
+
+window.saveComment = async function(id){
+
+
+const text =
+
+document.getElementById("comment-"+id).value;
+
+
+
+await updateDoc(
+
+doc(db,"manabi",id),
+
+{
+
+comment:text
+
+}
+
+);
+
+
+alert("コメントを保存しました😊");
+
+
+}
