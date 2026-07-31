@@ -27,34 +27,54 @@ margin:15px auto;
 border-radius:20px;
 max-width:700px;
 box-shadow:0 3px 8px #ccc;
-min-height:300px;
+}
+
+button{
+padding:12px 25px;
+border:none;
+border-radius:20px;
+background:#2b7a78;
+color:white;
+font-size:16px;
+margin:5px;
 }
 
 .subject{
 color:#2b7a78;
 font-weight:bold;
+font-size:20px;
 }
-.study-text{
-background:#f7f7f7;
-padding:10px;
-border-radius:10px;
-max-height:80px;
-overflow:auto;
+
+.study-box{
+
+background:#f5f5f5;
+padding:15px;
+border-radius:15px;
+
 }
 
 .level-box{
+
 background:#eaf6ff;
 padding:10px;
-border-radius:10px;
+border-radius:15px;
 margin:10px 0;
+
 }
-.comment-area{
-height:60px;
-resize:none;
+
+.comment-box{
+
+background:#fff4d6;
+padding:10px;
+border-radius:15px;
+
 }
+
 textarea{
+
 width:90%;
-max-height:80px;
+height:60px;
+
 }
 
 </style>
@@ -67,8 +87,11 @@ max-height:80px;
 
 <h1>👩‍🏫 先生ページ</h1>
 
+
 <div id="list">
+
 読み込み中...
+
 </div>
 
 
@@ -81,7 +104,15 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
 
 
-import { getFirestore, collection, onSnapshot, doc, updateDoc }
+import { 
+
+getFirestore,
+collection,
+onSnapshot,
+doc,
+updateDoc
+
+}
 
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
@@ -111,53 +142,76 @@ const db = getFirestore(app);
 
 
 
+let allData={};
+
+
+
 onSnapshot(collection(db,"manabi"),(snapshot)=>{
 
 
-let students={};
+allData={};
 
 
 snapshot.forEach((doc)=>{
 
+
 const data=doc.data();
 
+data.id=doc.id;
 
-if(!students[data.name]){
 
-students[data.name]=[];
+if(!allData[data.name]){
+
+allData[data.name]=[];
 
 }
 
 
-students[data.name].push(data);
+allData[data.name].push(data);
 
 
 });
+
+
+showStudents();
+
+
+});
+
+
+
+function showStudents(){
 
 
 let html="";
 
 
-Object.keys(students).forEach(name=>{
+html += `
+<h2>📁 児童一覧</h2>
+`;
+
+
+Object.keys(allData).forEach(name=>{
 
 
 html += `
 
 <div class="card">
+
 
 <h2>
 📁 ${name} さん
 </h2>
 
+
 <p>
-記録数：
-${students[name].length} 件
+${allData[name].length}件の学び
 </p>
 
 
-<button onclick="showStudent('${name}')">
+<button onclick="openStudent('${name}')">
 
-学びを見る
+開く
 
 </button>
 
@@ -166,81 +220,74 @@ ${students[name].length} 件
 
 `;
 
-
 });
 
 
 document.getElementById("list").innerHTML=html;
 
 
-window.studentsData = students;
-
-
-});
-
-
-window.saveComment = async function(id){
-
-const text =
-document.getElementById("comment-"+id).value;
-
-
-await updateDoc(doc(db,"manabi",id),{
-
-comment:text
-
-});
-
-
-alert("コメントを保存しました");
-
 }
-window.showStudent = function(name){
 
 
-let html = "";
+window.openStudent=function(name){
 
 
-html += `
+let html=`
+
+
+<button onclick="showStudents()">
+
+←児童一覧
+
+</button>
+
 
 <h2>
-👤 ${name} さんの学びアルバム
+👤 ${name} さん
 </h2>
 
-<button onclick="location.reload()">
-← 児童一覧へ戻る
-</button>
+
+<h3>📂 教科を選んでください</h3>
+
 
 `;
 
 
-window.studentsData[name].forEach(data=>{
+let subjects=[];
+
+
+allData[name].forEach(data=>{
+
+
+if(!subjects.includes(data.subject)){
+
+subjects.push(data.subject);
+
+}
+
+
+});
+
+
+subjects.forEach(subject=>{
 
 
 html += `
+
 
 <div class="card">
 
-<div class="subject">
-📚 ${data.subject}
-</div>
+
+<h2>
+📚 ${subject}
+</h2>
 
 
-<p><b>今日の学び</b></p>
+<button onclick="openSubject('${name}','${subject}')">
 
-<div class="study-text">
-${data.study}
-</div>
+見る
 
-
-<div class="level-box">
-${data.level || ""}
-</div>
-
-
-<p>
-💬 ${data.comment || "コメントなし"}
-</p>
+</button>
 
 
 </div>
@@ -256,9 +303,3 @@ document.getElementById("list").innerHTML=html;
 
 
 }
-</script>
-
-
-</body>
-
-</html>
