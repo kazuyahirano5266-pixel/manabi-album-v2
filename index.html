@@ -103,7 +103,8 @@ margin-top:20px;
 振り返りを入力すると、
 学びを深めるヒントが表示されます。
 </p>
-
+<p id="levelAdvice">
+</p>
 </div>
 </div>
 
@@ -355,12 +356,64 @@ advice =
 
 document.getElementById("studyAdvice").innerHTML =
 advice;
-
+checkLevel(study);
 
 }
 
 
+function checkLevel(study){
 
+let levelText="";
+
+
+if(
+study.includes("理由") ||
+study.includes("なぜ") ||
+study.includes("考え")
+){
+
+levelText =
+"🌳 深まりレベル3：理由や考えを書けています。さらに友達の考えとの違いも比べてみよう。";
+
+}
+
+
+else if(
+study.includes("友達") ||
+study.includes("協力") ||
+study.includes("工夫")
+){
+
+levelText =
+"🌿 深まりレベル2：友達との関わりや工夫が書けています。どんな変化があったか考えてみよう。";
+
+}
+
+
+else if(
+study.includes("できた") ||
+study.includes("分かった") ||
+study.includes("楽しかった")
+){
+
+levelText =
+"🌱 深まりレベル1：できたことが書けています。なぜできたのか、詳しく振り返ってみよう。";
+
+}
+
+
+else{
+
+levelText =
+"🌱 今日の学びで大切だったことを、具体的な出来事と一緒に書いてみよう。";
+
+}
+
+
+document.getElementById("levelAdvice").innerHTML =
+levelText;
+
+}
 </script>
 
 
