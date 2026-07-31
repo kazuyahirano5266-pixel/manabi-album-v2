@@ -114,50 +114,58 @@ const db = getFirestore(app);
 onSnapshot(collection(db,"manabi"),(snapshot)=>{
 
 
-let html="";
+let students={};
 
 
 snapshot.forEach((doc)=>{
 
-
 const data=doc.data();
+
+
+if(!students[data.name]){
+
+students[data.name]=[];
+
+}
+
+
+students[data.name].push(data);
+
+
+});
+
+
+let html="";
+
+
+Object.keys(students).forEach(name=>{
 
 
 html += `
 
 <div class="card">
 
-<div class="subject">
-📚 ${data.subject}
-</div>
+<h2>
+📁 ${name} さん
+</h2>
+
+<p>
+記録数：
+${students[name].length} 件
+</p>
 
 
-<h3>👤 ${data.name}</h3>
+<button onclick="showStudent('${name}')">
 
+学びを見る
 
-<p><b>今日の学び</b></p>
-
-<div class="study-text">
-${data.study}
-</div>
-
-<div class="level-box">
-${data.level || "まだ判定なし"}
-</div>
-
-<p><b>次にやりたいこと</b></p>
-
-<p><b>💬 先生コメント</b></p>
-
-<textarea class="comment-area" id="comment-${doc.id}">
-${data.comment || ""}
-</textarea>
-
-<button onclick="saveComment('${doc.id}')">
-保存
 </button>
 
+
+</div>
+
 `;
+
 
 });
 
@@ -165,7 +173,11 @@ ${data.comment || ""}
 document.getElementById("list").innerHTML=html;
 
 
+window.studentsData = students;
+
+
 });
+
 
 window.saveComment = async function(id){
 
@@ -181,6 +193,67 @@ comment:text
 
 
 alert("コメントを保存しました");
+
+}
+window.showStudent = function(name){
+
+
+let html = "";
+
+
+html += `
+
+<h2>
+👤 ${name} さんの学びアルバム
+</h2>
+
+<button onclick="location.reload()">
+← 児童一覧へ戻る
+</button>
+
+`;
+
+
+window.studentsData[name].forEach(data=>{
+
+
+html += `
+
+<div class="card">
+
+<div class="subject">
+📚 ${data.subject}
+</div>
+
+
+<p><b>今日の学び</b></p>
+
+<div class="study-text">
+${data.study}
+</div>
+
+
+<div class="level-box">
+${data.level || ""}
+</div>
+
+
+<p>
+💬 ${data.comment || "コメントなし"}
+</p>
+
+
+</div>
+
+
+`;
+
+
+});
+
+
+document.getElementById("list").innerHTML=html;
+
 
 }
 </script>
