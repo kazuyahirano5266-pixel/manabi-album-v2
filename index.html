@@ -145,8 +145,6 @@ window.save = async function(){
 
 showAdvice();
 
-const level = window.currentLevel || "";
-
 await addDoc(collection(db,"manabi"),{
 
 name:document.getElementById("name").value,
@@ -156,10 +154,18 @@ subject:document.getElementById("subject").value,
 study:document.getElementById("study").value,
 
 next:document.getElementById("next").value,
-level: level,,
+
+level: window.currentLevel || "",
+
 date:new Date()
 
 });
+
+
+document.getElementById("msg").innerHTML =
+"🌟 保存しました！";
+
+};
 
 
 document.getElementById("msg").innerHTML =
