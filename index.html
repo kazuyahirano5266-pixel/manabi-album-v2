@@ -158,7 +158,7 @@ date:new Date()
 
 document.getElementById("msg").innerHTML=
 "🌟 保存しました！";
-
+showAdvice();
 }
 window.loadComment = async function(){
 
@@ -188,6 +188,73 @@ data.comment;
 }
 
 });
+
+}
+function showAdvice(){
+
+const subject =
+document.getElementById("subject").value;
+
+const study =
+document.getElementById("study").value;
+
+
+let advice="";
+
+
+if(subject==="国語"){
+
+advice =
+"友達の考えと自分の考えの違いや共通点を見つけて、理由も書いてみよう。";
+
+}
+
+else if(subject==="算数"){
+
+advice =
+"答えだけでなく、どんな考え方や工夫をしたのか説明してみよう。";
+
+}
+
+else if(subject==="理科"){
+
+advice =
+"予想と結果を比べて、なぜそうなったのか考えてみよう。";
+
+}
+
+else if(subject==="社会"){
+
+advice =
+"調べて分かったことが、くらしや社会とどう関係しているか考えてみよう。";
+
+}
+
+else if(subject==="総合"){
+
+advice =
+"学んだことを誰に伝えたいか、どんな方法なら伝わるか考えてみよう。";
+
+}
+
+else if(subject==="体育"){
+
+advice =
+"できたことだけでなく、工夫したことや友達との関わりを書いてみよう。";
+
+}
+
+else{
+
+advice =
+"今日の学びで大切だったことを、理由をつけて振り返ってみよう。";
+
+}
+
+
+document.getElementById("studyAdvice").innerHTML =
+advice;
+
 
 }
 </script>
