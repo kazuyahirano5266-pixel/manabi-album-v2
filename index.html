@@ -335,7 +335,9 @@ collection,
 addDoc,
 query,
 where,
-getDocs
+getDocs,
+updateDoc,
+doc
 
 }
 
@@ -402,7 +404,7 @@ document.getElementById("everyonePage").style.display="none";
 window.save = async function(){
 
 
-await addDoc(collection(db,"manabi"),{
+const saveData = await addDoc(collection(db,"manabi"),{
 
 
 name:
@@ -427,10 +429,11 @@ likes:0,
 
 date:new Date()
 
-
 });
 
+console.log("保存ID", saveData.id);
 
+id: saveData.id
 
 document.getElementById("msg").innerHTML=
 "🌟 保存しました！";
@@ -763,62 +766,7 @@ document.getElementById("historyList").innerHTML=html;
 };
 
 
-const result =
-await getDocs(q);
 
-
-
-let html="";
-
-
-
-result.forEach(doc=>{
-
-
-const data=doc.data();
-
-
-html += `
-
-
-<div class="card">
-
-
-<h3>
-📚 ${data.subject}
-</h3>
-
-
-<p>
-📖 ${data.unit || "単元名なし"}
-</p>
-
-
-<p>
-📝 ${data.study}
-</p>
-
-
-
-<p>
-✏️ ${data.deepReflection || ""}
-</p>
-
-
-</div>
-
-
-`;
-
-
-});
-
-
-
-document.getElementById("historyList").innerHTML=html;
-
-
-};
 
 
 
