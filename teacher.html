@@ -166,7 +166,7 @@ showStudents();
 
 
 });
-function showStudents(){
+window.showStudents=function(){
 
 let html="";
 
@@ -216,7 +216,7 @@ window.openStudent=function(name){
 let html=`
 
 
-<button onclick="showStudents()">
+<button onclick="window.showStudents()">
 ← 児童一覧へ
 </button>
 
