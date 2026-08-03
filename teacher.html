@@ -384,7 +384,82 @@ document.getElementById("list").innerHTML=html;
 
 }
 
+window.openUnit=function(name,subject,unit){
 
+
+let html="";
+
+
+html += `
+
+<button onclick="openSubject('${name}','${subject}')">
+
+← 単元一覧へ
+
+</button>
+
+
+<h2>
+📖 ${unit}
+</h2>
+
+`;
+
+
+
+allData[name].forEach(data=>{
+
+
+if(
+data.subject===subject &&
+data.unit===unit
+){
+
+
+html += `
+
+<div class="card">
+
+
+<p><b>📝 今日の学び</b></p>
+
+
+<div class="study-box">
+
+${data.study}
+
+</div>
+
+
+
+<div class="level-box">
+
+🌱 ${data.level || "判定なし"}
+
+</div>
+
+
+
+<p>
+💬 ${data.comment || "コメントなし"}
+</p>
+
+
+</div>
+
+`;
+
+
+}
+
+
+});
+
+
+document.getElementById("list").innerHTML=html;
+
+
+}
 
 window.saveComment = async function(id){
 
