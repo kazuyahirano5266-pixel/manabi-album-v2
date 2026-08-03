@@ -365,7 +365,7 @@ html += `
 </h2>
 
 
-<button onclick="openUnit('${name}','${subject}','${unit}')">
+<button onclick="openUnit('${name}','${subject}',\`${unit}\`)">
 
 見る
 
@@ -385,6 +385,10 @@ document.getElementById("list").innerHTML=html;
 }
 
 window.openUnit=function(name,subject,unit){
+
+console.log("児童:",name);
+console.log("教科:",subject);
+console.log("単元:",unit);
 
 
 let html="";
@@ -412,7 +416,7 @@ allData[name].forEach(data=>{
 
 if(
 data.subject===subject &&
-data.unit===unit
+data.unit==unit
 ){
 
 
