@@ -46,35 +46,27 @@ font-size:20px;
 }
 
 .study-box{
-
 background:#f5f5f5;
 padding:15px;
 border-radius:15px;
-
 }
 
 .level-box{
-
 background:#eaf6ff;
 padding:10px;
 border-radius:15px;
 margin:10px 0;
-
 }
 
 .comment-box{
-
 background:#fff4d6;
 padding:10px;
 border-radius:15px;
-
 }
 
 textarea{
-
 width:90%;
 height:60px;
-
 }
 
 </style>
@@ -89,9 +81,7 @@ height:60px;
 
 
 <div id="list">
-
 読み込み中...
-
 </div>
 
 
@@ -104,7 +94,7 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
 
 
-import { 
+import {
 
 getFirestore,
 collection,
@@ -145,7 +135,6 @@ const db = getFirestore(app);
 let allData={};
 
 
-
 onSnapshot(collection(db,"manabi"),(snapshot)=>{
 
 
@@ -156,7 +145,7 @@ snapshot.forEach((doc)=>{
 
 
 const data=doc.data();
-console.log(data);
+
 data.id=doc.id;
 
 
@@ -177,14 +166,9 @@ showStudents();
 
 
 });
-
-
-
-window.showStudents=function(){
-
+function showStudents(){
 
 let html="";
-
 
 html += `
 <h2>📁 児童一覧</h2>
@@ -198,11 +182,9 @@ html += `
 
 <div class="card">
 
-
 <h2>
 📁 ${name} さん
 </h2>
-
 
 <p>
 ${allData[name].length}件の学び
@@ -210,9 +192,7 @@ ${allData[name].length}件の学び
 
 
 <button onclick="openStudent('${name}')">
-
 開く
-
 </button>
 
 
@@ -225,9 +205,10 @@ ${allData[name].length}件の学び
 
 document.getElementById("list").innerHTML=html;
 
-
 }
 
+
+// 児童を開く
 
 window.openStudent=function(name){
 
@@ -236,9 +217,7 @@ let html=`
 
 
 <button onclick="showStudents()">
-
-←児童一覧
-
+← 児童一覧へ
 </button>
 
 
@@ -249,8 +228,8 @@ let html=`
 
 <h3>📂 教科を選んでください</h3>
 
-
 `;
+
 
 
 let subjects=[];
@@ -269,14 +248,13 @@ subjects.push(data.subject);
 });
 
 
+
 subjects.forEach(subject=>{
 
 
 html += `
 
-
 <div class="card">
-
 
 <h2>
 📚 ${subject}
@@ -284,17 +262,13 @@ html += `
 
 
 <button onclick="openSubject('${name}','${subject}')">
-
 見る
-
 </button>
 
 
 </div>
 
-
 `;
-
 
 });
 
@@ -302,18 +276,20 @@ html += `
 document.getElementById("list").innerHTML=html;
 
 
-}
+};
+
+
+
+// 教科を開く
+
 window.openSubject=function(name,subject){
 
-let html="";
 
+let html=`
 
-html += `
 
 <button onclick="openStudent('${name}')">
-
 ← 教科一覧へ
-
 </button>
 
 
@@ -327,18 +303,18 @@ html += `
 `;
 
 
+
 let units=[];
 
 
-// 単元一覧を作る
 
 allData[name].forEach(data=>{
 
 
-if(data.subject===subject){
+if(data.subject===subject && data.unit){
 
 
-if(!units.includes(data.unit || "単元名なし")){
+if(!units.includes(data.unit)){
 
 units.push(data.unit);
 
@@ -351,7 +327,7 @@ units.push(data.unit);
 });
 
 
-// 単元ボタン表示
+// 単元フォルダ表示
 
 units.forEach(unit=>{
 
@@ -361,50 +337,76 @@ html += `
 <div class="card">
 
 <h2>
-📖 ${unit || "単元名なし"}
+📖 ${unit}
 </h2>
 
 
 <button onclick="openUnit('${name}','${subject}',\`${unit}\`)">
-
 見る
-
 </button>
+
 
 </div>
 
 `;
 
-
 });
+
+
+
+// 単元なし表示
+
+let noUnit = allData[name].filter(data=>
+
+data.subject===subject && !data.unit
+
+);
+
+
+
+if(noUnit.length>0){
+
+
+html += `
+
+<div class="card">
+
+<h2>
+📝 単元未入力の振り返り
+</h2>
+
+
+<button onclick="openNoUnit('${name}','${subject}')">
+見る
+</button>
+
+
+</div>
+
+`;
+
+}
 
 
 document.getElementById("list").innerHTML=html;
 
 
-}
+};
+// 単元を開く
 
 window.openUnit=function(name,subject,unit){
 
-console.log("児童:",name);
-console.log("教科:",subject);
-console.log("単元:",unit);
 
+let html=`
 
-let html="";
-
-
-html += `
 
 <button onclick="openSubject('${name}','${subject}')">
-
 ← 単元一覧へ
-
 </button>
 
 
 <h2>
-📖 ${unit || "単元名なし"}
+📖 ${unit}
 </h2>
 
 `;
@@ -416,7 +418,111 @@ allData[name].forEach(data=>{
 
 if(
 data.subject===subject &&
-data.unit==unit
+data.unit===unit
+){
+
+
+html += `
+
+<div class="card">
+
+
+<p><b>📝 今日の学び</b></p>
+
+
+<div class="study-box">
+
+${data.study}
+
+</div>
+
+
+
+<div class="level-box">
+
+🌱 ${data.level || "判定なし"}
+
+</div>
+
+
+
+<p>
+<b>次にやりたいこと</b>
+</p>
+
+<p>
+${data.next || ""}
+</p>
+
+
+
+<div class="comment-box">
+
+<p><b>💬 先生コメント</b></p>
+
+
+<textarea id="comment-${data.id}">
+${data.comment || ""}
+</textarea>
+
+
+<br>
+
+
+<button onclick="saveComment('${data.id}')">
+コメント保存
+</button>
+
+
+</div>
+
+
+</div>
+
+`;
+
+}
+
+
+});
+
+
+document.getElementById("list").innerHTML=html;
+
+
+};
+
+
+
+
+// 単元未入力を見る
+
+window.openNoUnit=function(name,subject){
+
+
+let html=`
+
+
+<button onclick="openSubject('${name}','${subject}')">
+← 教科一覧へ
+</button>
+
+
+<h2>
+📝 ${name}さん　単元未入力の振り返り
+</h2>
+
+
+`;
+
+
+
+allData[name].forEach(data=>{
+
+
+if(
+data.subject===subject &&
+!data.unit
 ){
 
 
@@ -453,7 +559,6 @@ ${data.study}
 
 `;
 
-
 }
 
 
@@ -463,7 +568,12 @@ ${data.study}
 document.getElementById("list").innerHTML=html;
 
 
-}
+};
+
+
+
+
+// コメント保存
 
 window.saveComment = async function(id){
 
@@ -490,10 +600,10 @@ comment:text
 alert("コメントを保存しました😊");
 
 
-}
+};
 
 
-console.log("先生ページ読み込み完了");
+console.log("先生ページ完成版 読み込み完了");
 
 </script>
 
