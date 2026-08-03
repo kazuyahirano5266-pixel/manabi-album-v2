@@ -445,13 +445,17 @@ ${data.study}
 AI所見を作成
 
 </button>
+<button onclick="saveAIComment('${data.id}')">
 
+💾 先生コメントに保存
 
-<p id="aiComment-${data.id}">
+</button>
+
+<textarea id="aiComment-${data.id}" rows="5">
 
 まだ作成されていません
 
-</p>
+</textarea>
 
 
 </div>
@@ -733,6 +737,31 @@ comment +=
 document.getElementById(
 "aiComment-"+id
 ).innerHTML=comment;
+
+
+}
+window.saveAIComment = async function(id){
+
+
+const text =
+document.getElementById("aiComment-"+id).value;
+
+
+
+await updateDoc(
+
+doc(db,"manabi",id),
+
+{
+
+comment:text
+
+}
+
+);
+
+
+alert("先生コメントに保存しました😊");
 
 
 }
