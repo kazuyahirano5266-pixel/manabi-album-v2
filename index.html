@@ -98,7 +98,9 @@ margin-top:20px;
 
 <textarea id="deepReflection"
 placeholder="AIの問いをもとに、考えを深めて書こう"></textarea>
-
+<button onclick="saveDeepReflection()">
+✏️ 深めた考えを保存
+</button>
 
 <button onclick="save()">保存する</button>
 
@@ -134,7 +136,16 @@ placeholder="AIの問いをもとに、考えを深めて書こう"></textarea>
 import { initializeApp } 
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
 
-import { getFirestore, collection, addDoc, query, where, getDocs }
+import { 
+getFirestore,
+collection,
+addDoc,
+query,
+where,
+getDocs,
+updateDoc,
+doc
+}
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 
@@ -176,7 +187,7 @@ unit: document.getElementById("unit").value,
 study:document.getElementById("study").value,
 
 deepReflection:
-document.getElementById("deepReflection").value,
+deepReflection:"",
 
 aiQuestion:
 window.currentAdvice || "",
@@ -413,6 +424,60 @@ levelText =
 document.getElementById("levelAdvice").innerHTML =
 levelText;
 window.currentLevel = levelText;
+}
+window.saveDeepReflection = async function(){
+
+const name =
+document.getElementById("name").value;
+
+
+const q = query(
+collection(db,"manabi"),
+where("name","==",name)
+);
+
+
+const result = await getDocs(q);
+
+
+let lastDoc = null;
+
+
+result.forEach((d)=>{
+
+lastDoc = d;
+
+});
+
+
+
+if(lastDoc){
+
+
+await updateDoc(
+doc(db,"manabi",lastDoc.id),
+{
+
+deepReflection:
+document.getElementById("deepReflection").value
+
+}
+
+);
+
+
+alert("✏️ 深めた考えを保存しました😊");
+
+
+}
+
+else{
+
+alert("先に振り返りを保存してください");
+
+}
+
+
 }
 </script>
 
