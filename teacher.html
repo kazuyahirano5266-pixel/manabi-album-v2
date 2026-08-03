@@ -685,84 +685,65 @@ return;
 let comment="";
 
 
-// 教科別所見
-
+// 国語
 if(data.subject==="国語"){
 
-
 comment =
-`${data.unit || "国語"}の学習では、${data.study}について考え、文章や友達の考えをもとに自分の考えを深めることができました。`;
+`${data.unit || "国語"}の学習では、文章の内容や登場人物の気持ちについて考え、友達との交流を通して自分の考えを深めることができました。${data.deepReflection || ""}`;
 
 }
 
 
+// 算数
 else if(data.subject==="算数"){
 
-
 comment =
-`${data.unit || "算数"}の学習では、${data.study}について、考え方や工夫を大切にしながら問題解決に取り組むことができました。`;
+`${data.unit || "算数"}の学習では、問題解決に向けて様々な考え方を試し、根拠をもって説明する力を伸ばすことができました。${data.deepReflection || ""}`;
 
 }
 
 
+// 理科
+else if(data.subject==="理科"){
+
+comment =
+`${data.unit || "理科"}の学習では、予想と結果を比べながら考察し、自然の事象について進んで調べることができました。${data.deepReflection || ""}`;
+
+}
+
+
+// 社会
+else if(data.subject==="社会"){
+
+comment =
+`${data.unit || "社会"}の学習では、資料や調べたことをもとに考え、社会の仕組みや人々の工夫について理解を深めることができました。${data.deepReflection || ""}`;
+
+}
+
+
+// 総合
 else if(data.subject==="総合"){
 
-
 comment =
-`${data.unit || "総合"}の学習では、${data.study}を通して課題を見つけ、調べたことや考えたことをもとに学びを深めることができました。`;
+`${data.unit || "総合"}の学習では、課題を見つけて調べたり、友達と考えを交流したりしながら、地域や未来について考えを深めることができました。${data.deepReflection || ""}`;
 
 }
 
 
+// 道徳
+else if(data.subject==="道徳"){
+
+comment =
+`${data.unit || "道徳"}の学習では、登場人物の気持ちや行動について考え、自分の生活を振り返りながらよりよい生き方について考えることができました。${data.deepReflection || ""}`;
+
+}
+
+
+// 体育・生活など
 else{
 
-
 comment =
-`${data.unit || data.subject}の学習では、${data.study}について意欲的に取り組み、自分の考えを深めることができました。`;
-
-}
-
-
-
-if(data.deepReflection){
-
-
-comment +=
-` また、AIからの問いをもとに振り返りを深め、${data.deepReflection}と考えることができました。`;
-
-}
-
-
-
-document.getElementById(
-"aiComment-"+id
-).innerHTML=comment;
-
-
-}
-window.saveAIComment = async function(id){
-
-
-const text =
-document.getElementById("aiComment-"+id).value;
-
-
-
-await updateDoc(
-
-doc(db,"manabi",id),
-
-{
-
-comment:text
-
-}
-
-);
-
-
-alert("先生コメントに保存しました😊");
-
+`${data.unit || data.subject}の学習では、意欲的に活動に取り組み、工夫したことや友達との関わりを通して学びを深めることができました。${data.deepReflection || ""}`;
 
 }
 </script>
