@@ -708,12 +708,16 @@ return;
 
 let comment="";
 
+let reflection = data.deepReflection || "";
+let study = data.study || "";
+let unit = data.unit || data.subject;
+
 
 // 国語
 if(data.subject==="国語"){
 
 comment =
-`${data.unit || "国語"}の学習では、文章の内容や登場人物の気持ちについて考え、友達との交流を通して自分の考えを深めることができました。${data.deepReflection || ""}`;
+`「${unit}」の学習では、文章の内容や登場人物の気持ちについて、本文の言葉をもとに考えることができました。友達との交流を通して自分の考えを広げ、学びを深める姿が見られました。${reflection}`;
 
 }
 
@@ -722,7 +726,7 @@ comment =
 else if(data.subject==="算数"){
 
 comment =
-`${data.unit || "算数"}の学習では、問題解決に向けて様々な考え方を試し、根拠をもって説明する力を伸ばすことができました。${data.deepReflection || ""}`;
+`「${unit}」の学習では、問題解決に向けて様々な考え方を試し、根拠をもって説明することができました。自分の考えを振り返り、よりよい方法を考える姿が見られました。${reflection}`;
 
 }
 
@@ -731,7 +735,7 @@ comment =
 else if(data.subject==="理科"){
 
 comment =
-`${data.unit || "理科"}の学習では、予想と結果を比べながら考察し、自然の事象について進んで調べることができました。${data.deepReflection || ""}`;
+`「${unit}」の学習では、予想と結果を比べながら考察し、自然の事象について進んで調べることができました。気付いたことをもとに考えを深める姿が見られました。${reflection}`;
 
 }
 
@@ -740,7 +744,7 @@ comment =
 else if(data.subject==="社会"){
 
 comment =
-`${data.unit || "社会"}の学習では、資料や調べたことをもとに考え、社会の仕組みや人々の工夫について理解を深めることができました。${data.deepReflection || ""}`;
+`「${unit}」の学習では、資料や調べたことをもとに考え、社会の仕組みや人々の工夫について理解を深めることができました。自分の考えを伝える姿が見られました。${reflection}`;
 
 }
 
@@ -749,7 +753,16 @@ comment =
 else if(data.subject==="総合"){
 
 comment =
-`${data.unit || "総合"}の学習では、課題を見つけて調べたり、友達と考えを交流したりしながら、地域や未来について考えを深めることができました。${data.deepReflection || ""}`;
+`「${unit}」の学習では、課題を見つけて調べたり、友達と意見を交流したりしながら、地域や未来について考えを深めることができました。学んだことを発信しようとする姿が見られました。${reflection}`;
+
+}
+
+
+// 生活
+else if(data.subject==="生活"){
+
+comment =
+`「${unit}」の学習では、身近なものや人との関わりから気付きを見つけ、自分なりに考えを深めることができました。発見したことを意欲的に伝える姿が見られました。${reflection}`;
 
 }
 
@@ -758,18 +771,29 @@ comment =
 else if(data.subject==="道徳"){
 
 comment =
-`${data.unit || "道徳"}の学習では、登場人物の気持ちや行動について考え、自分の生活を振り返りながらよりよい生き方について考えることができました。${data.deepReflection || ""}`;
+`「${unit}」の学習では、登場人物の気持ちや行動について考え、自分の生活を振り返りながらよりよい生き方について考えることができました。${reflection}`;
 
 }
 
 
-// 体育・生活など
+// 体育
+else if(data.subject==="体育"){
+
+comment =
+`「${unit}」の学習では、目標に向かって意欲的に取り組み、工夫したことや友達との関わりから学びを深めることができました。${reflection}`;
+
+}
+
+
 else{
 
 comment =
-`${data.unit || data.subject}の学習では、意欲的に活動に取り組み、工夫したことや友達との関わりを通して学びを深めることができました。${data.deepReflection || ""}`;
+`「${unit}」の学習では、意欲的に活動に取り組み、自分の考えを深めながら学習することができました。${reflection}`;
 
 }
+
+
+// 文字数調整
 const length =
 Number(document.getElementById("length-"+id).value);
 
@@ -777,11 +801,10 @@ Number(document.getElementById("length-"+id).value);
 comment = cutComment(comment,length);
 
 
-
+// 表示
 document.getElementById(
 "aiComment-"+id
 ).value = comment;
-
 };
 function cutComment(text,length){
 
