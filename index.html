@@ -82,9 +82,22 @@ margin-top:20px;
 <p>今日の学び</p>
 <textarea id="study"></textarea>
 
+<p>💡 AIからの問い</p>
 
-<p>次にやりたいこと</p>
-<textarea id="next"></textarea>
+<div class="advice-box">
+
+<p id="studyAdvice">
+振り返りを書くと、
+学びを深める質問が出ます。
+</p>
+
+</div>
+
+
+<p>✏️ もう一度考えてみよう</p>
+
+<textarea id="deepReflection"
+placeholder="AIの問いをもとに、考えを深めて書こう"></textarea>
 
 
 <button onclick="save()">保存する</button>
@@ -162,7 +175,11 @@ unit: document.getElementById("unit").value,
 
 study:document.getElementById("study").value,
 
-next:document.getElementById("next").value,
+deepReflection:
+document.getElementById("deepReflection").value,
+
+aiQuestion:
+window.currentAdvice || "",
 
 level: window.currentLevel || "",
 
@@ -207,6 +224,7 @@ data.comment;
 });
 
 }
+
 function showAdvice(){
 
 const subject =
@@ -214,165 +232,134 @@ document.getElementById("subject").value;
 
 const study =
 document.getElementById("study").value;
-let advice = "";
 
+
+let advice="";
+
+
+// 国語
 if(subject==="国語"){
 
 if(study.includes("友達")){
 
 advice =
-"友達のどんな考えや言葉が印象に残りましたか。自分の考えと比べて書いてみよう。";
+"友達のどんな考えを聞いて、自分の考えはどのように変わりましたか？";
 
 }
 
-else if(study.includes("理由")){
+else if(study.includes("理由") || study.includes("考え")){
 
 advice =
-"その理由を支える言葉や根拠は何ですか。本文や友達の考えをもとに説明してみよう。";
-
-}
-
-else if(study.includes("発表")){
-
-advice =
-"自分の考えを伝えるとき、相手に分かりやすくするために工夫したことを書いてみよう。";
-
-}
-
-else if(study.includes("読む")){
-
-advice =
-"文章のどの部分に注目して読みましたか。そこから何を考えましたか。";
+"その考えを支える理由や、もとになった言葉は何ですか？";
 
 }
 
 else{
 
 advice =
-"今日の学習で一番大切だと思ったことは何ですか。理由も合わせて書いてみよう。";
+"文章や友達の考えから、新しく気付いたことは何ですか？";
 
 }
 
 }
 
+
+// 算数
 else if(subject==="算数"){
 
 advice =
-"答えだけでなく、どんな考え方や工夫をしたのか説明してみよう。";
+"その考え方は、別の問題でも使えそうですか？工夫したところを説明してみよう。";
 
 }
 
+
+// 理科
 else if(subject==="理科"){
 
 advice =
-"予想と結果を比べて、なぜそうなったのか考えてみよう。";
+"予想と結果を比べて、なぜその結果になったのか考えてみよう。";
 
 }
 
+
+// 社会
 else if(subject==="社会"){
 
 advice =
-"調べて分かったことが、くらしや社会とどう関係しているか考えてみよう。";
+"調べて分かったことは、私たちの生活とどんな関係がありますか？";
 
 }
 
 
+// 生活
+else if(subject==="生活"){
+
+advice =
+"見つけたことや気付いたことから、どんな発見や驚きがありましたか？";
+
+}
+
+
+// 総合
+else if(subject==="総合"){
+
+if(study.includes("地域") || study.includes("武蔵村山")){
+
+advice =
+"その学びを誰に伝えたいですか？伝えるためにどんな工夫ができますか？";
+
+}
+
+else{
+
+advice =
+"調べたことから、新しく生まれた疑問や課題は何ですか？";
+
+}
+
+}
+
+
+// 道徳
+else if(subject==="道徳"){
+
+advice =
+"その考えを大切にした理由は何ですか？自分の生活でどう生かせそうですか？";
+
+}
+
+
+// 体育
 else if(subject==="体育"){
 
 advice =
-"できたことだけでなく、工夫したことや友達との関わりを書いてみよう。";
-
-}
- else if(subject==="生活"){
-
-if(study.includes("見つけ") || study.includes("気づ")){
-
-advice =
-"見つけたことや気づいたことから、どんな発見や驚きがあったのか書いてみよう。";
+"できるようになるために工夫したことや、友達から学んだことは何ですか？";
 
 }
 
-else if(study.includes("友達")){
-
-advice =
-"友達と一緒に活動する中で、どんな工夫や学びがありましたか。";
-
-}
 
 else{
 
 advice =
-"活動を通して分かったことや、自分ができるようになったことを振り返ってみよう。";
+"今日の学びから、新しく気付いたことを書いてみよう。";
 
 }
 
-}
-
-else if(subject==="総合"){
-
-if(study.includes("調べ") || study.includes("分かった")){
-
-advice =
-"調べて分かったことを、誰に伝えたいですか。伝えるためにどんな工夫ができそうですか。";
-
-}
-
-else if(study.includes("課題") || study.includes("問題")){
-
-advice =
-"見つけた課題を解決するために、どんな方法を試してみたいですか。";
-
-}
-
-else{
-
-advice =
-"学んだことが、自分や地域の未来にどうつながるか考えてみよう。";
-
-}
-
-}
-
-
-else if(subject==="道徳"){
-
-if(study.includes("友達") || study.includes("相手")){
-
-advice =
-"相手の気持ちを考えて行動したことで、どんな変化がありましたか。";
-
-}
-
-else if(study.includes("大切") || study.includes("考え")){
-
-advice =
-"その考えを大切にした理由や、自分の生活で生かせることを書いてみよう。";
-
-}
-
-else{
-
-advice =
-"登場人物の気持ちや行動から、自分ならどうしたいか考えてみよう。";
-
-}
-
-}
-
-else{
-
-advice =
-"今日の学びで大切だったことを、理由をつけて振り返ってみよう。";
-
-}
 
 
 document.getElementById("studyAdvice").innerHTML =
-advice;
+"🤖 "+advice;
+
+
+// 保存用
+window.currentAdvice = advice;
+
+
+// 深まり判定
 checkLevel(study);
 
-}
 
+}
 
 function checkLevel(study){
 
