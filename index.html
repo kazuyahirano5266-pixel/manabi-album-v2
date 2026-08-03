@@ -1,62 +1,176 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>学びアルバム Ver.2</title>
 
+
 <style>
+
 body{
+
 font-family:sans-serif;
 background:#f0f8ff;
 text-align:center;
 padding:20px;
+
 }
 
+
 .box{
+
 background:white;
 padding:20px;
 border-radius:20px;
-max-width:500px;
+max-width:600px;
 margin:auto;
+
 }
 
-input,textarea,select{
-width:90%;
-padding:10px;
-font-size:18px;
-margin:8px;
-}
 
 button{
+
 padding:15px 30px;
 border:none;
 border-radius:20px;
 background:#2b7a78;
 color:white;
 font-size:18px;
+margin:10px;
+
 }
+
+
+input,textarea,select{
+
+width:90%;
+padding:10px;
+font-size:18px;
+margin:8px;
+
+}
+
+
+.card{
+
+background:white;
+padding:15px;
+margin:15px auto;
+border-radius:20px;
+box-shadow:0 3px 8px #ccc;
+
+}
+
+
 .advice-box{
 
 background:#eaf6ff;
-border-radius:20px;
 padding:15px;
-margin-top:20px;
+border-radius:20px;
 
 }
+
+
+.comment-box{
+
+background:#fff4d6;
+padding:15px;
+border-radius:20px;
+
+}
+
+
+.hidden{
+
+display:none;
+
+}
+
+
 </style>
 
 </head>
 
+
 <body>
 
-<div class="box">
 
-<h1>📚 学びアルバム Ver.2</h1>
+
+<!-- スタートメニュー -->
+
+<div class="box" id="home">
+
+
+<h1>
+📚 学びアルバム Ver.2
+</h1>
+
+
+<p>
+自分の学びを残そう！
+</p>
+
+
+
+<button onclick="openReflection()">
+
+✏️ 今日の振り返りを書く
+
+</button>
+
+
+
+<br>
+
+
+
+<button onclick="openHistory()">
+
+📖 自分の振り返りを見る
+
+</button>
+
+
+
+<br>
+
+
+
+<button onclick="openEveryoneHistory()">
+
+👫 みんなの振り返りを見る
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+<!-- 振り返り入力ページ -->
+
+
+<div class="box hidden" id="reflectionPage">
+
+
+<h1>
+✏️ 今日の振り返り
+</h1>
+
+
 
 <p>名前</p>
+
 <input id="name">
+
+
 
 <p>教科</p>
 
@@ -74,75 +188,159 @@ margin-top:20px;
 </select>
 
 
+
 <p>単元名</p>
 
 <input id="unit" placeholder="例：ごんぎつね">
 
 
+
 <p>今日の学び</p>
+
 <textarea id="study"></textarea>
 
-<p>💡 AIからの問い</p>
+
 
 <div class="advice-box">
+
+<h3>
+🤖 AIからの問い
+</h3>
+
 
 <p id="studyAdvice">
+
 振り返りを書くと、
 学びを深める質問が出ます。
+
 </p>
+
 
 </div>
 
 
-<p>✏️ もう一度考えてみよう</p>
+
+<p>
+✏️ もう一度考えてみよう
+</p>
+
 
 <textarea id="deepReflection"
-placeholder="AIの問いをもとに、考えを深めて書こう"></textarea>
+placeholder="AIの問いをもとに考えを深めよう">
+</textarea>
+
+
+
 <button onclick="saveDeepReflection()">
+
 ✏️ 深めた考えを保存
+
 </button>
 
-<button onclick="save()">保存する</button>
+
+
+<br>
+
+
+<button onclick="save()">
+
+🌟 保存する
+
+</button>
+
+
 
 <p id="msg"></p>
-<button onclick="loadComment()">
-💬 先生コメントを見る
+
+
+
+<button onclick="backHome()">
+
+🏠 戻る
+
 </button>
- <div class="comment-box">
 
-<h3>💬 先生からのコメント</h3>
 
-<p id="teacherComment">
-先生がまだコメントしていません
-</p>
-
-</div>
-<div class="advice-box">
-
-<h3>🤖 学びアドバイス</h3>
-
-<p id="levelAdvice">
-</p>
-</div>
 </div>
 
 
+
+
+
+<!-- 自分の振り返りページ -->
+
+
+<div class="box hidden" id="historyPage">
+
+
+<h1>
+📖 自分の学びアルバム
+</h1>
+
+
+<div id="historyList">
+
+</div>
+
+
+
+<button onclick="backHome()">
+
+🏠 戻る
+
+</button>
+
+
+</div>
+
+
+
+
+
+<!-- みんなの振り返りページ -->
+
+
+<div class="box hidden" id="everyonePage">
+
+
+<h1>
+👫 みんなの振り返り
+</h1>
+
+
+<div id="everyoneList">
+
+</div>
+
+
+
+<button onclick="backHome()">
+
+🏠 戻る
+
+</button>
+
+
+</div>
 <script type="module">
 
-import { initializeApp } 
+import { initializeApp }
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
 
-import { 
+
+import {
+
 getFirestore,
 collection,
 addDoc,
 query,
 where,
-getDocs,
-updateDoc,
-doc
+getDocs
+
 }
+
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+
 
 
 const firebaseConfig = {
@@ -162,320 +360,833 @@ appId: "1:226258471812:web:15230ba15e7e0bd7d86bd1"
 };
 
 
+
 const app = initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 
 
 
+
+
+// ページ移動
+
+window.openReflection=function(){
+
+document.getElementById("home").style.display="none";
+
+document.getElementById("reflectionPage").style.display="block";
+
+}
+
+
+
+window.backHome=function(){
+
+document.getElementById("home").style.display="block";
+
+document.getElementById("reflectionPage").style.display="none";
+
+document.getElementById("historyPage").style.display="none";
+
+document.getElementById("everyonePage").style.display="none";
+
+}
+
+
+
+
+
+// 保存
+
 window.save = async function(){
 
-showAdvice();
 
 await addDoc(collection(db,"manabi"),{
 
-name:document.getElementById("name").value,
 
-subject:document.getElementById("subject").value,
+name:
+document.getElementById("name").value,
 
-unit: document.getElementById("unit").value,
 
-study:document.getElementById("study").value,
+subject:
+document.getElementById("subject").value,
 
-deepReflection:"",
 
-aiQuestion:
-window.currentAdvice || "",
+unit:
+document.getElementById("unit").value,
 
-level: window.currentLevel || "",
+
+study:
+document.getElementById("study").value,
+
+
+deepReflection:
+document.getElementById("deepReflection").value,
+likes:0,
 
 date:new Date()
+
 
 });
 
 
-document.getElementById("msg").innerHTML =
+
+document.getElementById("msg").innerHTML=
 "🌟 保存しました！";
+
 
 };
 
 
-window.loadComment = async function(){
+
+
+
+// 自分の振り返りを見る
+
+
+window.openHistory = async function(){
+
 
 const name =
 document.getElementById("name").value;
 
 
-const q = query(
+
+if(!name){
+
+alert("名前を入力してください");
+
+return;
+
+}
+
+
+
+document.getElementById("home").style.display="none";
+
+document.getElementById("historyPage").style.display="block";
+
+
+
+const q=query(
+
 collection(db,"manabi"),
+
 where("name","==",name)
+
 );
 
 
-const result = await getDocs(q);
+
+const result =
+await getDocs(q);
 
 
-result.forEach((doc)=>{
 
-const data = doc.data();
+let dataList=[];
 
 
-if(data.comment){
+result.forEach(doc=>{
 
-document.getElementById("teacherComment").innerHTML =
-data.comment;
+let data=doc.data();
+
+dataList.push(data);
+
+});
+
+
+
+let subjects=[];
+
+
+
+dataList.forEach(data=>{
+
+if(!subjects.includes(data.subject)){
+
+subjects.push(data.subject);
 
 }
 
 });
 
-}
-
-function showAdvice(){
-
-const subject =
-document.getElementById("subject").value;
-
-const study =
-document.getElementById("study").value;
 
 
-let advice="";
-
-
-// 国語
-if(subject==="国語"){
-
-if(study.includes("友達")){
-
-advice =
-"友達のどんな考えを聞いて、自分の考えはどのように変わりましたか？";
-
-}
-
-else if(study.includes("理由") || study.includes("考え")){
-
-advice =
-"その考えを支える理由や、もとになった言葉は何ですか？";
-
-}
-
-else{
-
-advice =
-"文章や友達の考えから、新しく気付いたことは何ですか？";
-
-}
-
-}
-
-
-// 算数
-else if(subject==="算数"){
-
-advice =
-"その考え方は、別の問題でも使えそうですか？工夫したところを説明してみよう。";
-
-}
-
-
-// 理科
-else if(subject==="理科"){
-
-advice =
-"予想と結果を比べて、なぜその結果になったのか考えてみよう。";
-
-}
-
-
-// 社会
-else if(subject==="社会"){
-
-advice =
-"調べて分かったことは、私たちの生活とどんな関係がありますか？";
-
-}
-
-
-// 生活
-else if(subject==="生活"){
-
-advice =
-"見つけたことや気付いたことから、どんな発見や驚きがありましたか？";
-
-}
-
-
-// 総合
-else if(subject==="総合"){
-
-if(study.includes("地域") || study.includes("武蔵村山")){
-
-advice =
-"その学びを誰に伝えたいですか？伝えるためにどんな工夫ができますか？";
-
-}
-
-else{
-
-advice =
-"調べたことから、新しく生まれた疑問や課題は何ですか？";
-
-}
-
-}
-
-
-// 道徳
-else if(subject==="道徳"){
-
-advice =
-"その考えを大切にした理由は何ですか？自分の生活でどう生かせそうですか？";
-
-}
-
-
-// 体育
-else if(subject==="体育"){
-
-advice =
-"できるようになるために工夫したことや、友達から学んだことは何ですか？";
-
-}
-
-
-else{
-
-advice =
-"今日の学びから、新しく気付いたことを書いてみよう。";
-
-}
+let html="";
 
 
 
-document.getElementById("studyAdvice").innerHTML =
-"🤖 "+advice;
+html += `
+<h2>📁 教科を選んでください</h2>
+`;
 
 
-// 保存用
-window.currentAdvice = advice;
+
+subjects.forEach(subject=>{
 
 
-// 深まり判定
-checkLevel(study);
+html += `
+
+
+<div class="card">
+
+
+<h2>
+📚 ${subject}
+</h2>
+
+
+<button onclick="openMySubject('${subject}')">
+
+見る
+
+</button>
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+document.getElementById("historyList").innerHTML=html;
+
+
+
+window.myData=dataList;
+
+
+
+};
+
+
+
+
+
+
+window.openMySubject=function(subject){
+
+
+let html=`
+
+
+<button onclick="openHistory()">
+
+← 教科一覧へ
+
+</button>
+
+
+<h2>
+📚 ${subject}
+</h2>
+
+
+<h3>
+📖 単元を選んでください
+</h3>
+
+
+`;
+
+
+
+let units=[];
+
+
+
+myData.forEach(data=>{
+
+
+if(data.subject===subject){
+
+
+if(!units.includes(data.unit)){
+
+
+units.push(data.unit);
 
 
 }
 
-function checkLevel(study){
 
-let levelText="";
+}
+
+
+});
+
+
+
+units.forEach(unit=>{
+
+
+html += `
+
+
+<div class="card">
+
+
+<h2>
+📖 ${unit || "単元名なし"}
+</h2>
+
+
+<button onclick="openMyUnit('${subject}','${unit}')">
+
+見る
+
+</button>
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+document.getElementById("historyList").innerHTML=html;
+
+
+
+};
+
+
+
+
+
+
+window.openMyUnit=function(subject,unit){
+
+
+
+let html=`
+
+
+<button onclick="openMySubject('${subject}')">
+
+← 単元一覧へ
+
+</button>
+
+
+
+<h2>
+📖 ${unit}
+</h2>
+
+
+`;
+
+
+
+myData.forEach(data=>{
 
 
 if(
-study.includes("理由") ||
-study.includes("なぜ") ||
-study.includes("考え")
+data.subject===subject &&
+data.unit===unit
 ){
 
-levelText =
-"🌳 深まりレベル3：理由や考えを書けています。さらに友達の考えとの違いも比べてみよう。";
+
+
+html += `
+
+
+<div class="card">
+
+
+<p>
+📝 今日の学び
+</p>
+
+
+<p>
+${data.study}
+</p>
+
+
+
+<div class="advice-box">
+
+
+🤖 AIからの問い
+
+<br>
+
+${data.aiQuestion || ""}
+
+
+</div>
+
+
+
+<p>
+✏️ 深めた考え
+</p>
+
+
+<p>
+${data.deepReflection || "まだありません"}
+
+</p>
+
+
+</div>
+
+
+`;
+
+
 
 }
 
 
-else if(
-study.includes("友達") ||
-study.includes("協力") ||
-study.includes("工夫")
-){
-
-levelText =
-"🌿 深まりレベル2：友達との関わりや工夫が書けています。どんな変化があったか考えてみよう。";
-
-}
-
-
-else if(
-study.includes("できた") ||
-study.includes("分かった") ||
-study.includes("楽しかった")
-){
-
-levelText =
-"🌱 深まりレベル1：できたことが書けています。なぜできたのか、詳しく振り返ってみよう。";
-
-}
-
-
-else{
-
-levelText =
-"🌱 今日の学びで大切だったことを、具体的な出来事と一緒に書いてみよう。";
-
-}
-
-
-document.getElementById("levelAdvice").innerHTML =
-levelText;
-window.currentLevel = levelText;
-}
-window.saveDeepReflection = async function(){
-
-const name =
-document.getElementById("name").value;
-
-
-const q = query(
-collection(db,"manabi"),
-where("name","==",name)
-);
-
-
-const result = await getDocs(q);
-
-
-let lastDoc = null;
-
-
-result.forEach((d)=>{
-
-lastDoc = d;
 
 });
 
 
 
-if(lastDoc){
+document.getElementById("historyList").innerHTML=html;
+
+
+};
+
+
+const result =
+await getDocs(q);
+
+
+
+let html="";
+
+
+
+result.forEach(doc=>{
+
+
+const data=doc.data();
+
+
+html += `
+
+
+<div class="card">
+
+
+<h3>
+📚 ${data.subject}
+</h3>
+
+
+<p>
+📖 ${data.unit || "単元名なし"}
+</p>
+
+
+<p>
+📝 ${data.study}
+</p>
+
+
+
+<p>
+✏️ ${data.deepReflection || ""}
+</p>
+
+
+</div>
+
+
+`;
+
+
+});
+
+
+
+document.getElementById("historyList").innerHTML=html;
+
+
+};
+
+
+
+
+
+// みんなの振り返りを見る
+
+window.openEveryoneHistory = async function(){
+
+
+document.getElementById("home").style.display="none";
+
+document.getElementById("everyonePage").style.display="block";
+
+
+
+const result =
+await getDocs(collection(db,"manabi"));
+
+
+
+let dataList=[];
+
+
+
+result.forEach(doc=>{
+
+let data=doc.data();
+
+dataList.push(data);
+
+
+});
+
+
+
+window.everyoneData=dataList;
+
+
+
+let subjects=[];
+
+
+
+dataList.forEach(data=>{
+
+
+if(!subjects.includes(data.subject)){
+
+
+subjects.push(data.subject);
+
+
+}
+
+
+});
+
+
+
+let html=`
+
+
+<h2>
+📁 教科を選んでください
+</h2>
+
+
+`;
+
+
+
+subjects.forEach(subject=>{
+
+
+html += `
+
+
+<div class="card">
+
+
+<h2>
+📚 ${subject}
+</h2>
+
+
+
+<button onclick="openEveryoneSubject('${subject}')">
+
+見る
+
+</button>
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+document.getElementById("everyoneList").innerHTML=html;
+
+
+};
+
+
+
+
+
+
+
+window.openEveryoneSubject=function(subject){
+
+
+
+let html=`
+
+
+<button onclick="openEveryoneHistory()">
+
+← 教科一覧へ
+
+</button>
+
+
+<h2>
+📚 ${subject}
+</h2>
+
+
+<h3>
+📖 単元を選んでください
+</h3>
+
+
+`;
+
+
+
+let units=[];
+
+
+
+everyoneData.forEach(data=>{
+
+
+if(data.subject===subject){
+
+
+if(!units.includes(data.unit)){
+
+
+units.push(data.unit);
+
+
+}
+
+
+}
+
+
+});
+
+
+
+units.forEach(unit=>{
+
+
+html += `
+
+
+<div class="card">
+
+
+<h2>
+📖 ${unit || "単元名なし"}
+</h2>
+
+
+
+<button onclick="openEveryoneUnit('${subject}','${unit}')">
+
+見る
+
+</button>
+
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+document.getElementById("everyoneList").innerHTML=html;
+
+
+};
+
+
+
+
+
+
+
+
+window.openEveryoneUnit=function(subject,unit){
+
+
+let html=`
+
+
+<button onclick="openEveryoneSubject('${subject}')">
+
+← 単元一覧へ
+
+</button>
+
+
+
+<h2>
+📖 ${unit}
+</h2>
+
+
+`;
+
+
+
+everyoneData.forEach(data=>{
+
+
+if(
+data.subject===subject &&
+data.unit===unit
+){
+
+
+
+html += `
+
+
+<div class="card">
+
+
+<h3>
+👤 友達の振り返り
+</h3>
+
+
+
+<p>
+📝 今日の学び
+</p>
+
+
+<p>
+${data.study}
+</p>
+
+
+
+
+<div class="advice-box">
+
+
+🤖 AIからの問い
+
+<br>
+
+${data.aiQuestion || ""}
+
+
+</div>
+
+
+
+<p>
+✏️ 深めた考え
+</p>
+
+
+<p>
+${data.deepReflection || ""}
+
+</p>
+<button onclick="addLike('${data.id}')">
+
+⭐ この考えが参考になった
+
+</button>
+
+
+<p>
+⭐ 参考にした人数：
+${data.likes || 0}人
+
+</p>
+
+
+</div>
+
+
+
+`;
+
+
+
+}
+
+
+
+});
+
+
+
+document.getElementById("everyoneList").innerHTML=html;
+
+
+};
+
+window.addLike = async function(id){
+
+
+const ref = doc(db,"manabi",id);
+
+
+const target = everyoneData.find(
+data=>data.id===id
+);
+
+
+
+if(target){
 
 
 await updateDoc(
-doc(db,"manabi",lastDoc.id),
+
+ref,
+
 {
 
-deepReflection:
-document.getElementById("deepReflection").value
+likes:(target.likes || 0)+1
 
 }
 
 );
 
 
-alert("✏️ 深めた考えを保存しました😊");
+alert("⭐ 参考にしました！");
+
+
+openEveryoneHistory();
 
 
 }
 
-else{
-
-alert("先に振り返りを保存してください");
-
-}
 
 
-}
+};
 </script>
-
-
-</body>
-</html>
