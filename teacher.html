@@ -746,6 +746,11 @@ comment =
 `${data.unit || data.subject}の学習では、意欲的に活動に取り組み、工夫したことや友達との関わりを通して学びを深めることができました。${data.deepReflection || ""}`;
 
 }
+document.getElementById(
+"aiComment-"+id
+).value = comment;
+
+};
 </script>
 
 
