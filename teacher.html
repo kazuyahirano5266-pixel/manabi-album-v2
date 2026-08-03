@@ -435,6 +435,26 @@ html += `
 ${data.study}
 
 </div>
+<div class="comment-box">
+
+<h3>✨ AI所見作成</h3>
+
+
+<button onclick="makeComment('${data.id}')">
+
+AI所見を作成
+
+</button>
+
+
+<p id="aiComment-${data.id}">
+
+まだ作成されていません
+
+</p>
+
+
+</div>
 <div class="level-box">
 
 🤖 AIからの問い
@@ -624,6 +644,98 @@ alert("コメントを保存しました😊");
 
 console.log("先生ページ完成版 読み込み完了");
 
+window.makeComment=function(id){
+
+
+let data=null;
+
+
+// データを探す
+
+Object.values(allData).forEach(list=>{
+
+list.forEach(item=>{
+
+if(item.id===id){
+
+data=item;
+
+}
+
+});
+
+});
+
+
+
+if(!data){
+
+alert("データが見つかりません");
+
+return;
+
+}
+
+
+
+let comment="";
+
+
+// 教科別所見
+
+if(data.subject==="国語"){
+
+
+comment =
+`${data.unit || "国語"}の学習では、${data.study}について考え、文章や友達の考えをもとに自分の考えを深めることができました。`;
+
+}
+
+
+else if(data.subject==="算数"){
+
+
+comment =
+`${data.unit || "算数"}の学習では、${data.study}について、考え方や工夫を大切にしながら問題解決に取り組むことができました。`;
+
+}
+
+
+else if(data.subject==="総合"){
+
+
+comment =
+`${data.unit || "総合"}の学習では、${data.study}を通して課題を見つけ、調べたことや考えたことをもとに学びを深めることができました。`;
+
+}
+
+
+else{
+
+
+comment =
+`${data.unit || data.subject}の学習では、${data.study}について意欲的に取り組み、自分の考えを深めることができました。`;
+
+}
+
+
+
+if(data.deepReflection){
+
+
+comment +=
+` また、AIからの問いをもとに振り返りを深め、${data.deepReflection}と考えることができました。`;
+
+}
+
+
+
+document.getElementById(
+"aiComment-"+id
+).innerHTML=comment;
+
+
+}
 </script>
 
 
