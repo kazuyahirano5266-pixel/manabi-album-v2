@@ -644,7 +644,23 @@ alert("コメントを保存しました😊");
 
 
 };
+window.saveAIComment = async function(id){
 
+const text =
+document.getElementById("aiComment-"+id).value;
+
+
+await updateDoc(
+doc(db,"manabi",id),
+{
+comment:text
+}
+);
+
+
+alert("AI所見を先生コメントに保存しました😊");
+
+};
 
 console.log("先生ページ完成版 読み込み完了");
 
