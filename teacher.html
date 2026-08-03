@@ -180,7 +180,7 @@ showStudents();
 
 
 
-function showStudents(){
+window.showStudents=function(){
 
 
 let html="";
@@ -338,7 +338,7 @@ allData[name].forEach(data=>{
 if(data.subject===subject){
 
 
-if(!units.includes(data.unit)){
+if(!units.includes(data.unit || "単元名なし")){
 
 units.push(data.unit);
 
@@ -404,7 +404,7 @@ html += `
 
 
 <h2>
-📖 ${unit}
+📖 ${unit || "単元名なし"}
 </h2>
 
 `;
