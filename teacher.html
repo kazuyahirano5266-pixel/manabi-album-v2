@@ -305,7 +305,6 @@ document.getElementById("list").innerHTML=html;
 }
 window.openSubject=function(name,subject){
 
-
 let html="";
 
 
@@ -322,9 +321,16 @@ html += `
 📚 ${name} さん　${subject}
 </h2>
 
+
+<h3>📖 単元を選んでください</h3>
+
 `;
 
 
+let units=[];
+
+
+// 単元一覧を作る
 
 allData[name].forEach(data=>{
 
@@ -332,79 +338,42 @@ allData[name].forEach(data=>{
 if(data.subject===subject){
 
 
+if(!units.includes(data.unit)){
+
+units.push(data.unit);
+
+}
+
+
+}
+
+
+});
+
+
+// 単元ボタン表示
+
+units.forEach(unit=>{
+
+
 html += `
 
 <div class="card">
 
-
-<p>
-📅 ${data.date ? 
-new Date(data.date.seconds*1000).toLocaleDateString()
-:
-""}
-</p>
-
-<p>
-📖 単元：${data.unit || "単元名なし"}
-</p>
-
-<p><b>今日の学び</b></p>
-
-<div class="study-box">
-
-${data.study}
-
-</div>
+<h2>
+📖 ${unit || "単元名なし"}
+</h2>
 
 
-<div class="level-box">
+<button onclick="openUnit('${name}','${subject}','${unit}')">
 
-🌱 ${data.level || "判定なし"}
-
-</div>
-
-
-
-<p><b>次にやりたいこと</b></p>
-
-<p>
-
-${data.next || ""}
-
-</p>
-
-
-
-<div class="comment-box">
-
-<p><b>💬 先生コメント</b></p>
-
-
-<textarea id="comment-${data.id}">
-${data.comment || ""}
-
-</textarea>
-
-
-<br>
-
-
-<button onclick="saveComment('${data.id}')">
-
-コメント保存
+見る
 
 </button>
 
-
 </div>
-
-
-</div>
-
 
 `;
-
-}
 
 
 });
