@@ -450,7 +450,15 @@ AI所見を作成
 💾 先生コメントに保存
 
 </button>
+<select id="length-${data.id}">
 
+<option value="100">100字</option>
+
+<option value="120">120字</option>
+
+<option value="200">200字</option>
+
+</select>
 <textarea id="aiComment-${data.id}" rows="5">
 
 まだ作成されていません
@@ -762,11 +770,31 @@ comment =
 `${data.unit || data.subject}の学習では、意欲的に活動に取り組み、工夫したことや友達との関わりを通して学びを深めることができました。${data.deepReflection || ""}`;
 
 }
+const length =
+Number(document.getElementById("length-"+id).value);
+
+
+comment = cutComment(comment,length);
+
+
+
 document.getElementById(
 "aiComment-"+id
 ).value = comment;
 
 };
+function cutComment(text,length){
+
+if(text.length <= length){
+
+return text;
+
+}
+
+
+return text.substring(0,length);
+
+}
 </script>
 
 
