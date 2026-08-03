@@ -231,22 +231,29 @@ placeholder="AIの問いをもとに考えを深めよう">
 
 
 
-<button onclick="saveDeepReflection()">
-
-✏️ 深めた考えを保存
-
-</button>
-
-
-
-<br>
-
-
 <button onclick="save()">
 
-🌟 保存する
+🌟 学びを保存する
 
 </button>
+
+
+<div id="deepButton" style="display:none;">
+
+
+<p>
+保存した後、もう一度考えてみよう😊
+</p>
+
+
+<button onclick="saveDeepReflection()">
+
+✏️ 考えを深めて保存する
+
+</button>
+
+
+</div>
 
 
 
@@ -437,7 +444,7 @@ id: saveData.id
 
 document.getElementById("msg").innerHTML=
 "🌟 保存しました！";
-
+document.getElementById("deepButton").style.display="block";
 
 };
 
