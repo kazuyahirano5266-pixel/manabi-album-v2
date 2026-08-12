@@ -155,18 +155,24 @@ margin:15px;
 
 <p>単元名</p>
 
-<input id="unit" placeholder="例：ごんぎつね">
+<input
+id="unit"
+placeholder="例：ごんぎつね"
+>
 
 
 <p>今日の学び</p>
 
 <textarea
 id="study"
-placeholder="今日学んだことを書こう">
-</textarea>
+placeholder="今日学んだことを書こう"
+></textarea>
 
 
-<!-- AIの問い -->
+
+<!-- ========================= -->
+<!-- AIからの問い -->
+<!-- ========================= -->
 
 <div class="advice-box">
 
@@ -184,7 +190,11 @@ placeholder="今日学んだことを書こう">
 </div>
 
 
+
+<!-- ========================= -->
+<!-- 深めた考え -->
 <!-- 最初は表示しない -->
+<!-- ========================= -->
 
 <div
 id="deepReflectionArea"
@@ -214,10 +224,18 @@ placeholder="考えが変わったことや、新しく気付いたことを書�
 </div>
 
 
-<!-- 最初に表示する保存ボタン -->
 
-<button onclick="save()">
+<!-- ========================= -->
+<!-- 1回目の保存ボタン -->
+<!-- ========================= -->
+
+<button
+id="saveButton"
+onclick="save()"
+>
+
 🌟 学びを保存する
+
 </button>
 
 
@@ -286,6 +304,10 @@ id="everyonePage"
 <script type="module">
 
 
+/* ========================= */
+/* Firebase読み込み */
+/* ========================= */
+
 import { initializeApp }
 
 from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
@@ -309,7 +331,7 @@ from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 
 /* ========================= */
-/* Firebase */
+/* Firebase設定 */
 /* ========================= */
 
 const firebaseConfig = {
@@ -336,7 +358,7 @@ const db = getFirestore(app);
 
 
 /* ========================= */
-/* 現在保存している振り返りのID */
+/* 今保存している振り返りID */
 /* ========================= */
 
 let currentReflectionId = "";
@@ -376,15 +398,15 @@ document.getElementById("everyonePage").style.display="none";
 
 
 /* ========================= */
-/* AIの問いを表示 */
+/* AIからの問い */
 /* ========================= */
 
 function showAdvice(){
 
-const subject =
+const subject=
 document.getElementById("subject").value;
 
-const study =
+const study=
 document.getElementById("study").value;
 
 
@@ -520,17 +542,15 @@ document.getElementById("studyAdvice").innerHTML=
 "🤖 "+advice;
 
 
-/* 保存用 */
-
-window.currentAdvice=advice;
-
+window.currentAdvice=
+advice;
 
 }
 
 
 
 /* ========================= */
-/* 今日の学びを保存 */
+/* 1回目の振り返りを保存 */
 /* ========================= */
 
 window.save=async function(){
@@ -551,6 +571,8 @@ const study=
 document.getElementById("study").value.trim();
 
 
+/* 名前チェック */
+
 if(!name){
 
 alert("名前を入力してください");
@@ -559,6 +581,8 @@ return;
 
 }
 
+
+/* 学びチェック */
 
 if(!study){
 
@@ -574,7 +598,7 @@ return;
 showAdvice();
 
 
-/* Firebaseに保存 */
+/* Firebaseへ保存 */
 
 const saveData=
 await addDoc(
@@ -603,7 +627,7 @@ date:new Date()
 );
 
 
-/* 今保存したデータのIDを記録 */
+/* 保存したデータのID */
 
 currentReflectionId=
 saveData.id;
@@ -615,7 +639,7 @@ currentReflectionId
 );
 
 
-/* メッセージ */
+/* 保存完了 */
 
 document.getElementById("msg").innerHTML=
 "🌟 学びを保存しました！";
@@ -625,7 +649,16 @@ document.getElementById("msg").innerHTML=
 
 document.getElementById(
 "deepReflectionArea"
-).style.display="block";
+).style.display=
+"block";
+
+
+/* ★ここが今回の変更 */
+
+document.getElementById(
+"saveButton"
+).style.display=
+"none";
 
 
 }
@@ -654,6 +687,8 @@ async function(){
 try{
 
 
+/* IDチェック */
+
 if(!currentReflectionId){
 
 alert(
@@ -664,6 +699,8 @@ return;
 
 }
 
+
+/* 深めた考え */
 
 const deep=
 document.getElementById(
@@ -682,6 +719,8 @@ return;
 }
 
 
+/* Firebase更新 */
+
 await updateDoc(
 
 doc(
@@ -692,7 +731,8 @@ currentReflectionId
 
 {
 
-deepReflection:deep
+deepReflection:
+deep
 
 }
 
@@ -702,6 +742,13 @@ deepReflection:deep
 alert(
 "✏️ 考えを深めて保存しました😊"
 );
+
+
+/* 保存後は入力欄を消す */
+
+document.getElementById(
+"deepReflection"
+).value="";
 
 
 }
@@ -721,7 +768,7 @@ alert(
 
 
 /* ========================= */
-/* 自分の振り返り */
+/* 自分の振り返りを見る */
 /* ========================= */
 
 window.openHistory=
@@ -822,7 +869,9 @@ html+=`
 <button
 onclick="openMySubject('${subject}')"
 >
+
 見る
+
 </button>
 
 </div>
@@ -847,7 +896,8 @@ html+=`
 
 document.getElementById(
 "historyList"
-).innerHTML=html;
+).innerHTML=
+html;
 
 
 };
@@ -855,7 +905,7 @@ document.getElementById(
 
 
 /* ========================= */
-/* 自分の教科 */
+/* 自分の教科を見る */
 /* ========================= */
 
 window.openMySubject=
@@ -867,12 +917,16 @@ let html=`
 <button
 onclick="openHistory()"
 >
+
 ← 教科一覧へ
+
 </button>
+
 
 <h2>
 📚 ${subject}
 </h2>
+
 
 <h3>
 📖 単元を選んでください
@@ -891,7 +945,8 @@ data.subject===subject
 ){
 
 const unit=
-data.unit || "単元名なし";
+data.unit ||
+"単元名なし";
 
 
 if(
@@ -920,7 +975,9 @@ html+=`
 <button
 onclick="openMyUnit('${subject}',${JSON.stringify(unit)})"
 >
+
 見る
+
 </button>
 
 </div>
@@ -932,14 +989,15 @@ onclick="openMyUnit('${subject}',${JSON.stringify(unit)})"
 
 document.getElementById(
 "historyList"
-).innerHTML=html;
+).innerHTML=
+html;
 
 };
 
 
 
 /* ========================= */
-/* 自分の単元 */
+/* 自分の単元を見る */
 /* ========================= */
 
 window.openMyUnit=
@@ -951,8 +1009,11 @@ let html=`
 <button
 onclick="openMySubject('${subject}')"
 >
+
 ← 単元一覧へ
+
 </button>
+
 
 <h2>
 📖 ${unit}
@@ -964,7 +1025,8 @@ onclick="openMySubject('${subject}')"
 myData.forEach(data=>{
 
 const dataUnit=
-data.unit || "単元名なし";
+data.unit ||
+"単元名なし";
 
 
 if(
@@ -1018,14 +1080,15 @@ ${data.deepReflection || "まだありません"}
 
 document.getElementById(
 "historyList"
-).innerHTML=html;
+).innerHTML=
+html;
 
 };
 
 
 
 /* ========================= */
-/* みんなの振り返り */
+/* みんなの振り返りを見る */
 /* ========================= */
 
 window.openEveryoneHistory=
@@ -1106,7 +1169,9 @@ html+=`
 <button
 onclick="openEveryoneSubject('${subject}')"
 >
+
 見る
+
 </button>
 
 </div>
@@ -1118,14 +1183,15 @@ onclick="openEveryoneSubject('${subject}')"
 
 document.getElementById(
 "everyoneList"
-).innerHTML=html;
+).innerHTML=
+html;
 
 };
 
 
 
 /* ========================= */
-/* みんなの教科 */
+/* みんなの教科を見る */
 /* ========================= */
 
 window.openEveryoneSubject=
@@ -1137,12 +1203,16 @@ let html=`
 <button
 onclick="openEveryoneHistory()"
 >
+
 ← 教科一覧へ
+
 </button>
+
 
 <h2>
 📚 ${subject}
 </h2>
+
 
 <h3>
 📖 単元を選んでください
@@ -1161,7 +1231,8 @@ data.subject===subject
 ){
 
 const unit=
-data.unit || "単元名なし";
+data.unit ||
+"単元名なし";
 
 
 if(
@@ -1190,7 +1261,9 @@ html+=`
 <button
 onclick="openEveryoneUnit('${subject}',${JSON.stringify(unit)})"
 >
+
 見る
+
 </button>
 
 </div>
@@ -1202,14 +1275,15 @@ onclick="openEveryoneUnit('${subject}',${JSON.stringify(unit)})"
 
 document.getElementById(
 "everyoneList"
-).innerHTML=html;
+).innerHTML=
+html;
 
 };
 
 
 
 /* ========================= */
-/* みんなの単元 */
+/* みんなの単元を見る */
 /* ========================= */
 
 window.openEveryoneUnit=
@@ -1221,8 +1295,11 @@ let html=`
 <button
 onclick="openEveryoneSubject('${subject}')"
 >
+
 ← 単元一覧へ
+
 </button>
+
 
 <h2>
 📖 ${unit}
@@ -1234,7 +1311,8 @@ onclick="openEveryoneSubject('${subject}')"
 everyoneData.forEach(data=>{
 
 const dataUnit=
-data.unit || "単元名なし";
+data.unit ||
+"単元名なし";
 
 
 if(
@@ -1286,13 +1364,16 @@ ${data.deepReflection || "まだ入力されていません"}
 <button
 onclick="addLike('${data.id}')"
 >
+
 ⭐ この考えが参考になった
+
 </button>
 
 
 <p>
 ⭐ 参考にした人数：
 ${data.likes || 0}人
+
 </p>
 
 
@@ -1307,7 +1388,8 @@ ${data.likes || 0}人
 
 document.getElementById(
 "everyoneList"
-).innerHTML=html;
+).innerHTML=
+html;
 
 };
 
@@ -1369,7 +1451,8 @@ alert(
 
 openEveryoneUnit(
 target.subject,
-target.unit || "単元名なし"
+target.unit ||
+"単元名なし"
 );
 
 
@@ -1392,6 +1475,7 @@ alert(
 console.log(
 "📚 学びアルバム Ver.2 読み込み完了"
 );
+
 
 </script>
 
