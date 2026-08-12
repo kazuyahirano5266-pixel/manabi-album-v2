@@ -501,7 +501,7 @@ let everyoneData = [];
 
 
 /* ==================================================
-安全に文字を表示する
+安全に文字を表示
 ================================================== */
 
 function escapeHTML(value){
@@ -1016,7 +1016,7 @@ subjects.push(data.subject);
 });
 
 
-subjects.forEach(subject=>{
+subjects.forEach((subject,index)=>{
 
 html+=`
 
@@ -1027,7 +1027,8 @@ html+=`
 </h2>
 
 <button
-onclick="openMySubject(${JSON.stringify(subject)})">
+class="my-subject-button"
+data-index="${index}">
 
 見る
 
@@ -1064,6 +1065,31 @@ html+=`
 document.getElementById("historyList").innerHTML=
 html;
 
+
+const buttons=
+document.querySelectorAll(
+".my-subject-button"
+);
+
+
+buttons.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+const index=
+Number(this.dataset.index);
+
+openMySubject(
+subjects[index]
+);
+
+}
+);
+
+});
+
 }
 
 
@@ -1078,7 +1104,7 @@ let html=`
 
 <button
 class="back-button small-button"
-onclick="showMySubjects()">
+id="mySubjectBack">
 
 ← 教科一覧へ
 
@@ -1102,18 +1128,24 @@ const units=[];
 myData.forEach(data=>{
 
 if(
-data.subject===subject &&
-!units.includes(data.unit || "")
+data.subject===subject
 ){
 
-units.push(data.unit || "");
+const unitName=
+data.unit || "";
+
+if(!units.includes(unitName)){
+
+units.push(unitName);
+
+}
 
 }
 
 });
 
 
-units.forEach(unit=>{
+units.forEach((unit,index)=>{
 
 html+=`
 
@@ -1124,7 +1156,8 @@ html+=`
 </h2>
 
 <button
-onclick="openMyUnit(${JSON.stringify(subject)}, ${JSON.stringify(unit)})">
+class="my-unit-button"
+data-index="${index}">
 
 見る
 
@@ -1146,6 +1179,44 @@ html+=`
 document.getElementById("historyList").innerHTML=
 html;
 
+
+document
+.getElementById("mySubjectBack")
+.addEventListener(
+"click",
+function(){
+
+showMySubjects();
+
+}
+);
+
+
+const buttons=
+document.querySelectorAll(
+".my-unit-button"
+);
+
+
+buttons.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+const index=
+Number(this.dataset.index);
+
+openMyUnit(
+subject,
+units[index]
+);
+
+}
+);
+
+});
+
 };
 
 
@@ -1160,7 +1231,7 @@ let html=`
 
 <button
 class="back-button small-button"
-onclick="openMySubject(${JSON.stringify(subject)})">
+id="myUnitBack">
 
 ← 単元一覧へ
 
@@ -1211,7 +1282,9 @@ ${escapeHTML(data.study)}
 
 <br><br>
 
-${escapeHTML(data.aiQuestion || "ありません")}
+${escapeHTML(
+data.aiQuestion || "ありません"
+)}
 
 </div>
 
@@ -1222,7 +1295,9 @@ ${escapeHTML(data.aiQuestion || "ありません")}
 
 <br><br>
 
-${escapeHTML(data.deepReflection || "まだありません")}
+${escapeHTML(
+data.deepReflection || "まだありません"
+)}
 
 </div>
 
@@ -1230,7 +1305,7 @@ ${escapeHTML(data.deepReflection || "まだありません")}
 <div class="level-box">
 
 ⭐ 参考にした人数：
-${data.likes || 0}人
+${Number(data.likes || 0)}人
 
 </div>
 
@@ -1261,24 +1336,34 @@ html+=`
 
 `;
 
+
 }
 
 
 document.getElementById("historyList").innerHTML=
 html;
 
+
+document
+.getElementById("myUnitBack")
+.addEventListener(
+"click",
+function(){
+
+openMySubject(subject);
+
+}
+);
+
 };
 
 
 /* ==================================================
 みんなの振り返り
-ここを安定化
 ================================================== */
 
 window.openEveryoneHistory=
 async function(){
-
-/* 画面を切り替える */
 
 document.getElementById("home").style.display="none";
 
@@ -1289,39 +1374,25 @@ document.getElementById("historyPage").style.display="none";
 document.getElementById("everyonePage").style.display="block";
 
 
-/* 読み込み表示 */
-
 document.getElementById("everyoneList").innerHTML=
 '<div class="loading">👫 みんなの振り返りを読み込んでいます...</div>';
 
 
 try{
 
-/*
-Firestoreのmanabiコレクションを
-直接すべて取得する
-*/
-
-const snapshot =
+const snapshot=
 await getDocs(
 collection(db,"manabi")
 );
 
 
-/*
-必ず空にしてから入れ直す
-*/
-
 everyoneData=[];
 
 
-/*
-Firestoreのデータを保存
-*/
-
 snapshot.forEach(docSnap=>{
 
-const data=docSnap.data();
+const data=
+docSnap.data();
 
 
 everyoneData.push({
@@ -1349,20 +1420,12 @@ date:data.date || null
 });
 
 
-/*
-読み込み結果を表示
-*/
-
 console.log(
 "みんなの振り返り：",
 everyoneData.length,
 "件"
 );
 
-
-/*
-教科一覧へ
-*/
 
 showEveryoneSubjects();
 
@@ -1403,6 +1466,7 @@ onclick="openEveryoneHistory()">
 
 /* ==================================================
 みんな：教科一覧
+重要：onclickを使わない
 ================================================== */
 
 function showEveryoneSubjects(){
@@ -1434,10 +1498,6 @@ subjects.push(data.subject);
 });
 
 
-/*
-教科がない場合
-*/
-
 if(subjects.length===0){
 
 document.getElementById("everyoneList").innerHTML=`
@@ -1459,11 +1519,9 @@ return;
 }
 
 
-/*
-教科ボタン
-*/
+/* 教科カード */
 
-subjects.forEach(subject=>{
+subjects.forEach((subject,index)=>{
 
 html+=`
 
@@ -1474,7 +1532,8 @@ html+=`
 </h2>
 
 <button
-onclick="openEveryoneSubject(${JSON.stringify(subject)})">
+class="everyone-subject-button"
+data-index="${index}">
 
 見る
 
@@ -1490,12 +1549,39 @@ onclick="openEveryoneSubject(${JSON.stringify(subject)})">
 html+=`
 
 </div>
-
 `;
 
 
 document.getElementById("everyoneList").innerHTML=
 html;
+
+
+/* ボタンにイベントを設定 */
+
+const buttons=
+document.querySelectorAll(
+".everyone-subject-button"
+);
+
+
+buttons.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+const index=
+Number(this.dataset.index);
+
+const subject=
+subjects[index];
+
+openEveryoneSubject(subject);
+
+}
+);
+
+});
 
 }
 
@@ -1511,7 +1597,7 @@ let html=`
 
 <button
 class="back-button small-button"
-onclick="showEveryoneSubjects()">
+id="everyoneSubjectBack">
 
 ← 教科一覧へ
 
@@ -1541,6 +1627,7 @@ data.subject===subject
 const unitName=
 data.unit || "";
 
+
 if(!units.includes(unitName)){
 
 units.push(unitName);
@@ -1551,10 +1638,6 @@ units.push(unitName);
 
 });
 
-
-/*
-単元がない場合
-*/
 
 if(units.length===0){
 
@@ -1571,11 +1654,7 @@ html+=`
 }
 
 
-/*
-単元を表示
-*/
-
-units.forEach(unit=>{
+units.forEach((unit,index)=>{
 
 html+=`
 
@@ -1586,7 +1665,8 @@ html+=`
 </h2>
 
 <button
-onclick="openEveryoneUnit(${JSON.stringify(subject)}, ${JSON.stringify(unit)})">
+class="everyone-unit-button"
+data-index="${index}">
 
 見る
 
@@ -1608,6 +1688,51 @@ html+=`
 document.getElementById("everyoneList").innerHTML=
 html;
 
+
+/* 教科一覧へ戻る */
+
+document
+.getElementById("everyoneSubjectBack")
+.addEventListener(
+"click",
+function(){
+
+showEveryoneSubjects();
+
+}
+);
+
+
+/* 単元ボタン */
+
+const buttons=
+document.querySelectorAll(
+".everyone-unit-button"
+);
+
+
+buttons.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+const index=
+Number(this.dataset.index);
+
+const unit=
+units[index];
+
+openEveryoneUnit(
+subject,
+unit
+);
+
+}
+);
+
+});
+
 };
 
 
@@ -1622,7 +1747,7 @@ let html=`
 
 <button
 class="back-button small-button"
-onclick="openEveryoneSubject(${JSON.stringify(subject)})">
+id="everyoneUnitBack">
 
 ← 単元一覧へ
 
@@ -1638,10 +1763,6 @@ onclick="openEveryoneSubject(${JSON.stringify(subject)})">
 
 let count=0;
 
-
-/*
-該当する振り返りだけ表示
-*/
 
 everyoneData.forEach(data=>{
 
@@ -1684,7 +1805,8 @@ ${escapeHTML(data.study)}
 <br><br>
 
 ${escapeHTML(
-data.aiQuestion || "ありません"
+data.aiQuestion ||
+"ありません"
 )}
 
 </div>
@@ -1714,7 +1836,7 @@ data.deepReflection ||
 
 <button
 class="like-button"
-onclick="addLike(${JSON.stringify(data.id)})">
+data-like-id="${escapeHTML(data.id)}">
 
 ⭐ この考えが参考になった
 
@@ -1735,10 +1857,6 @@ html+=`
 `;
 
 
-/*
-該当データなし
-*/
-
 if(count===0){
 
 html+=`
@@ -1756,6 +1874,45 @@ html+=`
 
 document.getElementById("everyoneList").innerHTML=
 html;
+
+
+/* 単元一覧へ戻る */
+
+document
+.getElementById("everyoneUnitBack")
+.addEventListener(
+"click",
+function(){
+
+openEveryoneSubject(subject);
+
+}
+);
+
+
+/* ⭐ 参考になった */
+
+const likeButtons=
+document.querySelectorAll(
+"[data-like-id]"
+);
+
+
+likeButtons.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+const id=
+this.dataset.likeId;
+
+addLike(id);
+
+}
+);
+
+});
 
 };
 
@@ -1775,7 +1932,9 @@ data=>data.id===id
 
 if(!target){
 
-alert("振り返りが見つかりません。");
+alert(
+"振り返りが見つかりません。"
+);
 
 return;
 
@@ -1805,10 +1964,6 @@ likes:newLikes
 );
 
 
-/*
-画面側のデータも更新
-*/
-
 target.likes=
 newLikes;
 
@@ -1817,10 +1972,6 @@ alert(
 "⭐ 参考にしました！"
 );
 
-
-/*
-最新状態を再表示
-*/
 
 openEveryoneUnit(
 target.subject,
