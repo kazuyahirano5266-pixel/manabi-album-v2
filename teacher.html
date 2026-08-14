@@ -4,6 +4,7 @@
 <head>
 
 <meta charset="UTF-8">
+
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
@@ -75,10 +76,6 @@ background:#1976d2;
 background:#8e44ad;
 }
 
-.close-button{
-background:#777;
-}
-
 .number-button{
 background:white;
 color:#333;
@@ -95,6 +92,11 @@ color:white;
 .number-button.has-data{
 border-color:#f0a500;
 }
+
+
+/* =========================
+入力
+========================= */
 
 input,
 textarea,
@@ -134,17 +136,17 @@ flex:1;
 出席番号
 ========================= */
 
+.number-area{
+background:#f5fbff;
+padding:15px;
+border-radius:20px;
+}
+
 .number-grid{
 display:grid;
 grid-template-columns:repeat(10,1fr);
 gap:8px;
 margin-top:15px;
-}
-
-.number-area{
-background:#f5fbff;
-padding:15px;
-border-radius:20px;
 }
 
 
@@ -338,6 +340,14 @@ border-radius:15px;
 margin:15px 0;
 }
 
+.error-box{
+padding:20px;
+background:#fff0f0;
+border:2px solid #ffcccc;
+border-radius:20px;
+margin-top:20px;
+}
+
 .hidden{
 display:none;
 }
@@ -411,10 +421,11 @@ grid-template-columns:1fr;
 
 
 <!-- ==================================================
-メイン
+メインページ
 ================================================== -->
 
 <div class="box" id="mainPage">
+
 
 <div class="header">
 
@@ -430,7 +441,6 @@ grid-template-columns:1fr;
 
 </div>
 
-<div>
 
 <button
 class="setting-button"
@@ -439,8 +449,6 @@ onclick="openSettings()">
 ⚙️ 名前設定
 
 </button>
-
-</div>
 
 </div>
 
@@ -460,19 +468,19 @@ onclick="openSettings()">
 </p>
 
 <div
-class="number-grid"
-id="numberGrid">
+id="numberGrid"
+class="number-grid">
+
 </div>
 
 </div>
 
 
 <!-- =========================
-児童一覧
+児童表示
 ========================= -->
 
-<div
-id="studentArea">
+<div id="studentArea">
 
 <div class="empty">
 
@@ -482,7 +490,9 @@ id="studentArea">
 
 </div>
 
+
 </div>
+
 
 
 <!-- ==================================================
@@ -508,13 +518,14 @@ id="settingsPage">
 </p>
 
 <p>
-この端末のブラウザにだけ保存されます。
+この先生ページを開いている端末のブラウザにだけ保存されます。
 </p>
 
 
 <div
-class="name-grid"
-id="nameGrid">
+id="nameGrid"
+class="name-grid">
+
 </div>
 
 
@@ -527,6 +538,7 @@ onclick="saveNames()">
 
 </button>
 
+
 <button
 class="back-button"
 onclick="closeSettings()">
@@ -538,7 +550,7 @@ onclick="closeSettings()">
 </div>
 
 
-<p id="settingMessage"></p>
+<div id="settingMessage"></div>
 
 </div>
 
@@ -559,15 +571,9 @@ from
 
 
 import {
-
 getFirestore,
 collection,
-query,
-where,
-getDocs,
-updateDoc,
-doc
-
+getDocs
 }
 from
 "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
@@ -617,12 +623,22 @@ let selectedNumber="";
 Firestoreには保存しない
 ================================================== */
 
-let studentNames=
+let studentNames={};
+
+try{
+
+studentNames=
 JSON.parse(
 localStorage.getItem(
 "manabiStudentNames"
 ) || "{}"
 );
+
+}catch(error){
+
+studentNames={};
+
+}
 
 
 /* ==================================================
@@ -643,13 +659,9 @@ return "";
 return String(value)
 
 .replace(/&/g,"&amp;")
-
 .replace(/</g,"&lt;")
-
 .replace(/>/g,"&gt;")
-
 .replace(/"/g,"&quot;")
-
 .replace(/'/g,"&#039;");
 
 }
@@ -669,15 +681,29 @@ return "日付なし";
 
 try{
 
-if(value.toDate){
+if(
+value &&
+typeof value.toDate==="function"
+){
 
-return value.toDate()
+return value
+.toDate()
 .toLocaleString("ja-JP");
 
 }
 
-return new Date(value)
-.toLocaleString("ja-JP");
+const date=
+new Date(value);
+
+if(
+isNaN(date.getTime())
+){
+
+return "日付なし";
+
+}
+
+return date.toLocaleString("ja-JP");
 
 }catch(error){
 
@@ -689,73 +715,151 @@ return "日付なし";
 
 
 /* ==================================================
-出席番号の正規化
+出席番号取得
 ================================================== */
+
+/*
+いろいろなバージョンのデータに対応
+*/
 
 function getNumber(data){
 
-/*
-現在の児童ページで
-保存しているフィールド名に対応。
+const possibleValues=[
 
-将来的に studentNumber に変更しても
-対応できるようにしている。
+data.studentNumber,
+data.attendanceNumber,
+data.attendanceCode,
+data.number,
+data.studentNo
+
+];
+
+
+/*
+最初に見つかった番号を使用
 */
 
+for(
+const value of possibleValues
+){
+
+if(
+value!==undefined &&
+value!==null &&
+String(value).trim()!==""
+){
+
+const text=
+String(value).trim();
+
+if(
+Number(text)>=1 &&
+Number(text)<=40
+){
+
 return String(
+Number(text)
+);
 
-data.studentNumber ??
-data.number ??
-data.attendanceNumber ??
-data.name ??
-""
+}
 
-).trim();
+}
+
+}
+
+
+/*
+古いバージョンで
+nameに番号を保存していた場合
+*/
+
+if(data.name){
+
+const oldName=
+String(data.name).trim();
+
+if(
+Number(oldName)>=1 &&
+Number(oldName)<=40
+){
+
+return String(
+Number(oldName)
+);
+
+}
+
+}
+
+
+return "";
 
 }
 
 
 /* ==================================================
-名前表示
+表示名
 ================================================== */
 
 function getDisplayName(number){
 
-return studentNames[number]
-? studentNames[number]
-: "名前未設定";
+if(
+studentNames &&
+studentNames[number]
+){
+
+return studentNames[number];
+
+}
+
+return "名前未設定";
 
 }
 
 
 /* ==================================================
-出席番号ボタン作成
+出席番号ボタン
 ================================================== */
 
 function createNumberButtons(){
 
 let html="";
 
-for(let i=1;i<=40;i++){
 
-const number=String(i);
+for(
+let i=1;
+i<=40;
+i++
+){
+
+const number=
+String(i);
+
 
 const count=
 allData.filter(
-data=>getNumber(data)===number
+data=>
+getNumber(data)===number
 ).length;
+
 
 html+=`
 
 <button
-class="number-button ${count>0 ? "has-data":""}"
-onclick="selectStudent('${number}')">
+type="button"
+class="number-button ${
+count>0 ? "has-data" : ""
+}"
+data-number="${number}">
 
 ${i}番
 
-${count>0
-? `<br><small>📚 ${count}件</small>`
-: ""
+${
+count>0
+?
+`<br><small>📚 ${count}件</small>`
+:
+""
 }
 
 </button>
@@ -764,15 +868,41 @@ ${count>0
 
 }
 
+
 document.getElementById(
 "numberGrid"
 ).innerHTML=html;
+
+
+/*
+ここでイベントを登録
+*/
+
+document
+.querySelectorAll(
+".number-button"
+)
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+const number=
+this.dataset.number;
+
+selectStudent(number);
+
+}
+);
+
+});
 
 }
 
 
 /* ==================================================
-最初の読み込み
+Firestore読み込み
 ================================================== */
 
 async function loadAllData(){
@@ -781,24 +911,30 @@ document.getElementById(
 "studentArea"
 ).innerHTML=
 
-'<div class="loading">📚 振り返りを読み込んでいます...</div>';
+`
+
+<div class="loading">
+
+📚 振り返りを読み込んでいます...
+
+</div>
+
+`;
+
 
 try{
 
-/*
-先生ページを開いたときに
-Firestoreを1回だけ読み込む。
-
-その後の画面移動では
-再読み込みしない。
-*/
-
 const snapshot=
 await getDocs(
-collection(db,"manabi")
+collection(
+db,
+"manabi"
+)
 );
 
+
 allData=[];
+
 
 snapshot.forEach(
 docSnap=>{
@@ -806,11 +942,12 @@ docSnap=>{
 const data=
 docSnap.data();
 
+
 allData.push({
 
-...data,
+id:docSnap.id,
 
-id:docSnap.id
+...data
 
 });
 
@@ -818,9 +955,8 @@ id:docSnap.id
 
 
 console.log(
-"先生ページ読み込み：",
-allData.length,
-"件"
+"Firestore読み込み件数:",
+allData.length
 );
 
 
@@ -841,9 +977,14 @@ document.getElementById(
 
 `;
 
+
 }catch(error){
 
-console.error(error);
+console.error(
+"Firestore読み込みエラー:",
+error
+);
+
 
 document.getElementById(
 "studentArea"
@@ -851,13 +992,19 @@ document.getElementById(
 
 `
 
-<div class="empty">
+<div class="error-box">
 
-😢 振り返りを読み込めませんでした。
+<h2>
+😢 読み込めませんでした
+</h2>
 
-<br><br>
+<p>
+Firestoreから振り返りを読み込めませんでした。
+</p>
 
-<button onclick="loadAllData()">
+<button
+type="button"
+id="reloadButton">
 
 🔄 もう一度読み込む
 
@@ -866,6 +1013,14 @@ document.getElementById(
 </div>
 
 `;
+
+
+document.getElementById(
+"reloadButton"
+).addEventListener(
+"click",
+loadAllData
+);
 
 }
 
@@ -876,42 +1031,49 @@ document.getElementById(
 児童選択
 ================================================== */
 
-window.selectStudent=
-function(number){
+function selectStudent(number){
 
-selectedNumber=number;
+selectedNumber=
+String(number);
 
 
 /*
-ボタンの選択状態
+選択状態
 */
 
 document
-.querySelectorAll(".number-button")
-.forEach(button=>{
+.querySelectorAll(
+".number-button"
+)
+.forEach(
+button=>{
 
 button.classList.remove(
 "selected"
 );
 
-});
+}
+);
 
 
-const buttons=
-document
-.querySelectorAll(".number-button");
+const selectedButton=
+document.querySelector(
+`.number-button[data-number="${CSS.escape(selectedNumber)}"]`
+);
 
-if(buttons[number-1]){
 
-buttons[number-1]
-.classList.add("selected");
+if(selectedButton){
+
+selectedButton.classList.add(
+"selected"
+);
 
 }
 
 
 showStudentSubjects();
 
-};
+}
 
 
 /* ==================================================
@@ -929,10 +1091,21 @@ getNumber(item)===selectedNumber
 
 let html=`
 
+
+<button
+type="button"
+class="back-button"
+id="backToNumbers">
+
+← 児童一覧へ
+
+</button>
+
+
 <div class="section-title">
 
 <h2>
-👤 ${selectedNumber}番
+👤 ${escapeHTML(selectedNumber)}番
 </h2>
 
 <p class="student-name">
@@ -948,7 +1121,9 @@ getDisplayName(selectedNumber)
 `;
 
 
-if(data.length===0){
+if(
+data.length===0
+){
 
 html+=`
 
@@ -960,30 +1135,53 @@ html+=`
 
 `;
 
+
 document.getElementById(
 "studentArea"
 ).innerHTML=html;
+
+
+document.getElementById(
+"backToNumbers"
+).addEventListener(
+"click",
+showNumberArea
+);
 
 return;
 
 }
 
 
+/*
+教科を取得
+*/
+
 const subjects=[];
 
 
-data.forEach(item=>{
+data.forEach(
+item=>{
+
+const subject=
+String(
+item.subject || ""
+).trim();
+
 
 if(
-item.subject &&
-!subjects.includes(item.subject)
+subject &&
+!subjects.includes(subject)
 ){
 
-subjects.push(item.subject);
+subjects.push(subject);
 
 }
 
 });
+
+
+subjects.sort();
 
 
 html+=`
@@ -997,12 +1195,16 @@ html+=`
 `;
 
 
-subjects.forEach(subject=>{
+subjects.forEach(
+subject=>{
 
 const count=
 data.filter(
-item=>item.subject===subject
+item=>
+String(item.subject || "").trim()
+===subject
 ).length;
+
 
 html+=`
 
@@ -1013,13 +1215,18 @@ html+=`
 </h2>
 
 <span class="count-badge">
+
 ${count}件の振り返り
+
 </span>
 
 <br>
 
+
 <button
-onclick="openTeacherSubject(${JSON.stringify(subject)})">
+type="button"
+class="subject-button"
+data-subject="${escapeHTML(subject)}">
 
 見る
 
@@ -1038,9 +1245,83 @@ html+=`
 
 `;
 
+
 document.getElementById(
 "studentArea"
 ).innerHTML=html;
+
+
+/*
+イベント登録
+*/
+
+document.getElementById(
+"backToNumbers"
+).addEventListener(
+"click",
+showNumberArea
+);
+
+
+document
+.querySelectorAll(
+".subject-button"
+)
+.forEach(
+button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+openTeacherSubject(
+this.dataset.subject
+);
+
+}
+);
+
+});
+
+}
+
+
+/* ==================================================
+出席番号一覧に戻る
+================================================== */
+
+function showNumberArea(){
+
+selectedNumber="";
+
+
+document.getElementById(
+"studentArea"
+).innerHTML=
+
+`
+
+<div class="empty">
+
+👆 出席番号を選択してください。
+
+</div>
+
+`;
+
+
+document
+.querySelectorAll(
+".number-button"
+)
+.forEach(
+button=>{
+
+button.classList.remove(
+"selected"
+);
+
+});
 
 }
 
@@ -1049,31 +1330,42 @@ document.getElementById(
 教科
 ================================================== */
 
-window.openTeacherSubject=
-function(subject){
+function openTeacherSubject(subject){
+
+subject=
+String(subject || "");
+
 
 const data=
 allData.filter(
 item=>
+
 getNumber(item)===selectedNumber &&
-item.subject===subject
+
+String(
+item.subject || ""
+).trim()===subject
+
 );
 
 
 let html=`
 
+
 <button
+type="button"
 class="back-button"
-onclick="showStudentSubjects()">
+id="backToSubjects">
 
 ← 教科一覧へ
 
 </button>
 
+
 <div class="section-title">
 
 <h2>
-👤 ${selectedNumber}番
+👤 ${escapeHTML(selectedNumber)}番
 </h2>
 
 <h2>
@@ -1082,24 +1374,47 @@ onclick="showStudentSubjects()">
 
 </div>
 
+
 <h3>
 📖 単元を選んでください
 </h3>
+
 
 <div class="card-grid">
 
 `;
 
 
+if(data.length===0){
+
+html+=`
+
+<div class="empty">
+
+この教科の振り返りがありません。
+
+</div>
+
+`;
+
+}else{
+
+
 const units=[];
 
 
-data.forEach(item=>{
+data.forEach(
+item=>{
 
 const unit=
-item.unit || "";
+String(
+item.unit || ""
+).trim();
 
-if(!units.includes(unit)){
+
+if(
+!units.includes(unit)
+){
 
 units.push(unit);
 
@@ -1108,23 +1423,32 @@ units.push(unit);
 });
 
 
-units.forEach(unit=>{
+units.sort();
+
+
+units.forEach(
+unit=>{
 
 const count=
 data.filter(
 item=>
-(item.unit||"")===unit
+String(item.unit || "").trim()
+===unit
 ).length;
+
 
 html+=`
 
 <div class="student-card">
 
 <h2>
+
 📖 ${escapeHTML(
 unit || "単元名なし"
 )}
+
 </h2>
+
 
 <span class="count-badge">
 
@@ -1134,11 +1458,11 @@ ${count}件
 
 <br>
 
+
 <button
-onclick="openTeacherUnit(
-${JSON.stringify(subject)},
-${JSON.stringify(unit)}
-)">
+type="button"
+class="unit-button"
+data-unit="${escapeHTML(unit)}">
 
 見る
 
@@ -1150,51 +1474,111 @@ ${JSON.stringify(unit)}
 
 });
 
+}
+
 
 html+=`
 
 </div>
+
 `;
+
 
 document.getElementById(
 "studentArea"
 ).innerHTML=html;
 
-};
+
+/*
+戻るボタン
+*/
+
+document.getElementById(
+"backToSubjects"
+).addEventListener(
+"click",
+showStudentSubjects
+);
+
+
+/*
+単元ボタン
+*/
+
+document
+.querySelectorAll(
+".unit-button"
+)
+.forEach(
+button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+openTeacherUnit(
+subject,
+this.dataset.unit
+);
+
+}
+);
+
+});
+
+}
 
 
 /* ==================================================
 単元
 ================================================== */
 
-window.openTeacherUnit=
-function(subject,unit){
+function openTeacherUnit(
+subject,
+unit
+){
+
+subject=
+String(subject || "");
+
+unit=
+String(unit || "");
+
 
 const data=
 allData.filter(
 item=>
+
 getNumber(item)===selectedNumber &&
-item.subject===subject &&
-(item.unit||"")===unit
+
+String(
+item.subject || ""
+).trim()===subject &&
+
+String(
+item.unit || ""
+).trim()===unit
+
 );
 
 
 let html=`
 
+
 <button
+type="button"
 class="back-button"
-onclick="openTeacherSubject(
-${JSON.stringify(subject)}
-)">
+id="backToUnits">
 
 ← 単元一覧へ
 
 </button>
 
+
 <div class="section-title">
 
 <h2>
-👤 ${selectedNumber}番
+👤 ${escapeHTML(selectedNumber)}番
 </h2>
 
 <h2>
@@ -1209,23 +1593,62 @@ unit || "単元名なし"
 
 </div>
 
+
 <div class="reflection-grid">
 
 `;
 
 
-data.forEach(item=>{
+if(data.length===0){
 
-html+=createReflectionCard(
-item
+html+=`
+
+<div class="empty">
+
+この単元の振り返りはありません。
+
+</div>
+
+`;
+
+}else{
+
+
+/*
+新しい順に並べる
+*/
+
+data.sort(
+(a,b)=>{
+
+const aTime=
+getDateTime(a.date);
+
+const bTime=
+getDateTime(b.date);
+
+return bTime-aTime;
+
+}
 );
 
-});
+
+data.forEach(
+item=>{
+
+html+=
+createReflectionCard(item);
+
+}
+);
+
+}
 
 
 html+=`
 
 </div>
+
 `;
 
 
@@ -1233,7 +1656,116 @@ document.getElementById(
 "studentArea"
 ).innerHTML=html;
 
-};
+
+/*
+戻る
+*/
+
+document.getElementById(
+"backToUnits"
+).addEventListener(
+"click",
+function(){
+
+openTeacherSubject(
+subject
+);
+
+});
+
+
+/*
+所見ボタン
+*/
+
+document
+.querySelectorAll(
+".comment-button"
+)
+.forEach(
+button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+showCommentPrompt(
+this.dataset.id
+);
+
+}
+);
+
+});
+
+
+/*
+コピー
+*/
+
+document
+.querySelectorAll(
+".copy-button"
+)
+.forEach(
+button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+copyCopilotPrompt(
+this.dataset.id
+);
+
+}
+);
+
+});
+
+}
+
+
+/* ==================================================
+日付を数値化
+================================================== */
+
+function getDateTime(value){
+
+try{
+
+if(
+value &&
+typeof value.toDate==="function"
+){
+
+return value.toDate().getTime();
+
+}
+
+
+const d=
+new Date(value);
+
+
+if(
+isNaN(d.getTime())
+){
+
+return 0;
+
+}
+
+
+return d.getTime();
+
+}catch(error){
+
+return 0;
+
+}
+
+}
 
 
 /* ==================================================
@@ -1242,14 +1774,14 @@ document.getElementById(
 
 function createReflectionCard(data){
 
-const safeId=
-String(data.id)
-.replace(/'/g,"");
+const id=
+String(data.id || "");
 
 
 return `
 
 <div class="card">
+
 
 <p class="date">
 
@@ -1266,7 +1798,9 @@ return `
 
 <br><br>
 
-${escapeHTML(data.study)}
+${escapeHTML(
+data.study || "記入なし"
+)}
 
 </div>
 
@@ -1322,18 +1856,19 @@ ${Number(data.likes || 0)}
 📝 この振り返りから所見を作成
 </h3>
 
+
 <p>
 
-このボタンを押すと、
-この児童の振り返りをもとに
+この振り返りをもとに、
 Copilotへ貼り付ける文章を作成します。
 
 </p>
 
 
 <button
+type="button"
 class="comment-button"
-onclick="showCommentPrompt('${safeId}')">
+data-id="${escapeHTML(id)}">
 
 📝 所見作成
 
@@ -1341,18 +1876,21 @@ onclick="showCommentPrompt('${safeId}')">
 
 
 <div
-id="comment-${safeId}"
+id="comment-${escapeHTML(id)}"
 class="hidden">
+
 
 <div
 class="copilot-box"
-id="prompt-${safeId}">
+id="prompt-${escapeHTML(id)}">
+
 </div>
 
 
 <button
+type="button"
 class="copy-button"
-onclick="copyCopilotPrompt('${safeId}')">
+data-id="${escapeHTML(id)}">
 
 📋 Copilotにコピー
 
@@ -1363,6 +1901,7 @@ onclick="copyCopilotPrompt('${safeId}')">
 
 </div>
 
+
 </div>
 
 `;
@@ -1371,7 +1910,7 @@ onclick="copyCopilotPrompt('${safeId}')">
 
 
 /* ==================================================
-教科別の所見条件
+教科別 所見指示
 ================================================== */
 
 function getSubjectInstruction(subject){
@@ -1452,6 +1991,7 @@ const instructions={
 
 };
 
+
 return instructions[subject] ||
 `
 教科の学習内容を踏まえ、
@@ -1463,7 +2003,7 @@ return instructions[subject] ||
 
 
 /* ==================================================
-Copilot用文章作成
+Copilot用文章
 ================================================== */
 
 function createCopilotPrompt(data){
@@ -1484,9 +2024,7 @@ const instruction=
 getSubjectInstruction(subject);
 
 
-return `
-
-あなたは小学校教師の所見作成を支援するAIです。
+return `あなたは小学校教師の所見作成を支援するAIです。
 
 以下の児童の振り返りをもとに、
 通知表等に使用できる自然で具体的な所見を
@@ -1504,46 +2042,43 @@ ${study || "記入なし"}
 【児童が学びを深めて考えたこと】
 ${deep || "記入なし"}
 
-
 【教科に応じた作成方針】
 ${instruction}
-
 
 【共通の作成条件】
 
 ・児童の実際の振り返りを根拠にする
-・振り返りに書かれていない事実を勝手に追加しない
+・振り返りに書かれていない事実を追加しない
 ・児童が何を学んだのかを具体的に表す
 ・考えの変化や深まりがあれば取り入れる
 ・教師から見た児童の学びとして自然な文章にする
 ・前向きな表現にする
 ・「～しました」の繰り返しを避ける
-・児童の名前は入れない
-・出席番号も入れない
+・児童の名前を入れない
+・出席番号を入れない
 ・100～120字程度を目安にする
 ・小学校の通知表に適した丁寧な文体にする
-・児童の振り返りを単に言い換えるだけではなく、
-  学びの価値が伝わる文章にする
+・児童の振り返りを単に言い換えるだけにしない
+・学習内容と児童の成長が伝わる文章にする
 
 【出力】
 
 所見本文だけを出力してください。
-説明や前置きは不要です。
-`;
+説明や前置きは不要です。`;
 
 }
 
 
 /* ==================================================
-所見作成ボタン
+所見表示
 ================================================== */
 
-window.showCommentPrompt=
-function(id){
+function showCommentPrompt(id){
 
 const data=
 allData.find(
-item=>item.id===id
+item=>
+String(item.id)===String(id)
 );
 
 
@@ -1569,7 +2104,14 @@ document.getElementById(
 );
 
 
-if(!area || !prompt){
+if(
+!area ||
+!prompt
+){
+
+alert(
+"所見作成欄を表示できませんでした。"
+);
 
 return;
 
@@ -1584,19 +2126,19 @@ area.classList.remove(
 "hidden"
 );
 
-};
+}
 
 
 /* ==================================================
-Copilotにコピー
+Copilotへコピー
 ================================================== */
 
-window.copyCopilotPrompt=
-async function(id){
+async function copyCopilotPrompt(id){
 
 const data=
 allData.find(
-item=>item.id===id
+item=>
+String(item.id)===String(id)
 );
 
 
@@ -1625,29 +2167,39 @@ alert(
 "📋 Copilot用の文章をコピーしました！\n\nCopilotを開いて貼り付けてください。"
 );
 
+
 }catch(error){
 
 console.error(error);
 
 
-/*
-クリップボードが使えない場合
-*/
-
 const textarea=
-document.createElement("textarea");
+document.createElement(
+"textarea"
+);
 
 textarea.value=text;
+
+textarea.style.position=
+"fixed";
+
+textarea.style.left=
+"-9999px";
 
 document.body.appendChild(
 textarea
 );
 
+textarea.focus();
+
 textarea.select();
+
 
 try{
 
-document.execCommand("copy");
+document.execCommand(
+"copy"
+);
 
 alert(
 "📋 Copilot用の文章をコピーしました！"
@@ -1661,34 +2213,37 @@ alert(
 
 }
 
+
 document.body.removeChild(
 textarea
 );
 
 }
 
-};
+}
 
 
 /* ==================================================
-名前設定ページ
+設定
 ================================================== */
 
-window.openSettings=
-function(){
+function openSettings(){
 
 document.getElementById(
 "mainPage"
-).classList.add("hidden");
+).classList.add(
+"hidden"
+);
 
 document.getElementById(
 "settingsPage"
-).classList.remove("hidden");
-
+).classList.remove(
+"hidden"
+);
 
 createNameInputs();
 
-};
+}
 
 
 function createNameInputs(){
@@ -1696,7 +2251,11 @@ function createNameInputs(){
 let html="";
 
 
-for(let i=1;i<=40;i++){
+for(
+let i=1;
+i<=40;
+i++
+){
 
 const number=
 String(i);
@@ -1736,18 +2295,31 @@ document.getElementById(
 名前保存
 ================================================== */
 
-window.saveNames=
-function(){
+function saveNames(){
 
 const newNames={};
 
 
-for(let i=1;i<=40;i++){
+for(
+let i=1;
+i<=40;
+i++
+){
 
-const value=
+const input=
 document.getElementById(
 "name-"+i
-).value.trim();
+);
+
+if(!input){
+
+continue;
+
+}
+
+
+const value=
+input.value.trim();
 
 
 if(value){
@@ -1765,7 +2337,9 @@ newNames;
 
 localStorage.setItem(
 "manabiStudentNames",
-JSON.stringify(studentNames)
+JSON.stringify(
+studentNames
+)
 );
 
 
@@ -1787,26 +2361,26 @@ document.getElementById(
 
 `;
 
-
-createNumberButtons();
-
-};
+}
 
 
 /* ==================================================
 設定を閉じる
 ================================================== */
 
-window.closeSettings=
-function(){
+function closeSettings(){
 
 document.getElementById(
 "settingsPage"
-).classList.add("hidden");
+).classList.add(
+"hidden"
+);
 
 document.getElementById(
 "mainPage"
-).classList.remove("hidden");
+).classList.remove(
+"hidden"
+);
 
 
 if(selectedNumber){
@@ -1815,7 +2389,21 @@ showStudentSubjects();
 
 }
 
-};
+}
+
+
+/* ==================================================
+window登録
+================================================== */
+
+window.openSettings=
+openSettings;
+
+window.closeSettings=
+closeSettings;
+
+window.saveNames=
+saveNames;
 
 
 /* ==================================================
@@ -1828,7 +2416,7 @@ loadAllData();
 
 
 console.log(
-"👩‍🏫 学びアルバム Ver.2 先生ページ 起動"
+"👩‍🏫 学びアルバム Ver.2 先生ページ 完成版 起動"
 );
 
 </script>
