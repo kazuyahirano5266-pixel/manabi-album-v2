@@ -4,70 +4,681 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>先生ページ</title>
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>学びアルバム Ver.2 先生ページ</title>
+
 
 <style>
 
-body{
-font-family:sans-serif;
-background:#fff8e7;
-padding:20px;
+*{
+box-sizing:border-box;
 }
+
+
+body{
+
+font-family:sans-serif;
+
+background:#eef5f7;
+
+margin:0;
+
+padding:15px;
+
+color:#333;
+
+}
+
+
+/* =========================================
+全体
+========================================= */
+
+.box{
+
+background:white;
+
+padding:20px;
+
+border-radius:20px;
+
+max-width:1400px;
+
+margin:0 auto;
+
+}
+
 
 h1{
+
 text-align:center;
+
+margin-top:5px;
+
 }
 
-.card{
-background:white;
-padding:20px;
-margin:15px auto;
-border-radius:20px;
-max-width:700px;
-box-shadow:0 3px 8px #ccc;
+
+h2{
+
+line-height:1.4;
+
 }
+
+
+/* =========================================
+ボタン
+========================================= */
 
 button{
-padding:12px 25px;
+
+padding:11px 20px;
+
 border:none;
-border-radius:20px;
+
+border-radius:18px;
+
 background:#2b7a78;
+
 color:white;
+
 font-size:16px;
+
 margin:5px;
+
+cursor:pointer;
+
 }
 
-.subject{
-color:#2b7a78;
-font-weight:bold;
-font-size:20px;
+
+button:hover{
+
+opacity:0.85;
+
 }
 
-.study-box{
-background:#f5f5f5;
-padding:15px;
-border-radius:15px;
+
+.back-button{
+
+background:#777;
+
 }
 
-.level-box{
-background:#eaf6ff;
+
+.danger-button{
+
+background:#c0392b;
+
+}
+
+
+.copilot-button{
+
+background:#5b4b9a;
+
+}
+
+
+.small-button{
+
+font-size:14px;
+
+padding:8px 14px;
+
+}
+
+
+/* =========================================
+入力
+========================================= */
+
+input,
+select,
+textarea{
+
 padding:10px;
-border-radius:15px;
-margin:10px 0;
+
+font-size:17px;
+
+border:1px solid #ccc;
+
+border-radius:9px;
+
 }
 
-.comment-box{
-background:#fff4d6;
-padding:10px;
-border-radius:15px;
+
+input{
+
+width:90%;
+
 }
+
 
 textarea{
-width:90%;
-height:60px;
+
+width:100%;
+
+min-height:130px;
+
+line-height:1.7;
+
 }
+
+
+/* =========================================
+ログイン
+========================================= */
+
+.login-box{
+
+max-width:600px;
+
+margin:50px auto;
+
+text-align:center;
+
+}
+
+
+.login-box input{
+
+width:80%;
+
+max-width:400px;
+
+}
+
+
+.login-button{
+
+font-size:20px;
+
+padding:15px 40px;
+
+}
+
+
+.login-message{
+
+font-weight:bold;
+
+color:#c0392b;
+
+}
+
+
+/* =========================================
+上部メニュー
+========================================= */
+
+.teacher-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+gap:10px;
+
+flex-wrap:wrap;
+
+background:#eaf6ff;
+
+padding:12px 15px;
+
+border-radius:15px;
+
+margin-bottom:15px;
+
+}
+
+
+.teacher-title{
+
+font-size:20px;
+
+font-weight:bold;
+
+}
+
+
+/* =========================================
+メニュー
+========================================= */
+
+.menu-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(3,1fr);
+
+gap:15px;
+
+margin-top:20px;
+
+}
+
+
+.menu-card{
+
+background:white;
+
+border-radius:18px;
+
+padding:20px;
+
+box-shadow:0 2px 7px #ccc;
+
+text-align:center;
+
+}
+
+
+.menu-card button{
+
+width:90%;
+
+font-size:18px;
+
+}
+
+
+/* =========================================
+児童一覧
+========================================= */
+
+.student-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(4,1fr);
+
+gap:10px;
+
+margin-top:15px;
+
+}
+
+
+.student-card{
+
+background:white;
+
+border-radius:15px;
+
+padding:12px;
+
+box-shadow:0 2px 6px #ccc;
+
+cursor:pointer;
+
+min-height:105px;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+}
+
+
+.student-card:hover{
+
+background:#f0fafa;
+
+}
+
+
+.student-number{
+
+font-size:24px;
+
+font-weight:bold;
+
+}
+
+
+.student-name{
+
+font-size:17px;
+
+margin-top:5px;
+
+}
+
+
+.reflection-count{
+
+font-size:13px;
+
+color:#777;
+
+margin-top:5px;
+
+}
+
+
+/* =========================================
+名前設定
+========================================= */
+
+.setting-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(4,1fr);
+
+gap:10px;
+
+margin-top:20px;
+
+}
+
+
+.setting-card{
+
+background:#f8f8f8;
+
+border-radius:15px;
+
+padding:15px;
+
+}
+
+
+.setting-card input{
+
+width:100%;
+
+margin-top:7px;
+
+}
+
+
+/* =========================================
+振り返り一覧
+========================================= */
+
+.reflection-grid{
+
+display:grid;
+
+grid-template-columns:
+repeat(2,1fr);
+
+gap:15px;
+
+margin-top:20px;
+
+}
+
+
+.reflection-card{
+
+background:white;
+
+padding:18px;
+
+border-radius:18px;
+
+box-shadow:0 2px 7px #ccc;
+
+}
+
+
+.study-box{
+
+background:#f5f5f5;
+
+padding:15px;
+
+border-radius:13px;
+
+margin-top:10px;
+
+line-height:1.8;
+
+}
+
+
+.advice-box{
+
+background:#eaf6ff;
+
+padding:15px;
+
+border-radius:13px;
+
+margin-top:10px;
+
+line-height:1.8;
+
+}
+
+
+.deep-box{
+
+background:#f0fff0;
+
+padding:15px;
+
+border-radius:13px;
+
+margin-top:10px;
+
+line-height:1.8;
+
+}
+
+
+.date{
+
+font-size:13px;
+
+color:#777;
+
+}
+
+
+/* =========================================
+所見
+========================================= */
+
+.comment-box{
+
+background:#fff8df;
+
+padding:20px;
+
+border-radius:18px;
+
+margin-top:20px;
+
+}
+
+
+.comment-output{
+
+background:white;
+
+padding:15px;
+
+border-radius:12px;
+
+border:1px solid #ddd;
+
+min-height:80px;
+
+line-height:1.8;
+
+white-space:pre-wrap;
+
+}
+
+
+/* =========================================
+その他
+========================================= */
+
+.section-title{
+
+background:#eaf6ff;
+
+padding:13px;
+
+border-radius:13px;
+
+margin-top:15px;
+
+}
+
+
+.empty{
+
+padding:30px;
+
+background:#f7f7f7;
+
+border-radius:15px;
+
+text-align:center;
+
+margin-top:20px;
+
+}
+
+
+.loading{
+
+padding:30px;
+
+text-align:center;
+
+font-size:19px;
+
+}
+
+
+.hidden{
+
+display:none;
+
+}
+
+
+.notice{
+
+background:#fff4d6;
+
+padding:15px;
+
+border-radius:15px;
+
+margin:15px 0;
+
+line-height:1.7;
+
+}
+
+
+/* =========================================
+iPad
+========================================= */
+
+@media(max-width:1100px){
+
+.student-grid{
+
+grid-template-columns:
+repeat(4,1fr);
+
+}
+
+.setting-grid{
+
+grid-template-columns:
+repeat(3,1fr);
+
+}
+
+}
+
+
+@media(max-width:800px){
+
+.menu-grid{
+
+grid-template-columns:
+repeat(2,1fr);
+
+}
+
+.student-grid{
+
+grid-template-columns:
+repeat(3,1fr);
+
+}
+
+.setting-grid{
+
+grid-template-columns:
+repeat(2,1fr);
+
+}
+
+.reflection-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+
+@media(max-width:600px){
+
+body{
+
+padding:8px;
+
+}
+
+.box{
+
+padding:12px;
+
+}
+
+.student-grid{
+
+grid-template-columns:
+repeat(2,1fr);
+
+}
+
+.setting-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.menu-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
 
 </style>
 
@@ -77,11 +688,329 @@ height:60px;
 <body>
 
 
-<h1>👩‍🏫 先生ページ</h1>
+<!-- ==================================================
+先生ログイン
+================================================== -->
+
+<div
+class="box login-box"
+id="loginPage">
 
 
-<div id="list">
-読み込み中...
+<h1>
+👩‍🏫 学びアルバム
+</h1>
+
+
+<h2>
+先生ページ
+</h2>
+
+
+<p>
+先生用パスワードを入力してください。
+</p>
+
+
+<input
+type="password"
+id="teacherPassword"
+placeholder="先生用パスワード"
+autocomplete="current-password">
+
+
+<br>
+
+
+<button
+class="login-button"
+onclick="teacherLogin()">
+
+🔐 先生としてログイン
+
+</button>
+
+
+<p
+id="loginMessage"
+class="login-message">
+</p>
+
+
+</div>
+
+
+
+<!-- ==================================================
+先生メイン
+================================================== -->
+
+<div
+class="box hidden"
+id="teacherPage">
+
+
+<div class="teacher-header">
+
+<div class="teacher-title">
+
+👩‍🏫 学びアルバム Ver.2
+先生ページ
+
+</div>
+
+
+<div>
+
+<button
+class="small-button"
+onclick="showDashboard()">
+
+🏠 ホーム
+
+</button>
+
+
+<button
+class="small-button"
+onclick="logoutTeacher()">
+
+🚪 ログアウト
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ==================================================
+ダッシュボード
+================================================== -->
+
+<div
+id="dashboard">
+
+
+<h1>
+📊 先生用ダッシュボード
+</h1>
+
+
+<div class="menu-grid">
+
+
+<div class="menu-card">
+
+<h2>
+👥 児童一覧
+</h2>
+
+<p>
+1〜40番
+</p>
+
+<button
+onclick="openStudents()">
+
+児童を見る
+
+</button>
+
+</div>
+
+
+<div class="menu-card">
+
+<h2>
+⚙️ 設定
+</h2>
+
+<p>
+名前を設定できます
+</p>
+
+<button
+onclick="openSettings()">
+
+設定する
+
+</button>
+
+</div>
+
+
+<div class="menu-card">
+
+<h2>
+🤖 AI所見
+</h2>
+
+<p>
+Copilotを使って所見作成
+</p>
+
+<button
+class="copilot-button"
+onclick="openCopilot()">
+
+Copilotを開く
+
+</button>
+
+</div>
+
+
+</div>
+
+
+<div class="notice">
+
+<b>🔐 名前について</b>
+
+<br><br>
+
+児童の名前はFirestoreの振り返りデータには保存しません。
+
+<br>
+
+この先生ページを使用している端末のブラウザ内だけに保存します。
+
+</div>
+
+
+</div>
+
+
+<!-- ==================================================
+児童一覧
+================================================== -->
+
+<div
+id="studentPage"
+class="hidden">
+
+
+<h1>
+👥 児童一覧
+</h1>
+
+
+<p>
+児童を選ぶと、その児童の振り返りを見ることができます。
+</p>
+
+
+<button
+class="back-button"
+onclick="showDashboard()">
+
+← ホームへ
+
+</button>
+
+
+<div
+id="studentList"
+class="student-grid">
+
+</div>
+
+
+</div>
+
+
+<!-- ==================================================
+児童詳細
+================================================== -->
+
+<div
+id="studentDetailPage"
+class="hidden">
+
+
+<div id="studentDetail">
+
+</div>
+
+
+</div>
+
+
+<!-- ==================================================
+設定
+================================================== -->
+
+<div
+id="settingsPage"
+class="hidden">
+
+
+<h1>
+⚙️ 児童設定
+</h1>
+
+
+<p>
+
+ここで出席番号と児童名を対応させます。
+
+<br>
+
+<b>児童名はFirestoreには保存されません。</b>
+
+</p>
+
+
+<div class="notice">
+
+例：
+
+<br>
+
+出席番号1 → 山田太郎
+
+<br>
+
+出席番号2 → 佐藤花子
+
+<br><br>
+
+この設定は、この先生用端末のブラウザに保存されます。
+
+</div>
+
+
+<div
+id="settingsList"
+class="setting-grid">
+
+</div>
+
+
+<br>
+
+
+<button
+onclick="saveAllNames()">
+
+💾 名前設定を保存
+
+</button>
+
+
+<button
+class="back-button"
+onclick="showDashboard()">
+
+← ホームへ
+
+</button>
+
+
+</div>
+
+
 </div>
 
 
@@ -89,737 +1018,1056 @@ height:60px;
 <script type="module">
 
 
+/* ==================================================
+Firebase
+================================================== */
+
 import { initializeApp }
 
-from "https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
+from
+"https://www.gstatic.com/firebasejs/12.17.0/firebase-app.js";
 
 
 import {
 
 getFirestore,
 collection,
-onSnapshot,
-doc,
-updateDoc
+getDocs
 
 }
 
-from "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
+from
+"https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
 
 
+const firebaseConfig={
 
-const firebaseConfig = {
+apiKey:
+"AIzaSyA7fBz695BTUL8lxxJ06csf6AfU_DQp3iw",
 
-apiKey: "AIzaSyA7fBz695BTUL8lxxJ06csf6AfU_DQp3iw",
+authDomain:
+"manabi-album-v2.firebaseapp.com",
 
-authDomain: "manabi-album-v2.firebaseapp.com",
+projectId:
+"manabi-album-v2",
 
-projectId: "manabi-album-v2",
+storageBucket:
+"manabi-album-v2.firebasestorage.app",
 
-storageBucket: "manabi-album-v2.firebasestorage.app",
+messagingSenderId:
+"226258471812",
 
-messagingSenderId: "226258471812",
-
-appId: "1:226258471812:web:15230ba15e7e0bd7d86bd1"
+appId:
+"1:226258471812:web:15230ba15e7e0bd7d86bd1"
 
 };
 
 
+const app=
+initializeApp(firebaseConfig);
 
-const app = initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const db=
+getFirestore(app);
 
 
+/* ==================================================
+先生パスワード
+================================================== */
 
-let allData={};
 
+/*
+最初はこのパスワード。
 
-onSnapshot(collection(db,"manabi"),(snapshot)=>{
+あとで変更できる仕組みにする。
+*/
 
+const TEACHER_PASSWORD="9999";
 
-allData={};
 
+let allData=[];
 
-snapshot.forEach((doc)=>{
+let selectedStudent=0;
 
 
-const data=doc.data();
+/* ==================================================
+HTML安全処理
+================================================== */
 
-data.id=doc.id;
-
-
-if(!allData[data.name]){
-
-allData[data.name]=[];
-
-}
-
-
-allData[data.name].push(data);
-
-
-});
-
-
-showStudents();
-
-
-});
-window.showStudents=function(){
-
-let html="";
-
-html += `
-<h2>📁 児童一覧</h2>
-`;
-
-
-Object.keys(allData).forEach(name=>{
-
-
-html += `
-
-<div class="card">
-
-<h2>
-📁 ${name} さん
-</h2>
-
-<p>
-${allData[name].length}件の学び
-</p>
-
-
-<button onclick="openStudent('${name}')">
-開く
-</button>
-
-
-</div>
-
-`;
-
-});
-
-
-document.getElementById("list").innerHTML=html;
-
-}
-
-
-// 児童を開く
-
-window.openStudent=function(name){
-
-
-let html=`
-
-
-<button onclick="window.showStudents()">
-← 児童一覧へ
-</button>
-
-
-<h2>
-👤 ${name} さん
-</h2>
-
-
-<h3>📂 教科を選んでください</h3>
-
-`;
-
-
-
-let subjects=[];
-
-
-allData[name].forEach(data=>{
-
-
-if(!subjects.includes(data.subject)){
-
-subjects.push(data.subject);
-
-}
-
-
-});
-
-
-
-subjects.forEach(subject=>{
-
-
-html += `
-
-<div class="card">
-
-<h2>
-📚 ${subject}
-</h2>
-
-
-<button onclick="openSubject('${name}','${subject}')">
-見る
-</button>
-
-
-</div>
-
-`;
-
-});
-
-
-document.getElementById("list").innerHTML=html;
-
-
-};
-
-
-
-// 教科を開く
-
-window.openSubject=function(name,subject){
-
-
-let html=`
-
-
-<button onclick="openStudent('${name}')">
-← 教科一覧へ
-</button>
-
-
-<h2>
-📚 ${name} さん　${subject}
-</h2>
-
-
-<h3>📖 単元を選んでください</h3>
-
-`;
-
-
-
-let units=[];
-
-
-
-allData[name].forEach(data=>{
-
-
-if(data.subject===subject && data.unit){
-
-
-if(!units.includes(data.unit)){
-
-units.push(data.unit);
-
-}
-
-
-}
-
-
-});
-
-
-// 単元フォルダ表示
-
-units.forEach(unit=>{
-
-
-html += `
-
-<div class="card">
-
-<h2>
-📖 ${unit}
-</h2>
-
-
-<button onclick="openUnit('${name}','${subject}',\`${unit}\`)">
-見る
-</button>
-
-
-</div>
-
-`;
-
-});
-
-
-
-// 単元なし表示
-
-let noUnit = allData[name].filter(data=>
-
-data.subject===subject && !data.unit
-
-);
-
-
-
-if(noUnit.length>0){
-
-
-html += `
-
-<div class="card">
-
-<h2>
-📝 単元未入力の振り返り
-</h2>
-
-
-<button onclick="openNoUnit('${name}','${subject}')">
-見る
-</button>
-
-
-</div>
-
-`;
-
-}
-
-
-document.getElementById("list").innerHTML=html;
-
-
-};
-// 単元を開く
-
-window.openUnit=function(name,subject,unit){
-
-
-let html=`
-
-
-<button onclick="openSubject('${name}','${subject}')">
-← 単元一覧へ
-</button>
-
-
-<h2>
-📖 ${unit}
-</h2>
-
-`;
-
-
-
-allData[name].forEach(data=>{
-
+function escapeHTML(value){
 
 if(
-data.subject===subject &&
-data.unit===unit
+value===undefined ||
+value===null
 ){
 
-
-html += `
-
-<div class="card">
-
-
-<p><b>📝 今日の学び</b></p>
-
-
-<div class="study-box">
-
-${data.study}
-
-</div>
-<div class="comment-box">
-
-<h3>✨ AI所見作成</h3>
-
-
-<button onclick="makeComment('${data.id}')">
-
-AI所見を作成
-
-</button>
-<button onclick="saveAIComment('${data.id}')">
-
-💾 先生コメントに保存
-
-</button>
-<select id="length-${data.id}">
-
-<option value="100">100字</option>
-
-<option value="120">120字</option>
-
-<option value="200">200字</option>
-
-</select>
-<textarea id="aiComment-${data.id}" rows="5">
-
-まだ作成されていません
-
-</textarea>
-
-
-</div>
-<div class="level-box">
-
-🤖 AIからの問い
-
-<br>
-
-${data.aiQuestion || "まだありません"}
-
-</div>
-
-
-<div class="study-box">
-
-✏️ 深めた考え
-
-<br>
-
-${data.deepReflection || "まだ入力されていません"}
-
-</div>
-
-
-<div class="level-box">
-
-🌱 ${data.level || "判定なし"}
-
-</div>
-
-
-
-<p>
-<b>次にやりたいこと</b>
-</p>
-
-<p>
-${data.next || ""}
-</p>
-
-
-
-<div class="comment-box">
-
-<p><b>💬 先生コメント</b></p>
-
-
-<textarea id="comment-${data.id}">
-${data.comment || ""}
-</textarea>
-
-
-<br>
-
-
-<button onclick="saveComment('${data.id}')">
-コメント保存
-</button>
-
-
-</div>
-
-
-</div>
-
-`;
+return "";
 
 }
 
 
-});
+return String(value)
 
+.replace(/&/g,"&amp;")
 
-document.getElementById("list").innerHTML=html;
+.replace(/</g,"&lt;")
 
+.replace(/>/g,"&gt;")
 
-};
+.replace(/"/g,"&quot;")
 
-
-
-
-// 単元未入力を見る
-
-window.openNoUnit=function(name,subject){
-
-
-let html=`
-
-
-<button onclick="openSubject('${name}','${subject}')">
-← 教科一覧へ
-</button>
-
-
-<h2>
-📝 ${name}さん　単元未入力の振り返り
-</h2>
-
-
-`;
-
-
-
-allData[name].forEach(data=>{
-
-
-if(
-data.subject===subject &&
-!data.unit
-){
-
-
-html += `
-
-<div class="card">
-
-
-<p><b>📝 今日の学び</b></p>
-
-
-<div class="study-box">
-
-${data.study}
-
-</div>
-
-
-
-<div class="level-box">
-
-🌱 ${data.level || "判定なし"}
-
-</div>
-
-
-
-<p>
-💬 ${data.comment || "コメントなし"}
-</p>
-
-
-</div>
-
-`;
+.replace(/'/g,"&#039;");
 
 }
 
 
-});
+/* ==================================================
+日付
+================================================== */
 
+function formatDate(value){
 
-document.getElementById("list").innerHTML=html;
+if(!value){
 
-
-};
-
-
-
-
-// コメント保存
-
-window.saveComment = async function(id){
-
-
-const text =
-
-document.getElementById("comment-"+id).value;
-
-
-
-await updateDoc(
-
-doc(db,"manabi",id),
-
-{
-
-comment:text
+return "日付なし";
 
 }
 
+
+try{
+
+if(value.toDate){
+
+return value.toDate()
+.toLocaleString("ja-JP");
+
+}
+
+
+if(value instanceof Date){
+
+return value
+.toLocaleString("ja-JP");
+
+}
+
+
+return new Date(value)
+.toLocaleString("ja-JP");
+
+
+}catch(error){
+
+return "日付なし";
+
+}
+
+}
+
+
+/* ==================================================
+名前取得
+================================================== */
+
+function getStudentName(number){
+
+const names=
+JSON.parse(
+localStorage.getItem(
+"manabiStudentNames"
+) || "{}"
 );
 
 
-alert("コメントを保存しました😊");
-
-
-};
-window.saveAIComment = async function(id){
-
-const text =
-document.getElementById("aiComment-"+id).value;
-
-
-await updateDoc(
-doc(db,"manabi",id),
-{
-comment:text
-}
-);
-
-
-alert("AI所見を先生コメントに保存しました😊");
-
-};
-
-console.log("先生ページ完成版 読み込み完了");
-
-window.makeComment=function(id){
-
-
-let data=null;
-
-
-// データを探す
-
-Object.values(allData).forEach(list=>{
-
-list.forEach(item=>{
-
-if(item.id===id){
-
-data=item;
+return names[number] || "";
 
 }
 
-});
 
-});
+/* ==================================================
+先生ログイン
+================================================== */
+
+window.teacherLogin=function(){
+
+const password=
+document.getElementById(
+"teacherPassword"
+).value;
 
 
+if(password!==TEACHER_PASSWORD){
 
-if(!data){
-
-alert("データが見つかりません");
+document.getElementById(
+"loginMessage"
+).textContent=
+"❌ パスワードが違います。";
 
 return;
 
 }
 
 
-
-let comment="";
-
-let reflection = data.deepReflection || "";
-let study = data.study || "";
-let unit = data.unit || data.subject;
+localStorage.setItem(
+"teacherLoggedIn",
+"yes"
+);
 
 
-// 国語
-if(data.subject==="国語"){
-
-comment =
-`「${unit}」の学習では、文章の内容や登場人物の気持ちについて、本文の言葉をもとに考えることができました。友達との交流を通して自分の考えを広げ、学びを深める姿が見られました。${reflection}`;
-
-}
-
-
-// 算数
-else if(data.subject==="算数"){
-
-comment =
-`「${unit}」の学習では、問題解決に向けて様々な考え方を試し、根拠をもって説明することができました。自分の考えを振り返り、よりよい方法を考える姿が見られました。${reflection}`;
-
-}
-
-
-// 理科
-else if(data.subject==="理科"){
-
-comment =
-`「${unit}」の学習では、予想と結果を比べながら考察し、自然の事象について進んで調べることができました。気付いたことをもとに考えを深める姿が見られました。${reflection}`;
-
-}
-
-
-// 社会
-else if(data.subject==="社会"){
-
-comment =
-`「${unit}」の学習では、資料や調べたことをもとに考え、社会の仕組みや人々の工夫について理解を深めることができました。自分の考えを伝える姿が見られました。${reflection}`;
-
-}
-
-
-// 総合
-else if(data.subject==="総合"){
-
-comment =
-`「${unit}」の学習では、課題を見つけて調べたり、友達と意見を交流したりしながら、地域や未来について考えを深めることができました。学んだことを発信しようとする姿が見られました。${reflection}`;
-
-}
-
-
-// 生活
-else if(data.subject==="生活"){
-
-comment =
-`「${unit}」の学習では、身近なものや人との関わりから気付きを見つけ、自分なりに考えを深めることができました。発見したことを意欲的に伝える姿が見られました。${reflection}`;
-
-}
-
-
-// 道徳
-else if(data.subject==="道徳"){
-
-comment =
-`「${unit}」の学習では、登場人物の気持ちや行動について考え、自分の生活を振り返りながらよりよい生き方について考えることができました。${reflection}`;
-
-}
-
-
-// 体育
-else if(data.subject==="体育"){
-
-comment =
-`「${unit}」の学習では、目標に向かって意欲的に取り組み、工夫したことや友達との関わりから学びを深めることができました。${reflection}`;
-
-}
-
-
-else{
-
-comment =
-`「${unit}」の学習では、意欲的に活動に取り組み、自分の考えを深めながら学習することができました。${reflection}`;
-
-}
-
-
-// 文字数調整
-const length =
-Number(document.getElementById("length-"+id).value);
-
-
-comment = cutComment(comment,length);
-
-
-// 表示
 document.getElementById(
-"aiComment-"+id
-).value = comment;
-};
-function cutComment(text,length){
+"loginPage"
+).style.display="none";
 
-if(text.length <= length){
+
+document.getElementById(
+"teacherPage"
+).style.display="block";
+
+
+showDashboard();
+
+};
+
+
+/* ==================================================
+自動ログイン
+================================================== */
+
+function autoTeacherLogin(){
+
+const login=
+localStorage.getItem(
+"teacherLoggedIn"
+);
+
+
+if(login==="yes"){
+
+document.getElementById(
+"loginPage"
+).style.display="none";
+
+
+document.getElementById(
+"teacherPage"
+).style.display="block";
+
+
+showDashboard();
+
+}
+
+}
+
+
+/* ==================================================
+先生ログアウト
+================================================== */
+
+window.logoutTeacher=function(){
+
+localStorage.removeItem(
+"teacherLoggedIn"
+);
+
+
+location.reload();
+
+};
+
+
+/* ==================================================
+全画面切替
+================================================== */
+
+function hideTeacherPages(){
+
+document.getElementById(
+"dashboard"
+).style.display="none";
+
+
+document.getElementById(
+"studentPage"
+).style.display="none";
+
+
+document.getElementById(
+"studentDetailPage"
+).style.display="none";
+
+
+document.getElementById(
+"settingsPage"
+).style.display="none";
+
+}
+
+
+/* ==================================================
+ホーム
+================================================== */
+
+window.showDashboard=function(){
+
+hideTeacherPages();
+
+
+document.getElementById(
+"dashboard"
+).style.display="block";
+
+};
+
+
+/* ==================================================
+児童一覧を開く
+================================================== */
+
+window.openStudents=async function(){
+
+hideTeacherPages();
+
+
+document.getElementById(
+"studentPage"
+).style.display="block";
+
+
+document.getElementById(
+"studentList"
+).innerHTML=
+
+'<div class="loading">📚 振り返りを読み込んでいます...</div>';
+
+
+try{
+
+
+/*
+Firestoreを1回だけ読み込む。
+
+このページを開いたときだけ取得。
+*/
+
+const snapshot=
+await getDocs(
+collection(db,"manabi")
+);
+
+
+allData=[];
+
+
+snapshot.forEach(
+docSnap=>{
+
+const data=
+docSnap.data();
+
+
+allData.push({
+
+id:docSnap.id,
+
+studentNumber:
+Number(data.studentNumber || 0),
+
+subject:
+data.subject || "",
+
+unit:
+data.unit || "",
+
+study:
+data.study || "",
+
+aiQuestion:
+data.aiQuestion || "",
+
+deepReflection:
+data.deepReflection || "",
+
+likes:
+Number(data.likes || 0),
+
+date:
+data.date || null
+
+});
+
+});
+
+
+showStudentList();
+
+
+}catch(error){
+
+console.error(error);
+
+
+document.getElementById(
+"studentList"
+).innerHTML=
+
+`
+
+<div class="empty">
+
+読み込みに失敗しました。
+
+<br><br>
+
+もう一度お試しください。
+
+<br>
+
+<button
+onclick="openStudents()">
+
+🔄 再読み込み
+
+</button>
+
+</div>
+
+`;
+
+}
+
+};
+
+
+/* ==================================================
+児童一覧表示
+================================================== */
+
+function showStudentList(){
+
+let html="";
+
+
+for(
+let number=1;
+number<=40;
+number++
+){
+
+const count=
+allData.filter(
+data=>
+data.studentNumber===number
+).length;
+
+
+const name=
+getStudentName(number);
+
+
+html+=`
+
+<div
+class="student-card"
+onclick="openStudent(${number})">
+
+
+<div class="student-number">
+
+${number}番
+
+</div>
+
+
+<div class="student-name">
+
+${escapeHTML(
+name || "名前未設定"
+)}
+
+</div>
+
+
+<div class="reflection-count">
+
+振り返り ${count}件
+
+</div>
+
+
+</div>
+
+`;
+
+}
+
+
+document.getElementById(
+"studentList"
+).innerHTML=html;
+
+}
+
+
+/* ==================================================
+児童詳細
+================================================== */
+
+window.openStudent=function(number){
+
+selectedStudent=number;
+
+
+hideTeacherPages();
+
+
+document.getElementById(
+"studentDetailPage"
+).style.display="block";
+
+
+const name=
+getStudentName(number);
+
+
+const data=
+allData.filter(
+item=>
+item.studentNumber===number
+);
+
+
+let html=`
+
+
+<button
+class="back-button"
+onclick="openStudents()">
+
+← 児童一覧へ
+
+</button>
+
+
+<h1>
+👤 ${number}番
+${escapeHTML(name || "名前未設定")}
+</h1>
+
+
+<div class="section-title">
+
+📚 この児童の振り返り
+${data.length}件
+
+</div>
+
+`;
+
+
+if(data.length===0){
+
+html+=`
+
+<div class="empty">
+
+まだ振り返りがありません。
+
+</div>
+
+`;
+
+document.getElementById(
+"studentDetail"
+).innerHTML=html;
+
+return;
+
+}
+
+
+/*
+新しいものから表示
+*/
+
+data.sort(
+(a,b)=>
+getTime(b.date)-getTime(a.date)
+);
+
+
+html+=`
+
+<div class="reflection-grid">
+
+`;
+
+
+data.forEach(item=>{
+
+html+=`
+
+<div class="reflection-card">
+
+
+<p class="date">
+
+📅 ${formatDate(item.date)}
+
+</p>
+
+
+<h3>
+
+📚 ${escapeHTML(item.subject)}
+
+</h3>
+
+
+<p>
+
+📖 単元：
+
+<b>
+${escapeHTML(
+item.unit || "単元名なし"
+)}
+</b>
+
+</p>
+
+
+<div class="study-box">
+
+<b>
+📝 今日の学び
+</b>
+
+<br><br>
+
+${escapeHTML(item.study)}
+
+</div>
+
+
+<div class="advice-box">
+
+<b>
+🤖 AIからの問い
+</b>
+
+<br><br>
+
+${escapeHTML(
+item.aiQuestion ||
+"ありません"
+)}
+
+</div>
+
+
+<div class="deep-box">
+
+<b>
+✏️ 深めた考え
+</b>
+
+<br><br>
+
+${escapeHTML(
+item.deepReflection ||
+"まだありません"
+)}
+
+</div>
+
+
+<p>
+
+⭐ 参考にした人数：
+
+<b>
+${Number(item.likes || 0)}
+</b>
+
+人
+
+</p>
+
+
+</div>
+
+`;
+
+});
+
+
+html+=`
+
+</div>
+
+
+<div class="comment-box">
+
+<h2>
+🤖 この児童のAI所見作成
+</h2>
+
+
+<p>
+
+下の内容をCopilotに渡して、
+所見作成をすることができます。
+
+</p>
+
+
+<textarea
+id="copilotText">
+
+${createCopilotText(
+number,
+name,
+data
+)}
+
+</textarea>
+
+
+<button
+class="copilot-button"
+onclick="openCopilotWithText()">
+
+🤖 Copilotで所見を作成する
+
+</button>
+
+
+</div>
+
+`;
+
+
+document.getElementById(
+"studentDetail"
+).innerHTML=html;
+
+};
+
+
+/* ==================================================
+日時比較
+================================================== */
+
+function getTime(value){
+
+try{
+
+if(value && value.toDate){
+
+return value.toDate().getTime();
+
+}
+
+return new Date(value).getTime();
+
+}catch(error){
+
+return 0;
+
+}
+
+}
+
+
+/* ==================================================
+Copilot用文章
+================================================== */
+
+function createCopilotText(
+number,
+name,
+data
+){
+
+let text="";
+
+
+text+=
+"小学校の児童の総合的な学習の記録をもとに、通知表等に使える所見を作成してください。";
+
+
+text+=
+"\n\n児童："+
+(number+"番 ")+
+(name || "名前未設定");
+
+
+text+=
+"\n\n【振り返り】\n";
+
+
+data.forEach(
+(item,index)=>{
+
+text+=
+"\n"+
+
+(index+1)+
+". 教科："+
+(item.subject || "")+
+
+"／単元："+
+(item.unit || "")+
+
+"\n今日の学び："+
+(item.study || "")+
+
+"\n深めた考え："+
+(item.deepReflection || "")+
+
+"\n";
+
+});
+
+
+text+=
+"\n【所見作成条件】\n";
+
+text+=
+"・児童一人一人の学びの姿が伝わる文章にする\n";
+
+text+=
+"・具体的な学びや考えの深まりを入れる\n";
+
+text+=
+"・前向きな表現にする\n";
+
+text+=
+"・教師が書いた自然な文章にする\n";
+
+text+=
+"・必要に応じて200字程度にまとめる\n";
+
 
 return text;
 
 }
 
 
-return text.substring(0,length);
+/* ==================================================
+Copilotを開く
+================================================== */
+
+window.openCopilot=function(){
+
+window.open(
+"https://copilot.microsoft.com/",
+"_blank"
+);
+
+};
+
+
+/* ==================================================
+Copilot用文章をコピーして開く
+================================================== */
+
+window.openCopilotWithText=function(){
+
+const textarea=
+document.getElementById(
+"copilotText"
+);
+
+
+if(!textarea){
+
+return;
 
 }
-</script>
 
+
+textarea.select();
+
+
+navigator.clipboard
+.writeText(
+textarea.value
+)
+.then(()=>{
+
+alert(
+"📋 所見作成用の文章をコピーしました。\n\nCopilotに貼り付けてください。"
+);
+
+
+window.open(
+"https://copilot.microsoft.com/",
+"_blank"
+);
+
+})
+.catch(()=>{
+
+alert(
+"文章をコピーできませんでした。\n表示された文章をコピーしてCopilotに貼り付けてください。"
+);
+
+
+window.open(
+"https://copilot.microsoft.com/",
+"_blank"
+);
+
+});
+
+};
+
+
+/* ==================================================
+設定画面
+================================================== */
+
+window.openSettings=function(){
+
+hideTeacherPages();
+
+
+document.getElementById(
+"settingsPage"
+).style.display="block";
+
+
+showSettings();
+
+};
+
+
+/* ==================================================
+設定一覧
+================================================== */
+
+function showSettings(){
+
+let html="";
+
+
+for(
+let number=1;
+number<=40;
+number++
+){
+
+const name=
+getStudentName(number);
+
+
+html+=`
+
+<div class="setting-card">
+
+<b>
+出席番号 ${number}
+</b>
+
+
+<input
+
+type="text"
+
+id="studentName${number}"
+
+value="${escapeHTML(name)}"
+
+placeholder="児童名を入力">
+
+</div>
+
+`;
+
+}
+
+
+document.getElementById(
+"settingsList"
+).innerHTML=html;
+
+}
+
+
+/* ==================================================
+名前を保存
+================================================== */
+
+window.saveAllNames=function(){
+
+const names={};
+
+
+for(
+let number=1;
+number<=40;
+number++
+){
+
+const input=
+document.getElementById(
+"studentName"+number
+);
+
+
+if(input){
+
+const name=
+input.value.trim();
+
+
+if(name){
+
+names[number]=name;
+
+}
+
+}
+
+}
+
+
+/*
+Firestoreではなく
+先生端末のlocalStorageへ保存
+*/
+
+localStorage.setItem(
+"manabiStudentNames",
+JSON.stringify(names)
+);
+
+
+alert(
+"💾 名前設定を保存しました！\n\n児童ページやFirestoreの振り返りデータには名前を保存していません。"
+);
+
+
+openSettings();
+
+};
+
+
+/* ==================================================
+起動
+================================================== */
+
+autoTeacherLogin();
+
+
+console.log(
+"👩‍🏫 学びアルバム Ver.2 先生ページ 起動"
+);
+
+
+</script>
 
 </body>
 
