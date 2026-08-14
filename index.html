@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>学びアルバム Ver.2</title>
+<title>学びアルバム Ver.3</title>
 
 <style>
 
@@ -18,7 +18,7 @@ body{
 font-family:sans-serif;
 background:#f0f8ff;
 margin:0;
-padding:25px;
+padding:20px;
 color:#333;
 }
 
@@ -27,11 +27,15 @@ background:white;
 padding:25px;
 border-radius:25px;
 max-width:1100px;
-margin:0 auto;
+margin:0 auto 20px;
 }
 
 h1{
 text-align:center;
+}
+
+h2{
+margin-top:10px;
 }
 
 button{
@@ -66,15 +70,15 @@ min-height:100px;
 
 .card{
 background:white;
-padding:20px;
+padding:18px;
 border-radius:20px;
 box-shadow:0 3px 8px #ccc;
 }
 
 .grid{
 display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:20px;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
 margin-top:20px;
 }
 
@@ -105,6 +109,7 @@ padding:15px;
 border-radius:15px;
 margin:10px 0;
 line-height:1.7;
+white-space:pre-wrap;
 }
 
 .deep-box{
@@ -113,6 +118,7 @@ padding:15px;
 border-radius:15px;
 margin:10px 0;
 line-height:1.7;
+white-space:pre-wrap;
 }
 
 .level-box{
@@ -156,11 +162,6 @@ margin-top:20px;
 text-align:center;
 }
 
-.date{
-font-size:14px;
-color:#777;
-}
-
 .loading{
 padding:30px;
 text-align:center;
@@ -174,10 +175,109 @@ border-radius:15px;
 margin-top:20px;
 }
 
+.number-input{
+font-size:28px;
+text-align:center;
+width:220px;
+display:block;
+margin:15px auto;
+}
+
+.login-button{
+display:block;
+margin:20px auto;
+font-size:20px;
+padding:16px 40px;
+}
+
+.current-user{
+background:#e8f7e8;
+padding:15px;
+border-radius:15px;
+text-align:center;
+font-size:18px;
+margin:15px 0;
+}
+
+.teacher-button{
+background:#555;
+font-size:14px;
+}
+
+.teacher-grid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+margin-top:20px;
+}
+
+.student-setting{
+background:#f8fbff;
+border:1px solid #ddd;
+border-radius:15px;
+padding:12px;
+text-align:center;
+}
+
+.student-setting input{
+width:90%;
+font-size:16px;
+margin:5px auto;
+}
+
+.save-name-button{
+font-size:13px;
+padding:8px 12px;
+margin:4px;
+}
+
+.clear-name-button{
+background:#777;
+font-size:13px;
+padding:8px 12px;
+margin:4px;
+}
+
+.teacher-note{
+background:#fff8df;
+padding:15px;
+border-radius:15px;
+line-height:1.7;
+}
+
+.teacher-student{
+padding:12px;
+border-radius:15px;
+background:#f7f7f7;
+margin:8px 0;
+}
+
+.teacher-student-name{
+font-size:20px;
+font-weight:bold;
+}
+
+.number-badge{
+display:inline-block;
+background:#2b7a78;
+color:white;
+padding:5px 10px;
+border-radius:15px;
+margin-right:8px;
+}
+
+.no-name{
+color:#888;
+}
+
 @media(max-width:900px){
 
 .grid{
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:repeat(3,1fr);
+}
+
+.teacher-grid{
+grid-template-columns:repeat(3,1fr);
 }
 
 }
@@ -193,11 +293,18 @@ padding:15px;
 }
 
 .grid,
-.reflection-grid{
+.reflection-grid,
+.teacher-grid{
 grid-template-columns:1fr;
 }
 
 .menu-button{
+width:95%;
+}
+
+input,
+textarea,
+select{
 width:95%;
 }
 
@@ -211,18 +318,109 @@ width:95%;
 
 
 <!-- ==================================================
-スタートメニュー
+スタート
 ================================================== -->
 
 <div class="box" id="home">
 
 <h1>
-📚 学びアルバム Ver.2
+📚 学びアルバム Ver.3
 </h1>
 
 <p style="text-align:center;font-size:20px;">
 自分の学びを残そう！
 </p>
+
+
+<button
+class="menu-button"
+onclick="openStudentLogin()">
+
+👦 児童ページ
+
+</button>
+
+
+<button
+class="menu-button teacher-button"
+onclick="openTeacherPage()">
+
+👩‍🏫 先生ページ
+
+</button>
+
+</div>
+
+
+<!-- ==================================================
+児童ログイン
+================================================== -->
+
+<div
+class="box hidden"
+id="studentLoginPage">
+
+<h1>
+👦 児童ページ
+</h1>
+
+<p style="text-align:center;">
+出席番号を入力してください
+</p>
+
+<input
+id="studentNumberInput"
+class="number-input"
+type="number"
+min="1"
+max="40"
+placeholder="例：12">
+
+<p style="text-align:center;">
+1〜40の数字を入力してください
+</p>
+
+<button
+class="login-button"
+onclick="studentLogin()">
+
+🔵 はじめる
+
+</button>
+
+<p
+id="loginMessage"
+style="text-align:center;">
+</p>
+
+<button
+class="back-button"
+onclick="backHome()">
+
+🏠 戻る
+
+</button>
+
+</div>
+
+
+<!-- ==================================================
+児童メニュー
+================================================== -->
+
+<div
+class="box hidden"
+id="studentMenuPage">
+
+<h1>
+📚 学びアルバム
+</h1>
+
+<div
+class="current-user"
+id="currentStudentDisplay">
+</div>
+
 
 <button
 class="menu-button"
@@ -232,6 +430,7 @@ onclick="openReflection()">
 
 </button>
 
+
 <button
 class="menu-button"
 onclick="openHistory()">
@@ -240,11 +439,21 @@ onclick="openHistory()">
 
 </button>
 
+
 <button
 class="menu-button"
 onclick="openEveryoneHistory()">
 
 👫 みんなの振り返りを見る
+
+</button>
+
+
+<button
+class="back-button"
+onclick="logoutStudent()">
+
+🚪 終了する
 
 </button>
 
@@ -263,11 +472,10 @@ id="reflectionPage">
 ✏️ 今日の振り返り
 </h1>
 
-<p>名前</p>
-
-<input
-id="name"
-placeholder="名前を入力してください">
+<div
+class="current-user"
+id="reflectionStudentDisplay">
+</div>
 
 
 <p>教科</p>
@@ -309,10 +517,8 @@ oninput="showAdvice()">
 </h3>
 
 <p id="studyAdvice">
-
 振り返りを書くと、
 学びを深める質問が出ます。
-
 </p>
 
 </div>
@@ -369,9 +575,9 @@ onclick="saveDeepReflection()">
 
 <button
 class="back-button"
-onclick="backHome()">
+onclick="backStudentMenu()">
 
-🏠 戻る
+← 児童メニューへ
 
 </button>
 
@@ -396,9 +602,9 @@ id="historyPage">
 
 <button
 class="back-button"
-onclick="backHome()">
+onclick="backStudentMenu()">
 
-🏠 戻る
+← 児童メニューへ
 
 </button>
 
@@ -418,6 +624,68 @@ id="everyonePage">
 </h1>
 
 <div id="everyoneList"></div>
+
+<br>
+
+<button
+class="back-button"
+onclick="backStudentMenu()">
+
+← 児童メニューへ
+
+</button>
+
+</div>
+
+
+<!-- ==================================================
+先生ページ
+================================================== -->
+
+<div
+class="box hidden"
+id="teacherPage">
+
+<h1>
+👩‍🏫 先生ページ
+</h1>
+
+<div class="teacher-note">
+
+<b>⚙️ 児童設定について</b><br>
+
+出席番号と名前を設定できます。<br>
+名前はこの端末のブラウザに保存され、
+Firestoreには保存されません。<br>
+児童の振り返りデータには出席番号だけが記録されます。
+
+</div>
+
+
+<h2 class="section-title">
+⚙️ 児童設定
+</h2>
+
+<p>
+児童の名前を設定してください。
+</p>
+
+<div
+id="teacherStudentSettings"
+class="teacher-grid">
+</div>
+
+
+<br>
+
+<h2 class="section-title">
+👥 児童一覧
+</h2>
+
+<div
+id="teacherStudentList">
+</div>
+
 
 <br>
 
@@ -491,6 +759,8 @@ getFirestore(app);
 変数
 ================================================== */
 
+let currentStudentNumber = "";
+
 let currentDocumentId = "";
 
 let currentAdvice = "";
@@ -501,7 +771,40 @@ let everyoneData = [];
 
 
 /* ==================================================
-安全に文字を表示
+名前設定
+Firestoreには保存しない
+================================================== */
+
+let studentNames = {};
+
+try{
+
+const savedNames =
+localStorage.getItem(
+"manabiStudentNames"
+);
+
+if(savedNames){
+
+studentNames =
+JSON.parse(savedNames);
+
+}
+
+}catch(error){
+
+console.error(
+"名前設定の読み込みエラー",
+error
+);
+
+studentNames={};
+
+}
+
+
+/* ==================================================
+HTMLエスケープ
 ================================================== */
 
 function escapeHTML(value){
@@ -528,7 +831,7 @@ return String(value)
 
 
 /* ==================================================
-日付表示
+日付
 ================================================== */
 
 function formatDate(value){
@@ -543,17 +846,23 @@ try{
 
 if(value.toDate){
 
-return value.toDate().toLocaleString("ja-JP");
+return value.toDate().toLocaleString(
+"ja-JP"
+);
 
 }
 
 if(value instanceof Date){
 
-return value.toLocaleString("ja-JP");
+return value.toLocaleString(
+"ja-JP"
+);
 
 }
 
-return new Date(value).toLocaleString("ja-JP");
+return new Date(value).toLocaleString(
+"ja-JP"
+);
 
 }catch(error){
 
@@ -565,53 +874,264 @@ return "日付なし";
 
 
 /* ==================================================
-ページ移動
+画面を全部隠す
 ================================================== */
 
-window.openReflection=function(){
+function hideAllPages(){
 
-document.getElementById("home").style.display="none";
+const pages=[
 
-document.getElementById("historyPage").style.display="none";
+"home",
 
-document.getElementById("everyonePage").style.display="none";
+"studentLoginPage",
 
-document.getElementById("reflectionPage").style.display="block";
+"studentMenuPage",
 
-};
+"reflectionPage",
 
+"historyPage",
+
+"everyonePage",
+
+"teacherPage"
+
+];
+
+pages.forEach(id=>{
+
+const element =
+document.getElementById(id);
+
+if(element){
+
+element.style.display="none";
+
+}
+
+});
+
+}
+
+
+/* ==================================================
+ホーム
+================================================== */
 
 window.backHome=function(){
 
-document.getElementById("home").style.display="block";
+hideAllPages();
 
-document.getElementById("reflectionPage").style.display="none";
-
-document.getElementById("historyPage").style.display="none";
-
-document.getElementById("everyonePage").style.display="none";
+document.getElementById(
+"home"
+).style.display="block";
 
 };
 
 
 /* ==================================================
+児童ログイン画面
+================================================== */
+
+window.openStudentLogin=function(){
+
+hideAllPages();
+
+document.getElementById(
+"studentLoginPage"
+).style.display="block";
+
+document.getElementById(
+"studentNumberInput"
+).value="";
+
+document.getElementById(
+"loginMessage"
+).innerHTML="";
+
+};
+
+
+/* ==================================================
+児童ログイン
+================================================== */
+
+window.studentLogin=function(){
+
+const input =
+document.getElementById(
+"studentNumberInput"
+).value.trim();
+
+
+if(!input){
+
+document.getElementById(
+"loginMessage"
+).innerHTML=
+"⚠️ 出席番号を入力してください。";
+
+return;
+
+}
+
+
+const number =
+Number(input);
+
+
+if(
+!Number.isInteger(number) ||
+number<1 ||
+number>40
+){
+
+document.getElementById(
+"loginMessage"
+).innerHTML=
+"⚠️ 1〜40の数字を入力してください。";
+
+return;
+
+}
+
+
+/*
+1、01、001
+すべて同じ「1」として扱う
+*/
+
+currentStudentNumber =
+String(number);
+
+
+/*
+児童メニューへ
+*/
+
+showStudentMenu();
+
+};
+
+
+/* ==================================================
+児童メニュー
+================================================== */
+
+function showStudentMenu(){
+
+hideAllPages();
+
+document.getElementById(
+"studentMenuPage"
+).style.display="block";
+
+
+document.getElementById(
+"currentStudentDisplay"
+).innerHTML=
+
+"👤 出席番号 "+
+escapeHTML(
+currentStudentNumber
+)+
+"番";
+
+
+}
+
+
+/* ==================================================
+児童メニューへ戻る
+================================================== */
+
+window.backStudentMenu=function(){
+
+showStudentMenu();
+
+};
+
+
+/* ==================================================
+ログアウト
+================================================== */
+
+window.logoutStudent=function(){
+
+currentStudentNumber="";
+
+currentDocumentId="";
+
+currentAdvice="";
+
+myData=[];
+
+everyoneData=[];
+
+openStudentLogin();
+
+};
+
+
+/* ==================================================
+振り返りページ
+================================================== */
+
+window.openReflection=function(){
+
+if(!currentStudentNumber){
+
+openStudentLogin();
+
+return;
+
+}
+
+
+hideAllPages();
+
+document.getElementById(
+"reflectionPage"
+).style.display="block";
+
+
+document.getElementById(
+"reflectionStudentDisplay"
+).innerHTML=
+
+"👤 出席番号 "+
+escapeHTML(
+currentStudentNumber
+)+
+"番";
+
+
+};
+
+
+ /* ==================================================
 AIからの問い
 ================================================== */
 
 window.showAdvice=function(){
 
 const subject =
-document.getElementById("subject").value;
+document.getElementById(
+"subject"
+).value;
 
 const study =
-document.getElementById("study").value;
+document.getElementById(
+"study"
+).value;
 
 let advice="";
 
 
 if(!study){
 
-document.getElementById("studyAdvice").innerHTML=
+document.getElementById(
+"studyAdvice"
+).innerHTML=
 "振り返りを書くと、学びを深める質問が出ます。";
 
 currentAdvice="";
@@ -730,43 +1250,55 @@ advice=
 
 currentAdvice=advice;
 
-document.getElementById("studyAdvice").innerHTML=
-"🤖 "+escapeHTML(advice);
+document.getElementById(
+"studyAdvice"
+).innerHTML=
+"🤖 "+
+escapeHTML(advice);
 
 };
 
 
 /* ==================================================
 学びを保存
+名前は保存しない
+出席番号だけ保存
 ================================================== */
 
 window.save=async function(){
 
-const name=
-document.getElementById("name").value.trim();
+if(!currentStudentNumber){
 
-const subject=
-document.getElementById("subject").value;
-
-const unit=
-document.getElementById("unit").value.trim();
-
-const study=
-document.getElementById("study").value.trim();
-
-
-if(!name){
-
-alert("名前を入力してください");
+alert(
+"出席番号を入力してから使用してください。"
+);
 
 return;
 
 }
 
 
+const subject =
+document.getElementById(
+"subject"
+).value;
+
+const unit =
+document.getElementById(
+"unit"
+).value.trim();
+
+const study =
+document.getElementById(
+"study"
+).value.trim();
+
+
 if(!study){
 
-alert("今日の学びを書いてください");
+alert(
+"今日の学びを書いてください。"
+);
 
 return;
 
@@ -778,22 +1310,31 @@ showAdvice();
 
 try{
 
-const saveData=
+const saveData =
 await addDoc(
 
 collection(db,"manabi"),
 
 {
 
-name:name,
+/*
+名前は保存しない
+*/
 
-subject:subject,
+number:
+Number(currentStudentNumber),
 
-unit:unit,
+subject:
+subject,
 
-study:study,
+unit:
+unit,
 
-aiQuestion:currentAdvice,
+study:
+study,
+
+aiQuestion:
+currentAdvice,
 
 deepReflection:"",
 
@@ -806,19 +1347,25 @@ date:new Date()
 );
 
 
-currentDocumentId=
+currentDocumentId =
 saveData.id;
 
 
-document.getElementById("msg").innerHTML=
+document.getElementById(
+"msg"
+).innerHTML=
 "🌟 学びを保存しました！";
 
 
-document.getElementById("firstSaveArea").style.display=
+document.getElementById(
+"firstSaveArea"
+).style.display=
 "none";
 
 
-document.getElementById("deepReflectionArea").style.display=
+document.getElementById(
+"deepReflectionArea"
+).style.display=
 "block";
 
 
@@ -844,20 +1391,26 @@ async function(){
 
 if(!currentDocumentId){
 
-alert("先に「学びを保存する」を押してください");
+alert(
+"先に「学びを保存する」を押してください。"
+);
 
 return;
 
 }
 
 
-const deep=
-document.getElementById("deepReflection").value.trim();
+const deep =
+document.getElementById(
+"deepReflection"
+).value.trim();
 
 
 if(!deep){
 
-alert("考えを深めて書いてみましょう😊");
+alert(
+"考えを深めて書いてみましょう😊"
+);
 
 return;
 
@@ -876,14 +1429,17 @@ currentDocumentId
 
 {
 
-deepReflection:deep
+deepReflection:
+deep
 
 }
 
 );
 
 
-document.getElementById("msg").innerHTML=
+document.getElementById(
+"msg"
+).innerHTML=
 "✏️ 考えを深めて保存しました！😊";
 
 
@@ -902,51 +1458,51 @@ alert(
 
 /* ==================================================
 自分の振り返り
+出席番号で検索
 ================================================== */
 
 window.openHistory=
 async function(){
 
-const name=
-document.getElementById("name").value.trim();
+if(!currentStudentNumber){
 
-
-if(!name){
-
-alert(
-"最初に「今日の振り返りを書く」で名前を入力してください。"
-);
+openStudentLogin();
 
 return;
 
 }
 
 
-document.getElementById("home").style.display="none";
+hideAllPages();
 
-document.getElementById("historyPage").style.display="block";
-
-document.getElementById("reflectionPage").style.display="none";
-
-document.getElementById("everyonePage").style.display="none";
+document.getElementById(
+"historyPage"
+).style.display="block";
 
 
-document.getElementById("historyList").innerHTML=
+document.getElementById(
+"historyList"
+).innerHTML=
 '<div class="loading">📚 読み込み中...</div>';
 
 
 try{
 
-const q=query(
+const q =
+query(
 
 collection(db,"manabi"),
 
-where("name","==",name)
+where(
+"number",
+"==",
+Number(currentStudentNumber)
+)
 
 );
 
 
-const result=
+const result =
 await getDocs(q);
 
 
@@ -955,7 +1511,9 @@ myData=[];
 
 result.forEach(d=>{
 
-const data=d.data();
+const data =
+d.data();
+
 
 myData.push({
 
@@ -975,7 +1533,9 @@ showMySubjects();
 
 console.error(error);
 
-document.getElementById("historyList").innerHTML=
+document.getElementById(
+"historyList"
+).innerHTML=
 '<div class="empty">読み込みに失敗しました。<br>もう一度試してください。</div>';
 
 }
@@ -1016,7 +1576,7 @@ subjects.push(data.subject);
 });
 
 
-subjects.forEach((subject,index)=>{
+subjects.forEach(subject=>{
 
 html+=`
 
@@ -1027,8 +1587,7 @@ html+=`
 </h2>
 
 <button
-class="my-subject-button"
-data-index="${index}">
+onclick="openMySubject(${JSON.stringify(subject)})">
 
 見る
 
@@ -1062,33 +1621,9 @@ html+=`
 }
 
 
-document.getElementById("historyList").innerHTML=
-html;
-
-
-const buttons=
-document.querySelectorAll(
-".my-subject-button"
-);
-
-
-buttons.forEach(button=>{
-
-button.addEventListener(
-"click",
-function(){
-
-const index=
-Number(this.dataset.index);
-
-openMySubject(
-subjects[index]
-);
-
-}
-);
-
-});
+document.getElementById(
+"historyList"
+).innerHTML=html;
 
 }
 
@@ -1097,14 +1632,13 @@ subjects[index]
 自分：単元一覧
 ================================================== */
 
-window.openMySubject=
-function(subject){
+window.openMySubject=function(subject){
 
 let html=`
 
 <button
 class="back-button small-button"
-id="mySubjectBack">
+onclick="showMySubjects()">
 
 ← 教科一覧へ
 
@@ -1131,8 +1665,9 @@ if(
 data.subject===subject
 ){
 
-const unitName=
+const unitName =
 data.unit || "";
+
 
 if(!units.includes(unitName)){
 
@@ -1145,19 +1680,23 @@ units.push(unitName);
 });
 
 
-units.forEach((unit,index)=>{
+units.forEach(unit=>{
 
 html+=`
 
 <div class="card">
 
 <h2>
-📖 ${escapeHTML(unit || "単元名なし")}
+📖 ${escapeHTML(
+unit || "単元名なし"
+)}
 </h2>
 
 <button
-class="my-unit-button"
-data-index="${index}">
+onclick="openMyUnit(
+${JSON.stringify(subject)},
+${JSON.stringify(unit)}
+)">
 
 見る
 
@@ -1176,46 +1715,9 @@ html+=`
 `;
 
 
-document.getElementById("historyList").innerHTML=
-html;
-
-
-document
-.getElementById("mySubjectBack")
-.addEventListener(
-"click",
-function(){
-
-showMySubjects();
-
-}
-);
-
-
-const buttons=
-document.querySelectorAll(
-".my-unit-button"
-);
-
-
-buttons.forEach(button=>{
-
-button.addEventListener(
-"click",
-function(){
-
-const index=
-Number(this.dataset.index);
-
-openMyUnit(
-subject,
-units[index]
-);
-
-}
-);
-
-});
+document.getElementById(
+"historyList"
+).innerHTML=html;
 
 };
 
@@ -1224,21 +1726,27 @@ units[index]
 自分：振り返り一覧
 ================================================== */
 
-window.openMyUnit=
-function(subject,unit){
+window.openMyUnit=function(
+subject,
+unit
+){
 
 let html=`
 
 <button
 class="back-button small-button"
-id="myUnitBack">
+onclick="openMySubject(
+${JSON.stringify(subject)}
+)">
 
 ← 単元一覧へ
 
 </button>
 
 <h2 class="section-title">
-📖 ${escapeHTML(unit || "単元名なし")}
+📖 ${escapeHTML(
+unit || "単元名なし"
+)}
 </h2>
 
 <div class="reflection-grid">
@@ -1257,6 +1765,7 @@ data.subject===subject &&
 
 count++;
 
+
 html+=`
 
 <div class="card">
@@ -1264,6 +1773,7 @@ html+=`
 <p class="date">
 📅 ${formatDate(data.date)}
 </p>
+
 
 <div class="study-box">
 
@@ -1283,7 +1793,8 @@ ${escapeHTML(data.study)}
 <br><br>
 
 ${escapeHTML(
-data.aiQuestion || "ありません"
+data.aiQuestion ||
+"ありません"
 )}
 
 </div>
@@ -1296,7 +1807,8 @@ data.aiQuestion || "ありません"
 <br><br>
 
 ${escapeHTML(
-data.deepReflection || "まだありません"
+data.deepReflection ||
+"まだありません"
 )}
 
 </div>
@@ -1336,51 +1848,49 @@ html+=`
 
 `;
 
-
 }
 
 
-document.getElementById("historyList").innerHTML=
-html;
-
-
-document
-.getElementById("myUnitBack")
-.addEventListener(
-"click",
-function(){
-
-openMySubject(subject);
-
-}
-);
+document.getElementById(
+"historyList"
+).innerHTML=html;
 
 };
 
 
 /* ==================================================
 みんなの振り返り
+名前は一切表示しない
 ================================================== */
 
 window.openEveryoneHistory=
 async function(){
 
-document.getElementById("home").style.display="none";
+if(!currentStudentNumber){
 
-document.getElementById("reflectionPage").style.display="none";
+openStudentLogin();
 
-document.getElementById("historyPage").style.display="none";
+return;
 
-document.getElementById("everyonePage").style.display="block";
+}
 
 
-document.getElementById("everyoneList").innerHTML=
+hideAllPages();
+
+document.getElementById(
+"everyonePage"
+).style.display="block";
+
+
+document.getElementById(
+"everyoneList"
+).innerHTML=
 '<div class="loading">👫 みんなの振り返りを読み込んでいます...</div>';
 
 
 try{
 
-const snapshot=
+const snapshot =
 await getDocs(
 collection(db,"manabi")
 );
@@ -1391,40 +1901,46 @@ everyoneData=[];
 
 snapshot.forEach(docSnap=>{
 
-const data=
+const data =
 docSnap.data();
 
 
+/*
+名前を読み込まない
+*/
+
 everyoneData.push({
 
-id:docSnap.id,
+id:
+docSnap.id,
 
-name:data.name || "",
+number:
+Number(data.number || 0),
 
-subject:data.subject || "",
+subject:
+data.subject || "",
 
-unit:data.unit || "",
+unit:
+data.unit || "",
 
-study:data.study || "",
+study:
+data.study || "",
 
-aiQuestion:data.aiQuestion || "",
+aiQuestion:
+data.aiQuestion || "",
 
-deepReflection:data.deepReflection || "",
+deepReflection:
+data.deepReflection || "",
 
-likes:Number(data.likes || 0),
+likes:
+Number(data.likes || 0),
 
-date:data.date || null
+date:
+data.date || null
 
 });
 
 });
-
-
-console.log(
-"みんなの振り返り：",
-everyoneData.length,
-"件"
-);
 
 
 showEveryoneSubjects();
@@ -1432,17 +1948,17 @@ showEveryoneSubjects();
 
 }catch(error){
 
-console.error(
-"みんなの振り返り読み込みエラー:",
-error
-);
+console.error(error);
 
-
-document.getElementById("everyoneList").innerHTML=`
+document.getElementById(
+"everyoneList"
+).innerHTML=`
 
 <div class="empty">
 
-<h2>😢 読み込めませんでした</h2>
+<h2>
+😢 読み込めませんでした
+</h2>
 
 <p>
 Firestoreから振り返りを読み込めませんでした。
@@ -1466,7 +1982,6 @@ onclick="openEveryoneHistory()">
 
 /* ==================================================
 みんな：教科一覧
-重要：onclickを使わない
 ================================================== */
 
 function showEveryoneSubjects(){
@@ -1500,11 +2015,15 @@ subjects.push(data.subject);
 
 if(subjects.length===0){
 
-document.getElementById("everyoneList").innerHTML=`
+document.getElementById(
+"everyoneList"
+).innerHTML=`
 
 <div class="empty">
 
-<h2>📭 まだ振り返りがありません</h2>
+<h2>
+📭 まだ振り返りがありません
+</h2>
 
 <p>
 保存された振り返りがここに表示されます。
@@ -1519,9 +2038,7 @@ return;
 }
 
 
-/* 教科カード */
-
-subjects.forEach((subject,index)=>{
+subjects.forEach(subject=>{
 
 html+=`
 
@@ -1532,8 +2049,9 @@ html+=`
 </h2>
 
 <button
-class="everyone-subject-button"
-data-index="${index}">
+onclick="openEveryoneSubject(
+${JSON.stringify(subject)}
+)">
 
 見る
 
@@ -1552,36 +2070,9 @@ html+=`
 `;
 
 
-document.getElementById("everyoneList").innerHTML=
-html;
-
-
-/* ボタンにイベントを設定 */
-
-const buttons=
-document.querySelectorAll(
-".everyone-subject-button"
-);
-
-
-buttons.forEach(button=>{
-
-button.addEventListener(
-"click",
-function(){
-
-const index=
-Number(this.dataset.index);
-
-const subject=
-subjects[index];
-
-openEveryoneSubject(subject);
-
-}
-);
-
-});
+document.getElementById(
+"everyoneList"
+).innerHTML=html;
 
 }
 
@@ -1590,14 +2081,13 @@ openEveryoneSubject(subject);
 みんな：単元一覧
 ================================================== */
 
-window.openEveryoneSubject=
-function(subject){
+window.openEveryoneSubject=function(subject){
 
 let html=`
 
 <button
 class="back-button small-button"
-id="everyoneSubjectBack">
+onclick="showEveryoneSubjects()">
 
 ← 教科一覧へ
 
@@ -1624,7 +2114,7 @@ if(
 data.subject===subject
 ){
 
-const unitName=
+const unitName =
 data.unit || "";
 
 
@@ -1639,34 +2129,23 @@ units.push(unitName);
 });
 
 
-if(units.length===0){
-
-html+=`
-
-<div class="empty">
-
-この教科の振り返りはありません。
-
-</div>
-
-`;
-
-}
-
-
-units.forEach((unit,index)=>{
+units.forEach(unit=>{
 
 html+=`
 
 <div class="card">
 
 <h2>
-📖 ${escapeHTML(unit || "単元名なし")}
+📖 ${escapeHTML(
+unit || "単元名なし"
+)}
 </h2>
 
 <button
-class="everyone-unit-button"
-data-index="${index}">
+onclick="openEveryoneUnit(
+${JSON.stringify(subject)},
+${JSON.stringify(unit)}
+)">
 
 見る
 
@@ -1685,76 +2164,39 @@ html+=`
 `;
 
 
-document.getElementById("everyoneList").innerHTML=
-html;
-
-
-/* 教科一覧へ戻る */
-
-document
-.getElementById("everyoneSubjectBack")
-.addEventListener(
-"click",
-function(){
-
-showEveryoneSubjects();
-
-}
-);
-
-
-/* 単元ボタン */
-
-const buttons=
-document.querySelectorAll(
-".everyone-unit-button"
-);
-
-
-buttons.forEach(button=>{
-
-button.addEventListener(
-"click",
-function(){
-
-const index=
-Number(this.dataset.index);
-
-const unit=
-units[index];
-
-openEveryoneUnit(
-subject,
-unit
-);
-
-}
-);
-
-});
+document.getElementById(
+"everyoneList"
+).innerHTML=html;
 
 };
 
 
 /* ==================================================
 みんな：振り返り一覧
+名前は表示しない
 ================================================== */
 
-window.openEveryoneUnit=
-function(subject,unit){
+window.openEveryoneUnit=function(
+subject,
+unit
+){
 
 let html=`
 
 <button
 class="back-button small-button"
-id="everyoneUnitBack">
+onclick="openEveryoneSubject(
+${JSON.stringify(subject)}
+)">
 
 ← 単元一覧へ
 
 </button>
 
 <h2 class="section-title">
-📖 ${escapeHTML(unit || "単元名なし")}
+📖 ${escapeHTML(
+unit || "単元名なし"
+)}
 </h2>
 
 <div class="reflection-grid">
@@ -1781,6 +2223,7 @@ html+=`
 <h3>
 👤 友達の振り返り
 </h3>
+
 
 <p class="date">
 📅 ${formatDate(data.date)}
@@ -1829,14 +2272,18 @@ data.deepReflection ||
 <div class="level-box">
 
 ⭐ 参考にした人数：
-<b>${Number(data.likes || 0)}</b>人
+<b>
+${Number(data.likes || 0)}
+</b>人
 
 </div>
 
 
 <button
 class="like-button"
-data-like-id="${escapeHTML(data.id)}">
+onclick="addLike(
+${JSON.stringify(data.id)}
+)">
 
 ⭐ この考えが参考になった
 
@@ -1872,47 +2319,9 @@ html+=`
 }
 
 
-document.getElementById("everyoneList").innerHTML=
-html;
-
-
-/* 単元一覧へ戻る */
-
-document
-.getElementById("everyoneUnitBack")
-.addEventListener(
-"click",
-function(){
-
-openEveryoneSubject(subject);
-
-}
-);
-
-
-/* ⭐ 参考になった */
-
-const likeButtons=
-document.querySelectorAll(
-"[data-like-id]"
-);
-
-
-likeButtons.forEach(button=>{
-
-button.addEventListener(
-"click",
-function(){
-
-const id=
-this.dataset.likeId;
-
-addLike(id);
-
-}
-);
-
-});
+document.getElementById(
+"everyoneList"
+).innerHTML=html;
 
 };
 
@@ -1921,10 +2330,9 @@ addLike(id);
 参考になった
 ================================================== */
 
-window.addLike=
-async function(id){
+window.addLike=async function(id){
 
-const target=
+const target =
 everyoneData.find(
 data=>data.id===id
 );
@@ -1943,7 +2351,7 @@ return;
 
 try{
 
-const newLikes=
+const newLikes =
 Number(target.likes || 0)+1;
 
 
@@ -1957,14 +2365,15 @@ id
 
 {
 
-likes:newLikes
+likes:
+newLikes
 
 }
 
 );
 
 
-target.likes=
+target.likes =
 newLikes;
 
 
@@ -1993,11 +2402,305 @@ alert(
 
 
 /* ==================================================
+先生ページ
+================================================== */
+
+window.openTeacherPage=function(){
+
+hideAllPages();
+
+document.getElementById(
+"teacherPage"
+).style.display="block";
+
+
+showTeacherSettings();
+
+showTeacherStudentList();
+
+};
+
+
+/* ==================================================
+先生：名前設定一覧
+================================================== */
+
+function showTeacherSettings(){
+
+let html="";
+
+
+for(
+let i=1;
+i<=40;
+i++
+){
+
+const name =
+studentNames[String(i)] || "";
+
+
+html+=`
+
+<div class="student-setting">
+
+<div>
+<span class="number-badge">
+${i}
+</span>
+</div>
+
+<input
+id="studentName_${i}"
+value="${escapeHTML(name)}"
+placeholder="児童名">
+
+<br>
+
+<button
+class="save-name-button"
+onclick="saveStudentName(${i})">
+
+保存
+
+</button>
+
+<button
+class="clear-name-button"
+onclick="clearStudentName(${i})">
+
+削除
+
+</button>
+
+</div>
+
+`;
+
+}
+
+
+document.getElementById(
+"teacherStudentSettings"
+).innerHTML=html;
+
+}
+
+
+/* ==================================================
+先生：名前保存
+localStorageのみ
+================================================== */
+
+window.saveStudentName=function(number){
+
+const input =
+document.getElementById(
+"studentName_"+number
+);
+
+
+if(!input){
+
+return;
+
+}
+
+
+const name =
+input.value.trim();
+
+
+if(name){
+
+studentNames[String(number)] =
+name;
+
+}else{
+
+delete studentNames[String(number)];
+
+}
+
+
+localStorage.setItem(
+"manabiStudentNames",
+JSON.stringify(studentNames)
+);
+
+
+alert(
+"✅ "+number+"番の名前設定を保存しました。"
+);
+
+
+showTeacherSettings();
+
+showTeacherStudentList();
+
+};
+
+
+/* ==================================================
+先生：名前削除
+================================================== */
+
+window.clearStudentName=function(number){
+
+delete studentNames[String(number)];
+
+
+localStorage.setItem(
+"manabiStudentNames",
+JSON.stringify(studentNames)
+);
+
+
+showTeacherSettings();
+
+showTeacherStudentList();
+
+};
+
+
+/* ==================================================
+先生：児童一覧
+Firestoreには名前を保存していない
+================================================== */
+
+async function showTeacherStudentList(){
+
+const container =
+document.getElementById(
+"teacherStudentList"
+);
+
+
+container.innerHTML=
+'<div class="loading">📚 振り返り件数を読み込んでいます...</div>';
+
+
+try{
+
+const snapshot =
+await getDocs(
+collection(db,"manabi")
+);
+
+
+const counts={};
+
+
+snapshot.forEach(docSnap=>{
+
+const data =
+docSnap.data();
+
+
+/*
+新方式
+number
+*/
+
+if(data.number){
+
+const number =
+Number(data.number);
+
+
+if(
+number>=1 &&
+number<=40
+){
+
+counts[number] =
+(counts[number] || 0)+1;
+
+}
+
+}
+
+});
+
+
+let html="";
+
+
+for(
+let i=1;
+i<=40;
+i++
+){
+
+const name =
+studentNames[String(i)] || "";
+
+
+const count =
+counts[i] || 0;
+
+
+html+=`
+
+<div class="teacher-student">
+
+<span class="number-badge">
+${i}
+</span>
+
+<span class="teacher-student-name">
+
+${
+name
+?
+escapeHTML(name)
+:
+'<span class="no-name">名前未設定</span>'
+}
+
+</span>
+
+<br>
+
+📚 振り返り：
+<b>${count}</b>件
+
+</div>
+
+`;
+
+}
+
+
+container.innerHTML=html;
+
+
+}catch(error){
+
+console.error(error);
+
+
+container.innerHTML=`
+
+<div class="empty">
+
+先生ページの読み込みに失敗しました。
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* ==================================================
 起動確認
 ================================================== */
 
 console.log(
-"📚 学びアルバム Ver.2 Dynabook版 起動"
+"📚 学びアルバム Ver.3 起動"
 );
 
 </script>
