@@ -132,6 +132,17 @@ line-height:1.8;
 font-size:18px;
 }
 
+.deep-praise-box{
+background:#fff0a8;
+padding:25px;
+border-radius:25px;
+margin:20px 0;
+line-height:1.9;
+font-size:19px;
+border:3px solid #f0c84b;
+box-shadow:0 3px 8px #ddd;
+}
+
 .comment-box{
 background:#fff4d6;
 padding:18px;
@@ -291,6 +302,32 @@ color:#777;
 .friend-number{
 font-size:13px;
 color:#777;
+}
+
+.deep-level3{
+background:#fff8d6;
+border:3px solid #f0c84b;
+padding:20px;
+border-radius:20px;
+margin:15px 0;
+line-height:1.8;
+}
+
+.deep-level2{
+background:#edfff0;
+border:2px solid #9bd69b;
+padding:18px;
+border-radius:20px;
+margin:15px 0;
+line-height:1.8;
+}
+
+.deep-level1{
+background:#f5f5f5;
+padding:18px;
+border-radius:20px;
+margin:15px 0;
+line-height:1.8;
 }
 
 @media(max-width:900px){
@@ -572,7 +609,7 @@ oninput="showAdvice()">
 
 
 <!-- ==================================================
-保存後の流れ
+保存後
 ================================================== -->
 
 <div
@@ -806,6 +843,8 @@ let currentDocumentId="";
 let currentAdvice="";
 
 let currentLevel=1;
+
+let currentDeepLevel=1;
 
 let myData=[];
 
@@ -1049,7 +1088,7 @@ currentStudentNumber;
 
 
 /*
-新しい振り返りを開始
+新しい振り返り
 */
 
 document.getElementById(
@@ -1087,6 +1126,10 @@ document.getElementById(
 document.getElementById(
 "aiQuestionArea"
 ).style.display="none";
+
+currentDocumentId="";
+currentLevel=1;
+currentDeepLevel=1;
 
 showAdvice();
 
@@ -1194,29 +1237,12 @@ return 1;
 
 }
 
-
 const length=
 study.length;
 
 
 /*
 レベル3の手掛かり
-
-友達
-○○さん
-教科書
-資料
-話し合い
-発表
-意見
-考え
-比べ
-くらべ
-実験
-結果
-理由
-根拠
-など
 */
 
 const level3Words=[
@@ -1239,7 +1265,17 @@ const level3Words=[
 "文章から",
 "先生の話",
 "聞いて",
-"読んで"
+"読んで",
+"最初は",
+"最初に",
+"考えが変わ",
+"考え方が変わ",
+"新しく気付",
+"新しく気づ",
+"次は",
+"次に",
+"生かしたい",
+"活かしたい"
 
 ];
 
@@ -1268,9 +1304,7 @@ return 3;
 
 
 /*
-レベル2の判定
-
-ある程度具体的な文章になっている
+レベル2
 */
 
 const level2Words=[
@@ -1287,7 +1321,10 @@ const level2Words=[
 "理由",
 "方法",
 "やり方",
-"考え方"
+"考え方",
+"工夫",
+"意識",
+"なるほど"
 
 ];
 
@@ -1315,9 +1352,143 @@ return 2;
 }
 
 
+return 1;
+
+}
+
+
+/* ==================================================
+最終振り返り専用の深まり判定
+================================================== */
+
+function judgeDeepReflectionLevel(text){
+
+const deep=
+(text || "").trim();
+
+if(!deep){
+
+return 1;
+
+}
+
+const length=
+deep.length;
+
+
 /*
-短い感想
+レベル3：
+自分の考えの変化
+友達との比較
+新しい気付き
+次の学びへのつながり
+などが見られる。
 */
+
+const deepLevel3Words=[
+
+"友達",
+"友だち",
+"○○さん",
+"さんの考え",
+"みんなの考え",
+"比べ",
+"くらべ",
+"違い",
+"ちがい",
+"共通",
+"考えが変わ",
+"考え方が変わ",
+"最初は",
+"最初に",
+"前は",
+"初めは",
+"今は",
+"新しく",
+"気付",
+"気づ",
+"分かった",
+"わかった",
+"つなが",
+"次の学習",
+"次の授業",
+"次は",
+"次に",
+"生かしたい",
+"活かしたい",
+"役立て",
+"これから"
+
+];
+
+
+let count=0;
+
+deepLevel3Words.forEach(word=>{
+
+if(deep.includes(word)){
+
+count++;
+
+}
+
+});
+
+
+if(
+length>=45 &&
+count>=2
+){
+
+return 3;
+
+}
+
+
+/*
+レベル2
+*/
+
+const deepLevel2Words=[
+
+"なぜ",
+"どうして",
+"理由",
+"考え",
+"分かった",
+"わかった",
+"気付",
+"気づ",
+"工夫",
+"できるよう",
+"大切",
+"必要"
+
+];
+
+
+let level2Count=0;
+
+deepLevel2Words.forEach(word=>{
+
+if(deep.includes(word)){
+
+level2Count++;
+
+}
+
+});
+
+
+if(
+length>=30 ||
+level2Count>=1
+){
+
+return 2;
+
+}
+
 
 return 1;
 
@@ -1378,6 +1549,94 @@ return `
 
 まずは自分の気持ちや感じたことを
 しっかり書けています！
+
+</div>
+
+`;
+
+}
+
+
+/* ==================================================
+最終振り返りレベル表示
+================================================== */
+
+function getDeepLevelHTML(level){
+
+if(level===3){
+
+return `
+
+<div class="deep-level3">
+
+🌳 <strong>深まりレベル3</strong>
+
+<br><br>
+
+🎉 <strong>とても深い振り返りができています！</strong>
+
+<br><br>
+
+友達の考えや学習したことをもとに、
+自分の考えの変化や新しい気付きを
+具体的に書くことができています。
+
+<br><br>
+
+✨ これは「自分の学びを振り返って、
+次の学びにつなげる」ことができている
+すばらしい振り返りです！
+
+</div>
+
+`;
+
+}
+
+if(level===2){
+
+return `
+
+<div class="deep-level2">
+
+🌿 <strong>深まりレベル2</strong>
+
+<br><br>
+
+👍 <strong>考えを深めることができています！</strong>
+
+<br>
+
+「どうして？」「なぜ？」を考えながら、
+学びを具体的に振り返ることができています。
+
+<br>
+
+次は、友達の考えとの違いや
+自分の考えの変化にも目を向けてみよう！
+
+</div>
+
+`;
+
+}
+
+return `
+
+<div class="deep-level1">
+
+🌱 <strong>深まりレベル1</strong>
+
+<br><br>
+
+😊 自分の学びを最後まで振り返ることができました！
+
+<br>
+
+次は、
+「最初はどう思っていた？」
+「今はどう思っている？」
+と比べてみると、さらに深い振り返りになります。
 
 </div>
 
@@ -1737,11 +1996,6 @@ Math.random()*list.length
 
 window.showAdvice=function(){
 
-const subject=
-document.getElementById(
-"subject"
-).value;
-
 const study=
 document.getElementById(
 "study"
@@ -1873,10 +2127,6 @@ judgeReflectionLevel(study);
 currentLevel=level;
 
 
-/*
-保存
-*/
-
 try{
 
 const saveData=
@@ -1904,11 +2154,14 @@ aiQuestion:
 deepReflection:
 "",
 
-likes:
-0,
-
 reflectionLevel:
 level,
+
+deepReflectionLevel:
+0,
+
+likes:
+0,
 
 date:
 new Date()
@@ -1921,10 +2174,6 @@ new Date()
 currentDocumentId=
 saveData.id;
 
-
-/*
-保存完了
-*/
 
 document.getElementById(
 "msg"
@@ -2013,13 +2262,6 @@ document.getElementById(
 
 try{
 
-/*
-教科＋単元でFirestoreから取得。
-
-過去の全データではなく、
-今回の学習に関係するデータだけ取得する。
-*/
-
 const q=query(
 
 collection(db,"manabi"),
@@ -2067,10 +2309,6 @@ date=new Date(data.date);
 }
 
 
-/*
-今日書いたものだけ
-*/
-
 if(
 date &&
 date>=today
@@ -2099,6 +2337,9 @@ data.aiQuestion || "",
 
 deepReflection:
 data.deepReflection || "",
+
+deepReflectionLevel:
+Number(data.deepReflectionLevel || 0),
 
 likes:
 Number(data.likes || 0),
@@ -2224,11 +2465,6 @@ html+=`
 
 everyoneData.forEach(data=>{
 
-/*
-自分自身の振り返りは
-友達一覧には表示しない。
-*/
-
 if(
 String(data.studentNumber)===
 String(currentStudentNumber)
@@ -2281,6 +2517,27 @@ data.deepReflection ||
 )}
 
 </div>
+
+
+${
+data.deepReflectionLevel===3
+?
+`
+<div class="deep-level3">
+
+🌳 <strong>この振り返りは、とても深く考えています！</strong>
+
+<br>
+
+自分の考えの変化や、
+友達の考えから学んだことなどが
+具体的に書かれています。
+
+</div>
+`
+:
+""
+}
 
 
 <div class="level-box">
@@ -2354,17 +2611,9 @@ document.getElementById(
 ).value;
 
 
-/*
-最新のレベルを再判定
-*/
-
 currentLevel=
 judgeReflectionLevel(study);
 
-
-/*
-レベル3なら褒める
-*/
 
 let praiseHTML="";
 
@@ -2384,7 +2633,13 @@ praiseHTML=
 友達の考えや学習したことをもとに、
 自分の考えを具体的に振り返ることができています。
 
-<br>
+<br><br>
+
+👏 いろいろな考えを取り入れて、
+自分の学びを深めようとしているところが
+とてもすてきです！
+
+<br><br>
 
 ここからは、さらに自分の学びを
 次の学習につなげてみよう！
@@ -2408,8 +2663,11 @@ praiseHTML=
 <br><br>
 
 今日分かったことを具体的に書けています。
-友達の考えも参考にして、
-さらに「どうして？」まで考えてみよう！
+
+<br><br>
+
+👏 次は友達の考えも参考にして、
+「どうして？」「なぜ？」まで考えてみよう！
 
 </div>
 
@@ -2432,9 +2690,9 @@ praiseHTML=
 自分の気持ちや感じたことを
 しっかり残せています。
 
-<br>
+<br><br>
 
-友達の考えも参考にしながら、
+👏 ここから友達の考えも参考にして、
 もう少し詳しく考えてみよう！
 
 </div>
@@ -2469,10 +2727,6 @@ document.getElementById(
 ).style.display=
 "block";
 
-
-/*
-FirestoreにもAIの問いを保存
-*/
 
 saveAIQuestion(question);
 
@@ -2560,6 +2814,17 @@ return;
 }
 
 
+/*
+最終振り返りを判定
+*/
+
+const deepLevel=
+judgeDeepReflectionLevel(deep);
+
+currentDeepLevel=
+deepLevel;
+
+
 try{
 
 await updateDoc(
@@ -2573,31 +2838,130 @@ currentDocumentId
 {
 
 deepReflection:
-deep
+deep,
+
+deepReflectionLevel:
+deepLevel
 
 }
 
 );
 
 
-document.getElementById(
-"deepMsg"
-).innerHTML=
+let praise="";
+
+
+if(deepLevel===3){
+
+praise=
+
+`
+
+<div class="deep-praise-box">
+
+🌳🌳🌳 <strong>すばらしい！とても深い振り返りです！</strong>
+
+<br><br>
+
+あなたは、ただ「分かったこと」を
+書いただけではありません。
+
+<br><br>
+
+💡 友達の考えや学習したことをもとにして、
+<strong>自分の考えを深めることができています。</strong>
+
+<br><br>
+
+✨ さらに、
+<strong>「最初はどう思っていたのか」
+「今はどう考えているのか」</strong>
+という自分の考えの変化にも
+目を向けられています。
+
+<br><br>
+
+👏 これは、
+<strong>自分の学びを自分で振り返り、
+次の学びにつなげることができている</strong>
+ということです。
+
+<br><br>
+
+🎉 <strong>とてもすてきな学び方です！</strong>
+
+</div>
+
+`;
+
+}
+
+else if(deepLevel===2){
+
+praise=
 
 `
 
 <div class="praise-box">
 
-🌟 <strong>最終的な振り返りを保存しました！</strong>
+🌿 <strong>いい振り返りができました！</strong>
 
 <br><br>
 
-友達の考えを参考にして、
-自分の考えをさらに深めることができました。
+今日の学びについて、
+「どうして？」「なぜ？」と考えながら
+自分の考えを深めることができています。
+
+<br><br>
+
+👏 次は、
+友達の考えと自分の考えを比べたり、
+「最初と今で考えがどう変わったか」
+を書いたりすると、
+さらに深い振り返りになります！
 
 </div>
 
 `;
+
+}
+
+else{
+
+praise=
+
+`
+
+<div class="praise-box">
+
+🌱 <strong>最後まで振り返ることができました！</strong>
+
+<br><br>
+
+自分の学びをもう一度振り返って
+言葉にできたことがすばらしいです。
+
+<br><br>
+
+次は、
+「最初はどう思っていた？」
+「今はどう思っている？」
+と比べてみよう！
+
+</div>
+
+`;
+
+}
+
+
+document.getElementById(
+"deepMsg"
+).innerHTML=
+
+praise
++
+getDeepLevelHTML(deepLevel);
 
 
 }catch(error){
@@ -3033,6 +3397,21 @@ data.subject===subject &&
 count++;
 
 
+const reflectionLevel=
+Number(data.reflectionLevel) ||
+judgeReflectionLevel(data.study);
+
+const deepLevel=
+Number(data.deepReflectionLevel) ||
+(
+data.deepReflection
+?
+judgeDeepReflectionLevel(data.deepReflection)
+:
+0
+);
+
+
 html+=`
 
 <div class="card">
@@ -3045,8 +3424,7 @@ html+=`
 
 
 ${getLevelHTML(
-Number(data.reflectionLevel) ||
-judgeReflectionLevel(data.study)
+reflectionLevel
 )}
 
 
@@ -3093,6 +3471,15 @@ data.deepReflection ||
 )}
 
 </div>
+
+
+${
+data.deepReflection
+?
+getDeepLevelHTML(deepLevel)
+:
+""
+}
 
 
 <div class="level-box">
@@ -3175,16 +3562,6 @@ document.getElementById(
 
 try{
 
-/*
-全件取得ではなく、
-今日のデータだけを取得する。
-
-subject/unitが決まっていないため、
-ここでは今日の振り返りだけ。
-
-その後、教科を選ぶ。
-*/
-
 const snapshot=
 await getDocs(
 collection(db,"manabi")
@@ -3251,6 +3628,9 @@ data.aiQuestion || "",
 
 deepReflection:
 data.deepReflection || "",
+
+deepReflectionLevel:
+Number(data.deepReflectionLevel || 0),
 
 likes:
 Number(data.likes || 0),
@@ -3580,11 +3960,6 @@ data.subject===subject &&
 
 ){
 
-/*
-自分の振り返りは
-友達一覧から除外
-*/
-
 if(
 String(data.studentNumber)===
 String(currentStudentNumber)
@@ -3596,6 +3971,10 @@ return;
 
 
 count++;
+
+
+const deepLevel=
+Number(data.deepReflectionLevel || 0);
 
 
 html+=`
@@ -3640,6 +4019,29 @@ data.deepReflection ||
 )}
 
 </div>
+
+
+${
+deepLevel===3
+?
+`
+
+<div class="deep-level3">
+
+🌳 <strong>深い振り返り</strong>
+
+<br>
+
+自分の考えの変化や、
+友達の考えから学んだことなどを
+具体的に書いています。
+
+</div>
+
+`
+:
+""
+}
 
 
 <div class="level-box">
@@ -3705,7 +4107,7 @@ html;
 
 
 /* ==================================================
-みんなの参考になった
+参考になった
 ================================================== */
 
 window.addLessonLike=async function(id){
@@ -3751,10 +4153,32 @@ target.likes=
 newLikes;
 
 
+/*
+現在開いている画面を再表示
+*/
+
+if(
+document.getElementById(
+"lessonFriendsArea"
+).innerHTML
+){
+
+showLessonFriends();
+
+}
+
+if(
+document.getElementById(
+"everyoneList"
+).innerHTML
+){
+
 openEveryoneUnit(
 target.subject,
 target.unit
 );
+
+}
 
 
 }catch(error){
@@ -3778,7 +4202,7 @@ checkLogin();
 
 
 console.log(
-"📚 学びアルバム Ver.2 児童ページ 起動"
+"📚 学びアルバム Ver.2 完成版 起動"
 );
 
 </script>
