@@ -37,7 +37,7 @@ select{
 
 button{
   border:none;
-  border-radius:12px;
+  border-radius:14px;
   padding:13px 20px;
   font-size:16px;
   font-weight:bold;
@@ -45,7 +45,7 @@ button{
 }
 
 button:hover{
-  opacity:.88;
+  opacity:.85;
 }
 
 .page{
@@ -62,6 +62,10 @@ button:hover{
   padding:18px;
 }
 
+/* =========================
+ヘッダー
+========================= */
+
 header{
   background:
     linear-gradient(
@@ -70,12 +74,13 @@ header{
       #6c63ff
     );
   color:white;
-  padding:22px;
+  padding:24px 20px;
+  text-align:center;
 }
 
 header h1{
   margin:0;
-  font-size:27px;
+  font-size:28px;
 }
 
 header p{
@@ -83,9 +88,13 @@ header p{
   font-size:14px;
 }
 
+/* =========================
+ボックス
+========================= */
+
 .box{
   background:white;
-  border-radius:18px;
+  border-radius:20px;
   padding:22px;
   margin-bottom:18px;
   box-shadow:
@@ -94,6 +103,72 @@ header p{
 
 h2{
   margin-top:0;
+}
+
+/* =========================
+授業情報
+========================= */
+
+.lesson-box{
+  background:#f0fff7;
+  border-left:7px solid #43b883;
+  border-radius:15px;
+  padding:18px;
+  margin-bottom:18px;
+}
+
+.lesson-status{
+  color:#26915e;
+  font-weight:bold;
+}
+
+.lesson-subject{
+  font-size:25px;
+  font-weight:bold;
+  margin-top:8px;
+}
+
+.lesson-unit{
+  margin-top:6px;
+  font-size:17px;
+}
+
+.lesson-id{
+  margin-top:10px;
+  font-size:12px;
+  color:#888;
+  word-break:break-all;
+}
+
+/* =========================
+フォーム
+========================= */
+
+.form-group{
+  margin-bottom:18px;
+}
+
+label{
+  display:block;
+  font-weight:bold;
+  margin-bottom:8px;
+}
+
+input,
+textarea,
+select{
+  width:100%;
+  padding:14px;
+  border:1px solid #d8dee8;
+  border-radius:12px;
+  font-size:16px;
+  background:white;
+}
+
+textarea{
+  min-height:150px;
+  resize:vertical;
+  line-height:1.8;
 }
 
 .primary{
@@ -113,109 +188,39 @@ h2{
 
 .gray{
   background:#e9edf4;
-  color:#333;
 }
 
-.full-button{
-  width:100%;
-  margin-top:12px;
+.button-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
 }
 
-input,
-select,
-textarea{
-  width:100%;
-  padding:14px;
-  border:1px solid #d8dee8;
-  border-radius:12px;
-  font-size:16px;
-  background:white;
-}
-
-textarea{
-  min-height:150px;
-  resize:vertical;
-  line-height:1.8;
-}
-
-.form-group{
-  margin-bottom:18px;
-}
-
-.form-group label{
-  display:block;
-  font-weight:bold;
-  margin-bottom:8px;
-}
-
-.lesson-box{
-  border-left:7px solid #43b883;
-  background:#f5fff9;
-  border-radius:14px;
-  padding:18px;
-}
-
-.lesson-box.waiting{
-  border-left-color:#f2a93b;
-  background:#fffaf0;
-}
-
-.lesson-status{
-  font-weight:bold;
-  color:#43a56f;
-}
-
-.lesson-status.waiting{
-  color:#d58b13;
-}
-
-.lesson-subject{
-  font-size:28px;
-  font-weight:bold;
-  margin:8px 0;
-}
-
-.lesson-unit{
-  font-size:18px;
-  color:#555;
-}
-
-.lesson-id{
-  margin-top:10px;
-  padding:10px;
-  background:#eef3f9;
-  border-radius:9px;
-  font-size:12px;
-  color:#666;
-  word-break:break-all;
-}
+/* =========================
+メニュー
+========================= */
 
 .menu-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:
+    repeat(3,1fr);
   gap:14px;
 }
 
 .menu-button{
   background:white;
   border:2px solid #e1e7f0;
-  border-radius:17px;
-  padding:22px;
-  text-align:center;
+  border-radius:18px;
+  padding:20px;
   cursor:pointer;
-}
-
-.menu-button:hover{
-  border-color:#4f8cff;
-  background:#f8fbff;
+  text-align:center;
 }
 
 .menu-icon{
-  font-size:32px;
+  font-size:34px;
 }
 
 .menu-title{
-  font-size:17px;
   font-weight:bold;
   margin-top:8px;
 }
@@ -226,52 +231,71 @@ textarea{
   margin-top:5px;
 }
 
-.ai-box{
-  margin-top:16px;
+/* =========================
+AI
+========================= */
+
+.advice-box{
   background:#eef7ff;
   border-left:6px solid #4f8cff;
-  border-radius:11px;
-  padding:16px;
+  border-radius:12px;
+  padding:17px;
+  margin-top:15px;
   line-height:1.8;
 }
+
+.ai-title{
+  font-weight:bold;
+  color:#3769c8;
+}
+
+/* =========================
+深まり
+========================= */
 
 .deep-box{
   background:#fff9e8;
   border-left:6px solid #f2b94b;
-  border-radius:11px;
-  padding:16px;
-  line-height:1.8;
+  border-radius:12px;
+  padding:18px;
+  margin-top:18px;
 }
 
 .level-box{
-  background:#f5f7fa;
-  border-radius:12px;
+  background:#f7f9fc;
+  border-radius:14px;
   padding:16px;
   margin-top:16px;
+  line-height:1.8;
 }
 
-.level-title{
-  font-weight:bold;
-  margin-bottom:10px;
-}
+/* =========================
+履歴
+========================= */
 
-.level-result{
-  margin-top:12px;
-  padding:12px;
-  border-radius:10px;
-  background:#eef7ff;
-  font-weight:bold;
-}
-
-.reflection-card{
+.history-card{
+  background:white;
   border:1px solid #e1e6ed;
-  border-radius:15px;
+  border-radius:16px;
   padding:18px;
   margin-bottom:14px;
 }
 
-.reflection-card h3{
-  margin-top:0;
+.history-header{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.subject-badge{
+  display:inline-block;
+  background:#eaf1ff;
+  color:#3769c8;
+  padding:5px 11px;
+  border-radius:20px;
+  font-size:13px;
+  font-weight:bold;
 }
 
 .date{
@@ -279,18 +303,68 @@ textarea{
   font-size:13px;
 }
 
-.study-text{
-  margin-top:12px;
+.history-study{
+  margin-top:15px;
   line-height:1.8;
   white-space:pre-wrap;
 }
 
-.advice-box{
-  margin-top:12px;
-  background:#eef7ff;
+.history-deep{
+  margin-top:14px;
+  background:#fff9e8;
+  padding:14px;
   border-radius:10px;
-  padding:13px;
-  line-height:1.7;
+  line-height:1.8;
+  white-space:pre-wrap;
+}
+
+/* =========================
+みんな
+========================= */
+
+.subject-grid{
+  display:grid;
+  grid-template-columns:
+    repeat(2,1fr);
+  gap:14px;
+}
+
+.subject-card{
+  border:2px solid #e1e7ef;
+  border-radius:17px;
+  padding:20px;
+  background:white;
+  text-align:center;
+  cursor:pointer;
+}
+
+.subject-card:hover{
+  border-color:#4f8cff;
+  background:#f7faff;
+}
+
+.subject-name{
+  font-size:20px;
+  font-weight:bold;
+}
+
+.everyone-card{
+  background:white;
+  border:1px solid #e1e6ed;
+  border-radius:16px;
+  padding:18px;
+  margin-bottom:14px;
+}
+
+.student-name{
+  font-size:18px;
+  font-weight:bold;
+}
+
+.everyone-study{
+  margin-top:12px;
+  line-height:1.8;
+  white-space:pre-wrap;
 }
 
 .empty{
@@ -299,21 +373,9 @@ textarea{
   padding:35px 15px;
 }
 
-.notice{
-  padding:15px;
-  border-radius:12px;
-  background:#fff8e8;
-  color:#8a6500;
-  line-height:1.7;
-}
-
-.success{
-  padding:15px;
-  border-radius:12px;
-  background:#eefaf3;
-  color:#27734b;
-  line-height:1.7;
-}
+/* =========================
+レスポンシブ
+========================= */
 
 @media(max-width:700px){
 
@@ -322,10 +384,6 @@ textarea{
   }
 
   header h1{
-    font-size:23px;
-  }
-
-  .lesson-subject{
     font-size:24px;
   }
 
@@ -341,11 +399,11 @@ textarea{
 
 <header>
 
-  <h1>📚 学びアルバム Ver.2</h1>
+<h1>📚 学びアルバム</h1>
 
-  <p>
-    今日の学びを残そう！
-  </p>
+<p>
+自分の学びを残そう！
+</p>
 
 </header>
 
@@ -353,81 +411,85 @@ textarea{
 <div class="container">
 
 
-<!-- =========================================
-     HOME
-========================================= -->
+<!-- =========================
+ホーム
+========================= -->
 
 <section
   id="homePage"
   class="page active">
 
-  <div class="box">
+  <div
+    id="lessonArea"
+    class="lesson-box">
 
-    <h2>📚 今日の授業</h2>
-
-    <div id="lessonArea">
-
-      読み込んでいます……
-
-    </div>
+    授業情報を読み込んでいます……
 
   </div>
 
 
-  <div class="menu-grid">
+  <div class="box">
 
-    <div
-      class="menu-button"
-      onclick="openReflection()">
+    <h2>
+      ✏️ 学びアルバム
+    </h2>
 
-      <div class="menu-icon">
-        ✏️
+    <div class="menu-grid">
+
+      <div
+        class="menu-button"
+        onclick="openReflection()">
+
+        <div class="menu-icon">
+          ✏️
+        </div>
+
+        <div class="menu-title">
+          今日の振り返りを書く
+        </div>
+
+        <div class="menu-description">
+          今日の学びを残そう
+        </div>
+
       </div>
 
-      <div class="menu-title">
-        今日の振り返りを書く
+
+      <div
+        class="menu-button"
+        onclick="openHistory()">
+
+        <div class="menu-icon">
+          📖
+        </div>
+
+        <div class="menu-title">
+          自分の振り返りを見る
+        </div>
+
+        <div class="menu-description">
+          これまでの学びを見る
+        </div>
+
       </div>
 
-      <div class="menu-description">
-        今日の学びを記録しよう
-      </div>
 
-    </div>
+      <div
+        class="menu-button"
+        onclick="openEveryoneHistory()">
 
+        <div class="menu-icon">
+          👫
+        </div>
 
-    <div
-      class="menu-button"
-      onclick="openHistory()">
+        <div class="menu-title">
+          みんなの振り返りを見る
+        </div>
 
-      <div class="menu-icon">
-        📖
-      </div>
+        <div class="menu-description">
+          友達の考えを見てみよう
+        </div>
 
-      <div class="menu-title">
-        自分の振り返りを見る
-      </div>
-
-      <div class="menu-description">
-        今までの学びを見る
-      </div>
-
-    </div>
-
-
-    <div
-      class="menu-button"
-      onclick="openEveryoneHistory()">
-
-      <div class="menu-icon">
-        👫
-      </div>
-
-      <div class="menu-title">
-        みんなの振り返りを見る
-      </div>
-
-      <div class="menu-description">
-        友達の学びから考えよう
       </div>
 
     </div>
@@ -437,26 +499,13 @@ textarea{
 </section>
 
 
-<!-- =========================================
-     REFLECTION
-========================================= -->
+<!-- =========================
+振り返り入力
+========================= -->
 
 <section
   id="reflectionPage"
   class="page">
-
-  <div class="box">
-
-    <button
-      class="gray"
-      onclick="showPage('homePage')">
-
-      ← 戻る
-
-    </button>
-
-  </div>
-
 
   <div class="box">
 
@@ -474,13 +523,13 @@ textarea{
     <div class="form-group">
 
       <label>
-        👤 名前
+        👤 なまえ
       </label>
 
       <input
         id="studentName"
         type="text"
-        placeholder="自分の名前を入力">
+        placeholder="なまえを入力してください">
 
     </div>
 
@@ -488,13 +537,13 @@ textarea{
     <div class="form-group">
 
       <label>
-        📘 教科
+        📚 教科
       </label>
 
       <select id="subject">
 
         <option value="">
-          教科を選択
+          教科を選択してください
         </option>
 
         <option>国語</option>
@@ -514,13 +563,13 @@ textarea{
     <div class="form-group">
 
       <label>
-        📚 単元名
+        📘 単元名
       </label>
 
       <input
         id="unit"
         type="text"
-        placeholder="単元名">
+        placeholder="単元名を入力してください">
 
     </div>
 
@@ -540,83 +589,98 @@ textarea{
 
 
     <div
-      id="adviceArea"
-      class="ai-box"
+      id="adviceBox"
+      class="advice-box"
       style="display:none;">
 
-    </div>
-
-
-    <div id="firstSaveArea">
-
-      <button
-        class="primary full-button"
-        onclick="saveReflection()">
-
-        💾 振り返りを保存する
-
-      </button>
-
-    </div>
-
-
-    <div
-      id="deepReflectionArea"
-      style="display:none;">
-
-      <div class="deep-box">
-
-        <h3>
-          🌱 もう一歩深く考えてみよう
-        </h3>
-
-        <p>
-          AIからの問いをヒントに、
-          もう少し詳しく振り返ってみよう。
-        </p>
-
-        <div id="savedQuestion"></div>
-
+      <div class="ai-title">
+        🤖 AIからの問い
       </div>
-
-
-      <div class="form-group">
-
-        <label>
-          🌱 深まり振り返り
-        </label>
-
-        <textarea
-          id="deepReflection"
-          placeholder="なぜそう思ったの？"
-          oninput="judgeDepth()"></textarea>
-
-      </div>
-
 
       <div
-        id="levelResult"
-        class="level-result">
-
-        振り返りを書いてみよう。
-
+        id="aiQuestion">
       </div>
+
+    </div>
+
+
+    <div class="button-row">
+
+      <button
+        class="primary"
+        onclick="saveReflection()">
+
+        💾 振り返りを保存
+
+      </button>
 
 
       <button
-        class="green full-button"
-        onclick="saveDeepReflection()">
+        class="gray"
+        onclick="showPage('homePage')">
 
-        🌱 深まり振り返りを保存する
+        ← 戻る
 
       </button>
 
     </div>
 
+  </div>
 
-    <div
-      id="saveMessage"
-      style="margin-top:15px;">
+
+  <!-- 深まり -->
+
+  <div
+    id="deepReflectionArea"
+    class="box"
+    style="display:none;">
+
+    <div class="deep-box">
+
+      <h2>
+        🌱 もう一歩深く考えてみよう
+      </h2>
+
+      <p>
+        AIからの問いをヒントに、
+        もう少し考えてみましょう。
+      </p>
+
+      <textarea
+        id="deepReflection"
+        placeholder="「どうして？」「なぜ？」「次は？」などを考えてみよう。"></textarea>
+
+
+      <div class="level-box">
+
+        <strong>
+          🌱 振り返りの深まり
+        </strong>
+
+        <p>
+          書いた内容から、
+          振り返りの深まりを判定します。
+        </p>
+
+        <div
+          id="levelResult">
+        </div>
+
+      </div>
+
+
+      <div class="button-row">
+
+        <button
+          class="green"
+          onclick="saveDeepReflection()">
+
+          🌱 深まり振り返りを保存
+
+        </button>
+
+      </div>
+
     </div>
 
   </div>
@@ -624,9 +688,9 @@ textarea{
 </section>
 
 
-<!-- =========================================
-     MY HISTORY
-========================================= -->
+<!-- =========================
+自分の履歴
+========================= -->
 
 <section
   id="historyPage"
@@ -634,41 +698,81 @@ textarea{
 
   <div class="box">
 
-    <button
-      class="gray"
-      onclick="showPage('homePage')">
-
-      ← 戻る
-
-    </button>
-
-  </div>
-
-
-  <div class="box">
-
     <h2>
       📖 自分の振り返り
     </h2>
 
-
     <input
       id="historyName"
-      placeholder="自分の名前を入力">
+      placeholder="なまえを入力してください">
+
+    <div
+      class="button-row"
+      style="margin-top:12px;">
+
+      <button
+        class="primary"
+        onclick="loadMyHistory()">
+
+        📖 見る
+
+      </button>
+
+      <button
+        class="gray"
+        onclick="showPage('homePage')">
+
+        ← 戻る
+
+      </button>
+
+    </div>
+
+  </div>
 
 
-    <button
-      class="primary full-button"
-      onclick="loadMyHistory()">
+  <div
+    id="historyList">
+  </div>
 
-      📖 振り返りを見る
+</section>
 
-    </button>
+
+<!-- =========================
+みんなの振り返り
+========================= -->
+
+<section
+  id="everyonePage"
+  class="page">
+
+  <div class="box">
+
+    <h2>
+      👫 みんなの振り返り
+    </h2>
+
+    <p>
+      教科を選んで友達の考えを見てみよう。
+    </p>
+
+    <div
+      id="everyoneSubjects"
+      class="subject-grid">
+    </div>
 
 
     <div
-      id="historyList"
-      style="margin-top:20px;">
+      class="button-row"
+      style="margin-top:18px;">
+
+      <button
+        class="gray"
+        onclick="showPage('homePage')">
+
+        ← 戻る
+
+      </button>
 
     </div>
 
@@ -677,39 +781,28 @@ textarea{
 </section>
 
 
-<!-- =========================================
-     EVERYONE
-========================================= -->
-
 <section
-  id="everyonePage"
+  id="everyoneDetailPage"
   class="page">
 
   <div class="box">
 
-    <button
-      class="gray"
-      onclick="showPage('homePage')">
-
-      ← 戻る
-
-    </button>
-
-  </div>
-
-
-  <div class="box">
-
-    <h2>
-      👫 みんなの振り返り
+    <h2
+      id="everyoneDetailTitle">
     </h2>
 
     <div
-      id="everyoneList">
-
-      読み込んでいます……
-
+      id="everyoneDetailList">
     </div>
+
+
+    <button
+      class="gray"
+      onclick="openEveryoneHistory()">
+
+      ← 教科一覧へ
+
+    </button>
 
   </div>
 
@@ -722,32 +815,36 @@ textarea{
 <script type="module">
 
 
-/* =========================================
+/* ==================================================
    Firebase
-========================================= */
+================================================== */
 
 import {
   initializeApp
-} from
+}
+from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 
 import {
   getFirestore,
   collection,
-  addDoc,
   getDocs,
+  addDoc,
+  query,
+  where,
+  onSnapshot,
   doc,
   updateDoc,
-  onSnapshot,
   serverTimestamp
-} from
+}
+from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-/* =========================================
+/* ==================================================
    Firebase設定
-========================================= */
+================================================== */
 
 const firebaseConfig = {
 
@@ -779,36 +876,35 @@ const db =
   getFirestore(app);
 
 
-/* =========================================
-   現在の授業
-========================================= */
+/* ==================================================
+   変数
+================================================== */
 
 let currentLesson = null;
 
-let savedReflectionId = null;
+let currentReflectionId = null;
 
 let everyoneData = [];
 
 
-/* =========================================
-   ページ
-========================================= */
+/* ==================================================
+   ページ切り替え
+================================================== */
 
 window.showPage =
-function(pageId){
+function(id){
 
   document
     .querySelectorAll(".page")
-    .forEach(
-      page =>
-        page.classList.remove(
-          "active"
-        )
-    );
+    .forEach(page => {
+
+      page.classList.remove("active");
+
+    });
 
 
   document
-    .getElementById(pageId)
+    .getElementById(id)
     .classList.add("active");
 
 
@@ -820,9 +916,9 @@ function(pageId){
 };
 
 
-/* =========================================
-   授業ID自動取得
-========================================= */
+/* ==================================================
+   現在の授業を自動取得
+================================================== */
 
 const lessonRef =
   doc(
@@ -844,7 +940,8 @@ onSnapshot(
 
     }else{
 
-      currentLesson = null;
+      currentLesson =
+        null;
 
     }
 
@@ -861,11 +958,8 @@ onSnapshot(
       "lessonArea"
     ).innerHTML = `
 
-      <div class="notice">
-
-        授業情報を取得できませんでした。<br>
-        FirebaseのFirestoreルールを確認してください。
-
+      <div>
+        ⚠️ 授業情報を取得できません。
       </div>
 
     `;
@@ -875,9 +969,9 @@ onSnapshot(
 );
 
 
-/* =========================================
+/* ==================================================
    授業表示
-========================================= */
+================================================== */
 
 function displayCurrentLesson(){
 
@@ -887,25 +981,34 @@ function displayCurrentLesson(){
     );
 
 
-  if(
-    !currentLesson ||
-    currentLesson.active !== true
-  ){
+  if(!currentLesson){
 
     area.innerHTML = `
 
-      <div class="lesson-box waiting">
+      <div>
 
-        <div class="lesson-status waiting">
+        ⏸️ 現在、授業が設定されていません。
 
-          ⏸️ 現在、授業は始まっていません。
+      </div>
 
-        </div>
+    `;
 
-        <p>
-          先生が授業を開始すると、
-          ここに授業内容が表示されます。
-        </p>
+    return;
+
+  }
+
+
+  if(currentLesson.active !== true){
+
+    area.innerHTML = `
+
+      <div>
+
+        ⏸️ 現在の授業は終了しています。
+
+        <br><br>
+
+        次の授業が始まるまで待ってください。
 
       </div>
 
@@ -918,42 +1021,35 @@ function displayCurrentLesson(){
 
   area.innerHTML = `
 
-    <div class="lesson-box">
+    <div class="lesson-status">
 
-      <div class="lesson-status">
+      🟢 現在の授業
 
-        🟢 現在の授業
+    </div>
 
-      </div>
+    <div class="lesson-subject">
 
+      ${escapeHtml(
+        currentLesson.subject || ""
+      )}
 
-      <div class="lesson-subject">
+    </div>
 
-        ${escapeHtml(
-          currentLesson.subject || ""
-        )}
+    <div class="lesson-unit">
 
-      </div>
+      📘
+      ${escapeHtml(
+        currentLesson.unit || ""
+      )}
 
+    </div>
 
-      <div class="lesson-unit">
+    <div class="lesson-id">
 
-        📘
-        ${escapeHtml(
-          currentLesson.unit || ""
-        )}
-
-      </div>
-
-
-      <div class="lesson-id">
-
-        🔑 授業IDは自動取得されています。<br>
-
-        この授業IDは、
-        児童が保存するときに自動的に記録されます。
-
-      </div>
+      授業ID：
+      ${escapeHtml(
+        currentLesson.lessonId || ""
+      )}
 
     </div>
 
@@ -962,40 +1058,30 @@ function displayCurrentLesson(){
 }
 
 
-/* =========================================
-   振り返りを書く
-========================================= */
+/* ==================================================
+   振り返りページ
+================================================== */
 
 window.openReflection =
 function(){
-
-  showPage(
-    "reflectionPage"
-  );
-
 
   if(
     !currentLesson ||
     currentLesson.active !== true
   ){
 
-    document.getElementById(
-      "reflectionLesson"
-    ).innerHTML = `
-
-      <div class="notice">
-
-        ⏸️ まだ授業が開始されていません。<br>
-        先生が授業を開始してから
-        振り返りを書いてください。
-
-      </div>
-
-    `;
+    alert(
+      "現在、授業が開始されていません。\n先生が授業を開始してから入力してください。"
+    );
 
     return;
 
   }
+
+
+  showPage(
+    "reflectionPage"
+  );
 
 
   document.getElementById(
@@ -1003,19 +1089,30 @@ function(){
   ).innerHTML = `
 
     <div class="lesson-status">
-      🟢 ${escapeHtml(
+      🟢 現在の授業
+    </div>
+
+    <div class="lesson-subject">
+
+      ${escapeHtml(
         currentLesson.subject || ""
       )}
+
     </div>
 
     <div class="lesson-unit">
-      📘 ${escapeHtml(
+
+      📘
+      ${escapeHtml(
         currentLesson.unit || ""
       )}
+
     </div>
 
     <div class="lesson-id">
-      🔑 授業IDは自動取得済み
+
+      授業IDは自動取得されています。
+
     </div>
 
   `;
@@ -1035,39 +1132,41 @@ function(){
 };
 
 
-/* =========================================
+/* ==================================================
    AIからの問い
-========================================= */
+================================================== */
 
 window.showAdvice =
 function(){
 
   const subject =
-    document
-      .getElementById(
-        "subject"
-      )
-      .value;
+    document.getElementById(
+      "subject"
+    ).value;
 
 
   const text =
-    document
-      .getElementById(
-        "study"
-      )
-      .value
-      .trim();
-
-
-  const area =
     document.getElementById(
-      "adviceArea"
+      "study"
+    ).value
+    .trim();
+
+
+  const box =
+    document.getElementById(
+      "adviceBox"
+    );
+
+
+  const question =
+    document.getElementById(
+      "aiQuestion"
     );
 
 
   if(!text){
 
-    area.style.display =
+    box.style.display =
       "none";
 
     return;
@@ -1075,109 +1174,99 @@ function(){
   }
 
 
-  let question =
-    "今日の学びで、一番心に残ったことは何ですか？";
+  let q =
+    "今日の学びで、一番大切だと思ったことは何ですか？";
 
 
   if(subject === "国語"){
 
     if(
-      text.includes("分かった") ||
-      text.includes("できた")
+      text.includes("考え") ||
+      text.includes("思った")
     ){
 
-      question =
-        "どうして分かったの？どんな工夫をしたの？";
+      q =
+        "その考えになった理由や、友達の考えとの違いは何ですか？";
 
     }else{
 
-      question =
-        "文章や友達の考えから、新しく気付いたことは何ですか？";
+      q =
+        "今日の学習で、言葉や文章について新しく気づいたことは何ですか？";
 
     }
 
   }
 
 
-  if(subject === "算数"){
+  else if(subject === "算数"){
 
-    question =
-      "その答えになる理由を、図や言葉を使って説明するとどうなりますか？";
-
-  }
-
-
-  if(subject === "理科"){
-
-    question =
-      "実験や観察の結果から、どんなことが分かったと言えますか？";
+    q =
+      "その方法を使うと、なぜ答えを求めることができるのでしょう？";
 
   }
 
 
-  if(subject === "社会"){
+  else if(subject === "理科"){
 
-    question =
+    q =
+      "実験や観察の結果から、どんなことが分かったのですか？";
+
+  }
+
+
+  else if(subject === "社会"){
+
+    q =
       "今日分かったことは、私たちの生活とどのようにつながっていますか？";
 
   }
 
 
-  if(subject === "生活"){
+  else if(subject === "生活"){
 
-    question =
-      "見つけたことや気付いたことから、さらに調べてみたいことは何ですか？";
-
-  }
-
-
-  if(subject === "総合"){
-
-    question =
-      "今日の学びを、地域や自分たちの生活にどう生かせそうですか？";
+    q =
+      "やってみて分かったことや、最初の予想と違ったことはありましたか？";
 
   }
 
 
-  if(subject === "道徳"){
+  else if(subject === "総合"){
 
-    question =
-      "今日考えたことを、自分の生活に置き換えるとどうなりますか？";
-
-  }
-
-
-  if(subject === "体育"){
-
-    question =
-      "うまくいくために、どんな工夫や声かけをしましたか？";
+    q =
+      "今日の学びを、これからの活動にどう生かせそうですか？";
 
   }
 
 
-  area.style.display =
+  else if(subject === "道徳"){
+
+    q =
+      "今日考えたことを、自分の生活の中ではどのように生かせそうですか？";
+
+  }
+
+
+  else if(subject === "体育"){
+
+    q =
+      "うまくできた理由や、次にもっと上手にするためにできそうなことは何ですか？";
+
+  }
+
+
+  question.textContent =
+    q;
+
+
+  box.style.display =
     "block";
-
-
-  area.innerHTML = `
-
-    <strong>
-      🤖 AIからの問い
-    </strong>
-
-    <br><br>
-
-    ${escapeHtml(question)}
-
-  `;
-
 
 };
 
 
-/* =========================================
+/* ==================================================
    振り返り保存
-========================================= */
+================================================== */
 
 window.saveReflection =
 async function(){
@@ -1188,7 +1277,7 @@ async function(){
   ){
 
     alert(
-      "現在、授業が開始されていません。"
+      "授業が終了しています。"
     );
 
     return;
@@ -1197,44 +1286,36 @@ async function(){
 
 
   const name =
-    document
-      .getElementById(
-        "studentName"
-      )
-      .value
-      .trim();
+    document.getElementById(
+      "studentName"
+    ).value
+    .trim();
 
 
   const subject =
-    document
-      .getElementById(
-        "subject"
-      )
-      .value;
+    document.getElementById(
+      "subject"
+    ).value;
 
 
   const unit =
-    document
-      .getElementById(
-        "unit"
-      )
-      .value
-      .trim();
+    document.getElementById(
+      "unit"
+    ).value
+    .trim();
 
 
   const study =
-    document
-      .getElementById(
-        "study"
-      )
-      .value
-      .trim();
+    document.getElementById(
+      "study"
+    ).value
+    .trim();
 
 
   if(!name){
 
     alert(
-      "名前を入力してください。"
+      "なまえを入力してください。"
     );
 
     return;
@@ -1275,32 +1356,15 @@ async function(){
   }
 
 
-  let aiQuestion =
-    "";
-
-
-  const advice =
+  const aiQuestion =
     document.getElementById(
-      "adviceArea"
-    );
-
-
-  if(advice.style.display !== "none"){
-
-    aiQuestion =
-      advice.innerText
-        .replace(
-          "🤖 AIからの問い",
-          ""
-        )
-        .trim();
-
-  }
+      "aiQuestion"
+    ).textContent;
 
 
   try{
 
-    const result =
+    const ref =
       await addDoc(
 
         collection(
@@ -1318,16 +1382,21 @@ async function(){
 
           study:study,
 
-          aiQuestion:aiQuestion,
+          aiQuestion:
+            aiQuestion || "",
 
           deepReflection:"",
 
           deepLevel:1,
 
-          likes:0,
-
           lessonId:
             currentLesson.lessonId,
+
+          lessonSubject:
+            currentLesson.subject,
+
+          lessonUnit:
+            currentLesson.unit,
 
           date:
             new Date().toLocaleString(
@@ -1342,14 +1411,8 @@ async function(){
       );
 
 
-    savedReflectionId =
-      result.id;
-
-
-    document.getElementById(
-      "firstSaveArea"
-    ).style.display =
-      "none";
+    currentReflectionId =
+      ref.id;
 
 
     document.getElementById(
@@ -1359,38 +1422,32 @@ async function(){
 
 
     document.getElementById(
-      "savedQuestion"
+      "levelResult"
     ).innerHTML = `
 
       <strong>
-        🤖 ${escapeHtml(
-          aiQuestion ||
-          "今日の学びを、もう一度詳しく考えてみよう。"
-        )}
+        🌱 レベル1
       </strong>
 
-    `;
+      <br>
 
-
-    document.getElementById(
-      "saveMessage"
-    ).innerHTML = `
-
-      <div class="success">
-
-        ✅ 振り返りを保存しました！<br>
-        次に「深まり振り返り」を書いてみよう。
-
-      </div>
+      まずは自分の考えを
+      書くことができました！
 
     `;
+
+
+    alert(
+      "振り返りを保存しました！\n続いて、もう一歩深く考えてみましょう。"
+    );
+
 
   }catch(error){
 
     console.error(error);
 
     alert(
-      "保存できませんでした。Firebaseの設定を確認してください。"
+      "保存できませんでした。\nFirebaseの設定を確認してください。"
     );
 
   }
@@ -1398,107 +1455,101 @@ async function(){
 };
 
 
-/* =========================================
-   深まり判定
-========================================= */
+/* ==================================================
+   深まりレベル判定
+================================================== */
 
-window.judgeDepth =
-function(){
+function judgeLevel(text){
 
-  const text =
-    document
-      .getElementById(
-        "deepReflection"
-      )
-      .value
-      .trim();
+  const length =
+    text.length;
 
 
-  const result =
-    document.getElementById(
-      "levelResult"
-    );
+  const keywords = [
+
+    "なぜ",
+
+    "どうして",
+
+    "理由",
+
+    "だから",
+
+    "比べ",
+
+    "違い",
+
+    "同じ",
+
+    "つなが",
+
+    "生か",
+
+    "次は",
+
+    "これから",
+
+    "工夫",
+
+    "分かった",
+
+    "気づいた"
+
+  ];
 
 
-  if(!text){
-
-    result.innerHTML =
-      "振り返りを書いてみよう。";
-
-    return 1;
-
-  }
+  let score = 0;
 
 
-  let level = 1;
+  keywords.forEach(
+    word => {
+
+      if(text.includes(word)){
+
+        score++;
+
+      }
+
+    }
+  );
 
 
   if(
-    text.length >= 25
+    length >= 80 ||
+    score >= 3
   ){
 
-    level = 2;
+    return 3;
 
   }
 
 
   if(
-    text.length >= 45 &&
-    (
-      text.includes("なぜ") ||
-      text.includes("理由") ||
-      text.includes("だから") ||
-      text.includes("工夫") ||
-      text.includes("つなが") ||
-      text.includes("生か")
-    )
+    length >= 35 ||
+    score >= 1
   ){
 
-    level = 3;
+    return 2;
 
   }
 
 
-  if(level === 1){
+  return 1;
 
-    result.innerHTML =
-      "🌱 レベル1：まずは、自分が分かったことを書けています。";
-
-  }
+}
 
 
-  if(level === 2){
-
-    result.innerHTML =
-      "🌱 レベル2：学びについて、詳しく振り返ることができています！";
-
-  }
-
-
-  if(level >= 3){
-
-    result.innerHTML =
-      "🌟 レベル3：理由や自分の考えまで深く振り返ることができています！すばらしい！";
-
-  }
-
-
-  return level;
-
-};
-
-
-/* =========================================
-   深まり振り返り保存
-========================================= */
+/* ==================================================
+   深まり保存
+================================================== */
 
 window.saveDeepReflection =
 async function(){
 
-  if(!savedReflectionId){
+  if(!currentReflectionId){
 
     alert(
-      "先に最初の振り返りを保存してください。"
+      "先に「振り返りを保存」してください。"
     );
 
     return;
@@ -1507,12 +1558,10 @@ async function(){
 
 
   const text =
-    document
-      .getElementById(
-        "deepReflection"
-      )
-      .value
-      .trim();
+    document.getElementById(
+      "deepReflection"
+    ).value
+    .trim();
 
 
   if(!text){
@@ -1527,7 +1576,7 @@ async function(){
 
 
   const level =
-    judgeDepth();
+    judgeLevel(text);
 
 
   try{
@@ -1537,7 +1586,7 @@ async function(){
       doc(
         db,
         "manabi",
-        savedReflectionId
+        currentReflectionId
       ),
 
       {
@@ -1554,30 +1603,71 @@ async function(){
     );
 
 
-    document.getElementById(
-      "saveMessage"
-    ).innerHTML = `
+    if(level >= 3){
 
-      <div class="success">
+      document.getElementById(
+        "levelResult"
+      ).innerHTML = `
 
-        ✅ 深まり振り返りも保存しました！<br>
+        <strong>
+          🌟 レベル3
+        </strong>
 
-        ${
-          level >= 3
-          ? "🌟 とても深く考えられています！"
-          : "🌱 よく振り返ることができました！"
-        }
+        <br>
 
-      </div>
+        自分の考えを深め、
+        理由やつながりまで考えています。
+        とてもすばらしい振り返りです！
 
-    `;
+      `;
+
+    }else if(level === 2){
+
+      document.getElementById(
+        "levelResult"
+      ).innerHTML = `
+
+        <strong>
+          🌱 レベル2
+        </strong>
+
+        <br>
+
+        学んだことをもとに、
+        自分の考えを広げています！
+
+      `;
+
+    }else{
+
+      document.getElementById(
+        "levelResult"
+      ).innerHTML = `
+
+        <strong>
+          🌱 レベル1
+        </strong>
+
+        <br>
+
+        自分の学びを振り返ることができました！
+
+      `;
+
+    }
+
+
+    alert(
+      "深まり振り返りを保存しました！"
+    );
+
 
   }catch(error){
 
     console.error(error);
 
     alert(
-      "深まり振り返りを保存できませんでした。"
+      "保存できませんでした。"
     );
 
   }
@@ -1585,9 +1675,9 @@ async function(){
 };
 
 
-/* =========================================
+/* ==================================================
    自分の履歴
-========================================= */
+================================================== */
 
 window.openHistory =
 function(){
@@ -1603,12 +1693,10 @@ window.loadMyHistory =
 async function(){
 
   const name =
-    document
-      .getElementById(
-        "historyName"
-      )
-      .value
-      .trim();
+    document.getElementById(
+      "historyName"
+    ).value
+    .trim();
 
 
   const area =
@@ -1620,7 +1708,7 @@ async function(){
   if(!name){
 
     alert(
-      "名前を入力してください。"
+      "なまえを入力してください。"
     );
 
     return;
@@ -1628,19 +1716,27 @@ async function(){
   }
 
 
-  area.innerHTML =
-    "読み込んでいます……";
-
-
   try{
 
-    const snapshot =
-      await getDocs(
+    const q =
+      query(
+
         collection(
           db,
           "manabi"
+        ),
+
+        where(
+          "name",
+          "==",
+          name
         )
+
       );
+
+
+    const snapshot =
+      await getDocs(q);
 
 
     const data = [];
@@ -1649,15 +1745,10 @@ async function(){
     snapshot.forEach(
       item => {
 
-        const d =
-          item.data();
-
-
-        if(d.name === name){
-
-          data.push(d);
-
-        }
+        data.push({
+          id:item.id,
+          ...item.data()
+        });
 
       }
     );
@@ -1679,9 +1770,9 @@ async function(){
 
       area.innerHTML = `
 
-        <div class="empty">
+        <div class="box empty">
 
-          まだ振り返りはありません。
+          まだ振り返りがありません。
 
         </div>
 
@@ -1696,37 +1787,48 @@ async function(){
       data.map(
         item => `
 
-          <div class="reflection-card">
+          <div class="history-card">
 
-            <h3>
+            <div class="history-header">
 
-              📘
-              ${escapeHtml(
-                item.subject || ""
-              )}
+              <div>
 
-            </h3>
+                <span class="subject-badge">
 
+                  ${escapeHtml(
+                    item.subject || ""
+                  )}
 
-            <div>
+                </span>
 
-              ${escapeHtml(
-                item.unit || ""
-              )}
+                <strong>
+
+                  ${escapeHtml(
+                    item.unit || ""
+                  )}
+
+                </strong>
+
+              </div>
+
+              <div class="date">
+
+                ${escapeHtml(
+                  item.date || ""
+                )}
+
+              </div>
 
             </div>
 
 
-            <div class="date">
+            <div class="history-study">
 
-              ${escapeHtml(
-                item.date || ""
-              )}
+              <strong>
+                ✏️ 今日の学び
+              </strong>
 
-            </div>
-
-
-            <div class="study-text">
+              <br><br>
 
               ${escapeHtml(
                 item.study || ""
@@ -1739,7 +1841,7 @@ async function(){
               item.deepReflection
               ? `
 
-                <div class="deep-box">
+                <div class="history-deep">
 
                   <strong>
                     🌱 深まり振り返り
@@ -1762,21 +1864,29 @@ async function(){
         `
       ).join("");
 
+
   }catch(error){
 
     console.error(error);
 
-    area.innerHTML =
-      "読み込みに失敗しました。";
+    area.innerHTML = `
+
+      <div class="box empty">
+
+        読み込みに失敗しました。
+
+      </div>
+
+    `;
 
   }
 
 };
 
 
-/* =========================================
+/* ==================================================
    みんなの振り返り
-========================================= */
+================================================== */
 
 window.openEveryoneHistory =
 async function(){
@@ -1784,16 +1894,6 @@ async function(){
   showPage(
     "everyonePage"
   );
-
-
-  const area =
-    document.getElementById(
-      "everyoneList"
-    );
-
-
-  area.innerHTML =
-    "読み込んでいます……";
 
 
   try{
@@ -1813,110 +1913,157 @@ async function(){
     snapshot.forEach(
       item => {
 
-        everyoneData.push(
-          {
-            id:item.id,
-            ...item.data()
-          }
-        );
+        everyoneData.push({
+
+          id:item.id,
+
+          ...item.data()
+
+        });
 
       }
     );
 
 
-    displayEveryone();
+    const subjects =
+      [
+        ...new Set(
+          everyoneData
+            .map(
+              item =>
+                item.subject
+            )
+            .filter(Boolean)
+        )
+      ];
+
+
+    const area =
+      document.getElementById(
+        "everyoneSubjects"
+      );
+
+
+    if(subjects.length === 0){
+
+      area.innerHTML = `
+
+        <div class="empty">
+          まだ振り返りがありません。
+        </div>
+
+      `;
+
+      return;
+
+    }
+
+
+    area.innerHTML =
+      subjects.map(
+        subject => `
+
+          <div
+            class="subject-card"
+            onclick=
+            "openEveryoneSubject('${escapeJs(subject)}')">
+
+            <div class="subject-name">
+
+              📚
+              ${escapeHtml(subject)}
+
+            </div>
+
+            <div>
+
+              ${everyoneData.filter(
+                item =>
+                  item.subject === subject
+              ).length}
+              件
+
+            </div>
+
+          </div>
+
+        `
+      ).join("");
+
 
   }catch(error){
 
     console.error(error);
-
-    area.innerHTML =
-      "読み込みに失敗しました。";
 
   }
 
 };
 
 
-function displayEveryone(){
+/* ==================================================
+   みんなの教科
+================================================== */
 
-  const area =
-    document.getElementById(
-      "everyoneList"
-    );
+window.openEveryoneSubject =
+function(subject){
+
+  showPage(
+    "everyoneDetailPage"
+  );
 
 
-  if(everyoneData.length === 0){
-
-    area.innerHTML = `
-
-      <div class="empty">
-
-        まだ振り返りはありません。
-
-      </div>
-
-    `;
-
-    return;
-
-  }
+  document.getElementById(
+    "everyoneDetailTitle"
+  ).textContent =
+    "📚 " +
+    subject +
+    " のみんなの振り返り";
 
 
   const data =
-    everyoneData
-      .filter(
-        item =>
-          item.lessonId ===
-          (
-            currentLesson
-              ? currentLesson.lessonId
-              : ""
-          )
-      );
+    everyoneData.filter(
+      item =>
+        item.subject === subject
+    );
 
 
-  if(data.length === 0){
+  data.sort(
+    (a,b) =>
+      String(
+        b.date || ""
+      ).localeCompare(
+        String(
+          a.date || ""
+        )
+      )
+  );
 
-    area.innerHTML = `
 
-      <div class="empty">
-
-        現在の授業の振り返りはありません。
-
-      </div>
-
-    `;
-
-    return;
-
-  }
+  const area =
+    document.getElementById(
+      "everyoneDetailList"
+    );
 
 
   area.innerHTML =
     data.map(
       item => `
 
-        <div class="reflection-card">
+        <div class="everyone-card">
 
-          <h3>
+          <div class="student-name">
 
             👤
             ${escapeHtml(
-              item.name || ""
+              item.name || "名前なし"
             )}
 
-            ／
-
-            📘
-            ${escapeHtml(
-              item.subject || ""
-            )}
-
-          </h3>
+          </div>
 
 
-          <div class="date">
+          <div
+            class="date"
+            style="margin-top:5px;">
 
             ${escapeHtml(
               item.date || ""
@@ -1925,7 +2072,7 @@ function displayEveryone(){
           </div>
 
 
-          <div class="study-text">
+          <div class="everyone-study">
 
             ${escapeHtml(
               item.study || ""
@@ -1938,14 +2085,9 @@ function displayEveryone(){
             item.deepReflection
             ? `
 
-              <div class="deep-box">
+              <div class="history-deep">
 
-                <strong>
-                  🌱 深まり振り返り
-                </strong>
-
-                <br><br>
-
+                🌱
                 ${escapeHtml(
                   item.deepReflection
                 )}
@@ -1961,12 +2103,12 @@ function displayEveryone(){
       `
     ).join("");
 
-}
+};
 
 
-/* =========================================
+/* ==================================================
    HTML安全化
-========================================= */
+================================================== */
 
 function escapeHtml(value){
 
@@ -2008,6 +2150,28 @@ function escapeHtml(value){
     );
 
 }
+
+
+/* ==================================================
+   JS文字列安全化
+================================================== */
+
+function escapeJs(value){
+
+  return String(value)
+
+    .replace(
+      /\\/g,
+      "\\\\"
+    )
+
+    .replace(
+      /'/g,
+      "\\'"
+    );
+
+}
+
 
 </script>
 
