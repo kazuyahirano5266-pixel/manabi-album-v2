@@ -76,6 +76,12 @@ background:#1976d2;
 background:#8e44ad;
 }
 
+.new-lesson-button{
+background:#e67e22;
+font-size:18px;
+padding:14px 24px;
+}
+
 .number-button{
 background:white;
 color:#333;
@@ -129,6 +135,48 @@ flex-wrap:wrap;
 
 .header-title{
 flex:1;
+}
+
+
+/* =========================
+授業情報
+========================= */
+
+.lesson-area{
+background:#fff7df;
+padding:20px;
+border-radius:22px;
+margin-bottom:20px;
+text-align:center;
+border:2px solid #f0d98c;
+}
+
+.lesson-status{
+font-size:15px;
+color:#666;
+margin-bottom:5px;
+}
+
+.lesson-title{
+font-size:25px;
+font-weight:bold;
+margin:5px 0;
+}
+
+.lesson-id{
+font-size:18px;
+color:#777;
+margin-top:8px;
+}
+
+.current-badge{
+display:inline-block;
+background:#2b7a78;
+color:white;
+padding:7px 16px;
+border-radius:20px;
+font-weight:bold;
+margin-bottom:10px;
 }
 
 
@@ -410,6 +458,10 @@ min-height:50px;
 grid-template-columns:1fr;
 }
 
+.lesson-title{
+font-size:21px;
+}
+
 }
 
 </style>
@@ -453,6 +505,56 @@ onclick="openSettings()">
 </div>
 
 
+<!-- ==================================================
+現在の授業
+================================================== -->
+
+<div class="lesson-area">
+
+<div class="current-badge">
+🟢 現在の授業
+</div>
+
+<div class="lesson-status">
+今、児童が保存する振り返りはこの授業に入ります。
+</div>
+
+<div
+id="lessonTitleDisplay"
+class="lesson-title">
+
+授業を準備しています…
+
+</div>
+
+<div
+id="lessonIdDisplay"
+class="lesson-id">
+
+授業ID：----
+
+</div>
+
+
+<button
+type="button"
+class="new-lesson-button"
+onclick="createNewLesson()">
+
+🔄 新しい授業を開始
+
+</button>
+
+
+<p style="font-size:14px;color:#777;">
+
+※児童は授業IDを入力する必要はありません。
+
+</p>
+
+</div>
+
+
 <!-- =========================
 出席番号
 ========================= -->
@@ -464,7 +566,7 @@ onclick="openSettings()">
 </h2>
 
 <p>
-出席番号を選択すると、その児童の振り返りを表示します。
+出席番号を選択すると、<strong>今の授業</strong>の振り返りを表示します。
 </p>
 
 <div
@@ -484,7 +586,7 @@ class="number-grid">
 
 <div class="empty">
 
-👆 出席番号を選択してください。
+📚 現在の授業を読み込んでいます。
 
 </div>
 
@@ -573,7 +675,12 @@ from
 import {
 getFirestore,
 collection,
-getDocs
+getDocs,
+query,
+where,
+doc,
+getDoc,
+setDoc
 }
 from
 "https://www.gstatic.com/firebasejs/12.17.0/firebase-firestore.js";
@@ -617,10 +724,13 @@ let allData=[];
 
 let selectedNumber="";
 
+let currentLessonId="";
+
+let currentLessonCreatedAt="";
+
 
 /* ==================================================
 名前設定
-Firestoreには保存しない
 ================================================== */
 
 let studentNames={};
@@ -718,10 +828,6 @@ return "日付なし";
 出席番号取得
 ================================================== */
 
-/*
-いろいろなバージョンのデータに対応
-*/
-
 function getNumber(data){
 
 const possibleValues=[
@@ -734,10 +840,6 @@ data.studentNo
 
 ];
 
-
-/*
-最初に見つかった番号を使用
-*/
 
 for(
 const value of possibleValues
@@ -767,11 +869,6 @@ Number(text)
 
 }
 
-
-/*
-古いバージョンで
-nameに番号を保存していた場合
-*/
 
 if(data.name){
 
@@ -813,6 +910,305 @@ return studentNames[number];
 }
 
 return "名前未設定";
+
+}
+
+
+/* ==================================================
+授業ID作成
+================================================== */
+
+function generateLessonId(){
+
+const now=
+new Date();
+
+
+const date=
+String(
+now.getFullYear()
+).slice(-2)
++
+String(
+now.getMonth()+1
+).padStart(2,"0")
++
+String(
+now.getDate()
+).padStart(2,"0");
+
+
+const time=
+String(
+now.getHours()
+).padStart(2,"0")
++
+String(
+now.getMinutes()
+).padStart(2,"0");
+
+
+const random=
+Math.random()
+.toString(36)
+.substring(2,6)
+.toUpperCase();
+
+
+return date+"-"+time+"-"+random;
+
+}
+
+
+/* ==================================================
+現在の授業をFirebaseから取得
+================================================== */
+
+async function loadCurrentLesson(){
+
+try{
+
+const lessonRef=
+doc(
+db,
+"settings",
+"currentLesson"
+);
+
+
+const lessonSnap=
+await getDoc(
+lessonRef
+);
+
+
+if(
+lessonSnap.exists()
+){
+
+const data=
+lessonSnap.data();
+
+
+currentLessonId=
+data.lessonId || "";
+
+
+currentLessonCreatedAt=
+data.createdAt || "";
+
+}
+
+
+if(
+!currentLessonId
+){
+
+await createNewLesson(false);
+
+}else{
+
+showCurrentLesson();
+
+await loadAllData();
+
+}
+
+
+}catch(error){
+
+console.error(
+"現在の授業取得エラー:",
+error
+);
+
+
+document.getElementById(
+"studentArea"
+).innerHTML=
+
+`
+
+<div class="error-box">
+
+<h2>
+😢 現在の授業を取得できませんでした
+</h2>
+
+<p>
+Firebaseとの通信を確認してください。
+</p>
+
+<button
+type="button"
+onclick="location.reload()">
+
+🔄 ページを再読み込み
+
+</button>
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* ==================================================
+新しい授業を開始
+================================================== */
+
+async function createNewLesson(ask=true){
+
+if(ask){
+
+const answer=
+confirm(
+"新しい授業を開始します。\n\n現在の授業とは別の授業になります。\n\nよろしいですか？"
+);
+
+if(!answer){
+
+return;
+
+}
+
+}
+
+
+try{
+
+const newLessonId=
+generateLessonId();
+
+
+currentLessonId=
+newLessonId;
+
+
+currentLessonCreatedAt=
+new Date();
+
+
+/*
+Firebaseの
+「現在の授業」を更新
+*/
+
+await setDoc(
+
+doc(
+db,
+"settings",
+"currentLesson"
+),
+
+{
+
+lessonId:
+currentLessonId,
+
+createdAt:
+currentLessonCreatedAt
+
+}
+
+);
+
+
+showCurrentLesson();
+
+
+/*
+今まで表示していたデータをクリア
+*/
+
+allData=[];
+
+selectedNumber="";
+
+
+createNumberButtons();
+
+
+document.getElementById(
+"studentArea"
+).innerHTML=
+
+`
+
+<div class="message">
+
+✅ 新しい授業を開始しました。
+
+<br><br>
+
+この授業から児童が保存する振り返りは、
+自動的にこの授業に入ります。
+
+</div>
+
+<div class="empty">
+
+👆 出席番号を選択してください。
+
+</div>
+
+`;
+
+}catch(error){
+
+console.error(
+"新しい授業作成エラー:",
+error
+);
+
+
+alert(
+"新しい授業を開始できませんでした。"
+);
+
+}
+
+}
+
+
+/* ==================================================
+現在の授業表示
+================================================== */
+
+function showCurrentLesson(){
+
+const idElement=
+document.getElementById(
+"lessonIdDisplay"
+);
+
+
+const titleElement=
+document.getElementById(
+"lessonTitleDisplay"
+);
+
+
+if(idElement){
+
+idElement.textContent=
+"授業ID："+(
+currentLessonId || "----"
+);
+
+}
+
+
+if(titleElement){
+
+titleElement.textContent=
+"この授業が現在の授業です";
+
+}
 
 }
 
@@ -874,10 +1270,6 @@ document.getElementById(
 ).innerHTML=html;
 
 
-/*
-ここでイベントを登録
-*/
-
 document
 .querySelectorAll(
 ".number-button"
@@ -903,9 +1295,17 @@ selectStudent(number);
 
 /* ==================================================
 Firestore読み込み
+現在の授業だけ
 ================================================== */
 
 async function loadAllData(){
+
+if(!currentLessonId){
+
+return;
+
+}
+
 
 document.getElementById(
 "studentArea"
@@ -915,7 +1315,7 @@ document.getElementById(
 
 <div class="loading">
 
-📚 振り返りを読み込んでいます...
+📚 今の授業の振り返りを読み込んでいます...
 
 </div>
 
@@ -924,13 +1324,29 @@ document.getElementById(
 
 try{
 
-const snapshot=
-await getDocs(
+/*
+lessonIdが現在の授業と一致するものだけ取得
+*/
+
+const q=
+query(
+
 collection(
 db,
 "manabi"
+),
+
+where(
+"lessonId",
+"==",
+currentLessonId
 )
+
 );
+
+
+const snapshot=
+await getDocs(q);
 
 
 allData=[];
@@ -955,7 +1371,12 @@ id:docSnap.id,
 
 
 console.log(
-"Firestore読み込み件数:",
+"現在の授業ID:",
+currentLessonId
+);
+
+console.log(
+"今回の読み込み件数:",
 allData.length
 );
 
@@ -968,6 +1389,21 @@ document.getElementById(
 ).innerHTML=
 
 `
+
+<div class="message">
+
+📚 現在の授業：
+
+<strong>
+${escapeHTML(currentLessonId)}
+</strong>
+
+<br>
+
+現在 ${allData.length} 件の振り返り
+
+</div>
+
 
 <div class="empty">
 
@@ -999,7 +1435,7 @@ document.getElementById(
 </h2>
 
 <p>
-Firestoreから振り返りを読み込めませんでした。
+現在の授業の振り返りを読み込めませんでした。
 </p>
 
 <button
@@ -1036,10 +1472,6 @@ function selectStudent(number){
 selectedNumber=
 String(number);
 
-
-/*
-選択状態
-*/
 
 document
 .querySelectorAll(
@@ -1129,7 +1561,7 @@ html+=`
 
 <div class="empty">
 
-📭 この児童にはまだ振り返りがありません。
+📭 この授業ではまだ振り返りがありません。
 
 </div>
 
@@ -1152,10 +1584,6 @@ return;
 
 }
 
-
-/*
-教科を取得
-*/
 
 const subjects=[];
 
@@ -1251,10 +1679,6 @@ document.getElementById(
 ).innerHTML=html;
 
 
-/*
-イベント登録
-*/
-
 document.getElementById(
 "backToNumbers"
 ).addEventListener(
@@ -1287,7 +1711,7 @@ this.dataset.subject
 
 
 /* ==================================================
-出席番号一覧に戻る
+出席番号一覧へ
 ================================================== */
 
 function showNumberArea(){
@@ -1300,6 +1724,17 @@ document.getElementById(
 ).innerHTML=
 
 `
+
+<div class="message">
+
+📚 現在の授業：
+
+<strong>
+${escapeHTML(currentLessonId)}
+</strong>
+
+</div>
+
 
 <div class="empty">
 
@@ -1489,10 +1924,6 @@ document.getElementById(
 ).innerHTML=html;
 
 
-/*
-戻るボタン
-*/
-
 document.getElementById(
 "backToSubjects"
 ).addEventListener(
@@ -1500,10 +1931,6 @@ document.getElementById(
 showStudentSubjects
 );
 
-
-/*
-単元ボタン
-*/
 
 document
 .querySelectorAll(
@@ -1614,10 +2041,6 @@ html+=`
 }else{
 
 
-/*
-新しい順に並べる
-*/
-
 data.sort(
 (a,b)=>{
 
@@ -1657,10 +2080,6 @@ document.getElementById(
 ).innerHTML=html;
 
 
-/*
-戻る
-*/
-
 document.getElementById(
 "backToUnits"
 ).addEventListener(
@@ -1673,10 +2092,6 @@ subject
 
 });
 
-
-/*
-所見ボタン
-*/
 
 document
 .querySelectorAll(
@@ -1698,10 +2113,6 @@ this.dataset.id
 
 });
 
-
-/*
-コピー
-*/
 
 document
 .querySelectorAll(
@@ -1727,7 +2138,7 @@ this.dataset.id
 
 
 /* ==================================================
-日付を数値化
+日付
 ================================================== */
 
 function getDateTime(value){
@@ -1918,7 +2329,6 @@ function getSubjectInstruction(subject){
 const instructions={
 
 "国語":`
-
 国語の学習内容を踏まえ、
 文章を読んで考えたこと、
 自分の考えを表現したこと、
@@ -1927,7 +2337,6 @@ const instructions={
 `,
 
 "算数":`
-
 算数の学習内容を踏まえ、
 問題解決の過程、
 考え方や計算の工夫、
@@ -1936,7 +2345,6 @@ const instructions={
 `,
 
 "生活":`
-
 生活科の学習内容を踏まえ、
 身近なものや人への気付き、
 体験を通して得た発見、
@@ -1945,7 +2353,6 @@ const instructions={
 `,
 
 "理科":`
-
 理科の学習内容を踏まえ、
 予想、実験・観察、結果、
 そこから考えたことなど、
@@ -1953,7 +2360,6 @@ const instructions={
 `,
 
 "社会":`
-
 社会科の学習内容を踏まえ、
 資料を調べたこと、
 社会の仕組みについて考えたこと、
@@ -1962,7 +2368,6 @@ const instructions={
 `,
 
 "総合":`
-
 総合的な学習の時間の学習内容を踏まえ、
 課題を見付けたこと、
 調べたり考えたりしたこと、
@@ -1971,7 +2376,6 @@ const instructions={
 `,
 
 "道徳":`
-
 道徳の学習内容を踏まえ、
 教材や友達の考えを通して
 自分自身について考えたこと、
@@ -1980,7 +2384,6 @@ const instructions={
 `,
 
 "体育":`
-
 体育の学習内容を踏まえ、
 技能の向上、
 運動の工夫、
@@ -2405,6 +2808,9 @@ closeSettings;
 window.saveNames=
 saveNames;
 
+window.createNewLesson=
+createNewLesson;
+
 
 /* ==================================================
 起動
@@ -2412,11 +2818,11 @@ saveNames;
 
 createNumberButtons();
 
-loadAllData();
+loadCurrentLesson();
 
 
 console.log(
-"👩‍🏫 学びアルバム Ver.2 先生ページ 完成版 起動"
+"👩‍🏫 学びアルバム Ver.2 先生ページ 起動"
 );
 
 </script>
