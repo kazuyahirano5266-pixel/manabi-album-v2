@@ -5,17 +5,16 @@
 
 <meta charset="UTF-8">
 
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
 <title>学びアルバム Ver.2 先生ページ</title>
 
 <style>
 
-/* =====================================================
+/* ==================================================
    基本
-===================================================== */
+================================================== */
 
 *{
   box-sizing:border-box;
@@ -29,7 +28,6 @@ body{
     "Noto Sans JP",
     "Yu Gothic",
     sans-serif;
-
   background:#f3f6fa;
   color:#333;
 }
@@ -43,14 +41,14 @@ select{
 button{
   border:none;
   border-radius:12px;
-  padding:12px 18px;
+  padding:11px 18px;
   font-size:15px;
   font-weight:bold;
   cursor:pointer;
 }
 
 button:hover{
-  opacity:.85;
+  opacity:.86;
 }
 
 .page{
@@ -62,15 +60,15 @@ button:hover{
 }
 
 .container{
-  max-width:1500px;
+  max-width:1400px;
   margin:auto;
   padding:20px;
 }
 
 
-/* =====================================================
+/* ==================================================
    ヘッダー
-===================================================== */
+================================================== */
 
 header{
   background:
@@ -79,7 +77,6 @@ header{
       #4f8cff,
       #6c63ff
     );
-
   color:white;
   padding:22px 25px;
 }
@@ -95,16 +92,15 @@ header p{
 }
 
 
-/* =====================================================
+/* ==================================================
    ボックス
-===================================================== */
+================================================== */
 
 .box{
   background:white;
   border-radius:18px;
   padding:22px;
   margin-bottom:20px;
-
   box-shadow:
     0 4px 15px rgba(0,0,0,.06);
 }
@@ -114,9 +110,9 @@ h2{
 }
 
 
-/* =====================================================
+/* ==================================================
    ボタン
-===================================================== */
+================================================== */
 
 .primary{
   background:#4f8cff;
@@ -151,9 +147,9 @@ h2{
 }
 
 
-/* =====================================================
-   授業カード
-===================================================== */
+/* ==================================================
+   授業情報
+================================================== */
 
 .lesson-card{
   border-left:7px solid #43b883;
@@ -188,23 +184,16 @@ h2{
 }
 
 .lesson-id{
-  margin-top:12px;
-  padding:12px;
-  background:#eef3ff;
-  border-radius:10px;
-  font-size:14px;
-  color:#365fa8;
+  margin-top:10px;
+  font-size:13px;
+  color:#888;
   word-break:break-all;
 }
 
-.lesson-id strong{
-  font-size:17px;
-}
 
-
-/* =====================================================
-   入力
-===================================================== */
+/* ==================================================
+   授業開始
+================================================== */
 
 .form-group{
   margin-bottom:15px;
@@ -220,24 +209,21 @@ input,
 select{
   width:100%;
   padding:13px;
-
   border:1px solid #d8dee8;
   border-radius:11px;
-
   font-size:16px;
   background:white;
 }
 
 
-/* =====================================================
+/* ==================================================
    統計
-===================================================== */
+================================================== */
 
 .stats{
   display:grid;
   grid-template-columns:
     repeat(4,1fr);
-
   gap:14px;
 }
 
@@ -260,27 +246,23 @@ select{
 }
 
 
-/* =====================================================
+/* ==================================================
    メニュー
-===================================================== */
+================================================== */
 
 .menu-grid{
   display:grid;
   grid-template-columns:
     repeat(2,1fr);
-
   gap:16px;
 }
 
 .menu-button{
   background:white;
-
   border:2px solid #e1e7f0;
   border-radius:17px;
-
   padding:25px;
   text-align:left;
-
   cursor:pointer;
 }
 
@@ -305,16 +287,15 @@ select{
 }
 
 
-/* =====================================================
+/* ==================================================
    パンくず
-===================================================== */
+================================================== */
 
 .breadcrumb{
   display:flex;
   align-items:center;
   gap:8px;
   flex-wrap:wrap;
-
   margin-bottom:15px;
 }
 
@@ -324,9 +305,9 @@ select{
 }
 
 
-/* =====================================================
+/* ==================================================
    児童一覧
-===================================================== */
+================================================== */
 
 .search{
   margin-bottom:15px;
@@ -376,25 +357,22 @@ select{
 }
 
 
-/* =====================================================
+/* ==================================================
    教科
-===================================================== */
+================================================== */
 
 .subject-grid{
   display:grid;
   grid-template-columns:
     repeat(4,1fr);
-
   gap:14px;
 }
 
 .subject-card{
   border:2px solid #e2e7ef;
   border-radius:16px;
-
   padding:20px;
   text-align:center;
-
   cursor:pointer;
   background:white;
 }
@@ -415,9 +393,9 @@ select{
 }
 
 
-/* =====================================================
+/* ==================================================
    単元
-===================================================== */
+================================================== */
 
 .unit-list{
   display:flex;
@@ -428,7 +406,6 @@ select{
 .unit-card{
   border:1px solid #e0e5ed;
   border-radius:14px;
-
   padding:18px;
   cursor:pointer;
 }
@@ -449,14 +426,13 @@ select{
 }
 
 
-/* =====================================================
+/* ==================================================
    振り返り
-===================================================== */
+================================================== */
 
 .reflection-card{
   border:1px solid #e2e7ee;
   border-radius:17px;
-
   padding:21px;
   margin-bottom:16px;
 }
@@ -470,14 +446,10 @@ select{
 
 .subject-badge{
   display:inline-block;
-
   background:#eaf1ff;
   color:#3769c8;
-
   padding:5px 11px;
-
   border-radius:20px;
-
   font-size:13px;
   font-weight:bold;
 }
@@ -490,62 +462,43 @@ select{
 .study-box{
   margin-top:17px;
   line-height:1.9;
-
   white-space:pre-wrap;
 }
 
 .ai-box{
   margin-top:17px;
-
   background:#eef7ff;
   border-left:6px solid #4f8cff;
-
   border-radius:10px;
-
   padding:15px;
-
   line-height:1.8;
-
   white-space:pre-wrap;
 }
 
 .deep-box{
   margin-top:17px;
-
   background:#fff9e8;
   border-left:6px solid #f2b94b;
-
   border-radius:10px;
-
   padding:15px;
-
   line-height:1.8;
-
   white-space:pre-wrap;
 }
 
 .no-deep{
   margin-top:17px;
-
   background:#f7f7f7;
   color:#888;
-
   border-radius:10px;
-
   padding:14px;
 }
 
 .level-badge{
   display:inline-block;
-
   margin-top:15px;
-
   padding:7px 13px;
-
   border-radius:20px;
-
   background:#edf1f6;
-
   font-weight:bold;
 }
 
@@ -560,32 +513,27 @@ select{
 }
 
 
-/* =====================================================
+/* ==================================================
    クラス比較
-===================================================== */
+================================================== */
 
 .compare-info{
   background:#f5f8fc;
   border-radius:13px;
-
   padding:15px;
   margin-bottom:15px;
 }
 
 .compare-scroll{
   overflow-x:auto;
-
   border:1px solid #dfe5ec;
   border-radius:14px;
 }
 
 .compare-table{
   border-collapse:collapse;
-
   width:100%;
-
-  min-width:1250px;
-
+  min-width:1150px;
   background:white;
 }
 
@@ -593,21 +541,16 @@ select{
 .compare-table td{
   border-bottom:1px solid #e4e8ee;
   border-right:1px solid #e4e8ee;
-
   padding:13px;
-
   vertical-align:top;
 }
 
 .compare-table th{
   background:#eef3f9;
-
   white-space:nowrap;
   text-align:left;
-
   position:sticky;
   top:0;
-
   z-index:2;
 }
 
@@ -615,11 +558,8 @@ select{
 .compare-table td:first-child{
   position:sticky;
   left:0;
-
   z-index:3;
-
   background:#fff;
-
   min-width:135px;
 }
 
@@ -634,10 +574,8 @@ select{
 
 .compare-cell{
   min-width:240px;
-  max-width:340px;
-
+  max-width:330px;
   line-height:1.7;
-
   white-space:pre-wrap;
 }
 
@@ -684,11 +622,8 @@ select{
 
 .compare-toolbar{
   display:flex;
-
   gap:10px;
-
   flex-wrap:wrap;
-
   margin-bottom:15px;
 }
 
@@ -698,21 +633,20 @@ select{
 }
 
 
-/* =====================================================
+/* ==================================================
    空表示
-===================================================== */
+================================================== */
 
 .empty{
   text-align:center;
   color:#888;
-
   padding:40px 20px;
 }
 
 
-/* =====================================================
+/* ==================================================
    レスポンシブ
-===================================================== */
+================================================== */
 
 @media(max-width:900px){
 
@@ -767,9 +701,7 @@ select{
 
 <header>
 
-  <h1>
-    👩‍🏫 学びアルバム Ver.2
-  </h1>
+  <h1>👩‍🏫 学びアルバム Ver.2</h1>
 
   <p>
     先生ページ
@@ -781,25 +713,21 @@ select{
 <div class="container">
 
 
-<!-- =====================================================
+<!-- ==================================================
      HOME
-===================================================== -->
+================================================== -->
 
 <section
   id="homePage"
   class="page active">
 
-
   <div class="box">
 
-    <h2>
-      📚 現在の授業
-    </h2>
+    <h2>📚 現在の授業</h2>
 
     <div id="lessonInfo">
       読み込んでいます……
     </div>
-
 
     <div class="button-row">
 
@@ -810,7 +738,6 @@ select{
         ▶️ 新しい授業を開始
 
       </button>
-
 
       <button
         class="red"
@@ -883,10 +810,9 @@ select{
         class="green"
         onclick="startLesson()">
 
-        🚀 授業を開始する
+        授業を開始する
 
       </button>
-
 
       <button
         class="gray"
@@ -925,7 +851,6 @@ select{
       🔎 振り返りを見る
     </h2>
 
-
     <div class="menu-grid">
 
 
@@ -942,15 +867,8 @@ select{
         </div>
 
         <div class="menu-description">
-
-          児童
-          →
-          教科
-          →
-          単元
-          →
-          振り返り
-
+          児童 → 教科 → 単元 → 振り返り
+          の順に詳しく見る
         </div>
 
       </div>
@@ -969,10 +887,7 @@ select{
         </div>
 
         <div class="menu-description">
-
-          全員の振り返りを
-          横並びで比較します。
-
+          全員の振り返りを横並びで比較する
         </div>
 
       </div>
@@ -982,18 +897,16 @@ select{
 
   </div>
 
-
 </section>
 
 
-<!-- =====================================================
+<!-- ==================================================
      STUDENTS
-===================================================== -->
+================================================== -->
 
 <section
   id="studentsPage"
   class="page">
-
 
   <div class="breadcrumb">
 
@@ -1015,16 +928,14 @@ select{
   <div class="box">
 
     <h2>
-      👦👧 現在の授業の児童一覧
+      👦👧 児童一覧
     </h2>
-
 
     <input
       id="studentSearch"
       class="search"
       placeholder="🔍 児童名を検索"
       oninput="displayStudents()">
-
 
     <div id="studentTableArea"></div>
 
@@ -1033,14 +944,13 @@ select{
 </section>
 
 
-<!-- =====================================================
+<!-- ==================================================
      SUBJECTS
-===================================================== -->
+================================================== -->
 
 <section
   id="subjectsPage"
   class="page">
-
 
   <div class="breadcrumb">
 
@@ -1051,7 +961,6 @@ select{
       ← 児童一覧
 
     </button>
-
 
     <span
       id="breadcrumbStudent"
@@ -1067,7 +976,6 @@ select{
       📚 教科を選択
     </h2>
 
-
     <div
       id="subjectGrid"
       class="subject-grid">
@@ -1078,14 +986,13 @@ select{
 </section>
 
 
-<!-- =====================================================
+<!-- ==================================================
      UNITS
-===================================================== -->
+================================================== -->
 
 <section
   id="unitsPage"
   class="page">
-
 
   <div class="breadcrumb">
 
@@ -1096,7 +1003,6 @@ select{
       ← 教科一覧
 
     </button>
-
 
     <span
       id="breadcrumbUnit"
@@ -1112,7 +1018,6 @@ select{
       📘 単元を選択
     </h2>
 
-
     <div
       id="unitList"
       class="unit-list">
@@ -1123,14 +1028,13 @@ select{
 </section>
 
 
-<!-- =====================================================
+<!-- ==================================================
      REFLECTIONS
-===================================================== -->
+================================================== -->
 
 <section
   id="reflectionsPage"
   class="page">
-
 
   <div class="breadcrumb">
 
@@ -1141,7 +1045,6 @@ select{
       ← 単元一覧
 
     </button>
-
 
     <span
       id="breadcrumbReflection"
@@ -1157,7 +1060,6 @@ select{
       ✏️ 振り返り
     </h2>
 
-
     <div id="reflectionList"></div>
 
   </div>
@@ -1165,14 +1067,13 @@ select{
 </section>
 
 
-<!-- =====================================================
+<!-- ==================================================
      COMPARE
-===================================================== -->
+================================================== -->
 
 <section
   id="comparePage"
   class="page">
-
 
   <div class="breadcrumb">
 
@@ -1183,7 +1084,6 @@ select{
       ← 先生ホーム
 
     </button>
-
 
     <span class="breadcrumb-current">
       📊 クラス全員比較
@@ -1198,7 +1098,6 @@ select{
       📊 クラス全員の振り返り比較
     </h2>
 
-
     <div
       id="compareLessonInfo"
       class="compare-info">
@@ -1207,14 +1106,13 @@ select{
 
     <div class="compare-toolbar">
 
-
       <select
         id="compareLevelFilter"
         class="compare-filter"
         onchange="displayCompare()">
 
         <option value="">
-          すべての児童
+          すべてのレベル
         </option>
 
         <option value="1">
@@ -1239,7 +1137,7 @@ select{
       <input
         id="compareSearch"
         class="compare-filter"
-        placeholder="🔍 児童名を検索"
+        placeholder="🔍 児童名"
         oninput="displayCompare()">
 
     </div>
@@ -1262,9 +1160,9 @@ select{
 <script type="module">
 
 
-/* =====================================================
+/* ==================================================
    Firebase
-===================================================== */
+================================================== */
 
 import {
   initializeApp
@@ -1287,10 +1185,9 @@ from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-/* =====================================================
-   Firebase設定
-   ★ すでに入力済み
-===================================================== */
+/* ==================================================
+   あなたのFirebase設定
+================================================== */
 
 const firebaseConfig = {
 
@@ -1325,9 +1222,9 @@ const db =
   getFirestore(app);
 
 
-/* =====================================================
+/* ==================================================
    変数
-===================================================== */
+================================================== */
 
 let currentLesson = null;
 
@@ -1340,9 +1237,9 @@ let selectedSubject = "";
 let selectedUnit = "";
 
 
-/* =====================================================
-   ページ表示
-===================================================== */
+/* ==================================================
+   ページ切り替え
+================================================== */
 
 window.showPage =
 function(pageId){
@@ -1357,11 +1254,19 @@ function(pageId){
     );
 
 
-  document
-    .getElementById(pageId)
-    .classList.add(
+  const target =
+    document.getElementById(
+      pageId
+    );
+
+
+  if(target){
+
+    target.classList.add(
       "active"
     );
+
+  }
 
 
   window.scrollTo({
@@ -1372,9 +1277,9 @@ function(pageId){
 };
 
 
-/* =====================================================
-   現在の授業を監視
-===================================================== */
+/* ==================================================
+   現在の授業を自動取得
+================================================== */
 
 const lessonRef =
   doc(
@@ -1396,8 +1301,7 @@ onSnapshot(
 
     }else{
 
-      currentLesson =
-        null;
+      currentLesson = null;
 
     }
 
@@ -1410,7 +1314,11 @@ onSnapshot(
 
   error => {
 
-    console.error(error);
+    console.error(
+      "授業情報取得エラー:",
+      error
+    );
+
 
     document.getElementById(
       "lessonInfo"
@@ -1418,13 +1326,13 @@ onSnapshot(
 
       <div class="empty">
 
-        Firebaseに接続できません。
+        Firebaseとの接続に失敗しました。
 
         <br><br>
 
-        Firestore Rulesの
-        currentLesson設定を
-        確認してください。
+        ${escapeHtml(
+          error.message
+        )}
 
       </div>
 
@@ -1435,9 +1343,9 @@ onSnapshot(
 );
 
 
-/* =====================================================
+/* ==================================================
    授業表示
-===================================================== */
+================================================== */
 
 function showLesson(){
 
@@ -1453,7 +1361,16 @@ function showLesson(){
 
       <div class="lesson-card ended">
 
-        ⏸️ 現在、授業はありません。
+        <div class="lesson-status ended">
+
+          ⏸️ 現在、授業はありません
+
+        </div>
+
+        <p>
+          「新しい授業を開始」から
+          授業を始めてください。
+        </p>
 
       </div>
 
@@ -1475,7 +1392,6 @@ function showLesson(){
         lesson-card
         ${active ? "" : "ended"}
       ">
-
 
       <div
         class="
@@ -1504,7 +1420,6 @@ function showLesson(){
       <div class="lesson-unit">
 
         📘
-
         ${escapeHtml(
           currentLesson.unit || ""
         )}
@@ -1514,20 +1429,12 @@ function showLesson(){
 
       <div class="lesson-id">
 
-        授業ID
-
-        <br>
-
-        <strong>
-
-          ${escapeHtml(
-            currentLesson.lessonId || ""
-          )}
-
-        </strong>
+        🔑 授業ID：
+        ${escapeHtml(
+          currentLesson.lessonId || ""
+        )}
 
       </div>
-
 
     </div>
 
@@ -1536,9 +1443,9 @@ function showLesson(){
 }
 
 
-/* =====================================================
+/* ==================================================
    授業開始エリア
-===================================================== */
+================================================== */
 
 window.showStartArea =
 function(){
@@ -1562,9 +1469,9 @@ function(){
 };
 
 
-/* =====================================================
+/* ==================================================
    授業ID自動作成
-===================================================== */
+================================================== */
 
 function createLessonId(){
 
@@ -1578,50 +1485,32 @@ function createLessonId(){
 
     String(
       now.getMonth()+1
-    ).padStart(
-      2,
-      "0"
-    ) +
+    ).padStart(2,"0") +
 
     String(
       now.getDate()
-    ).padStart(
-      2,
-      "0"
-    ) +
+    ).padStart(2,"0") +
 
     "-" +
 
     String(
       now.getHours()
-    ).padStart(
-      2,
-      "0"
-    ) +
+    ).padStart(2,"0") +
 
     String(
       now.getMinutes()
-    ).padStart(
-      2,
-      "0"
-    ) +
+    ).padStart(2,"0") +
 
     String(
       now.getSeconds()
-    ).padStart(
-      2,
-      "0"
-    );
+    ).padStart(2,"0");
 
 
   const randomPart =
 
     Math.random()
       .toString(36)
-      .substring(
-        2,
-        7
-      )
+      .substring(2,7)
       .toUpperCase();
 
 
@@ -1634,9 +1523,9 @@ function createLessonId(){
 }
 
 
-/* =====================================================
+/* ==================================================
    授業開始
-===================================================== */
+================================================== */
 
 window.startLesson =
 async function(){
@@ -1680,6 +1569,24 @@ async function(){
   }
 
 
+  if(currentLesson &&
+     currentLesson.active === true){
+
+    const ok =
+      confirm(
+        "現在の授業がまだ続いています。\n\n新しい授業を開始しますか？"
+      );
+
+
+    if(!ok){
+
+      return;
+
+    }
+
+  }
+
+
   const lessonId =
     createLessonId();
 
@@ -1688,39 +1595,24 @@ async function(){
 
     await setDoc(
 
-      doc(
-        db,
-        "currentLesson",
-        "today"
-      ),
+      lessonRef,
 
       {
 
         lessonId:
-
           lessonId,
 
         subject:
-
           subject,
 
         unit:
-
           unit,
 
         active:
-
           true,
 
         startedAt:
-
-          serverTimestamp(),
-
-        createdAt:
-
-          new Date().toLocaleString(
-            "ja-JP"
-          )
+          serverTimestamp()
 
       }
 
@@ -1748,7 +1640,10 @@ async function(){
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     alert(
       "授業を開始できませんでした。\n\n" +
@@ -1760,9 +1655,9 @@ async function(){
 };
 
 
-/* =====================================================
+/* ==================================================
    授業終了
-===================================================== */
+================================================== */
 
 window.endLesson =
 async function(){
@@ -1778,9 +1673,24 @@ async function(){
   }
 
 
-  if(!confirm(
-    "現在の授業を終了しますか？"
-  )){
+  if(currentLesson.active !== true){
+
+    alert(
+      "この授業はすでに終了しています。"
+    );
+
+    return;
+
+  }
+
+
+  const ok =
+    confirm(
+      "現在の授業を終了しますか？"
+    );
+
+
+  if(!ok){
 
     return;
 
@@ -1791,15 +1701,12 @@ async function(){
 
     await updateDoc(
 
-      doc(
-        db,
-        "currentLesson",
-        "today"
-      ),
+      lessonRef,
 
       {
 
-        active:false,
+        active:
+          false,
 
         endedAt:
           serverTimestamp()
@@ -1816,7 +1723,10 @@ async function(){
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     alert(
       "授業を終了できませんでした。\n\n" +
@@ -1828,9 +1738,9 @@ async function(){
 };
 
 
-/* =====================================================
-   振り返り読み込み
-===================================================== */
+/* ==================================================
+   振り返り取得
+================================================== */
 
 async function loadReflections(){
 
@@ -1853,7 +1763,8 @@ async function loadReflections(){
 
         allReflections.push({
 
-          id:item.id,
+          id:
+            item.id,
 
           ...item.data()
 
@@ -1872,9 +1783,7 @@ async function loadReflections(){
           "studentsPage"
         )
         .classList
-        .contains(
-          "active"
-        )
+        .contains("active")
     ){
 
       displayStudents();
@@ -1888,9 +1797,7 @@ async function loadReflections(){
           "comparePage"
         )
         .classList
-        .contains(
-          "active"
-        )
+        .contains("active")
     ){
 
       displayCompare();
@@ -1899,20 +1806,30 @@ async function loadReflections(){
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "振り返り取得エラー:",
+      error
+    );
 
   }
 
 }
 
 
-/* =====================================================
+/* ==================================================
    現在の授業だけ
-===================================================== */
+================================================== */
 
 function getCurrentLessonData(){
 
   if(!currentLesson){
+
+    return [];
+
+  }
+
+
+  if(!currentLesson.lessonId){
 
     return [];
 
@@ -1931,9 +1848,9 @@ function getCurrentLessonData(){
 }
 
 
-/* =====================================================
+/* ==================================================
    統計
-===================================================== */
+================================================== */
 
 function updateStats(){
 
@@ -1951,10 +1868,12 @@ function updateStats(){
     new Set(
 
       data
+
         .map(
           item =>
             item.name
         )
+
         .filter(Boolean)
 
     );
@@ -1966,7 +1885,8 @@ function updateStats(){
       item =>
 
         item.deepReflection &&
-        item.deepReflection.trim()
+        item.deepReflection
+          .trim()
 
     );
 
@@ -1988,15 +1908,11 @@ function updateStats(){
     <div class="stat">
 
       <div class="stat-title">
-
         👦👧 振り返りを書いた児童
-
       </div>
 
       <div class="stat-number">
-
         ${students.size}
-
       </div>
 
     </div>
@@ -2005,15 +1921,11 @@ function updateStats(){
     <div class="stat">
 
       <div class="stat-title">
-
         ✏️ 振り返り数
-
       </div>
 
       <div class="stat-number">
-
         ${data.length}
-
       </div>
 
     </div>
@@ -2022,15 +1934,11 @@ function updateStats(){
     <div class="stat">
 
       <div class="stat-title">
-
         🌱 深まり振り返り
-
       </div>
 
       <div class="stat-number">
-
         ${deep.length}
-
       </div>
 
     </div>
@@ -2039,15 +1947,11 @@ function updateStats(){
     <div class="stat">
 
       <div class="stat-title">
-
         🌟 レベル3
-
       </div>
 
       <div class="stat-number">
-
         ${level3.length}
-
       </div>
 
     </div>
@@ -2057,9 +1961,9 @@ function updateStats(){
 }
 
 
-/* =====================================================
+/* ==================================================
    児童一覧
-===================================================== */
+================================================== */
 
 window.openStudents =
 function(){
@@ -2170,14 +2074,15 @@ function(){
 
 
   let names =
-    Object.keys(map)
-      .sort(
-        (a,b) =>
-          a.localeCompare(
-            b,
-            "ja"
-          )
-      );
+    Object.keys(
+      map
+    ).sort(
+      (a,b) =>
+        a.localeCompare(
+          b,
+          "ja"
+        )
+    );
 
 
   if(keyword){
@@ -2199,7 +2104,7 @@ function(){
 
       <div class="empty">
 
-        この授業の振り返りは
+        現在の授業の振り返りは
         まだありません。
 
       </div>
@@ -2220,13 +2125,9 @@ function(){
         <tr>
 
           <th>児童名</th>
-
           <th>振り返り</th>
-
           <th>🌱 深まり</th>
-
           <th>🌟 レベル3</th>
-
           <th>最終提出</th>
 
         </tr>
@@ -2241,11 +2142,12 @@ function(){
 
             <tr
               class="student-row"
-              onclick="openStudent('${escapeJs(name)}')">
+              data-name="${escapeHtml(name)}">
 
               <td>
 
-                <div class="student-name">
+                <div
+                  class="student-name">
 
                   👤
                   ${escapeHtml(name)}
@@ -2301,12 +2203,39 @@ function(){
 
   `;
 
+
+  /*
+    onclickをHTML属性に直接書かず、
+    イベントを後から登録
+  */
+
+  area
+    .querySelectorAll(
+      ".student-row"
+    )
+    .forEach(
+      row => {
+
+        row.addEventListener(
+          "click",
+          () => {
+
+            openStudent(
+              row.dataset.name
+            );
+
+          }
+        );
+
+      }
+    );
+
 };
 
 
-/* =====================================================
+/* ==================================================
    児童 → 教科
-===================================================== */
+================================================== */
 
 window.openStudent =
 function(name){
@@ -2338,15 +2267,7 @@ function(name){
     allReflections.filter(
 
       item =>
-
-        item.name ===
-        name &&
-
-        (
-          !currentLesson ||
-          item.lessonId ===
-          currentLesson.lessonId
-        )
+        item.name === name
 
     );
 
@@ -2362,11 +2283,16 @@ function(name){
         "教科未設定";
 
 
-      subjectMap[subject] =
-        (
-          subjectMap[subject] ||
-          0
-        ) + 1;
+      if(
+        !subjectMap[subject]
+      ){
+
+        subjectMap[subject] = 0;
+
+      }
+
+
+      subjectMap[subject]++;
 
     }
   );
@@ -2389,9 +2315,7 @@ function(name){
     area.innerHTML = `
 
       <div class="empty">
-
         振り返りはありません。
-
       </div>
 
     `;
@@ -2402,38 +2326,62 @@ function(name){
 
 
   area.innerHTML =
-    subjects.map(
-      subject => `
+    subjects
+      .map(
+        subject => `
 
-        <div
-          class="subject-card"
-          onclick="openSubject('${escapeJs(subject)}')">
+          <div
+            class="subject-card"
+            data-subject="${escapeHtml(subject)}">
 
-          <div class="subject-name">
+            <div class="subject-name">
 
-            📚
-            ${escapeHtml(subject)}
+              📚
+              ${escapeHtml(subject)}
+
+            </div>
+
+            <div class="subject-count">
+
+              振り返り
+              ${subjectMap[subject]}件
+
+            </div>
 
           </div>
 
-          <div class="subject-count">
+        `
+      )
+      .join("");
 
-            振り返り
-            ${subjectMap[subject]}件
 
-          </div>
+  area
+    .querySelectorAll(
+      ".subject-card"
+    )
+    .forEach(
+      card => {
 
-        </div>
+        card.addEventListener(
+          "click",
+          () => {
 
-      `
-    ).join("");
+            openSubject(
+              card.dataset.subject
+            );
+
+          }
+        );
+
+      }
+    );
 
 };
 
 
-/* =====================================================
+/* ==================================================
    教科 → 単元
-===================================================== */
+================================================== */
 
 window.openSubject =
 function(subject){
@@ -2474,13 +2422,7 @@ function(subject){
         selectedStudent &&
 
         item.subject ===
-        subject &&
-
-        (
-          !currentLesson ||
-          item.lessonId ===
-          currentLesson.lessonId
-        )
+        subject
 
     );
 
@@ -2530,15 +2472,15 @@ function(subject){
   );
 
 
-  const area =
-    document.getElementById(
-      "unitList"
-    );
-
-
   const units =
     Object.keys(
       unitMap
+    );
+
+
+  const area =
+    document.getElementById(
+      "unitList"
     );
 
 
@@ -2547,9 +2489,7 @@ function(subject){
     area.innerHTML = `
 
       <div class="empty">
-
         単元はありません。
-
       </div>
 
     `;
@@ -2560,47 +2500,71 @@ function(subject){
 
 
   area.innerHTML =
-    units.map(
-      unit => `
+    units
+      .map(
+        unit => `
 
-        <div
-          class="unit-card"
-          onclick="openUnit('${escapeJs(unit)}')">
+          <div
+            class="unit-card"
+            data-unit="${escapeHtml(unit)}">
 
-          <div class="unit-title">
+            <div class="unit-title">
 
-            📘
-            ${escapeHtml(unit)}
+              📘
+              ${escapeHtml(unit)}
+
+            </div>
+
+
+            <div class="unit-info">
+
+              振り返り
+              ${unitMap[unit].count}件
+
+              ／
+
+              最終提出
+              ${escapeHtml(
+                unitMap[unit].latest ||
+                "-"
+              )}
+
+            </div>
 
           </div>
 
+        `
+      )
+      .join("");
 
-          <div class="unit-info">
 
-            振り返り
-            ${unitMap[unit].count}件
+  area
+    .querySelectorAll(
+      ".unit-card"
+    )
+    .forEach(
+      card => {
 
-            ／
+        card.addEventListener(
+          "click",
+          () => {
 
-            最終提出
-            ${escapeHtml(
-              unitMap[unit].latest ||
-              "-"
-            )}
+            openUnit(
+              card.dataset.unit
+            );
 
-          </div>
+          }
+        );
 
-        </div>
-
-      `
-    ).join("");
+      }
+    );
 
 };
 
 
-/* =====================================================
+/* ==================================================
    単元 → 振り返り
-===================================================== */
+================================================== */
 
 window.openUnit =
 function(unit){
@@ -2651,28 +2615,19 @@ function(unit){
         (
           item.unit ||
           "単元名なし"
-        ) === selectedUnit &&
-
-        (
-          !currentLesson ||
-          item.lessonId ===
-          currentLesson.lessonId
-        )
+        ) === selectedUnit
 
     );
 
 
   data.sort(
     (a,b) =>
-
       String(
         b.date || ""
       ).localeCompare(
-
         String(
           a.date || ""
         )
-
       )
   );
 
@@ -2688,9 +2643,7 @@ function(unit){
     area.innerHTML = `
 
       <div class="empty">
-
         振り返りはありません。
-
       </div>
 
     `;
@@ -2713,9 +2666,9 @@ function(unit){
 };
 
 
-/* =====================================================
+/* ==================================================
    振り返りカード
-===================================================== */
+================================================== */
 
 function createReflectionCard(item){
 
@@ -2801,30 +2754,24 @@ function createReflectionCard(item){
 
       ${
         item.aiQuestion
-        ?
+        ? `
+
+          <div class="ai-box">
+
+            <strong>
+              🤖 AIからの問い
+            </strong>
+
+            <br><br>
+
+            ${escapeHtml(
+              item.aiQuestion
+            )}
+
+          </div>
 
         `
-
-        <div class="ai-box">
-
-          <strong>
-            🤖 AIからの問い
-          </strong>
-
-          <br><br>
-
-          ${escapeHtml(
-            item.aiQuestion
-          )}
-
-        </div>
-
-        `
-
-        :
-
-        ""
-
+        : ""
       }
 
 
@@ -2849,46 +2796,35 @@ function createReflectionCard(item){
 
       ${
         item.deepReflection
+        ? `
 
-        ?
+          <div class="deep-box">
 
-        `
+            <strong>
+              🌱 深まり振り返り
+            </strong>
 
-        <div class="deep-box">
+            <br><br>
 
-          <strong>
+            ${escapeHtml(
+              item.deepReflection
+            )}
 
-            🌱 深まり振り返り
-
-          </strong>
-
-          <br><br>
-
-          ${escapeHtml(
-            item.deepReflection
-          )}
-
-        </div>
+          </div>
 
         `
+        : `
 
-        :
+          <div class="no-deep">
 
-        `
+            🌱
+            まだ「深まり振り返り」は
+            書かれていません。
 
-        <div class="no-deep">
-
-          🌱
-          まだ
-          「深まり振り返り」
-          は書かれていません。
-
-        </div>
+          </div>
 
         `
-
       }
-
 
     </div>
 
@@ -2897,9 +2833,9 @@ function createReflectionCard(item){
 }
 
 
-/* =====================================================
+/* ==================================================
    クラス全員比較
-===================================================== */
+================================================== */
 
 window.openCompare =
 function(){
@@ -2914,9 +2850,9 @@ function(){
 };
 
 
-/* =====================================================
+/* ==================================================
    比較表示
-===================================================== */
+================================================== */
 
 window.displayCompare =
 function(){
@@ -2936,9 +2872,7 @@ function(){
   if(!currentLesson){
 
     info.innerHTML = `
-
-      ⏸️ 現在の授業はありません。
-
+      現在の授業はありません。
     `;
 
 
@@ -2946,7 +2880,7 @@ function(){
 
       <div class="empty">
 
-        現在の授業を開始してください。
+        現在の授業がありません。
 
       </div>
 
@@ -2977,17 +2911,12 @@ function(){
       currentLesson.unit || ""
     )}
 
-    <br><br>
+    <br>
 
-    授業ID：
-
-    <strong>
-
-      ${escapeHtml(
-        currentLesson.lessonId || ""
-      )}
-
-    </strong>
+    🔑 授業ID：
+    ${escapeHtml(
+      currentLesson.lessonId || ""
+    )}
 
   `;
 
@@ -2997,27 +2926,23 @@ function(){
 
 
   /*
-    児童一覧を取得
+    今までに振り返りを書いた児童を
+    クラス一覧として利用
   */
 
   const names =
-
     [
       ...new Set(
 
         allReflections
-
           .map(
             item =>
               item.name
           )
-
           .filter(Boolean)
 
       )
-
     ]
-
     .sort(
       (a,b) =>
         a.localeCompare(
@@ -3066,44 +2991,39 @@ function(){
         currentData.filter(
 
           item =>
-            item.name ===
-            name
+            item.name === name
 
         );
 
 
       reflections.sort(
         (a,b) =>
-
           String(
             b.date || ""
           ).localeCompare(
-
             String(
               a.date || ""
             )
-
           )
-
       );
 
 
-      const latest =
+      const item =
         reflections[0] ||
         null;
 
 
       const level =
-        latest
+        item
         ? Number(
-            latest.deepLevel || 1
+            item.deepLevel || 1
           )
         : 0;
 
 
       if(
         levelFilter === "0" &&
-        latest
+        item
       ){
 
         return;
@@ -3115,9 +3035,9 @@ function(){
         levelFilter &&
         levelFilter !== "0" &&
         level !==
-        Number(
-          levelFilter
-        )
+          Number(
+            levelFilter
+          )
       ){
 
         return;
@@ -3129,7 +3049,7 @@ function(){
 
         name:name,
 
-        item:latest,
+        item:item,
 
         level:level
 
@@ -3159,7 +3079,6 @@ function(){
   area.innerHTML = `
 
     <table class="compare-table">
-
 
       <thead>
 
@@ -3196,7 +3115,6 @@ function(){
 
       <tbody>
 
-
         ${rows.map(
           row => {
 
@@ -3208,12 +3126,13 @@ function(){
 
               return `
 
-                <tr class="not-submit-row">
-
+                <tr
+                  class="not-submit-row">
 
                   <td>
 
-                    <div class="compare-name">
+                    <div
+                      class="compare-name">
 
                       👤
                       ${escapeHtml(
@@ -3242,8 +3161,7 @@ function(){
                       compare-empty
                     ">
 
-                    <span
-                      class="not-submit">
+                    <span class="not-submit">
 
                       未提出
 
@@ -3277,15 +3195,13 @@ function(){
                   <td
                     class="compare-level">
 
-                    <span
-                      class="not-submit">
+                    <span class="not-submit">
 
                       未提出
 
                     </span>
 
                   </td>
-
 
                 </tr>
 
@@ -3297,9 +3213,11 @@ function(){
             const levelClass =
 
               row.level >= 3
+
               ? "level3-cell"
 
               : row.level === 2
+
               ? "level2-cell"
 
               : "level1-cell";
@@ -3308,9 +3226,11 @@ function(){
             const levelText =
 
               row.level >= 3
+
               ? "🌟 レベル3"
 
               : row.level === 2
+
               ? "🌱 レベル2"
 
               : "🌱 レベル1";
@@ -3320,10 +3240,10 @@ function(){
 
               <tr>
 
-
                 <td>
 
-                  <div class="compare-name">
+                  <div
+                    class="compare-name">
 
                     👤
                     ${escapeHtml(
@@ -3349,8 +3269,7 @@ function(){
                 </td>
 
 
-                <td
-                  class="compare-cell">
+                <td class="compare-cell">
 
                   <strong>
 
@@ -3369,8 +3288,7 @@ function(){
                 </td>
 
 
-                <td
-                  class="compare-cell">
+                <td class="compare-cell">
 
                   ${escapeHtml(
                     item.study ||
@@ -3402,16 +3320,10 @@ function(){
 
                   ${
                     item.deepReflection
-
-                    ?
-
-                    escapeHtml(
-                      item.deepReflection
-                    )
-
-                    :
-
-                    "まだ書かれていません"
+                    ? escapeHtml(
+                        item.deepReflection
+                      )
+                    : "まだ書かれていません"
                   }
 
                 </td>
@@ -3427,15 +3339,12 @@ function(){
 
                 </td>
 
-
               </tr>
 
             `;
 
           }
-
         ).join("")}
-
 
       </tbody>
 
@@ -3446,9 +3355,9 @@ function(){
 };
 
 
-/* =====================================================
+/* ==================================================
    戻る
-===================================================== */
+================================================== */
 
 window.openStudentSubjects =
 function(){
@@ -3470,9 +3379,9 @@ function(){
 };
 
 
-/* =====================================================
+/* ==================================================
    HTML安全化
-===================================================== */
+================================================== */
 
 function escapeHtml(value){
 
@@ -3516,34 +3425,14 @@ function escapeHtml(value){
 }
 
 
-/* =====================================================
-   JavaScript文字列安全化
-===================================================== */
-
-function escapeJs(value){
-
-  return String(value)
-
-    .replace(
-      /\\/g,
-      "\\\\"
-    )
-
-    .replace(
-      /'/g,
-      "\\'"
-    );
-
-}
-
-
-/* =====================================================
-   初期読み込み
-===================================================== */
+/* ==================================================
+   最初の読み込み
+================================================== */
 
 loadReflections();
 
 </script>
+
 
 </body>
 
