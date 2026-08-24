@@ -1,1157 +1,286 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>学びアルバム Ver.2 先生ページ</title>
 
 <style>
 
-/* ==================================================
-   基本
-================================================== */
-
-*{
-  box-sizing:border-box;
-}
-
-body{
-  margin:0;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Noto Sans JP",
-    "Yu Gothic",
-    sans-serif;
-  background:#f3f6fa;
-  color:#333;
-}
-
-button,
-input,
-select{
-  font-family:inherit;
-}
-
-button{
-  border:none;
-  border-radius:12px;
-  padding:11px 18px;
-  font-size:15px;
-  font-weight:bold;
-  cursor:pointer;
-}
-
-button:hover{
-  opacity:.86;
-}
-
-.page{
-  display:none;
-}
-
-.page.active{
-  display:block;
-}
-
-.container{
-  max-width:1400px;
-  margin:auto;
-  padding:20px;
-}
-
-
-/* ==================================================
-   ヘッダー
-================================================== */
-
-header{
-  background:
-    linear-gradient(
-      135deg,
-      #4f8cff,
-      #6c63ff
-    );
-  color:white;
-  padding:22px 25px;
-}
-
-header h1{
-  margin:0;
-  font-size:28px;
-}
-
-header p{
-  margin:6px 0 0;
-  font-size:14px;
-}
-
-
-/* ==================================================
-   ボックス
-================================================== */
-
-.box{
-  background:white;
-  border-radius:18px;
-  padding:22px;
-  margin-bottom:20px;
-  box-shadow:
-    0 4px 15px rgba(0,0,0,.06);
-}
-
-h2{
-  margin-top:0;
-}
-
-
-/* ==================================================
-   ボタン
-================================================== */
-
-.primary{
-  background:#4f8cff;
-  color:white;
-}
-
-.green{
-  background:#43b883;
-  color:white;
-}
-
-.orange{
-  background:#f2a93b;
-  color:white;
-}
-
-.red{
-  background:#e85b5b;
-  color:white;
-}
-
-.gray{
-  background:#e9edf4;
-  color:#333;
-}
-
-.button-row{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:16px;
-}
-
-
-/* ==================================================
-   授業情報
-================================================== */
-
-.lesson-card{
-  border-left:7px solid #43b883;
-  background:#f8fffb;
-  border-radius:15px;
-  padding:20px;
-}
-
-.lesson-card.ended{
-  border-left-color:#aaa;
-  background:#f7f7f7;
-}
-
-.lesson-status{
-  font-weight:bold;
-  color:#43a56f;
-}
-
-.lesson-status.ended{
-  color:#777;
-}
-
-.lesson-subject{
-  font-size:30px;
-  font-weight:bold;
-  margin:8px 0;
-}
-
-.lesson-unit{
-  font-size:19px;
-  color:#555;
-}
-
-.lesson-id{
-  margin-top:10px;
-  font-size:13px;
-  color:#888;
-  word-break:break-all;
-}
-
-
-/* ==================================================
-   授業開始
-================================================== */
-
-.form-group{
-  margin-bottom:15px;
-}
-
-.form-group label{
-  display:block;
-  font-weight:bold;
-  margin-bottom:7px;
-}
-
-input,
-select{
-  width:100%;
-  padding:13px;
-  border:1px solid #d8dee8;
-  border-radius:11px;
-  font-size:16px;
-  background:white;
-}
-
-
-/* ==================================================
-   統計
-================================================== */
-
-.stats{
-  display:grid;
-  grid-template-columns:
-    repeat(4,1fr);
-  gap:14px;
-}
-
-.stat{
-  background:#f7f9fc;
-  border-radius:14px;
-  padding:17px;
-  text-align:center;
-}
-
-.stat-title{
-  color:#777;
-  font-size:13px;
-}
-
-.stat-number{
-  font-size:29px;
-  font-weight:bold;
-  margin-top:5px;
-}
-
-
-/* ==================================================
-   メニュー
-================================================== */
-
-.menu-grid{
-  display:grid;
-  grid-template-columns:
-    repeat(2,1fr);
-  gap:16px;
-}
-
-.menu-button{
-  background:white;
-  border:2px solid #e1e7f0;
-  border-radius:17px;
-  padding:25px;
-  text-align:left;
-  cursor:pointer;
-}
-
-.menu-button:hover{
-  border-color:#4f8cff;
-  background:#f8fbff;
-}
-
-.menu-icon{
-  font-size:34px;
+* {
+  box-sizing: border-box;
 }
 
-.menu-title{
-  font-size:20px;
-  font-weight:bold;
-  margin-top:10px;
+body {
+  margin: 0;
+  font-family: "Noto Sans JP", sans-serif;
+  background: #f4f6f8;
+  color: #333;
 }
 
-.menu-description{
-  color:#777;
-  margin-top:6px;
+header {
+  background: #3d7cc9;
+  color: white;
+  padding: 18px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
 }
 
-
-/* ==================================================
-   パンくず
-================================================== */
-
-.breadcrumb{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:15px;
-}
-
-.breadcrumb-current{
-  color:#4f8cff;
-  font-weight:bold;
-}
-
-
-/* ==================================================
-   児童一覧
-================================================== */
-
-.search{
-  margin-bottom:15px;
-}
-
-.student-table{
-  width:100%;
-  border-collapse:collapse;
-}
-
-.student-table th{
-  background:#eef3f9;
-  padding:13px;
-  text-align:left;
-  white-space:nowrap;
-}
-
-.student-table td{
-  padding:13px;
-  border-bottom:1px solid #edf0f4;
-}
-
-.student-row{
-  cursor:pointer;
-}
-
-.student-row:hover{
-  background:#f7fbff;
-}
-
-.student-name{
-  font-size:17px;
-  font-weight:bold;
-}
-
-.count{
-  font-weight:bold;
-}
-
-.level3{
-  color:#b87900;
-  font-weight:bold;
-}
-
-.no-data{
-  color:#aaa;
-}
-
-
-/* ==================================================
-   教科
-================================================== */
-
-.subject-grid{
-  display:grid;
-  grid-template-columns:
-    repeat(4,1fr);
-  gap:14px;
-}
-
-.subject-card{
-  border:2px solid #e2e7ef;
-  border-radius:16px;
-  padding:20px;
-  text-align:center;
-  cursor:pointer;
-  background:white;
-}
-
-.subject-card:hover{
-  border-color:#4f8cff;
-  background:#f7faff;
-}
-
-.subject-name{
-  font-size:20px;
-  font-weight:bold;
-}
-
-.subject-count{
-  color:#777;
-  margin-top:7px;
-}
-
-
-/* ==================================================
-   単元
-================================================== */
-
-.unit-list{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-.unit-card{
-  border:1px solid #e0e5ed;
-  border-radius:14px;
-  padding:18px;
-  cursor:pointer;
-}
-
-.unit-card:hover{
-  border-color:#4f8cff;
-  background:#f7faff;
-}
-
-.unit-title{
-  font-size:19px;
-  font-weight:bold;
-}
-
-.unit-info{
-  color:#777;
-  margin-top:7px;
-}
-
-
-/* ==================================================
-   振り返り
-================================================== */
-
-.reflection-card{
-  border:1px solid #e2e7ee;
-  border-radius:17px;
-  padding:21px;
-  margin-bottom:16px;
-}
-
-.reflection-header{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.subject-badge{
-  display:inline-block;
-  background:#eaf1ff;
-  color:#3769c8;
-  padding:5px 11px;
-  border-radius:20px;
-  font-size:13px;
-  font-weight:bold;
-}
-
-.date{
-  color:#888;
-  font-size:13px;
-}
-
-.study-box{
-  margin-top:17px;
-  line-height:1.9;
-  white-space:pre-wrap;
-}
-
-.ai-box{
-  margin-top:17px;
-  background:#eef7ff;
-  border-left:6px solid #4f8cff;
-  border-radius:10px;
-  padding:15px;
-  line-height:1.8;
-  white-space:pre-wrap;
-}
-
-.deep-box{
-  margin-top:17px;
-  background:#fff9e8;
-  border-left:6px solid #f2b94b;
-  border-radius:10px;
-  padding:15px;
-  line-height:1.8;
-  white-space:pre-wrap;
-}
-
-.no-deep{
-  margin-top:17px;
-  background:#f7f7f7;
-  color:#888;
-  border-radius:10px;
-  padding:14px;
-}
-
-.level-badge{
-  display:inline-block;
-  margin-top:15px;
-  padding:7px 13px;
-  border-radius:20px;
-  background:#edf1f6;
-  font-weight:bold;
-}
-
-.level2{
-  background:#eaf4ff;
-  color:#3571c9;
-}
-
-.level3-badge{
-  background:#fff0a8;
-  color:#a56b00;
-}
-
-
-/* ==================================================
-   クラス比較
-================================================== */
-
-.compare-info{
-  background:#f5f8fc;
-  border-radius:13px;
-  padding:15px;
-  margin-bottom:15px;
-}
-
-.compare-scroll{
-  overflow-x:auto;
-  border:1px solid #dfe5ec;
-  border-radius:14px;
-}
-
-.compare-table{
-  border-collapse:collapse;
-  width:100%;
-  min-width:1150px;
-  background:white;
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
 }
 
-.compare-table th,
-.compare-table td{
-  border-bottom:1px solid #e4e8ee;
-  border-right:1px solid #e4e8ee;
-  padding:13px;
-  vertical-align:top;
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
 }
 
-.compare-table th{
-  background:#eef3f9;
-  white-space:nowrap;
-  text-align:left;
-  position:sticky;
-  top:0;
-  z-index:2;
+h2 {
+  color: #2e69a5;
 }
 
-.compare-table th:first-child,
-.compare-table td:first-child{
-  position:sticky;
-  left:0;
-  z-index:3;
-  background:#fff;
-  min-width:135px;
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  margin: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  background: #3d7cc9;
+  color: white;
 }
 
-.compare-table th:first-child{
-  background:#e8eef7;
+button:hover {
+  opacity: 0.9;
 }
 
-.compare-name{
-  font-weight:bold;
-  font-size:16px;
+.back {
+  background: #777;
 }
 
-.compare-cell{
-  min-width:240px;
-  max-width:330px;
-  line-height:1.7;
-  white-space:pre-wrap;
+.student-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
 }
 
-.compare-ai{
-  background:#f0f8ff;
+.student-card {
+  background: #eef6ff;
+  border: 2px solid #c8e0f7;
+  border-radius: 14px;
+  padding: 18px;
+  cursor: pointer;
 }
 
-.compare-deep{
-  background:#fffaf0;
+.student-card:hover {
+  background: #e0f0ff;
 }
 
-.compare-empty{
-  color:#aaa;
-  text-align:center;
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
 }
 
-.compare-level{
-  min-width:110px;
-  text-align:center;
-  font-weight:bold;
+.subject-card {
+  background: #f3f8ff;
+  border: 2px solid #d4e5f5;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  font-weight: bold;
 }
 
-.level1-cell{
-  background:#f5f5f5;
+.subject-card:hover {
+  background: #e3f0fc;
 }
 
-.level2-cell{
-  background:#edf7ff;
+.unit-card {
+  background: #fafafa;
+  border-left: 5px solid #3d7cc9;
+  padding: 15px;
+  margin: 10px 0;
+  border-radius: 8px;
 }
 
-.level3-cell{
-  background:#fff4bd;
-  color:#9b6900;
+.reflection-card {
+  background: #f8fbfd;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 12px 0;
+  border-left: 5px solid #55a96d;
 }
 
-.not-submit-row{
-  background:#fafafa;
+.date {
+  font-size: 14px;
+  color: #777;
 }
 
-.not-submit{
-  color:#999;
-  font-weight:bold;
+.level {
+  background: #eef8ee;
+  padding: 10px;
+  border-radius: 8px;
+  margin-top: 10px;
 }
 
-.compare-toolbar{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:15px;
+.loading {
+  padding: 20px;
+  text-align: center;
 }
 
-.compare-filter{
-  width:auto;
-  min-width:200px;
+.cache-info {
+  font-size: 13px;
+  color: #777;
+  background: #f5f5f5;
+  padding: 8px;
+  border-radius: 8px;
 }
-
-
-/* ==================================================
-   空表示
-================================================== */
 
-.empty{
-  text-align:center;
-  color:#888;
-  padding:40px 20px;
+.hidden {
+  display: none;
 }
-
-
-/* ==================================================
-   レスポンシブ
-================================================== */
-
-@media(max-width:900px){
 
-  .stats{
-    grid-template-columns:
-      repeat(2,1fr);
-  }
+@media (max-width: 800px) {
 
-  .subject-grid{
-    grid-template-columns:
-      repeat(2,1fr);
+  .student-grid,
+  .subject-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
 }
 
-@media(max-width:650px){
+@media (max-width: 500px) {
 
-  .container{
-    padding:12px;
-  }
-
-  header h1{
-    font-size:23px;
-  }
-
-  .menu-grid{
-    grid-template-columns:1fr;
-  }
-
-  .stats{
-    grid-template-columns:1fr;
-  }
-
-  .subject-grid{
-    grid-template-columns:
-      repeat(2,1fr);
-  }
-
-  .lesson-subject{
-    font-size:25px;
+  .student-grid,
+  .subject-grid {
+    grid-template-columns: 1fr;
   }
 
 }
 
 </style>
-
 </head>
-
 
 <body>
 
-
 <header>
-
-  <h1>👩‍🏫 学びアルバム Ver.2</h1>
-
-  <p>
-    先生ページ
-  </p>
-
+👩‍🏫 学びアルバム Ver.2　先生ページ
 </header>
-
 
 <div class="container">
 
 
-<!-- ==================================================
-     HOME
-================================================== -->
+<!-- =====================================================
+     メイン
+===================================================== -->
 
-<section
-  id="homePage"
-  class="page active">
+<div id="teacherHome" class="card">
 
-  <div class="box">
+<h2>📚 先生メニュー</h2>
 
-    <h2>📚 現在の授業</h2>
+<p>
+<strong>2026年度</strong>
+</p>
 
-    <div id="lessonInfo">
-      読み込んでいます……
-    </div>
+<button onclick="loadStudents()">
+👧 児童一覧
+</button>
 
-    <div class="button-row">
+<button onclick="clearAllCache()">
+🔄 キャッシュを更新
+</button>
 
-      <button
-        class="green"
-        onclick="showStartArea()">
+<div id="homeMessage"></div>
 
-        ▶️ 新しい授業を開始
+</div>
 
-      </button>
 
-      <button
-        class="red"
-        onclick="endLesson()">
+<!-- =====================================================
+     児童一覧
+===================================================== -->
 
-        ⏹️ 授業終了
+<div id="studentPage" class="card hidden">
 
-      </button>
+<h2>👧 児童一覧</h2>
 
-    </div>
+<div class="cache-info">
+💡 一度取得したデータはブラウザに一時保存し、
+同じ情報を何度もFirebaseから読み込まない仕組みです。
+</div>
 
-  </div>
+<div
+  id="studentList"
+  class="student-grid"
+>
+</div>
 
+<button
+  class="back"
+  onclick="goHome()"
+>
+戻る
+</button>
 
-  <!-- 授業開始 -->
+</div>
 
-  <div
-    id="startArea"
-    class="box"
-    style="display:none;">
 
-    <h2>
-      ▶️ 新しい授業を開始
-    </h2>
+<!-- =====================================================
+     教科一覧
+===================================================== -->
 
+<div id="subjectPage" class="card hidden">
 
-    <div class="form-group">
+<h2 id="studentTitle">
+📚 教科を選んでください
+</h2>
 
-      <label>
-        教科
-      </label>
+<div
+  id="subjectList"
+  class="subject-grid"
+>
+</div>
 
-      <select id="lessonSubject">
+<button
+  class="back"
+  onclick="backToStudents()"
+>
+児童一覧へ
+</button>
 
-        <option value="">
-          教科を選択してください
-        </option>
+</div>
 
-        <option>国語</option>
-        <option>算数</option>
-        <option>生活</option>
-        <option>理科</option>
-        <option>社会</option>
-        <option>総合</option>
-        <option>道徳</option>
-        <option>体育</option>
 
-      </select>
+<!-- =====================================================
+     振り返り一覧
+===================================================== -->
 
-    </div>
+<div id="reflectionPage" class="card hidden">
 
+<h2 id="reflectionTitle">
+📝 振り返り
+</h2>
 
-    <div class="form-group">
+<div
+  id="reflectionList"
+>
+</div>
 
-      <label>
-        単元名
-      </label>
+<button
+  class="back"
+  onclick="backToSubjects()"
+>
+教科一覧へ
+</button>
 
-      <input
-        id="lessonUnit"
-        type="text"
-        placeholder="例：わり算の考え方">
-
-    </div>
-
-
-    <div class="button-row">
-
-      <button
-        class="green"
-        onclick="startLesson()">
-
-        授業を開始する
-
-      </button>
-
-      <button
-        class="gray"
-        onclick="hideStartArea()">
-
-        キャンセル
-
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- 統計 -->
-
-  <div class="box">
-
-    <h2>
-      📊 現在の授業の状況
-    </h2>
-
-    <div
-      id="stats"
-      class="stats">
-    </div>
-
-  </div>
-
-
-  <!-- メニュー -->
-
-  <div class="box">
-
-    <h2>
-      🔎 振り返りを見る
-    </h2>
-
-    <div class="menu-grid">
-
-
-      <div
-        class="menu-button"
-        onclick="openStudents()">
-
-        <div class="menu-icon">
-          👦👧
-        </div>
-
-        <div class="menu-title">
-          児童一覧から見る
-        </div>
-
-        <div class="menu-description">
-          児童 → 教科 → 単元 → 振り返り
-          の順に詳しく見る
-        </div>
-
-      </div>
-
-
-      <div
-        class="menu-button"
-        onclick="openCompare()">
-
-        <div class="menu-icon">
-          📊
-        </div>
-
-        <div class="menu-title">
-          クラス全員を比較する
-        </div>
-
-        <div class="menu-description">
-          全員の振り返りを横並びで比較する
-        </div>
-
-      </div>
-
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ==================================================
-     STUDENTS
-================================================== -->
-
-<section
-  id="studentsPage"
-  class="page">
-
-  <div class="breadcrumb">
-
-    <button
-      class="gray"
-      onclick="showPage('homePage')">
-
-      ← 先生ホーム
-
-    </button>
-
-    <span class="breadcrumb-current">
-      👦👧 児童一覧
-    </span>
-
-  </div>
-
-
-  <div class="box">
-
-    <h2>
-      👦👧 児童一覧
-    </h2>
-
-    <input
-      id="studentSearch"
-      class="search"
-      placeholder="🔍 児童名を検索"
-      oninput="displayStudents()">
-
-    <div id="studentTableArea"></div>
-
-  </div>
-
-</section>
-
-
-<!-- ==================================================
-     SUBJECTS
-================================================== -->
-
-<section
-  id="subjectsPage"
-  class="page">
-
-  <div class="breadcrumb">
-
-    <button
-      class="gray"
-      onclick="openStudents()">
-
-      ← 児童一覧
-
-    </button>
-
-    <span
-      id="breadcrumbStudent"
-      class="breadcrumb-current">
-    </span>
-
-  </div>
-
-
-  <div class="box">
-
-    <h2 id="subjectsTitle">
-      📚 教科を選択
-    </h2>
-
-    <div
-      id="subjectGrid"
-      class="subject-grid">
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ==================================================
-     UNITS
-================================================== -->
-
-<section
-  id="unitsPage"
-  class="page">
-
-  <div class="breadcrumb">
-
-    <button
-      class="gray"
-      onclick="openStudentSubjects()">
-
-      ← 教科一覧
-
-    </button>
-
-    <span
-      id="breadcrumbUnit"
-      class="breadcrumb-current">
-    </span>
-
-  </div>
-
-
-  <div class="box">
-
-    <h2 id="unitsTitle">
-      📘 単元を選択
-    </h2>
-
-    <div
-      id="unitList"
-      class="unit-list">
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- ==================================================
-     REFLECTIONS
-================================================== -->
-
-<section
-  id="reflectionsPage"
-  class="page">
-
-  <div class="breadcrumb">
-
-    <button
-      class="gray"
-      onclick="openUnits()">
-
-      ← 単元一覧
-
-    </button>
-
-    <span
-      id="breadcrumbReflection"
-      class="breadcrumb-current">
-    </span>
-
-  </div>
-
-
-  <div class="box">
-
-    <h2 id="reflectionsTitle">
-      ✏️ 振り返り
-    </h2>
-
-    <div id="reflectionList"></div>
-
-  </div>
-
-</section>
-
-
-<!-- ==================================================
-     COMPARE
-================================================== -->
-
-<section
-  id="comparePage"
-  class="page">
-
-  <div class="breadcrumb">
-
-    <button
-      class="gray"
-      onclick="showPage('homePage')">
-
-      ← 先生ホーム
-
-    </button>
-
-    <span class="breadcrumb-current">
-      📊 クラス全員比較
-    </span>
-
-  </div>
-
-
-  <div class="box">
-
-    <h2>
-      📊 クラス全員の振り返り比較
-    </h2>
-
-    <div
-      id="compareLessonInfo"
-      class="compare-info">
-    </div>
-
-
-    <div class="compare-toolbar">
-
-      <select
-        id="compareLevelFilter"
-        class="compare-filter"
-        onchange="displayCompare()">
-
-        <option value="">
-          すべてのレベル
-        </option>
-
-        <option value="1">
-          レベル1
-        </option>
-
-        <option value="2">
-          レベル2
-        </option>
-
-        <option value="3">
-          🌟 レベル3
-        </option>
-
-        <option value="0">
-          未提出
-        </option>
-
-      </select>
-
-
-      <input
-        id="compareSearch"
-        class="compare-filter"
-        placeholder="🔍 児童名"
-        oninput="displayCompare()">
-
-    </div>
-
-
-    <div class="compare-scroll">
-
-      <div id="compareTableArea"></div>
-
-    </div>
-
-  </div>
-
-</section>
+</div>
 
 
 </div>
@@ -1159,2236 +288,854 @@ select{
 
 <script type="module">
 
-
-/* ==================================================
-   Firebase
-================================================== */
-
 import {
   initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
   getFirestore,
   collection,
-  getDocs,
-  doc,
-  setDoc,
-  updateDoc,
-  onSnapshot,
-  serverTimestamp
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  query,
+  where,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-/* ==================================================
-   あなたのFirebase設定
-================================================== */
+// ======================================================
+// Firebase設定
+// ↓↓↓ 自分のFirebase設定に置き換えてください ↓↓↓
+// ======================================================
 
 const firebaseConfig = {
 
-  apiKey:
-    "AIzaSyA7fBz695BTUL8lxxJ06csf6AfU_DQp3iw",
+  apiKey: "ここにAPIキー",
 
-  authDomain:
-    "manabi-album-v2.firebaseapp.com",
+  authDomain: "ここにauthDomain",
 
-  projectId:
-    "manabi-album-v2",
+  projectId: "ここにprojectId",
 
-  storageBucket:
-    "manabi-album-v2.firebasestorage.app",
+  storageBucket: "ここにstorageBucket",
 
-  messagingSenderId:
-    "226258471812",
+  messagingSenderId: "ここにmessagingSenderId",
 
-  appId:
-    "1:226258471812:web:15230ba15e7e0bd7d86bd1"
+  appId: "ここにappId"
 
 };
 
 
 const app =
-  initializeApp(
-    firebaseConfig
-  );
-
+  initializeApp(firebaseConfig);
 
 const db =
   getFirestore(app);
 
 
-/* ==================================================
-   変数
-================================================== */
+// ======================================================
+// 年度
+// ======================================================
 
-let currentLesson = null;
-
-let allReflections = [];
-
-let selectedStudent = "";
-
-let selectedSubject = "";
-
-let selectedUnit = "";
+const SCHOOL_YEAR = 2026;
 
 
-/* ==================================================
-   ページ切り替え
-================================================== */
+// ======================================================
+// キャッシュ
+// ======================================================
 
-window.showPage =
-function(pageId){
-
-  document
-    .querySelectorAll(".page")
-    .forEach(
-      page =>
-        page.classList.remove(
-          "active"
-        )
-    );
+const CACHE_PREFIX =
+  "teacherManabiCache_";
 
 
-  const target =
-    document.getElementById(
-      pageId
-    );
+// ======================================================
+// 現在選択中
+// ======================================================
+
+let currentStudentNumber = null;
+
+let currentSubject = null;
+
+let currentStudentData = [];
 
 
-  if(target){
+// ======================================================
+// 画面切り替え
+// ======================================================
 
-    target.classList.add(
-      "active"
-    );
+function showOnly(id) {
 
-  }
+  const pages = [
+    "teacherHome",
+    "studentPage",
+    "subjectPage",
+    "reflectionPage"
+  ];
 
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
+  pages.forEach(page => {
+
+    document
+      .getElementById(page)
+      .classList.add("hidden");
+
   });
 
-};
 
-
-/* ==================================================
-   現在の授業を自動取得
-================================================== */
-
-const lessonRef =
-  doc(
-    db,
-    "currentLesson",
-    "today"
-  );
-
-
-onSnapshot(
-  lessonRef,
-
-  snapshot => {
-
-    if(snapshot.exists()){
-
-      currentLesson =
-        snapshot.data();
-
-    }else{
-
-      currentLesson = null;
-
-    }
-
-
-    showLesson();
-
-    loadReflections();
-
-  },
-
-  error => {
-
-    console.error(
-      "授業情報取得エラー:",
-      error
-    );
-
-
-    document.getElementById(
-      "lessonInfo"
-    ).innerHTML = `
-
-      <div class="empty">
-
-        Firebaseとの接続に失敗しました。
-
-        <br><br>
-
-        ${escapeHtml(
-          error.message
-        )}
-
-      </div>
-
-    `;
-
-  }
-
-);
-
-
-/* ==================================================
-   授業表示
-================================================== */
-
-function showLesson(){
-
-  const area =
-    document.getElementById(
-      "lessonInfo"
-    );
-
-
-  if(!currentLesson){
-
-    area.innerHTML = `
-
-      <div class="lesson-card ended">
-
-        <div class="lesson-status ended">
-
-          ⏸️ 現在、授業はありません
-
-        </div>
-
-        <p>
-          「新しい授業を開始」から
-          授業を始めてください。
-        </p>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  const active =
-    currentLesson.active === true;
-
-
-  area.innerHTML = `
-
-    <div
-      class="
-        lesson-card
-        ${active ? "" : "ended"}
-      ">
-
-      <div
-        class="
-          lesson-status
-          ${active ? "" : "ended"}
-        ">
-
-        ${
-          active
-          ? "🟢 授業中"
-          : "⏸️ 授業終了"
-        }
-
-      </div>
-
-
-      <div class="lesson-subject">
-
-        ${escapeHtml(
-          currentLesson.subject || ""
-        )}
-
-      </div>
-
-
-      <div class="lesson-unit">
-
-        📘
-        ${escapeHtml(
-          currentLesson.unit || ""
-        )}
-
-      </div>
-
-
-      <div class="lesson-id">
-
-        🔑 授業ID：
-        ${escapeHtml(
-          currentLesson.lessonId || ""
-        )}
-
-      </div>
-
-    </div>
-
-  `;
+  document
+    .getElementById(id)
+    .classList.remove("hidden");
 
 }
 
 
-/* ==================================================
-   授業開始エリア
-================================================== */
+// ======================================================
+// ホーム
+// ======================================================
 
-window.showStartArea =
-function(){
+window.goHome = function() {
 
-  document.getElementById(
-    "startArea"
-  ).style.display =
-    "block";
+  showOnly("teacherHome");
 
 };
 
 
-window.hideStartArea =
-function(){
+// ======================================================
+// 児童一覧
+// ======================================================
 
-  document.getElementById(
-    "startArea"
-  ).style.display =
-    "none";
+window.loadStudents = async function() {
 
-};
+  showOnly("studentPage");
 
 
-/* ==================================================
-   授業ID自動作成
-================================================== */
-
-function createLessonId(){
-
-  const now =
-    new Date();
-
-
-  const datePart =
-
-    now.getFullYear() +
-
-    String(
-      now.getMonth()+1
-    ).padStart(2,"0") +
-
-    String(
-      now.getDate()
-    ).padStart(2,"0") +
-
-    "-" +
-
-    String(
-      now.getHours()
-    ).padStart(2,"0") +
-
-    String(
-      now.getMinutes()
-    ).padStart(2,"0") +
-
-    String(
-      now.getSeconds()
-    ).padStart(2,"0");
-
-
-  const randomPart =
-
-    Math.random()
-      .toString(36)
-      .substring(2,7)
-      .toUpperCase();
-
-
-  return (
-    datePart +
-    "-" +
-    randomPart
-  );
-
-}
-
-
-/* ==================================================
-   授業開始
-================================================== */
-
-window.startLesson =
-async function(){
-
-  const subject =
-    document
-      .getElementById(
-        "lessonSubject"
-      )
-      .value;
-
-
-  const unit =
-    document
-      .getElementById(
-        "lessonUnit"
-      )
-      .value
-      .trim();
-
-
-  if(!subject){
-
-    alert(
-      "教科を選択してください。"
+  const list =
+    document.getElementById(
+      "studentList"
     );
 
-    return;
 
-  }
-
-
-  if(!unit){
-
-    alert(
-      "単元名を入力してください。"
-    );
-
-    return;
-
-  }
+  list.innerHTML =
+    `<div class="loading">
+      📡 児童一覧を確認しています...
+    </div>`;
 
 
-  if(currentLesson &&
-     currentLesson.active === true){
+  const cacheKey =
+    CACHE_PREFIX +
+    SCHOOL_YEAR +
+    "_ALL";
 
-    const ok =
-      confirm(
-        "現在の授業がまだ続いています。\n\n新しい授業を開始しますか？"
+
+  try {
+
+    const cached =
+      localStorage.getItem(
+        cacheKey
       );
 
 
-    if(!ok){
+    let data;
 
-      return;
 
-    }
+    // --------------------------------------------------
+    // キャッシュがある場合
+    // --------------------------------------------------
 
-  }
+    if (cached) {
 
-
-  const lessonId =
-    createLessonId();
-
-
-  try{
-
-    await setDoc(
-
-      lessonRef,
-
-      {
-
-        lessonId:
-          lessonId,
-
-        subject:
-          subject,
-
-        unit:
-          unit,
-
-        active:
-          true,
-
-        startedAt:
-          serverTimestamp()
-
-      }
-
-    );
-
-
-    hideStartArea();
-
-
-    document.getElementById(
-      "lessonSubject"
-    ).value = "";
-
-
-    document.getElementById(
-      "lessonUnit"
-    ).value = "";
-
-
-    alert(
-      "授業を開始しました！\n\n授業ID：" +
-      lessonId
-    );
-
-
-  }catch(error){
-
-    console.error(
-      error
-    );
-
-
-    alert(
-      "授業を開始できませんでした。\n\n" +
-      error.message
-    );
-
-  }
-
-};
-
-
-/* ==================================================
-   授業終了
-================================================== */
-
-window.endLesson =
-async function(){
-
-  if(!currentLesson){
-
-    alert(
-      "現在の授業はありません。"
-    );
-
-    return;
-
-  }
-
-
-  if(currentLesson.active !== true){
-
-    alert(
-      "この授業はすでに終了しています。"
-    );
-
-    return;
-
-  }
-
-
-  const ok =
-    confirm(
-      "現在の授業を終了しますか？"
-    );
-
-
-  if(!ok){
-
-    return;
-
-  }
-
-
-  try{
-
-    await updateDoc(
-
-      lessonRef,
-
-      {
-
-        active:
-          false,
-
-        endedAt:
-          serverTimestamp()
-
-      }
-
-    );
-
-
-    alert(
-      "授業を終了しました。"
-    );
-
-
-  }catch(error){
-
-    console.error(
-      error
-    );
-
-
-    alert(
-      "授業を終了できませんでした。\n\n" +
-      error.message
-    );
-
-  }
-
-};
-
-
-/* ==================================================
-   振り返り取得
-================================================== */
-
-async function loadReflections(){
-
-  try{
-
-    const snapshot =
-      await getDocs(
-        collection(
-          db,
-          "manabi"
-        )
+      console.log(
+        "📦 児童一覧：キャッシュ"
       );
 
 
-    allReflections = [];
+      data =
+        JSON.parse(cached).data;
 
 
-    snapshot.forEach(
-      item => {
+    } else {
 
-        allReflections.push({
+      // ------------------------------------------------
+      // キャッシュがない場合だけFirebase
+      // ------------------------------------------------
 
-          id:
-            item.id,
-
-          ...item.data()
-
-        });
-
-      }
-    );
+      console.log(
+        "🔥 児童一覧：Firebase"
+      );
 
 
-    updateStats();
+      const q =
+        query(
+          collection(db, "manabi"),
+
+          where(
+            "schoolYear",
+            "==",
+            SCHOOL_YEAR
+          )
+        );
 
 
-    if(
-      document
-        .getElementById(
-          "studentsPage"
-        )
-        .classList
-        .contains("active")
-    ){
+      const snapshot =
+        await getDocs(q);
 
-      displayStudents();
+
+      data =
+        snapshot.docs.map(
+          d => ({
+            id: d.id,
+            ...d.data()
+          })
+        );
+
+
+      localStorage.setItem(
+        cacheKey,
+        JSON.stringify({
+
+          savedAt:
+            Date.now(),
+
+          data:
+            data
+
+        })
+      );
 
     }
 
 
-    if(
-      document
-        .getElementById(
-          "comparePage"
-        )
-        .classList
-        .contains("active")
-    ){
+    currentStudentData =
+      data;
 
-      displayCompare();
 
-    }
+    // ==================================================
+    // 児童ごとの集計
+    // ==================================================
 
-  }catch(error){
+    const students = {};
 
-    console.error(
-      "振り返り取得エラー:",
-      error
-    );
 
-  }
+    data.forEach(item => {
 
-}
+      const number =
+        String(
+          item.studentNumber
+        );
 
 
-/* ==================================================
-   現在の授業だけ
-================================================== */
+      if (!students[number]) {
 
-function getCurrentLessonData(){
+        students[number] = {
 
-  if(!currentLesson){
+          studentNumber:
+            number,
 
-    return [];
-
-  }
-
-
-  if(!currentLesson.lessonId){
-
-    return [];
-
-  }
-
-
-  return allReflections.filter(
-
-    item =>
-
-      item.lessonId ===
-      currentLesson.lessonId
-
-  );
-
-}
-
-
-/* ==================================================
-   統計
-================================================== */
-
-function updateStats(){
-
-  const area =
-    document.getElementById(
-      "stats"
-    );
-
-
-  const data =
-    getCurrentLessonData();
-
-
-  const students =
-    new Set(
-
-      data
-
-        .map(
-          item =>
-            item.name
-        )
-
-        .filter(Boolean)
-
-    );
-
-
-  const deep =
-    data.filter(
-
-      item =>
-
-        item.deepReflection &&
-        item.deepReflection
-          .trim()
-
-    );
-
-
-  const level3 =
-    data.filter(
-
-      item =>
-
-        Number(
-          item.deepLevel || 0
-        ) >= 3
-
-    );
-
-
-  area.innerHTML = `
-
-    <div class="stat">
-
-      <div class="stat-title">
-        👦👧 振り返りを書いた児童
-      </div>
-
-      <div class="stat-number">
-        ${students.size}
-      </div>
-
-    </div>
-
-
-    <div class="stat">
-
-      <div class="stat-title">
-        ✏️ 振り返り数
-      </div>
-
-      <div class="stat-number">
-        ${data.length}
-      </div>
-
-    </div>
-
-
-    <div class="stat">
-
-      <div class="stat-title">
-        🌱 深まり振り返り
-      </div>
-
-      <div class="stat-number">
-        ${deep.length}
-      </div>
-
-    </div>
-
-
-    <div class="stat">
-
-      <div class="stat-title">
-        🌟 レベル3
-      </div>
-
-      <div class="stat-number">
-        ${level3.length}
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* ==================================================
-   児童一覧
-================================================== */
-
-window.openStudents =
-function(){
-
-  showPage(
-    "studentsPage"
-  );
-
-
-  document.getElementById(
-    "studentSearch"
-  ).value = "";
-
-
-  displayStudents();
-
-};
-
-
-window.displayStudents =
-function(){
-
-  const area =
-    document.getElementById(
-      "studentTableArea"
-    );
-
-
-  const keyword =
-    document.getElementById(
-      "studentSearch"
-    ).value
-    .trim();
-
-
-  const data =
-    getCurrentLessonData();
-
-
-  const map = {};
-
-
-  data.forEach(
-    item => {
-
-      const name =
-        item.name ||
-        "名前なし";
-
-
-      if(!map[name]){
-
-        map[name] = {
-
-          count:0,
-
-          deep:0,
-
-          level3:0,
-
-          latest:""
+          count: 0
 
         };
 
       }
 
 
-      map[name].count++;
+      students[number].count++;
+
+    });
 
 
-      if(
-        item.deepReflection &&
-        item.deepReflection.trim()
-      ){
-
-        map[name].deep++;
-
-      }
-
-
-      if(
-        Number(
-          item.deepLevel || 0
-        ) >= 3
-      ){
-
-        map[name].level3++;
-
-      }
+    const numbers =
+      Object.keys(students)
+        .sort(
+          (a,b) =>
+            Number(a) -
+            Number(b)
+        );
 
 
-      if(
-        String(
-          item.date || ""
-        ) >
-        String(
-          map[name].latest || ""
-        )
-      ){
+    if (!numbers.length) {
 
-        map[name].latest =
-          item.date || "";
+      list.innerHTML =
+        "<p>まだ振り返りがありません。</p>";
 
-      }
+      return;
 
     }
-  );
 
 
-  let names =
-    Object.keys(
-      map
-    ).sort(
-      (a,b) =>
-        a.localeCompare(
-          b,
-          "ja"
-        )
+    list.innerHTML = "";
+
+
+    numbers.forEach(number => {
+
+      const student =
+        students[number];
+
+
+      const card =
+        document.createElement("div");
+
+
+      card.className =
+        "student-card";
+
+
+      card.innerHTML = `
+
+        <h3>
+          ${escapeHtml(number)}番
+        </h3>
+
+        <p>
+          振り返り
+          <strong>
+            ${student.count}
+          </strong>
+          件
+        </p>
+
+      `;
+
+
+      card.onclick =
+        () =>
+          openStudent(
+            number
+          );
+
+
+      list.appendChild(card);
+
+    });
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    list.innerHTML =
+      `<p>
+        児童一覧を読み込めませんでした。
+      </p>`;
+
+  }
+
+};
+
+
+// ======================================================
+// 児童を開く
+// ======================================================
+
+window.openStudent = function(
+  studentNumber
+) {
+
+  currentStudentNumber =
+    String(studentNumber);
+
+
+  document.getElementById(
+    "studentTitle"
+  ).textContent =
+    `👤 ${currentStudentNumber}番の教科`;
+
+
+  showOnly("subjectPage");
+
+
+  showSubjects();
+
+};
+
+
+// ======================================================
+// 教科一覧
+// ======================================================
+
+function showSubjects() {
+
+  const subjects = [
+
+    "国語",
+    "算数",
+    "生活",
+    "理科",
+    "社会",
+    "総合",
+    "道徳",
+    "体育"
+
+  ];
+
+
+  const list =
+    document.getElementById(
+      "subjectList"
     );
 
 
-  if(keyword){
+  list.innerHTML = "";
 
-    names =
-      names.filter(
-        name =>
-          name.includes(
-            keyword
-          )
+
+  subjects.forEach(subject => {
+
+    const count =
+      currentStudentData.filter(
+        item =>
+          String(
+            item.studentNumber
+          ) ===
+          String(
+            currentStudentNumber
+          ) &&
+          item.subject ===
+          subject
+      ).length;
+
+
+    const card =
+      document.createElement(
+        "div"
       );
 
-  }
+
+    card.className =
+      "subject-card";
 
 
-  if(names.length === 0){
+    card.innerHTML = `
 
-    area.innerHTML = `
+      <div style="font-size:30px;">
+        📖
+      </div>
 
-      <div class="empty">
+      <div>
+        ${subject}
+      </div>
 
-        現在の授業の振り返りは
-        まだありません。
-
+      <div style="font-size:13px;color:#777;">
+        ${count}件
       </div>
 
     `;
 
-    return;
 
-  }
-
-
-  area.innerHTML = `
-
-    <table class="student-table">
-
-      <thead>
-
-        <tr>
-
-          <th>児童名</th>
-          <th>振り返り</th>
-          <th>🌱 深まり</th>
-          <th>🌟 レベル3</th>
-          <th>最終提出</th>
-
-        </tr>
-
-      </thead>
-
-
-      <tbody>
-
-        ${names.map(
-          name => `
-
-            <tr
-              class="student-row"
-              data-name="${escapeHtml(name)}">
-
-              <td>
-
-                <div
-                  class="student-name">
-
-                  👤
-                  ${escapeHtml(name)}
-
-                </div>
-
-              </td>
-
-
-              <td class="count">
-
-                ${map[name].count}件
-
-              </td>
-
-
-              <td>
-
-                ${map[name].deep}件
-
-              </td>
-
-
-              <td
-                class="${
-                  map[name].level3 > 0
-                  ? "level3"
-                  : "no-data"
-                }">
-
-                ${map[name].level3}件
-
-              </td>
-
-
-              <td>
-
-                ${escapeHtml(
-                  map[name].latest ||
-                  "-"
-                )}
-
-              </td>
-
-            </tr>
-
-          `
-        ).join("")}
-
-      </tbody>
-
-    </table>
-
-  `;
-
-
-  /*
-    onclickをHTML属性に直接書かず、
-    イベントを後から登録
-  */
-
-  area
-    .querySelectorAll(
-      ".student-row"
-    )
-    .forEach(
-      row => {
-
-        row.addEventListener(
-          "click",
-          () => {
-
-            openStudent(
-              row.dataset.name
-            );
-
-          }
+    card.onclick =
+      () =>
+        openSubject(
+          currentStudentNumber,
+          subject
         );
 
-      }
-    );
 
-};
+    list.appendChild(card);
 
+  });
 
-/* ==================================================
-   児童 → 教科
-================================================== */
-
-window.openStudent =
-function(name){
-
-  selectedStudent =
-    name;
+}
 
 
-  showPage(
-    "subjectsPage"
-  );
+// ======================================================
+// 教科を開く
+// ======================================================
 
+window.openSubject = async function(
+  studentNumber,
+  subject
+) {
 
-  document.getElementById(
-    "breadcrumbStudent"
-  ).textContent =
-    name;
+  currentStudentNumber =
+    String(studentNumber);
+
+  currentSubject =
+    subject;
 
 
   document.getElementById(
-    "subjectsTitle"
+    "reflectionTitle"
   ).textContent =
-    "📚 " +
-    name +
-    " さんの教科";
+    `📝 ${currentStudentNumber}番　${subject}`;
 
 
-  const data =
-    allReflections.filter(
+  showOnly("reflectionPage");
 
-      item =>
-        item.name === name
 
+  const list =
+    document.getElementById(
+      "reflectionList"
     );
 
 
-  const subjectMap = {};
+  list.innerHTML =
+    `<div class="loading">
+      📡 振り返りを確認しています...
+    </div>`;
 
 
-  data.forEach(
-    item => {
+  try {
 
-      const subject =
-        item.subject ||
-        "教科未設定";
+    // ==================================================
+    // 重要
+    //
+    // 教科ごとのキャッシュを使用
+    // ==================================================
+
+    const cacheKey =
+      CACHE_PREFIX +
+      SCHOOL_YEAR +
+      "_" +
+      currentStudentNumber +
+      "_" +
+      subject;
 
 
-      if(
-        !subjectMap[subject]
-      ){
-
-        subjectMap[subject] = 0;
-
-      }
+    const cached =
+      localStorage.getItem(
+        cacheKey
+      );
 
 
-      subjectMap[subject]++;
+    let data;
+
+
+    if (cached) {
+
+      console.log(
+        "📦 教科データ：キャッシュ"
+      );
+
+
+      data =
+        JSON.parse(cached).data;
+
+
+    } else {
+
+      console.log(
+        "🔥 教科データ：Firebase"
+      );
+
+
+      const q =
+        query(
+
+          collection(
+            db,
+            "manabi"
+          ),
+
+          where(
+            "schoolYear",
+            "==",
+            SCHOOL_YEAR
+          ),
+
+          where(
+            "studentNumber",
+            "==",
+            String(
+              currentStudentNumber
+            )
+          ),
+
+          where(
+            "subject",
+            "==",
+            subject
+          )
+
+        );
+
+
+      const snapshot =
+        await getDocs(q);
+
+
+      data =
+        snapshot.docs.map(
+          d => ({
+            id: d.id,
+            ...d.data()
+          })
+        );
+
+
+      localStorage.setItem(
+        cacheKey,
+        JSON.stringify({
+
+          savedAt:
+            Date.now(),
+
+          data:
+            data
+
+        })
+      );
 
     }
-  );
 
 
-  const subjects =
-    Object.keys(
-      subjectMap
+    data.sort(
+      (a,b) =>
+        new Date(b.date) -
+        new Date(a.date)
     );
 
 
-  const area =
-    document.getElementById(
-      "subjectGrid"
-    );
+    if (!data.length) {
+
+      list.innerHTML =
+        "<p>この教科の振り返りはまだありません。</p>";
+
+      return;
+
+    }
 
 
-  if(subjects.length === 0){
+    // ==================================================
+    // 単元ごとに整理
+    // ==================================================
 
-    area.innerHTML = `
-
-      <div class="empty">
-        振り返りはありません。
-      </div>
-
-    `;
-
-    return;
-
-  }
+    const units = {};
 
 
-  area.innerHTML =
-    subjects
-      .map(
-        subject => `
-
-          <div
-            class="subject-card"
-            data-subject="${escapeHtml(subject)}">
-
-            <div class="subject-name">
-
-              📚
-              ${escapeHtml(subject)}
-
-            </div>
-
-            <div class="subject-count">
-
-              振り返り
-              ${subjectMap[subject]}件
-
-            </div>
-
-          </div>
-
-        `
-      )
-      .join("");
-
-
-  area
-    .querySelectorAll(
-      ".subject-card"
-    )
-    .forEach(
-      card => {
-
-        card.addEventListener(
-          "click",
-          () => {
-
-            openSubject(
-              card.dataset.subject
-            );
-
-          }
-        );
-
-      }
-    );
-
-};
-
-
-/* ==================================================
-   教科 → 単元
-================================================== */
-
-window.openSubject =
-function(subject){
-
-  selectedSubject =
-    subject;
-
-
-  showPage(
-    "unitsPage"
-  );
-
-
-  document.getElementById(
-    "breadcrumbUnit"
-  ).textContent =
-
-    selectedStudent +
-    " ＞ " +
-    subject;
-
-
-  document.getElementById(
-    "unitsTitle"
-  ).textContent =
-
-    "📘 " +
-    subject +
-    " の単元";
-
-
-  const data =
-    allReflections.filter(
-
-      item =>
-
-        item.name ===
-        selectedStudent &&
-
-        item.subject ===
-        subject
-
-    );
-
-
-  const unitMap = {};
-
-
-  data.forEach(
-    item => {
+    data.forEach(item => {
 
       const unit =
         item.unit ||
         "単元名なし";
 
 
-      if(!unitMap[unit]){
+      if (!units[unit]) {
 
-        unitMap[unit] = {
-
-          count:0,
-
-          latest:""
-
-        };
+        units[unit] = [];
 
       }
 
 
-      unitMap[unit].count++;
+      units[unit].push(item);
+
+    });
 
 
-      if(
-        String(
-          item.date || ""
-        ) >
-        String(
-          unitMap[unit].latest || ""
+    let html = "";
+
+
+    Object.keys(units).forEach(unit => {
+
+      html += `
+
+        <div class="unit-card">
+
+          <h3>
+            📚 ${escapeHtml(unit)}
+          </h3>
+
+      `;
+
+
+      units[unit].forEach(item => {
+
+        html += `
+
+          <div class="reflection-card">
+
+            <div class="date">
+              ${formatDate(item.date)}
+            </div>
+
+            <p>
+              ${escapeHtml(item.study)}
+            </p>
+
+            ${
+              item.aiQuestion
+              ?
+              `
+              <div>
+                🤖
+                ${escapeHtml(
+                  item.aiQuestion
+                )}
+              </div>
+              `
+              :
+              ""
+            }
+
+
+            ${
+              item.deepReflection
+              ?
+              `
+              <div class="level">
+
+                🌱
+                深まりレベル：
+                ${escapeHtml(
+                  item.deepLevel ||
+                  ""
+                )}
+
+                <p>
+                  ${escapeHtml(
+                    item.deepReflection
+                  )}
+                </p>
+
+              </div>
+              `
+              :
+              ""
+            }
+
+          </div>
+
+        `;
+
+      });
+
+
+      html += `</div>`;
+
+    });
+
+
+    list.innerHTML =
+      html;
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    list.innerHTML =
+      `<p>
+        振り返りを読み込めませんでした。
+      </p>`;
+
+  }
+
+};
+
+
+// ======================================================
+// 児童一覧へ
+// ======================================================
+
+window.backToStudents =
+  function() {
+
+    loadStudents();
+
+  };
+
+
+// ======================================================
+// 教科一覧へ
+// ======================================================
+
+window.backToSubjects =
+  function() {
+
+    openStudent(
+      currentStudentNumber
+    );
+
+  };
+
+
+// ======================================================
+// キャッシュ全削除
+// ======================================================
+
+window.clearAllCache =
+  function() {
+
+    const keys = [];
+
+
+    for (
+      let i = 0;
+      i < localStorage.length;
+      i++
+    ) {
+
+      const key =
+        localStorage.key(i);
+
+
+      if (
+        key &&
+        key.startsWith(
+          CACHE_PREFIX
         )
-      ){
+      ) {
 
-        unitMap[unit].latest =
-          item.date || "";
+        keys.push(key);
 
       }
 
     }
-  );
 
 
-  const units =
-    Object.keys(
-      unitMap
+    keys.forEach(
+      key =>
+        localStorage.removeItem(key)
     );
 
 
-  const area =
     document.getElementById(
-      "unitList"
-    );
+      "homeMessage"
+    ).innerHTML =
+      `<div style="
+        margin-top:10px;
+        padding:10px;
+        background:#e8f8ec;
+        border-radius:8px;
+      ">
+        🔄 キャッシュを更新しました。
+        次回はFirebaseから最新データを取得します。
+      </div>`;
+
+  };
 
 
-  if(units.length === 0){
+// ======================================================
+// 日付
+// ======================================================
 
-    area.innerHTML = `
+function formatDate(dateString) {
 
-      <div class="empty">
-        単元はありません。
-      </div>
-
-    `;
-
-    return;
-
+  if (!dateString) {
+    return "";
   }
 
 
-  area.innerHTML =
-    units
-      .map(
-        unit => `
-
-          <div
-            class="unit-card"
-            data-unit="${escapeHtml(unit)}">
-
-            <div class="unit-title">
-
-              📘
-              ${escapeHtml(unit)}
-
-            </div>
+  const d =
+    new Date(dateString);
 
 
-            <div class="unit-info">
-
-              振り返り
-              ${unitMap[unit].count}件
-
-              ／
-
-              最終提出
-              ${escapeHtml(
-                unitMap[unit].latest ||
-                "-"
-              )}
-
-            </div>
-
-          </div>
-
-        `
-      )
-      .join("");
-
-
-  area
-    .querySelectorAll(
-      ".unit-card"
-    )
-    .forEach(
-      card => {
-
-        card.addEventListener(
-          "click",
-          () => {
-
-            openUnit(
-              card.dataset.unit
-            );
-
-          }
-        );
-
-      }
-    );
-
-};
-
-
-/* ==================================================
-   単元 → 振り返り
-================================================== */
-
-window.openUnit =
-function(unit){
-
-  selectedUnit =
-    unit;
-
-
-  showPage(
-    "reflectionsPage"
+  return (
+    d.getFullYear() +
+    "年" +
+    (d.getMonth() + 1) +
+    "月" +
+    d.getDate() +
+    "日"
   );
-
-
-  document.getElementById(
-    "breadcrumbReflection"
-  ).textContent =
-
-    selectedStudent +
-    " ＞ " +
-    selectedSubject +
-    " ＞ " +
-    selectedUnit;
-
-
-  document.getElementById(
-    "reflectionsTitle"
-  ).textContent =
-
-    "✏️ " +
-    selectedStudent +
-    " さん ／ " +
-    selectedSubject +
-    " ／ " +
-    selectedUnit;
-
-
-  const data =
-    allReflections.filter(
-
-      item =>
-
-        item.name ===
-        selectedStudent &&
-
-        item.subject ===
-        selectedSubject &&
-
-        (
-          item.unit ||
-          "単元名なし"
-        ) === selectedUnit
-
-    );
-
-
-  data.sort(
-    (a,b) =>
-      String(
-        b.date || ""
-      ).localeCompare(
-        String(
-          a.date || ""
-        )
-      )
-  );
-
-
-  const area =
-    document.getElementById(
-      "reflectionList"
-    );
-
-
-  if(data.length === 0){
-
-    area.innerHTML = `
-
-      <div class="empty">
-        振り返りはありません。
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  area.innerHTML =
-    data
-      .map(
-        item =>
-          createReflectionCard(
-            item
-          )
-      )
-      .join("");
-
-};
-
-
-/* ==================================================
-   振り返りカード
-================================================== */
-
-function createReflectionCard(item){
-
-  const level =
-    Number(
-      item.deepLevel || 1
-    );
-
-
-  let levelText =
-    "レベル1";
-
-
-  if(level === 2){
-
-    levelText =
-      "レベル2";
-
-  }
-
-
-  if(level >= 3){
-
-    levelText =
-      "🌟 レベル3";
-
-  }
-
-
-  return `
-
-    <div class="reflection-card">
-
-
-      <div class="reflection-header">
-
-        <div>
-
-          <span class="subject-badge">
-
-            ${escapeHtml(
-              item.subject || ""
-            )}
-
-          </span>
-
-          <strong>
-
-            ${escapeHtml(
-              item.unit || ""
-            )}
-
-          </strong>
-
-        </div>
-
-
-        <div class="date">
-
-          ${escapeHtml(
-            item.date || ""
-          )}
-
-        </div>
-
-      </div>
-
-
-      <div class="study-box">
-
-        <strong>
-          ✏️ 今日の学び
-        </strong>
-
-        <br><br>
-
-        ${escapeHtml(
-          item.study || ""
-        )}
-
-      </div>
-
-
-      ${
-        item.aiQuestion
-        ? `
-
-          <div class="ai-box">
-
-            <strong>
-              🤖 AIからの問い
-            </strong>
-
-            <br><br>
-
-            ${escapeHtml(
-              item.aiQuestion
-            )}
-
-          </div>
-
-        `
-        : ""
-      }
-
-
-      <div
-        class="
-          level-badge
-          ${
-            level >= 3
-            ? "level3-badge"
-            : level === 2
-            ? "level2"
-            : ""
-          }
-        ">
-
-        🌱
-        振り返り
-        ${levelText}
-
-      </div>
-
-
-      ${
-        item.deepReflection
-        ? `
-
-          <div class="deep-box">
-
-            <strong>
-              🌱 深まり振り返り
-            </strong>
-
-            <br><br>
-
-            ${escapeHtml(
-              item.deepReflection
-            )}
-
-          </div>
-
-        `
-        : `
-
-          <div class="no-deep">
-
-            🌱
-            まだ「深まり振り返り」は
-            書かれていません。
-
-          </div>
-
-        `
-      }
-
-    </div>
-
-  `;
 
 }
 
 
-/* ==================================================
-   クラス全員比較
-================================================== */
-
-window.openCompare =
-function(){
-
-  showPage(
-    "comparePage"
-  );
-
-
-  displayCompare();
-
-};
-
-
-/* ==================================================
-   比較表示
-================================================== */
-
-window.displayCompare =
-function(){
-
-  const area =
-    document.getElementById(
-      "compareTableArea"
-    );
-
-
-  const info =
-    document.getElementById(
-      "compareLessonInfo"
-    );
-
-
-  if(!currentLesson){
-
-    info.innerHTML = `
-      現在の授業はありません。
-    `;
-
-
-    area.innerHTML = `
-
-      <div class="empty">
-
-        現在の授業がありません。
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  info.innerHTML = `
-
-    <strong>
-      🟢 現在の授業
-    </strong>
-
-    <br><br>
-
-    教科：
-    ${escapeHtml(
-      currentLesson.subject || ""
-    )}
-
-    ／
-
-    単元：
-    ${escapeHtml(
-      currentLesson.unit || ""
-    )}
-
-    <br>
-
-    🔑 授業ID：
-    ${escapeHtml(
-      currentLesson.lessonId || ""
-    )}
-
-  `;
-
-
-  const currentData =
-    getCurrentLessonData();
-
-
-  /*
-    今までに振り返りを書いた児童を
-    クラス一覧として利用
-  */
-
-  const names =
-    [
-      ...new Set(
-
-        allReflections
-          .map(
-            item =>
-              item.name
-          )
-          .filter(Boolean)
-
-      )
-    ]
-    .sort(
-      (a,b) =>
-        a.localeCompare(
-          b,
-          "ja"
-        )
-    );
-
-
-  const keyword =
-    document
-      .getElementById(
-        "compareSearch"
-      )
-      .value
-      .trim();
-
-
-  const levelFilter =
-    document
-      .getElementById(
-        "compareLevelFilter"
-      )
-      .value;
-
-
-  const rows = [];
-
-
-  names.forEach(
-    name => {
-
-      if(
-        keyword &&
-        !name.includes(
-          keyword
-        )
-      ){
-
-        return;
-
-      }
-
-
-      const reflections =
-        currentData.filter(
-
-          item =>
-            item.name === name
-
-        );
-
-
-      reflections.sort(
-        (a,b) =>
-          String(
-            b.date || ""
-          ).localeCompare(
-            String(
-              a.date || ""
-            )
-          )
-      );
-
-
-      const item =
-        reflections[0] ||
-        null;
-
-
-      const level =
-        item
-        ? Number(
-            item.deepLevel || 1
-          )
-        : 0;
-
-
-      if(
-        levelFilter === "0" &&
-        item
-      ){
-
-        return;
-
-      }
-
-
-      if(
-        levelFilter &&
-        levelFilter !== "0" &&
-        level !==
-          Number(
-            levelFilter
-          )
-      ){
-
-        return;
-
-      }
-
-
-      rows.push({
-
-        name:name,
-
-        item:item,
-
-        level:level
-
-      });
-
-    }
-  );
-
-
-  if(rows.length === 0){
-
-    area.innerHTML = `
-
-      <div class="empty">
-
-        条件に合う児童はいません。
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  area.innerHTML = `
-
-    <table class="compare-table">
-
-      <thead>
-
-        <tr>
-
-          <th>
-            👤 児童
-          </th>
-
-          <th>
-            📘 教科・単元
-          </th>
-
-          <th>
-            ✏️ 今日の学び
-          </th>
-
-          <th>
-            🤖 AIからの問い
-          </th>
-
-          <th>
-            🌱 深まり振り返り
-          </th>
-
-          <th>
-            🌟 レベル
-          </th>
-
-        </tr>
-
-      </thead>
-
-
-      <tbody>
-
-        ${rows.map(
-          row => {
-
-            const item =
-              row.item;
-
-
-            if(!item){
-
-              return `
-
-                <tr
-                  class="not-submit-row">
-
-                  <td>
-
-                    <div
-                      class="compare-name">
-
-                      👤
-                      ${escapeHtml(
-                        row.name
-                      )}
-
-                    </div>
-
-                  </td>
-
-
-                  <td
-                    class="
-                      compare-cell
-                      compare-empty
-                    ">
-
-                    —
-
-                  </td>
-
-
-                  <td
-                    class="
-                      compare-cell
-                      compare-empty
-                    ">
-
-                    <span class="not-submit">
-
-                      未提出
-
-                    </span>
-
-                  </td>
-
-
-                  <td
-                    class="
-                      compare-cell
-                      compare-empty
-                    ">
-
-                    —
-
-                  </td>
-
-
-                  <td
-                    class="
-                      compare-cell
-                      compare-empty
-                    ">
-
-                    —
-
-                  </td>
-
-
-                  <td
-                    class="compare-level">
-
-                    <span class="not-submit">
-
-                      未提出
-
-                    </span>
-
-                  </td>
-
-                </tr>
-
-              `;
-
-            }
-
-
-            const levelClass =
-
-              row.level >= 3
-
-              ? "level3-cell"
-
-              : row.level === 2
-
-              ? "level2-cell"
-
-              : "level1-cell";
-
-
-            const levelText =
-
-              row.level >= 3
-
-              ? "🌟 レベル3"
-
-              : row.level === 2
-
-              ? "🌱 レベル2"
-
-              : "🌱 レベル1";
-
-
-            return `
-
-              <tr>
-
-                <td>
-
-                  <div
-                    class="compare-name">
-
-                    👤
-                    ${escapeHtml(
-                      row.name
-                    )}
-
-                  </div>
-
-
-                  <div
-                    style="
-                      margin-top:5px;
-                      color:#888;
-                      font-size:12px;
-                    ">
-
-                    ${escapeHtml(
-                      item.date || ""
-                    )}
-
-                  </div>
-
-                </td>
-
-
-                <td class="compare-cell">
-
-                  <strong>
-
-                    ${escapeHtml(
-                      item.subject || ""
-                    )}
-
-                  </strong>
-
-                  <br>
-
-                  ${escapeHtml(
-                    item.unit || ""
-                  )}
-
-                </td>
-
-
-                <td class="compare-cell">
-
-                  ${escapeHtml(
-                    item.study ||
-                    "未入力"
-                  )}
-
-                </td>
-
-
-                <td
-                  class="
-                    compare-cell
-                    compare-ai
-                  ">
-
-                  ${escapeHtml(
-                    item.aiQuestion ||
-                    "—"
-                  )}
-
-                </td>
-
-
-                <td
-                  class="
-                    compare-cell
-                    compare-deep
-                  ">
-
-                  ${
-                    item.deepReflection
-                    ? escapeHtml(
-                        item.deepReflection
-                      )
-                    : "まだ書かれていません"
-                  }
-
-                </td>
-
-
-                <td
-                  class="
-                    compare-level
-                    ${levelClass}
-                  ">
-
-                  ${levelText}
-
-                </td>
-
-              </tr>
-
-            `;
-
-          }
-        ).join("")}
-
-      </tbody>
-
-    </table>
-
-  `;
-
-};
-
-
-/* ==================================================
-   戻る
-================================================== */
-
-window.openStudentSubjects =
-function(){
-
-  openStudent(
-    selectedStudent
-  );
-
-};
-
-
-window.openUnits =
-function(){
-
-  openSubject(
-    selectedSubject
-  );
-
-};
-
-
-/* ==================================================
-   HTML安全化
-================================================== */
-
-function escapeHtml(value){
-
-  if(
-    value === null ||
-    value === undefined
-  ){
+// ======================================================
+// HTML安全化
+// ======================================================
+
+function escapeHtml(value) {
+
+  if (
+    value === undefined ||
+    value === null
+  ) {
 
     return "";
 
@@ -3397,43 +1144,34 @@ function escapeHtml(value){
 
   return String(value)
 
-    .replace(
-      /&/g,
+    .replaceAll(
+      "&",
       "&amp;"
     )
 
-    .replace(
-      /</g,
+    .replaceAll(
+      "<",
       "&lt;"
     )
 
-    .replace(
-      />/g,
+    .replaceAll(
+      ">",
       "&gt;"
     )
 
-    .replace(
-      /"/g,
+    .replaceAll(
+      '"',
       "&quot;"
     )
 
-    .replace(
-      /'/g,
+    .replaceAll(
+      "'",
       "&#039;"
     );
 
 }
 
-
-/* ==================================================
-   最初の読み込み
-================================================== */
-
-loadReflections();
-
 </script>
 
-
 </body>
-
 </html>
