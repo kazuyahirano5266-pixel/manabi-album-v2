@@ -2,7 +2,6 @@
 <html lang="ja">
 
 <head>
-
 <meta charset="UTF-8">
 
 <meta
@@ -20,8 +19,10 @@
 
 body {
   margin: 0;
-  font-family: "Noto Sans JP", sans-serif;
-  background: #f4f6f8;
+  font-family:
+    "Noto Sans JP",
+    sans-serif;
+  background: #f4f7fb;
   color: #333;
 }
 
@@ -45,15 +46,12 @@ header {
   border-radius: 16px;
   padding: 20px;
   margin-bottom: 20px;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+  box-shadow:
+    0 3px 12px rgba(0,0,0,.08);
 }
 
-h2 {
-  color: #2e69a5;
-}
-
-h3 {
-  color: #3d6f9f;
+.hidden {
+  display: none;
 }
 
 button {
@@ -69,11 +67,7 @@ button {
 }
 
 button:hover {
-  opacity: 0.9;
-}
-
-.back {
-  background: #777;
+  opacity: .9;
 }
 
 .green {
@@ -85,44 +79,70 @@ button:hover {
 }
 
 .purple {
-  background: #8064a2;
+  background: #7656a8;
 }
 
 .red {
-  background: #c75b5b;
+  background: #c85c5c;
+}
+
+.gray {
+  background: #777;
+}
+
+.lesson-box {
+  background: #eef7ff;
+  border-left: 6px solid #3d7cc9;
+  padding: 18px;
+  border-radius: 10px;
+  margin: 15px 0;
+}
+
+.active-box {
+  background: #eef9f0;
+  border-left: 6px solid #4c9b65;
+  padding: 18px;
+  border-radius: 10px;
+  margin: 15px 0;
+}
+
+.ai-box {
+  background: #fff8dd;
+  border-left: 6px solid #e2aa32;
+  padding: 18px;
+  border-radius: 10px;
+  margin: 15px 0;
 }
 
 .student-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns:
+    repeat(5,1fr);
   gap: 15px;
 }
 
 .student-card {
   background: #eef6ff;
-  border: 2px solid #c8e0f7;
+  border: 2px solid #c9e0f7;
   border-radius: 14px;
   padding: 18px;
   cursor: pointer;
 }
 
 .student-card:hover {
-  background: #e0f0ff;
-}
-
-.student-card h3 {
-  margin-top: 0;
+  background: #e3f1ff;
 }
 
 .subject-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns:
+    repeat(4,1fr);
   gap: 12px;
 }
 
 .subject-card {
-  background: #f3f8ff;
-  border: 2px solid #d4e5f5;
+  background: #f4f8ff;
+  border: 2px solid #d6e4f3;
   border-radius: 12px;
   padding: 20px;
   text-align: center;
@@ -130,41 +150,17 @@ button:hover {
   font-weight: bold;
 }
 
-.subject-card:hover {
-  background: #e3f0fc;
-}
-
 .reflection-card {
-  background: #f8fbfd;
-  border-radius: 10px;
-  padding: 15px;
-  margin: 12px 0;
+  background: #f9fbfd;
   border-left: 5px solid #55a96d;
-}
-
-.date {
-  font-size: 14px;
-  color: #777;
-}
-
-.level {
-  background: #eef8ee;
-  padding: 10px;
-  border-radius: 8px;
-  margin-top: 10px;
-}
-
-.info-box {
-  background: #eef6ff;
-  border-left: 5px solid #3d7cc9;
   padding: 15px;
   border-radius: 10px;
   margin: 12px 0;
 }
 
-.ai-box {
-  background: #fff8dc;
-  border-left: 5px solid #e1aa32;
+.summary-box {
+  background: #f8f7ff;
+  border-left: 5px solid #7656a8;
   padding: 18px;
   border-radius: 10px;
   margin: 15px 0;
@@ -178,33 +174,17 @@ button:hover {
   margin: 15px 0;
 }
 
-.summary-box {
-  background: #f8f8ff;
-  border-left: 5px solid #8064a2;
-  padding: 18px;
-  border-radius: 10px;
-  margin: 15px 0;
-}
-
-.subject-summary {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 14px;
-  margin: 10px 0;
-  background: #fff;
-}
-
 .stat-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns:
+    repeat(4,1fr);
   gap: 10px;
-  margin: 15px 0;
 }
 
 .stat-card {
   background: #f5f7fa;
-  border-radius: 10px;
   padding: 15px;
+  border-radius: 10px;
   text-align: center;
 }
 
@@ -216,13 +196,12 @@ button:hover {
 
 textarea {
   width: 100%;
-  min-height: 300px;
+  min-height: 320px;
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 10px;
   font-size: 15px;
   line-height: 1.8;
-  resize: vertical;
 }
 
 .copy-message {
@@ -231,104 +210,99 @@ textarea {
   margin: 10px 0;
 }
 
-.copilot-button {
-  background: #5b4bb7;
-  font-size: 19px;
-  padding: 15px 22px;
-}
-
-.comment-area {
-  min-height: 220px;
-}
-
-.hidden {
-  display: none;
-}
-
-@media (max-width: 900px) {
+@media(max-width:900px) {
 
   .student-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns:
+      repeat(4,1fr);
   }
 
 }
 
-@media (max-width: 700px) {
+@media(max-width:700px) {
 
   .student-grid,
   .subject-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns:
+      repeat(2,1fr);
   }
 
   .stat-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns:
+      repeat(2,1fr);
   }
 
 }
 
-@media (max-width: 500px) {
+@media(max-width:500px) {
 
   .student-grid,
   .subject-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns:
+      1fr;
   }
 
 }
 
 </style>
-
 </head>
 
-
 <body>
-
 
 <header>
 👩‍🏫 学びアルバム Ver.2　先生ページ
 </header>
 
-
 <div class="container">
 
 
-<!-- =====================================================
-     ホーム
-===================================================== -->
+<!-- ==================================================
+     HOME
+================================================== -->
 
-<div id="teacherHome" class="card">
+<div id="homePage" class="card">
 
-<h2>📚 先生メニュー</h2>
+<h2>🏫 今日の授業</h2>
 
-<p>
-<strong>2026年度　1年間の学び</strong>
-</p>
+<div id="lessonStatus">
+読み込み中...
+</div>
+
+<button
+  class="green"
+  onclick="startLesson()"
+>
+▶️ 授業を開始する
+</button>
+
+<button
+  class="red"
+  onclick="endLesson()"
+>
+⏹ 授業を終了する
+</button>
+
+<hr>
+
+<h2>📚 1年間の学び</h2>
 
 <button onclick="loadStudents()">
 👧 児童一覧
 </button>
 
 <button
-  class="green"
-  onclick="loadStudents()"
->
-📚 1年間の振り返りを見る
-</button>
-
-<button
   class="orange"
-  onclick="clearAllCache()"
+  onclick="refreshData()"
 >
 🔄 最新データに更新
 </button>
 
-<div id="homeMessage"></div>
-
 </div>
 
 
-<!-- =====================================================
-     児童一覧
-===================================================== -->
+<!-- ==================================================
+     STUDENT LIST
+================================================== -->
 
 <div
   id="studentPage"
@@ -337,21 +311,19 @@ textarea {
 
 <h2>👧 児童一覧</h2>
 
-<div class="info-box">
-
-💡
-1年間のデータは一度Firebaseから取得すると、
-この端末に保存して再利用します。
-
-そのため、同じデータを何度も読み込まず、
-Firebaseの読み取り回数を節約できます。
-
+<div
+  class="lesson-box"
+>
+1年間の振り返りを児童ごとに確認できます。
 </div>
 
-<div id="studentList" class="student-grid"></div>
+<div
+  id="studentList"
+  class="student-grid"
+></div>
 
 <button
-  class="back"
+  class="gray"
   onclick="goHome()"
 >
 戻る
@@ -360,9 +332,9 @@ Firebaseの読み取り回数を節約できます。
 </div>
 
 
-<!-- =====================================================
-     児童メニュー
-===================================================== -->
+<!-- ==================================================
+     STUDENT MENU
+================================================== -->
 
 <div
   id="studentMenuPage"
@@ -372,12 +344,6 @@ Firebaseの読み取り回数を節約できます。
 <h2 id="studentMenuTitle">
 👤 児童
 </h2>
-
-<div class="info-box">
-
-この児童について、何を見るか選んでください。
-
-</div>
 
 <button
   class="green"
@@ -400,7 +366,7 @@ Firebaseの読み取り回数を節約できます。
 </button>
 
 <button
-  class="back"
+  class="gray"
   onclick="loadStudents()"
 >
 児童一覧へ
@@ -409,38 +375,37 @@ Firebaseの読み取り回数を節約できます。
 </div>
 
 
-<!-- =====================================================
-     教科一覧
-===================================================== -->
+<!-- ==================================================
+     SUBJECT
+================================================== -->
 
 <div
   id="subjectPage"
   class="card hidden"
 >
 
-<h2 id="studentTitle">
-📚 教科を選んでください
+<h2 id="subjectTitle">
+📖 教科を選択
 </h2>
 
 <div
   id="subjectList"
   class="subject-grid"
->
-</div>
+></div>
 
 <button
-  class="back"
+  class="gray"
   onclick="openStudentMenu()"
 >
-児童メニューへ
+戻る
 </button>
 
 </div>
 
 
-<!-- =====================================================
-     教科別振り返り
-===================================================== -->
+<!-- ==================================================
+     REFLECTION
+================================================== -->
 
 <div
   id="reflectionPage"
@@ -451,10 +416,12 @@ Firebaseの読み取り回数を節約できます。
 📝 振り返り
 </h2>
 
-<div id="reflectionList"></div>
+<div
+  id="reflectionList"
+></div>
 
 <button
-  class="back"
+  class="gray"
   onclick="openSubjectSelection()"
 >
 教科一覧へ
@@ -463,36 +430,36 @@ Firebaseの読み取り回数を節約できます。
 </div>
 
 
-<!-- =====================================================
-     1年間の振り返り
-===================================================== -->
+<!-- ==================================================
+     YEAR SUMMARY
+================================================== -->
 
 <div
-  id="yearSummaryPage"
+  id="yearPage"
   class="card hidden"
 >
 
-<h2 id="yearSummaryTitle">
+<h2 id="yearTitle">
 📚 1年間の振り返り
 </h2>
 
 <div id="yearStats"></div>
 
-<div id="yearSummaryContent"></div>
+<div id="yearContent"></div>
 
 <button
-  class="back"
+  class="gray"
   onclick="openStudentMenu()"
 >
-児童メニューへ
+戻る
 </button>
 
 </div>
 
 
-<!-- =====================================================
-     所見作成用データ
-===================================================== -->
+<!-- ==================================================
+     COMMENT
+================================================== -->
 
 <div
   id="commentPage"
@@ -503,141 +470,57 @@ Firebaseの読み取り回数を節約できます。
 📝 所見作成
 </h2>
 
+<div id="commentSummary"></div>
 
 <div class="ai-box">
 
 <h3>
-🤖 AI所見作成
+🤖 Copilot用文章
 </h3>
 
 <p>
 この児童の1年間の振り返りから、
-所見作成に必要な情報を自動整理しました。
-</p>
-
-<p>
-<strong>
-① データをコピー
-→ ② Copilotを開く
-→ ③ 貼り付け
-</strong>
+所見作成に必要な情報を自動整理します。
 </p>
 
 </div>
 
-
-<div id="commentSummary"></div>
-
-
-<h3>
-📋 Copilotに渡す文章
-</h3>
-
 <textarea
-  id="commentDataText"
+  id="commentText"
 ></textarea>
-
-
-<br>
-
 
 <button
   class="purple"
-  onclick="copyCommentData()"
+  onclick="copyComment()"
 >
 📋 Copilot用文章をコピー
 </button>
 
-
 <button
-  class="copilot-button"
+  class="purple"
   onclick="openCopilot()"
 >
 🤖 Microsoft Copilotを開く
 </button>
 
-
 <div
   id="copyMessage"
   class="copy-message"
->
-</div>
-
-
-<div class="info-box">
-
-<strong>
-💡 使い方
-</strong>
-
-<ol>
-
-<li>
-「Copilot用文章をコピー」を押す
-</li>
-
-<li>
-「Microsoft Copilotを開く」を押す
-</li>
-
-<li>
-Copilotの入力欄に貼り付ける
-</li>
-
-<li>
-生成された所見を確認する
-</li>
-
-</ol>
-
-</div>
-
-
-<h3>
-✏️ Copilotで作成した所見
-</h3>
-
-<textarea
-  id="finalComment"
-  class="comment-area"
-  placeholder="Copilotで作成した所見をここに貼り付けて保存しておくこともできます。"
-></textarea>
-
+></div>
 
 <button
-  class="green"
-  onclick="copyFinalComment()"
->
-📋 完成した所見をコピー
-</button>
-
-
-<div
-  id="finalCopyMessage"
-  class="copy-message"
->
-</div>
-
-
-<button
-  class="back"
+  class="gray"
   onclick="openStudentMenu()"
 >
-児童メニューへ
+戻る
 </button>
 
 </div>
-
 
 </div>
 
 
 <script type="module">
-
-
-// ======================================================
-// Firebase
-// ======================================================
 
 import {
   initializeApp
@@ -645,21 +528,25 @@ import {
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-
 import {
   getFirestore,
   collection,
   query,
   where,
-  getDocs
+  getDocs,
+  doc,
+  setDoc,
+  getDoc,
+  updateDoc,
+  serverTimestamp
 }
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-// ======================================================
-// Firebase設定
-// ======================================================
+/* ==================================================
+   Firebase
+================================================== */
 
 const firebaseConfig = {
 
@@ -683,11 +570,6 @@ const firebaseConfig = {
 
 };
 
-
-// ======================================================
-// Firebase開始
-// ======================================================
-
 const app =
   initializeApp(
     firebaseConfig
@@ -697,28 +579,13 @@ const db =
   getFirestore(app);
 
 
-// ======================================================
-// 年度
-// ======================================================
+/* ==================================================
+   設定
+================================================== */
 
-const SCHOOL_YEAR =
-  2026;
-
-
-// ======================================================
-// キャッシュ
-// ======================================================
-
-const CACHE_PREFIX =
-  "teacherManabiCache_";
-
-
-// ======================================================
-// 教科
-// ======================================================
+const SCHOOL_YEAR = 2026;
 
 const SUBJECTS = [
-
   "国語",
   "算数",
   "生活",
@@ -727,81 +594,256 @@ const SUBJECTS = [
   "総合",
   "道徳",
   "体育"
-
 ];
 
+const CACHE_KEY =
+  "manabiTeacherData2026";
 
-// ======================================================
-// 現在の状態
-// ======================================================
 
-let currentStudentNumber =
+/* ==================================================
+   状態
+================================================== */
+
+let allData = [];
+
+let currentStudent =
   null;
 
 let currentSubject =
   null;
 
-let currentStudentData =
-  [];
 
+/* ==================================================
+   画面
+================================================== */
 
-// ======================================================
-// 画面切り替え
-// ======================================================
-
-function showOnly(id) {
+function showPage(id) {
 
   const pages = [
-
-    "teacherHome",
+    "homePage",
     "studentPage",
     "studentMenuPage",
     "subjectPage",
     "reflectionPage",
-    "yearSummaryPage",
+    "yearPage",
     "commentPage"
-
   ];
 
-
   pages.forEach(
-    page => {
-
+    p =>
       document
-        .getElementById(page)
-        .classList.add("hidden");
+        .getElementById(p)
+        .classList.add("hidden")
+  );
+
+  document
+    .getElementById(id)
+    .classList.remove("hidden");
+}
+
+
+/* ==================================================
+   HOME
+================================================== */
+
+window.goHome =
+function() {
+
+  showPage("homePage");
+
+};
+
+
+/* ==================================================
+   授業状態
+================================================== */
+
+async function loadLessonStatus() {
+
+  const ref =
+    doc(
+      db,
+      "currentLesson",
+      "today"
+    );
+
+  const snap =
+    await getDoc(ref);
+
+  const area =
+    document.getElementById(
+      "lessonStatus"
+    );
+
+  if (
+    !snap.exists() ||
+    !snap.data().active
+  ) {
+
+    area.innerHTML = `
+      <div class="lesson-box">
+        🔴 現在、授業は開始されていません。
+      </div>
+    `;
+
+    return;
+
+  }
+
+  const d =
+    snap.data();
+
+  area.innerHTML = `
+
+    <div class="active-box">
+
+      🟢 <strong>授業中</strong>
+
+      <br><br>
+
+      教科：
+      <strong>
+        ${escapeHtml(d.subject || "")}
+      </strong>
+
+      <br>
+
+      単元：
+      <strong>
+        ${escapeHtml(d.unit || "")}
+      </strong>
+
+      <br>
+
+      授業ID：
+      <strong>
+        ${escapeHtml(d.lessonId || "")}
+      </strong>
+
+    </div>
+
+  `;
+
+}
+
+
+/* ==================================================
+   授業開始
+================================================== */
+
+window.startLesson =
+async function() {
+
+  const subject =
+    prompt(
+      "教科を入力してください。\n\n例：算数"
+    );
+
+  if (!subject) return;
+
+
+  const unit =
+    prompt(
+      "単元名を入力してください。"
+    );
+
+  if (!unit) return;
+
+
+  const lessonId =
+    "L" +
+    Date.now()
+      .toString(36)
+      .toUpperCase();
+
+
+  await setDoc(
+    doc(
+      db,
+      "currentLesson",
+      "today"
+    ),
+    {
+
+      active: true,
+
+      schoolYear:
+        SCHOOL_YEAR,
+
+      lessonId:
+        lessonId,
+
+      subject:
+        subject,
+
+      unit:
+        unit,
+
+      startedAt:
+        serverTimestamp()
 
     }
   );
 
 
-  document
-    .getElementById(id)
-    .classList.remove("hidden");
+  alert(
+    "授業を開始しました！\n\n授業ID：" +
+    lessonId
+  );
 
-}
 
-
-// ======================================================
-// ホーム
-// ======================================================
-
-window.goHome =
-function() {
-
-  showOnly("teacherHome");
+  loadLessonStatus();
 
 };
 
 
-// ======================================================
-// 児童一覧
-// ======================================================
+/* ==================================================
+   授業終了
+================================================== */
+
+window.endLesson =
+async function() {
+
+  await setDoc(
+    doc(
+      db,
+      "currentLesson",
+      "today"
+    ),
+    {
+
+      active: false,
+
+      endedAt:
+        serverTimestamp()
+
+    },
+    {
+      merge: true
+    }
+  );
+
+
+  alert(
+    "授業を終了しました。"
+  );
+
+
+  loadLessonStatus();
+
+};
+
+
+/* ==================================================
+   データ取得
+================================================== */
 
 window.loadStudents =
 async function() {
 
-  showOnly("studentPage");
+  showPage(
+    "studentPage"
+  );
 
 
   const list =
@@ -811,295 +853,44 @@ async function() {
 
 
   list.innerHTML =
-  `
-    <div class="info-box">
-      📡 1年間の学びを確認しています...
-    </div>
-  `;
-
-
-  const cacheKey =
-    CACHE_PREFIX +
-    SCHOOL_YEAR +
-    "_ALL";
+    "📡 データを確認しています...";
 
 
   try {
 
     const cached =
       localStorage.getItem(
-        cacheKey
+        CACHE_KEY
       );
 
-
-    let data;
-
-
-    // ==================================================
-    // キャッシュがある場合
-    // ==================================================
 
     if (cached) {
 
-      console.log(
-        "📦 Firebaseではなく保存済みデータを使用"
-      );
-
-
-      data =
+      allData =
         JSON.parse(
           cached
-        ).data;
-
-
-    } else {
-
-
-      // =================================================
-      // Firebaseから取得
-      // =================================================
-
-      console.log(
-        "🔥 Firebaseから1年間のデータを取得"
-      );
-
-
-      const q =
-        query(
-
-          collection(
-            db,
-            "manabi"
-          ),
-
-          where(
-            "schoolYear",
-            "==",
-            SCHOOL_YEAR
-          )
-
         );
 
+    }
+    else {
 
-      const snapshot =
-        await getDocs(q);
-
-
-      data =
-        snapshot.docs.map(
-          d => ({
-
-            id:
-              d.id,
-
-            ...d.data()
-
-          })
-        );
-
-
-      // =================================================
-      // ブラウザに保存
-      // =================================================
-
-      localStorage.setItem(
-
-        cacheKey,
-
-        JSON.stringify({
-
-          savedAt:
-            Date.now(),
-
-          data:
-            data
-
-        })
-
-      );
+      await fetchData();
 
     }
 
 
-    currentStudentData =
-      data;
-
-
-    // ==================================================
-    // 児童ごとの集計
-    // ==================================================
-
-    const students =
-      {};
-
-
-    data.forEach(
-      item => {
-
-        const number =
-          String(
-            item.studentNumber ||
-            item.name ||
-            ""
-          );
-
-
-        if (!number) return;
-
-
-        if (!students[number]) {
-
-          students[number] = {
-
-            studentNumber:
-              number,
-
-            count:
-              0,
-
-            levels: {
-
-              "1": 0,
-              "2": 0,
-              "3": 0
-
-            }
-
-          };
-
-        }
-
-
-        students[number].count++;
-
-
-        const level =
-          String(
-            item.deepLevel ||
-            ""
-          );
-
-
-        if (
-          students[number]
-            .levels[level]
-          !==
-          undefined
-        ) {
-
-          students[number]
-            .levels[level]++;
-
-        }
-
-      }
-    );
-
-
-    const numbers =
-      Object.keys(
-        students
-      ).sort(
-        (a,b) =>
-          Number(a) -
-          Number(b)
-      );
-
-
-    if (!numbers.length) {
-
-      list.innerHTML =
-      `
-        <p>
-          まだ振り返りがありません。
-        </p>
-      `;
-
-      return;
-
-    }
-
-
-    list.innerHTML =
-      "";
-
-
-    numbers.forEach(
-      number => {
-
-        const student =
-          students[number];
-
-
-        const card =
-          document.createElement(
-            "div"
-          );
-
-
-        card.className =
-          "student-card";
-
-
-        card.innerHTML = `
-
-          <h3>
-            ${escapeHtml(number)}番
-          </h3>
-
-          <p>
-            📝 振り返り
-            <strong>
-              ${student.count}
-            </strong>
-            件
-          </p>
-
-          <p>
-            🌳 レベル3
-            ${student.levels["3"]}
-            件
-          </p>
-
-          <small>
-            クリックして詳細を見る
-          </small>
-
-        `;
-
-
-        card.onclick =
-          () =>
-            openStudent(
-              number
-            );
-
-
-        list.appendChild(
-          card
-        );
-
-      }
-    );
-
+    displayStudents();
 
   }
   catch(error) {
 
-    console.error(
-      error
-    );
-
+    console.error(error);
 
     list.innerHTML =
     `
-      <div class="info-box">
-        ❌ 児童一覧を読み込めませんでした。
-        <br>
-        ${escapeHtml(
-          error.message
-        )}
-      </div>
+      ❌ 読み込みエラー
+      <br>
+      ${escapeHtml(error.message)}
     `;
 
   }
@@ -1107,96 +898,152 @@ async function() {
 };
 
 
-// ======================================================
-// 児童メニュー
-// ======================================================
+/* ==================================================
+   Firebaseから取得
+================================================== */
 
-window.openStudent =
-function(
-  studentNumber
-) {
+async function fetchData() {
 
-  currentStudentNumber =
-    String(
-      studentNumber
+  const q =
+    query(
+
+      collection(
+        db,
+        "manabi"
+      ),
+
+      where(
+        "schoolYear",
+        "==",
+        SCHOOL_YEAR
+      )
+
     );
 
 
-  document.getElementById(
-    "studentMenuTitle"
-  ).textContent =
-
-    `👤 ${currentStudentNumber}番の学び`;
+  const snapshot =
+    await getDocs(q);
 
 
-  showOnly(
-    "studentMenuPage"
+  allData =
+    snapshot.docs.map(
+      d => ({
+        id:
+          d.id,
+        ...d.data()
+      })
+    );
+
+
+  localStorage.setItem(
+    CACHE_KEY,
+    JSON.stringify(allData)
   );
+
+}
+
+
+/* ==================================================
+   最新データ
+================================================== */
+
+window.refreshData =
+async function() {
+
+  localStorage.removeItem(
+    CACHE_KEY
+  );
+
+
+  await fetchData();
+
+
+  alert(
+    "最新データに更新しました。"
+  );
+
+
+  if (
+    !document
+      .getElementById("studentPage")
+      .classList
+      .contains("hidden")
+  ) {
+
+    displayStudents();
+
+  }
 
 };
 
 
-// ======================================================
-// 教科選択
-// ======================================================
+/* ==================================================
+   児童一覧
+================================================== */
 
-window.openSubjectSelection =
-function() {
-
-  document.getElementById(
-    "studentTitle"
-  ).textContent =
-
-    `📚 ${currentStudentNumber}番　教科を選択`;
-
-
-  showSubjects();
-
-
-  showOnly(
-    "subjectPage"
-  );
-
-};
-
-
-// ======================================================
-// 教科一覧
-// ======================================================
-
-function showSubjects() {
+function displayStudents() {
 
   const list =
     document.getElementById(
-      "subjectList"
+      "studentList"
     );
 
 
-  list.innerHTML =
-    "";
+  const students = {};
 
 
-  SUBJECTS.forEach(
-    subject => {
+  allData.forEach(
+    item => {
 
-      const count =
-        currentStudentData.filter(
-          item =>
+      const number =
+        String(
+          item.studentNumber ??
+          item.name ??
+          ""
+        );
 
-            String(
-              item.studentNumber
-            ) ===
-            String(
-              currentStudentNumber
-            )
 
-            &&
+      if (!number) return;
 
-            item.subject ===
-            subject
 
-        ).length;
+      if (!students[number]) {
 
+        students[number] = 0;
+
+      }
+
+
+      students[number]++;
+
+    }
+  );
+
+
+  const numbers =
+    Object.keys(
+      students
+    ).sort(
+      (a,b) =>
+        Number(a) -
+        Number(b)
+    );
+
+
+  if (!numbers.length) {
+
+    list.innerHTML =
+      "まだ振り返りがありません。";
+
+    return;
+
+  }
+
+
+  list.innerHTML = "";
+
+
+  numbers.forEach(
+    number => {
 
       const card =
         document.createElement(
@@ -1205,37 +1052,30 @@ function showSubjects() {
 
 
       card.className =
-        "subject-card";
+        "student-card";
 
 
       card.innerHTML = `
 
-        <div style="font-size:30px;">
-          📖
-        </div>
+        <h3>
+          ${escapeHtml(number)}番
+        </h3>
 
-        <div>
-          ${subject}
-        </div>
+        <p>
+          📝 ${students[number]}件
+        </p>
 
-        <div
-          style="
-            font-size:13px;
-            color:#777;
-            margin-top:5px;
-          "
-        >
-          ${count}件
-        </div>
+        <small>
+          タップして開く
+        </small>
 
       `;
 
 
       card.onclick =
         () =>
-          openSubject(
-            currentStudentNumber,
-            subject
+          openStudent(
+            number
           );
 
 
@@ -1249,197 +1089,283 @@ function showSubjects() {
 }
 
 
-// ======================================================
-// 教科を開く
-// ======================================================
+/* ==================================================
+   児童
+================================================== */
 
-window.openSubject =
-function(
-  studentNumber,
-  subject
+function openStudent(
+  number
 ) {
 
-  currentStudentNumber =
-    String(
-      studentNumber
+  currentStudent =
+    String(number);
+
+
+  document.getElementById(
+    "studentMenuTitle"
+  ).textContent =
+    `👤 ${currentStudent}番の学び`;
+
+
+  showPage(
+    "studentMenuPage"
+  );
+
+}
+
+window.openStudentMenu =
+function() {
+
+  showPage(
+    "studentMenuPage"
+  );
+
+};
+
+
+/* ==================================================
+   教科一覧
+================================================== */
+
+window.openSubjectSelection =
+function() {
+
+  showPage(
+    "subjectPage"
+  );
+
+
+  document.getElementById(
+    "subjectTitle"
+  ).textContent =
+    `📖 ${currentStudent}番　教科を選択`;
+
+
+  const list =
+    document.getElementById(
+      "subjectList"
     );
 
+
+  list.innerHTML = "";
+
+
+  SUBJECTS.forEach(
+    subject => {
+
+      const count =
+        getStudentData()
+          .filter(
+            x =>
+              x.subject ===
+              subject
+          ).length;
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "subject-card";
+
+
+      card.innerHTML = `
+        📖 ${subject}
+        <br>
+        <small>
+          ${count}件
+        </small>
+      `;
+
+
+      card.onclick =
+        () =>
+          openSubject(
+            subject
+          );
+
+
+      list.appendChild(
+        card
+      );
+
+    }
+  );
+
+};
+
+
+/* ==================================================
+   教科
+================================================== */
+
+function openSubject(
+  subject
+) {
 
   currentSubject =
     subject;
 
 
-  document.getElementById(
-    "reflectionTitle"
-  ).textContent =
-
-    `📝 ${currentStudentNumber}番　${subject}`;
-
-
-  showOnly(
+  showPage(
     "reflectionPage"
   );
 
 
-  displaySubjectReflections();
+  document.getElementById(
+    "reflectionTitle"
+  ).textContent =
+    `📝 ${currentStudent}番　${subject}`;
 
-};
+
+  const data =
+    getStudentData()
+      .filter(
+        x =>
+          x.subject ===
+          subject
+      )
+      .sort(
+        (a,b) =>
+          new Date(b.date) -
+          new Date(a.date)
+      );
 
 
-// ======================================================
-// 教科別振り返り
-// ======================================================
-
-function displaySubjectReflections() {
-
-  const list =
+  const area =
     document.getElementById(
       "reflectionList"
     );
 
 
-  let data =
-    currentStudentData.filter(
-      item =>
-
-        String(
-          item.studentNumber
-        ) ===
-        String(
-          currentStudentNumber
-        )
-
-        &&
-
-        item.subject ===
-        currentSubject
-
-    );
-
-
-  data.sort(
-    (a,b) =>
-      new Date(b.date) -
-      new Date(a.date)
-  );
-
-
   if (!data.length) {
 
-    list.innerHTML =
-    `
-      <p>
-        この教科の振り返りはまだありません。
-      </p>
-    `;
+    area.innerHTML =
+      "この教科の振り返りはありません。";
 
     return;
 
   }
 
 
-  let html = "";
+  area.innerHTML =
+    data.map(
+      item => `
 
+      <div class="reflection-card">
 
-  data.forEach(
-    item => {
+        <small>
+          ${formatDate(item.date)}
+        </small>
 
-      html += `
+        <h3>
+          ${escapeHtml(
+            item.unit || ""
+          )}
+        </h3>
 
-        <div class="reflection-card">
+        <p>
+          ${escapeHtml(
+            item.study || ""
+          )}
+        </p>
 
-          <div class="date">
-            ${formatDate(item.date)}
+        ${
+          item.aiQuestion
+          ?
+          `
+          <div class="lesson-box">
+            🤖 AIからの問い
+            <br>
+            ${escapeHtml(
+              item.aiQuestion
+            )}
           </div>
+          `
+          :
+          ""
+        }
 
-          <h3>
+        ${
+          item.deepReflection
+          ?
+          `
+          <div class="active-box">
+
+            🌱 深まりレベル：
             ${escapeHtml(
-              item.unit ||
-              "単元名なし"
+              item.deepLevel || ""
             )}
-          </h3>
 
-          <p>
-            ${escapeHtml(
-              item.study
-            )}
-          </p>
+            <p>
+              ${escapeHtml(
+                item.deepReflection
+              )}
+            </p>
 
-          ${
-            item.aiQuestion
-            ?
-            `
-              <div class="info-box">
-                🤖 AIからの問い
-                <br>
-                ${escapeHtml(
-                  item.aiQuestion
-                )}
-              </div>
-            `
-            :
-            ""
-          }
+          </div>
+          `
+          :
+          ""
+        }
 
-          ${
-            item.deepReflection
-            ?
-            `
-              <div class="level">
+      </div>
 
-                🌱 深まりレベル：
-                ${escapeHtml(
-                  item.deepLevel ||
-                  ""
-                )}
-
-                <p>
-                  ${escapeHtml(
-                    item.deepReflection
-                  )}
-                </p>
-
-              </div>
-            `
-            :
-            ""
-          }
-
-        </div>
-
-      `;
-
-    }
-  );
-
-
-  list.innerHTML =
-    html;
+    `
+    ).join("");
 
 }
 
 
-// ======================================================
-// 1年間の振り返り
-// ======================================================
+/* ==================================================
+   児童データ
+================================================== */
+
+function getStudentData() {
+
+  return allData.filter(
+    item =>
+      String(
+        item.studentNumber ??
+        item.name ??
+        ""
+      ) ===
+      String(
+        currentStudent
+      )
+  );
+
+}
+
+
+/* ==================================================
+   1年間
+================================================== */
 
 window.openYearSummary =
 function() {
 
+  showPage(
+    "yearPage"
+  );
+
+
   const data =
-    getCurrentStudentData();
+    getStudentData()
+      .sort(
+        (a,b) =>
+          new Date(a.date) -
+          new Date(b.date)
+      );
 
 
   document.getElementById(
-    "yearSummaryTitle"
+    "yearTitle"
   ).textContent =
-
-    `📚 ${currentStudentNumber}番　1年間の振り返り`;
-
-
-  showOnly(
-    "yearSummaryPage"
-  );
+    `📚 ${currentStudent}番　1年間の振り返り`;
 
 
   createYearSummary(
@@ -1449,37 +1375,9 @@ function() {
 };
 
 
-// ======================================================
-// 現在の児童データ
-// ======================================================
-
-function getCurrentStudentData() {
-
-  return currentStudentData
-
-    .filter(
-      item =>
-
-        String(
-          item.studentNumber
-        ) ===
-        String(
-          currentStudentNumber
-        )
-    )
-
-    .sort(
-      (a,b) =>
-        new Date(a.date) -
-        new Date(b.date)
-    );
-
-}
-
-
-// ======================================================
-// 1年間の集計
-// ======================================================
+/* ==================================================
+   年間集計
+================================================== */
 
 function createYearSummary(
   data
@@ -1490,56 +1388,35 @@ function createYearSummary(
       "yearStats"
     );
 
-
   const content =
     document.getElementById(
-      "yearSummaryContent"
+      "yearContent"
     );
 
 
-  if (!data.length) {
-
-    stats.innerHTML = "";
-
-    content.innerHTML =
-    `
-      <p>
-        まだ振り返りがありません。
-      </p>
-    `;
-
-    return;
-
-  }
-
-
-  const total =
-    data.length;
-
-
-  const level1 =
+  const l1 =
     data.filter(
-      item =>
+      x =>
         String(
-          item.deepLevel
+          x.deepLevel
         ) === "1"
     ).length;
 
 
-  const level2 =
+  const l2 =
     data.filter(
-      item =>
+      x =>
         String(
-          item.deepLevel
+          x.deepLevel
         ) === "2"
     ).length;
 
 
-  const level3 =
+  const l3 =
     data.filter(
-      item =>
+      x =>
         String(
-          item.deepLevel
+          x.deepLevel
         ) === "3"
     ).length;
 
@@ -1549,67 +1426,35 @@ function createYearSummary(
     <div class="stat-grid">
 
       <div class="stat-card">
-
-        <div>
-          📝
-        </div>
-
+        📝
         <div class="stat-number">
-          ${total}
+          ${data.length}
         </div>
-
-        <div>
-          振り返り
-        </div>
-
+        振り返り
       </div>
 
       <div class="stat-card">
-
-        <div>
-          🌱
-        </div>
-
+        🌱
         <div class="stat-number">
-          ${level1}
+          ${l1}
         </div>
-
-        <div>
-          レベル1
-        </div>
-
+        レベル1
       </div>
 
       <div class="stat-card">
-
-        <div>
-          🌿
-        </div>
-
+        🌿
         <div class="stat-number">
-          ${level2}
+          ${l2}
         </div>
-
-        <div>
-          レベル2
-        </div>
-
+        レベル2
       </div>
 
       <div class="stat-card">
-
-        <div>
-          🌳
-        </div>
-
+        🌳
         <div class="stat-number">
-          ${level3}
+          ${l3}
         </div>
-
-        <div>
-          レベル3
-        </div>
-
+        レベル3
       </div>
 
     </div>
@@ -1617,7 +1462,8 @@ function createYearSummary(
   `;
 
 
-  const subjectData = {};
+  let html =
+    "<h3>📖 教科別の学び</h3>";
 
 
   SUBJECTS.forEach(
@@ -1625,67 +1471,18 @@ function createYearSummary(
 
       const items =
         data.filter(
-          item =>
-            item.subject ===
+          x =>
+            x.subject ===
             subject
         );
 
 
-      if (items.length) {
-
-        subjectData[
-          subject
-        ] =
-          items;
-
-      }
-
-    }
-  );
-
-
-  let html =
-  `
-    <h3>
-      📖 教科別の1年間の学び
-    </h3>
-  `;
-
-
-  Object.keys(
-    subjectData
-  ).forEach(
-    subject => {
-
-      const items =
-        subjectData[
-          subject
-        ];
-
-
-      const level3Count =
-        items.filter(
-          item =>
-            String(
-              item.deepLevel
-            ) === "3"
-        ).length;
-
-
-      const units =
-        [
-          ...new Set(
-            items.map(
-              item =>
-                item.unit
-            )
-          )
-        ];
+      if (!items.length) return;
 
 
       html += `
 
-        <div class="subject-summary">
+        <div class="summary-box">
 
           <h3>
             📘 ${subject}
@@ -1693,84 +1490,95 @@ function createYearSummary(
 
           <p>
             振り返り：
-            <strong>
-              ${items.length}
-            </strong>
-            件
+            ${items.length}件
           </p>
-
-          <p>
-            学習した単元：
-            ${units
-              .map(
-                u =>
-                  escapeHtml(u)
-              )
-              .join("、")}
-          </p>
-
-          <p>
-            🌳 レベル3：
-            ${level3Count}件
-          </p>
-
-        </div>
 
       `;
+
+
+      items
+        .slice(-5)
+        .reverse()
+        .forEach(
+          item => {
+
+            html += `
+
+              <div
+                class="reflection-card"
+              >
+
+                <small>
+                  ${formatDate(
+                    item.date
+                  )}
+                </small>
+
+                <strong>
+                  ${escapeHtml(
+                    item.unit || ""
+                  )}
+                </strong>
+
+                <p>
+                  ${escapeHtml(
+                    item.study || ""
+                  )}
+                </p>
+
+              </div>
+
+            `;
+
+          }
+        );
+
+
+      html +=
+        "</div>";
 
     }
   );
 
 
-  const growthItems =
+  const growth =
     data.filter(
-      item =>
+      x =>
         String(
-          item.deepLevel
+          x.deepLevel
         ) === "3"
     );
 
 
   html += `
-
     <div class="growth-box">
 
       <h3>
         🌳 成長が見られる振り返り
       </h3>
-
   `;
 
 
-  if (growthItems.length) {
+  if (growth.length) {
 
-    growthItems
-      .slice(-8)
+    growth
+      .slice(-10)
       .reverse()
       .forEach(
         item => {
 
           html += `
 
-            <div
-              style="
-                padding:10px 0;
-                border-bottom:1px solid #ddd;
-              "
-            >
-
+            <p>
               <strong>
                 ${escapeHtml(
                   item.subject
                 )}
               </strong>
-
               ・
-
               ${escapeHtml(
                 item.unit
               )}
-
               <br>
 
               ${escapeHtml(
@@ -1780,36 +1588,33 @@ function createYearSummary(
               ${
                 item.deepReflection
                 ?
-                `<br>🌱 ${
-                  escapeHtml(
-                    item.deepReflection
-                  )
-                }`
+                `<br>
+                 🌱
+                 ${escapeHtml(
+                   item.deepReflection
+                 )}`
                 :
                 ""
               }
 
-            </div>
+            </p>
 
           `;
 
         }
       );
 
-  } else {
+  }
+  else {
 
     html +=
-    `
-      <p>
-        まだレベル3の振り返りはありません。
-      </p>
-    `;
+      "<p>まだレベル3の振り返りはありません。</p>";
 
   }
 
 
   html +=
-    `</div>`;
+    "</div>";
 
 
   content.innerHTML =
@@ -1818,27 +1623,31 @@ function createYearSummary(
 }
 
 
-// ======================================================
-// 所見作成画面
-// ======================================================
+/* ==================================================
+   所見
+================================================== */
 
 window.openCommentData =
 function() {
 
-  const data =
-    getCurrentStudentData();
-
-
-  showOnly(
+  showPage(
     "commentPage"
   );
+
+
+  const data =
+    getStudentData()
+      .sort(
+        (a,b) =>
+          new Date(a.date) -
+          new Date(b.date)
+      );
 
 
   document.getElementById(
     "commentTitle"
   ).textContent =
-
-    `📝 ${currentStudentNumber}番　所見作成`;
+    `📝 ${currentStudent}番　所見作成`;
 
 
   createCommentData(
@@ -1848,9 +1657,9 @@ function() {
 };
 
 
-// ======================================================
-// 所見作成データ生成
-// ======================================================
+/* ==================================================
+   所見データ生成
+================================================== */
 
 function createCommentData(
   data
@@ -1861,117 +1670,39 @@ function createCommentData(
       "commentSummary"
     );
 
-
   const textarea =
     document.getElementById(
-      "commentDataText"
+      "commentText"
     );
 
 
-  if (!data.length) {
+  const levels = {
 
-    summary.innerHTML =
-    `
-      <div class="info-box">
-        まだ振り返りがありません。
-      </div>
-    `;
+    "1":
+      data.filter(
+        x =>
+          String(
+            x.deepLevel
+          ) === "1"
+      ).length,
 
-    textarea.value = "";
+    "2":
+      data.filter(
+        x =>
+          String(
+            x.deepLevel
+          ) === "2"
+      ).length,
 
-    return;
+    "3":
+      data.filter(
+        x =>
+          String(
+            x.deepLevel
+          ) === "3"
+      ).length
 
-  }
-
-
-  // ====================================================
-  // 教科別
-  // ====================================================
-
-  const subjects = {};
-
-
-  data.forEach(
-    item => {
-
-      if (
-        !subjects[item.subject]
-      ) {
-
-        subjects[item.subject] = [];
-
-      }
-
-
-      subjects[
-        item.subject
-      ].push(
-        item
-      );
-
-    }
-  );
-
-
-  // ====================================================
-  // レベル
-  // ====================================================
-
-  const level1 =
-    data.filter(
-      item =>
-        String(
-          item.deepLevel
-        ) === "1"
-    ).length;
-
-
-  const level2 =
-    data.filter(
-      item =>
-        String(
-          item.deepLevel
-        ) === "2"
-    ).length;
-
-
-  const level3 =
-    data.filter(
-      item =>
-        String(
-          item.deepLevel
-        ) === "3"
-    ).length;
-
-
-  // ====================================================
-  // 単元
-  // ====================================================
-
-  const units =
-    [
-      ...new Set(
-        data
-          .map(
-            item =>
-              item.unit
-          )
-          .filter(Boolean)
-      )
-    ];
-
-
-  // ====================================================
-  // レベル3
-  // ====================================================
-
-  const growthItems =
-    data.filter(
-      item =>
-        String(
-          item.deepLevel
-        ) === "3"
-    );
+  };
 
 
   summary.innerHTML = `
@@ -1983,29 +1714,19 @@ function createCommentData(
       </h3>
 
       <p>
-        振り返り総数：
+        振り返り：
         <strong>
           ${data.length}件
         </strong>
       </p>
 
       <p>
-        学習した教科：
-        ${Object.keys(subjects).join("、")}
-      </p>
-
-      <p>
-        学習した単元：
-        ${units.length}単元
-      </p>
-
-      <p>
-        🌱 レベル1：
-        ${level1}件　
-        🌿 レベル2：
-        ${level2}件　
-        🌳 レベル3：
-        ${level3}件
+        レベル1：
+        ${levels["1"]}件　
+        レベル2：
+        ${levels["2"]}件　
+        レベル3：
+        ${levels["3"]}件
       </p>
 
     </div>
@@ -2013,248 +1734,78 @@ function createCommentData(
   `;
 
 
-  // ====================================================
-  // Copilot用プロンプト
-  // ====================================================
+  let text = `
 
-  let text =
+あなたは小学校教師の文章作成を支援するAIです。
 
-`あなたは小学校の教師を支援する文章作成アシスタントです。
+以下の児童の1年間の振り返りをもとに、
+通知表等に使用できる所見を作成してください。
 
-以下は、ある児童の「学びアルバム」に1年間蓄積された振り返りです。
-
-この記録だけを根拠として、
-児童の1年間の学びや成長が伝わる所見を作成してください。
-
-【重要な条件】
+【条件】
 
 ・200字程度
-・児童一人一人の内容に合わせる
-・具体的な学習内容を1つ以上入れる
-・1年間の成長が伝わる文章にする
-・「頑張りました」だけで終わらせない
-・児童の考え方や学び方が伝わる表現を使う
-・振り返りの内容を根拠にする
+・児童一人一人の実態に合わせる
+・具体的な学習内容を入れる
+・1年間の成長が伝わる
+・「頑張りました」だけで終わらない
+・どのように学んだかを表現する
+・考えを深めた様子を取り入れる
 ・友達との関わりが記録にあれば取り入れる
-・自分の考えを深めた様子があれば取り入れる
-・事実にない内容は推測しない
-・否定的な表現はできるだけ避ける
-・教師が通知表等に使用しやすい自然な文章にする
-・箇条書きではなく一つの文章にする
+・記録にないことは推測しない
+・自然で温かい教師の文章にする
+・箇条書きではなく文章にする
 
 【児童】
 
-${currentStudentNumber}番
+${currentStudent}番
 
-【年度】
-
-${SCHOOL_YEAR}年度
-
-
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【1年間の学習記録】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+【2026年度】
 
 振り返り総数：
 ${data.length}件
 
-学習した教科：
-${Object.keys(subjects).join("、")}
+深まりレベル1：
+${levels["1"]}件
 
-学習した単元：
-${units.join("、")}
+深まりレベル2：
+${levels["2"]}件
 
-振り返りの深まり：
-
-レベル1：
-${level1}件
-
-レベル2：
-${level2}件
-
-レベル3：
-${level3}件
+深まりレベル3：
+${levels["3"]}件
 
 
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【教科別の学び】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+＝＝＝＝＝＝＝＝＝＝＝＝
+【1年間の振り返り】
+＝＝＝＝＝＝＝＝＝＝＝＝
 
 `;
 
 
-  Object.keys(
-    subjects
-  ).forEach(
-    subject => {
+  data.forEach(
+    item => {
 
-      const items =
-        subjects[
-          subject
-        ];
+      text += `
 
+【${item.subject || ""}】
+単元：
+${item.unit || ""}
 
-      text +=
-`
+振り返り：
+${item.study || ""}
 
-■ ${subject}
-
-振り返り数：
-${items.length}件
-
-`;
-
-
-      const subjectUnits =
-        [
-          ...new Set(
-            items.map(
-              item =>
-                item.unit
-            )
-          )
-        ];
-
-
-      text +=
-`
-学習した単元：
-${subjectUnits.join("、")}
-
-`;
-
-
-      const reflections =
-        items
-          .filter(
-            item =>
-              item.study
-          )
-          .slice(-8);
-
-
-      text +=
-`
-児童の振り返り：
-`;
-
-
-      reflections.forEach(
-        item => {
-
-          text +=
-`
-・${item.study}
-`;
-
-          if (
-            item.deepReflection
-          ) {
-
-            text +=
-`
-　深めた考え：
-　${item.deepReflection}
-`;
-
-          }
-
-        }
-      );
-
-
-      text +=
-`
-`;
-
-    }
-  );
-
-
-  // ====================================================
-  // 成長が見られる記録
-  // ====================================================
-
-  text +=
-`
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【特に深まりが見られた学び】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-`;
-
-
-  if (
-    growthItems.length
-  ) {
-
-    growthItems
-      .slice(-10)
-      .forEach(
-        item => {
-
-          text +=
-`
-【${item.subject}・${item.unit}】
-
-${item.study}
+AIからの問い：
+${item.aiQuestion || ""}
 
 深めた考え：
-${item.deepReflection || "なし"}
+${item.deepReflection || ""}
 
-`;
+深まりレベル：
+${item.deepLevel || ""}
 
-        }
-      );
-
-  } else {
-
-    text +=
-`
-該当する記録はありません。
-`;
-
-  }
-
-
-  // ====================================================
-  // 最初の記録
-  // ====================================================
-
-  const firstItems =
-    data.slice(
-      0,
-      Math.min(
-        3,
-        data.length
-      )
-    );
-
-
-  text +=
-`
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【年度初めの様子】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-`;
-
-
-  firstItems.forEach(
-    item => {
-
-      text +=
-`
-【${item.subject}・${item.unit}】
-
-${item.study}
-
-${
-  item.deepReflection
-  ?
-  "深めた考え：" +
-  item.deepReflection
-  :
-  ""
-}
+日付：
+${formatDate(
+  item.date
+)}
 
 `;
 
@@ -2262,55 +1813,11 @@ ${
   );
 
 
-  // ====================================================
-  // 最近の記録
-  // ====================================================
+  text += `
 
-  const recentItems =
-    data.slice(-5);
-
-
-  text +=
-`
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【最近の様子】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-`;
-
-
-  recentItems.forEach(
-    item => {
-
-      text +=
-`
-【${item.subject}・${item.unit}】
-
-${item.study}
-
-${
-  item.deepReflection
-  ?
-  "深めた考え：" +
-  item.deepReflection
-  :
-  ""
-}
-
-`;
-
-    }
-  );
-
-
-  // ====================================================
-  // 最終指示
-  // ====================================================
-
-  text +=
-`
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-【最後の指示】
-＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
+＝＝＝＝＝＝＝＝＝＝＝＝
+【所見作成】
+＝＝＝＝＝＝＝＝＝＝＝＝
 
 上記の記録を総合して、
 この児童の1年間の学びと成長が伝わる
@@ -2318,18 +1825,14 @@ ${
 
 特に、
 
-「何を学んだか」
+①何を学んだか
+②どのように学んだか
+③どのように考えを深めたか
+④1年間でどのような変化が見られたか
 
-だけでなく、
-
-「どのように学んだか」
-「どのように考えを深めたか」
-「1年間でどのような変化が見られたか」
-
-が伝わる文章にしてください。
+が伝わるようにしてください。
 
 `;
-
 
 
   textarea.value =
@@ -2338,35 +1841,36 @@ ${
 }
 
 
-// ======================================================
-// Copilot用文章をコピー
-// ======================================================
+/* ==================================================
+   コピー
+================================================== */
 
-window.copyCommentData =
+window.copyComment =
 async function() {
 
-  const textarea =
+  const text =
     document.getElementById(
-      "commentDataText"
-    );
+      "commentText"
+    ).value;
 
 
   try {
 
-    await navigator.clipboard.writeText(
-      textarea.value
-    );
-
+    await navigator.clipboard
+      .writeText(text);
 
     document.getElementById(
       "copyMessage"
     ).textContent =
-
-      "📋 コピーしました！";
-
+      "📋 Copilot用文章をコピーしました！";
 
   }
-  catch(error) {
+  catch {
+
+    const textarea =
+      document.getElementById(
+        "commentText"
+      );
 
     textarea.select();
 
@@ -2374,11 +1878,9 @@ async function() {
       "copy"
     );
 
-
     document.getElementById(
       "copyMessage"
     ).textContent =
-
       "📋 コピーしました！";
 
   }
@@ -2386,31 +1888,19 @@ async function() {
 };
 
 
-// ======================================================
-// Copilotを開く
-// ======================================================
+/* ==================================================
+   Copilot
+================================================== */
 
 window.openCopilot =
 function() {
 
   const text =
     document.getElementById(
-      "commentDataText"
+      "commentText"
     ).value;
 
 
-  if (!text) {
-
-    alert(
-      "先にCopilot用文章を作成してください。"
-    );
-
-    return;
-
-  }
-
-
-  // まずコピー
   navigator.clipboard
     .writeText(text)
     .catch(
@@ -2418,220 +1908,55 @@ function() {
     );
 
 
-  // Copilotを開く
   window.open(
     "https://copilot.microsoft.com/",
     "_blank"
   );
 
-
-  document.getElementById(
-    "copyMessage"
-  ).textContent =
-
-    "📋 文章をコピーしました。Copilotを開いたら貼り付けてください。";
-
 };
 
 
-// ======================================================
-// 完成した所見をコピー
-// ======================================================
-
-window.copyFinalComment =
-async function() {
-
-  const textarea =
-    document.getElementById(
-      "finalComment"
-    );
-
-
-  if (!textarea.value.trim()) {
-
-    alert(
-      "先にCopilotで作成した所見を貼り付けてください。"
-    );
-
-    return;
-
-  }
-
-
-  try {
-
-    await navigator.clipboard.writeText(
-      textarea.value
-    );
-
-
-    document.getElementById(
-      "finalCopyMessage"
-    ).textContent =
-
-      "📋 完成した所見をコピーしました！";
-
-  }
-  catch(error) {
-
-    textarea.select();
-
-    document.execCommand(
-      "copy"
-    );
-
-
-    document.getElementById(
-      "finalCopyMessage"
-    ).textContent =
-
-      "📋 コピーしました！";
-
-  }
-
-};
-
-
-// ======================================================
-// キャッシュ削除
-// ======================================================
-
-window.clearAllCache =
-function() {
-
-  const keys = [];
-
-
-  for (
-    let i = 0;
-    i < localStorage.length;
-    i++
-  ) {
-
-    const key =
-      localStorage.key(i);
-
-
-    if (
-      key &&
-      key.startsWith(
-        CACHE_PREFIX
-      )
-    ) {
-
-      keys.push(
-        key
-      );
-
-    }
-
-  }
-
-
-  keys.forEach(
-    key =>
-      localStorage.removeItem(
-        key
-      )
-  );
-
-
-  document.getElementById(
-    "homeMessage"
-  ).innerHTML =
-
-  `
-    <div
-      style="
-        margin-top:10px;
-        padding:12px;
-        background:#e8f8ec;
-        border-radius:8px;
-      "
-    >
-
-      🔄 キャッシュを削除しました。
-
-      <br>
-
-      次回「児童一覧」を開いたときに、
-      Firebaseから最新データを取得します。
-
-    </div>
-  `;
-
-};
-
-
-// ======================================================
-// 日付
-// ======================================================
+/* ==================================================
+   日付
+================================================== */
 
 function formatDate(
-  dateString
+  value
 ) {
 
-  if (!dateString) {
-
+  if (!value)
     return "";
 
-  }
-
-
   const d =
-    new Date(
-      dateString
-    );
+    new Date(value);
 
 
   if (
     isNaN(
       d.getTime()
     )
-  ) {
-
-    return String(
-      dateString
-    );
-
-  }
+  )
+    return String(value);
 
 
-  return (
-
-    d.getFullYear() +
-    "年" +
-
-    (
-      d.getMonth() +
-      1
-    ) +
-    "月" +
-
-    d.getDate() +
-    "日"
-
-  );
+  return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
 
 }
 
 
-// ======================================================
-// HTML安全化
-// ======================================================
+/* ==================================================
+   HTML安全化
+================================================== */
 
 function escapeHtml(
   value
 ) {
 
   if (
-    value === undefined ||
-    value === null
-  ) {
-
+    value === null ||
+    value === undefined
+  )
     return "";
-
-  }
 
 
   return String(value)
@@ -2663,8 +1988,14 @@ function escapeHtml(
 
 }
 
+
+/* ==================================================
+   起動時
+================================================== */
+
+loadLessonStatus();
+
 </script>
 
 </body>
-
 </html>
