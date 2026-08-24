@@ -1,1355 +1,927 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>学びアルバム Ver.2</title>
 
 <style>
-
-*{
-  box-sizing:border-box;
+* {
+  box-sizing: border-box;
 }
 
-body{
-  margin:0;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Noto Sans JP",
-    "Yu Gothic",
-    sans-serif;
-  background:#f3f6fa;
-  color:#333;
+body {
+  margin: 0;
+  font-family: "Noto Sans JP", sans-serif;
+  background: #f4f8fb;
+  color: #333;
 }
 
-button,
-input,
-textarea,
-select{
-  font-family:inherit;
+header {
+  background: #4aa3df;
+  color: white;
+  padding: 18px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
 }
 
-button{
-  border:none;
-  border-radius:14px;
-  padding:13px 20px;
-  font-size:16px;
-  font-weight:bold;
-  cursor:pointer;
+.container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 15px;
 }
 
-button:hover{
-  opacity:.85;
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
 
-.page{
-  display:none;
+h2 {
+  margin-top: 0;
+  color: #2778b8;
 }
 
-.page.active{
-  display:block;
-}
-
-.container{
-  max-width:900px;
-  margin:auto;
-  padding:18px;
-}
-
-/* =========================
-ヘッダー
-========================= */
-
-header{
-  background:
-    linear-gradient(
-      135deg,
-      #4f8cff,
-      #6c63ff
-    );
-  color:white;
-  padding:24px 20px;
-  text-align:center;
-}
-
-header h1{
-  margin:0;
-  font-size:28px;
-}
-
-header p{
-  margin:7px 0 0;
-  font-size:14px;
-}
-
-/* =========================
-ボックス
-========================= */
-
-.box{
-  background:white;
-  border-radius:20px;
-  padding:22px;
-  margin-bottom:18px;
-  box-shadow:
-    0 4px 15px rgba(0,0,0,.06);
-}
-
-h2{
-  margin-top:0;
-}
-
-/* =========================
-授業情報
-========================= */
-
-.lesson-box{
-  background:#f0fff7;
-  border-left:7px solid #43b883;
-  border-radius:15px;
-  padding:18px;
-  margin-bottom:18px;
-}
-
-.lesson-status{
-  color:#26915e;
-  font-weight:bold;
-}
-
-.lesson-subject{
-  font-size:25px;
-  font-weight:bold;
-  margin-top:8px;
-}
-
-.lesson-unit{
-  margin-top:6px;
-  font-size:17px;
-}
-
-.lesson-id{
-  margin-top:10px;
-  font-size:12px;
-  color:#888;
-  word-break:break-all;
-}
-
-/* =========================
-フォーム
-========================= */
-
-.form-group{
-  margin-bottom:18px;
-}
-
-label{
-  display:block;
-  font-weight:bold;
-  margin-bottom:8px;
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 6px;
 }
 
 input,
-textarea,
-select{
-  width:100%;
-  padding:14px;
-  border:1px solid #d8dee8;
-  border-radius:12px;
-  font-size:16px;
-  background:white;
+select,
+textarea {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
 }
 
-textarea{
-  min-height:150px;
-  resize:vertical;
-  line-height:1.8;
+textarea {
+  min-height: 130px;
+  resize: vertical;
 }
 
-.primary{
-  background:#4f8cff;
-  color:white;
+button {
+  border: none;
+  border-radius: 12px;
+  padding: 13px 18px;
+  margin-top: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  background: #4aa3df;
+  color: white;
+  font-weight: bold;
 }
 
-.green{
-  background:#43b883;
-  color:white;
+button:hover {
+  opacity: 0.9;
 }
 
-.orange{
-  background:#f2a93b;
-  color:white;
+.menu-button {
+  width: 100%;
+  font-size: 19px;
+  padding: 18px;
+  margin: 8px 0;
 }
 
-.gray{
-  background:#e9edf4;
+.back-button {
+  background: #777;
 }
 
-.button-row{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
 }
 
-/* =========================
-メニュー
-========================= */
-
-.menu-grid{
-  display:grid;
-  grid-template-columns:
-    repeat(3,1fr);
-  gap:14px;
+.subject-button {
+  background: #e8f5ff;
+  color: #2778b8;
+  border: 2px solid #b8def5;
+  min-height: 70px;
 }
 
-.menu-button{
-  background:white;
-  border:2px solid #e1e7f0;
-  border-radius:18px;
-  padding:20px;
-  cursor:pointer;
-  text-align:center;
+.unit-button {
+  width: 100%;
+  text-align: left;
+  background: #f7fbff;
+  color: #333;
+  border: 1px solid #d8eaf5;
 }
 
-.menu-icon{
-  font-size:34px;
+.entry {
+  background: #f8fbfd;
+  border-left: 5px solid #4aa3df;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 8px;
 }
 
-.menu-title{
-  font-weight:bold;
-  margin-top:8px;
+.date {
+  color: #777;
+  font-size: 14px;
 }
 
-.menu-description{
-  color:#777;
-  font-size:13px;
-  margin-top:5px;
+.ai-box {
+  background: #fff8dc;
+  border-left: 5px solid #f0b429;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 10px;
 }
 
-/* =========================
-AI
-========================= */
-
-.advice-box{
-  background:#eef7ff;
-  border-left:6px solid #4f8cff;
-  border-radius:12px;
-  padding:17px;
-  margin-top:15px;
-  line-height:1.8;
+.level-box {
+  background: #eef8ee;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
 }
 
-.ai-title{
-  font-weight:bold;
-  color:#3769c8;
+.hidden {
+  display: none;
 }
 
-/* =========================
-深まり
-========================= */
-
-.deep-box{
-  background:#fff9e8;
-  border-left:6px solid #f2b94b;
-  border-radius:12px;
-  padding:18px;
-  margin-top:18px;
+.small {
+  font-size: 13px;
+  color: #777;
 }
 
-.level-box{
-  background:#f7f9fc;
-  border-radius:14px;
-  padding:16px;
-  margin-top:16px;
-  line-height:1.8;
+.success {
+  background: #e8f8ec;
+  color: #237a3b;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 12px;
 }
 
-/* =========================
-履歴
-========================= */
-
-.history-card{
-  background:white;
-  border:1px solid #e1e6ed;
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:14px;
+.warning {
+  background: #fff4e5;
+  color: #9a5a00;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 12px;
 }
 
-.history-header{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.subject-badge{
-  display:inline-block;
-  background:#eaf1ff;
-  color:#3769c8;
-  padding:5px 11px;
-  border-radius:20px;
-  font-size:13px;
-  font-weight:bold;
-}
-
-.date{
-  color:#888;
-  font-size:13px;
-}
-
-.history-study{
-  margin-top:15px;
-  line-height:1.8;
-  white-space:pre-wrap;
-}
-
-.history-deep{
-  margin-top:14px;
-  background:#fff9e8;
-  padding:14px;
-  border-radius:10px;
-  line-height:1.8;
-  white-space:pre-wrap;
-}
-
-/* =========================
-みんな
-========================= */
-
-.subject-grid{
-  display:grid;
-  grid-template-columns:
-    repeat(2,1fr);
-  gap:14px;
-}
-
-.subject-card{
-  border:2px solid #e1e7ef;
-  border-radius:17px;
-  padding:20px;
-  background:white;
-  text-align:center;
-  cursor:pointer;
-}
-
-.subject-card:hover{
-  border-color:#4f8cff;
-  background:#f7faff;
-}
-
-.subject-name{
-  font-size:20px;
-  font-weight:bold;
-}
-
-.everyone-card{
-  background:white;
-  border:1px solid #e1e6ed;
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:14px;
-}
-
-.student-name{
-  font-size:18px;
-  font-weight:bold;
-}
-
-.everyone-study{
-  margin-top:12px;
-  line-height:1.8;
-  white-space:pre-wrap;
-}
-
-.empty{
-  text-align:center;
-  color:#888;
-  padding:35px 15px;
-}
-
-/* =========================
-レスポンシブ
-========================= */
-
-@media(max-width:700px){
-
-  .menu-grid{
-    grid-template-columns:1fr;
+@media (max-width: 700px) {
+  .subject-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
-
-  header h1{
-    font-size:24px;
-  }
-
 }
 
+@media (max-width: 450px) {
+  .subject-grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>
-
 </head>
-
 
 <body>
 
-
 <header>
-
-<h1>📚 学びアルバム</h1>
-
-<p>
-自分の学びを残そう！
-</p>
-
+📘 学びアルバム Ver.2
 </header>
-
 
 <div class="container">
 
-
 <!-- =========================
-ホーム
+     ログイン
 ========================= -->
 
-<section
-  id="homePage"
-  class="page active">
+<div id="loginPage" class="card">
 
-  <div
-    id="lessonArea"
-    class="lesson-box">
+<h2>🔐 児童ログイン</h2>
 
-    授業情報を読み込んでいます……
+<label>出席番号</label>
+<input
+  id="studentNumberInput"
+  type="number"
+  min="1"
+  placeholder="例：12"
+>
 
-  </div>
+<label>パスワード</label>
+<input
+  id="passwordInput"
+  type="password"
+  placeholder="パスワード"
+>
 
+<button onclick="loginStudent()">
+ログイン
+</button>
 
-  <div class="box">
+<div id="loginMessage"></div>
 
-    <h2>
-      ✏️ 学びアルバム
-    </h2>
-
-    <div class="menu-grid">
-
-      <div
-        class="menu-button"
-        onclick="openReflection()">
-
-        <div class="menu-icon">
-          ✏️
-        </div>
-
-        <div class="menu-title">
-          今日の振り返りを書く
-        </div>
-
-        <div class="menu-description">
-          今日の学びを残そう
-        </div>
-
-      </div>
-
-
-      <div
-        class="menu-button"
-        onclick="openHistory()">
-
-        <div class="menu-icon">
-          📖
-        </div>
-
-        <div class="menu-title">
-          自分の振り返りを見る
-        </div>
-
-        <div class="menu-description">
-          これまでの学びを見る
-        </div>
-
-      </div>
-
-
-      <div
-        class="menu-button"
-        onclick="openEveryoneHistory()">
-
-        <div class="menu-icon">
-          👫
-        </div>
-
-        <div class="menu-title">
-          みんなの振り返りを見る
-        </div>
-
-        <div class="menu-description">
-          友達の考えを見てみよう
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
+</div>
 
 
 <!-- =========================
-振り返り入力
+     メニュー
 ========================= -->
 
-<section
-  id="reflectionPage"
-  class="page">
+<div id="menuPage" class="card hidden">
 
-  <div class="box">
+<h2>👋 学びアルバム</h2>
 
-    <h2>
-      ✏️ 今日の振り返り
-    </h2>
+<p id="studentInfo"></p>
 
+<button class="menu-button" onclick="openReflection()">
+✏️ 今日の振り返りを書く
+</button>
 
-    <div
-      id="reflectionLesson"
-      class="lesson-box">
-    </div>
+<button class="menu-button" onclick="openHistory()">
+📖 自分の振り返りを見る
+</button>
 
+<button class="menu-button" onclick="openEveryoneHistory()">
+👫 みんなの振り返りを見る
+</button>
 
-    <div class="form-group">
+<button
+  class="menu-button"
+  style="background:#777;"
+  onclick="logoutStudent()"
+>
+ログアウト
+</button>
 
-      <label>
-        👤 なまえ
-      </label>
-
-      <input
-        id="studentName"
-        type="text"
-        placeholder="なまえを入力してください">
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label>
-        📚 教科
-      </label>
-
-      <select id="subject">
-
-        <option value="">
-          教科を選択してください
-        </option>
-
-        <option>国語</option>
-        <option>算数</option>
-        <option>生活</option>
-        <option>理科</option>
-        <option>社会</option>
-        <option>総合</option>
-        <option>道徳</option>
-        <option>体育</option>
-
-      </select>
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label>
-        📘 単元名
-      </label>
-
-      <input
-        id="unit"
-        type="text"
-        placeholder="単元名を入力してください">
-
-    </div>
-
-
-    <div class="form-group">
-
-      <label>
-        ✏️ 今日の学び
-      </label>
-
-      <textarea
-        id="study"
-        placeholder="今日、どんなことを学びましたか？"
-        oninput="showAdvice()"></textarea>
-
-    </div>
-
-
-    <div
-      id="adviceBox"
-      class="advice-box"
-      style="display:none;">
-
-      <div class="ai-title">
-        🤖 AIからの問い
-      </div>
-
-      <div
-        id="aiQuestion">
-      </div>
-
-    </div>
-
-
-    <div class="button-row">
-
-      <button
-        class="primary"
-        onclick="saveReflection()">
-
-        💾 振り返りを保存
-
-      </button>
-
-
-      <button
-        class="gray"
-        onclick="showPage('homePage')">
-
-        ← 戻る
-
-      </button>
-
-    </div>
-
-  </div>
-
-
-  <!-- 深まり -->
-
-  <div
-    id="deepReflectionArea"
-    class="box"
-    style="display:none;">
-
-    <div class="deep-box">
-
-      <h2>
-        🌱 もう一歩深く考えてみよう
-      </h2>
-
-      <p>
-        AIからの問いをヒントに、
-        もう少し考えてみましょう。
-      </p>
-
-      <textarea
-        id="deepReflection"
-        placeholder="「どうして？」「なぜ？」「次は？」などを考えてみよう。"></textarea>
-
-
-      <div class="level-box">
-
-        <strong>
-          🌱 振り返りの深まり
-        </strong>
-
-        <p>
-          書いた内容から、
-          振り返りの深まりを判定します。
-        </p>
-
-        <div
-          id="levelResult">
-        </div>
-
-      </div>
-
-
-      <div class="button-row">
-
-        <button
-          class="green"
-          onclick="saveDeepReflection()">
-
-          🌱 深まり振り返りを保存
-
-        </button>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
+</div>
 
 
 <!-- =========================
-自分の履歴
+     振り返り入力
 ========================= -->
 
-<section
-  id="historyPage"
-  class="page">
+<div id="reflectionPage" class="card hidden">
 
-  <div class="box">
+<h2>✏️ 今日の振り返り</h2>
 
-    <h2>
-      📖 自分の振り返り
-    </h2>
+<p id="reflectionStudentInfo"></p>
 
-    <input
-      id="historyName"
-      placeholder="なまえを入力してください">
+<label>教科</label>
 
-    <div
-      class="button-row"
-      style="margin-top:12px;">
+<select id="subject">
+<option value="">教科を選んでください</option>
+<option>国語</option>
+<option>算数</option>
+<option>生活</option>
+<option>理科</option>
+<option>社会</option>
+<option>総合</option>
+<option>道徳</option>
+<option>体育</option>
+</select>
 
-      <button
-        class="primary"
-        onclick="loadMyHistory()">
+<label>単元名</label>
 
-        📖 見る
+<input
+  id="unit"
+  type="text"
+  placeholder="例：小数のかけ算"
+>
 
-      </button>
+<label>今日の学び</label>
 
-      <button
-        class="gray"
-        onclick="showPage('homePage')">
+<textarea
+  id="study"
+  placeholder="今日の授業で分かったこと、できるようになったことを書こう。"
+  oninput="showAdvice()"
+></textarea>
 
-        ← 戻る
+<div id="adviceBox" class="ai-box hidden">
+<strong>🤖 AIからの問い</strong>
+<p id="aiQuestion"></p>
+</div>
 
-      </button>
+<button onclick="saveReflection()">
+💾 振り返りを保存
+</button>
 
-    </div>
+<button
+  class="back-button"
+  onclick="showPage('menuPage')"
+>
+戻る
+</button>
 
-  </div>
+<div id="saveMessage"></div>
 
-
-  <div
-    id="historyList">
-  </div>
-
-</section>
+</div>
 
 
 <!-- =========================
-みんなの振り返り
+     深まり
 ========================= -->
 
-<section
-  id="everyonePage"
-  class="page">
+<div id="deepPage" class="card hidden">
 
-  <div class="box">
+<h2>🌱 もう一歩深めよう</h2>
 
-    <h2>
-      👫 みんなの振り返り
-    </h2>
+<p>
+今日の振り返りを、もう一段深くしてみよう。
+</p>
 
-    <p>
-      教科を選んで友達の考えを見てみよう。
-    </p>
+<div class="ai-box">
+<strong>🤖 AIからの問い</strong>
+<p id="deepQuestion"></p>
+</div>
 
-    <div
-      id="everyoneSubjects"
-      class="subject-grid">
-    </div>
+<label>もう一歩深い振り返り</label>
 
+<textarea
+  id="deepReflection"
+  placeholder="友達の考え、自分の考えの変化、次に生かしたいことなどを書こう。"
+></textarea>
 
-    <div
-      class="button-row"
-      style="margin-top:18px;">
+<label>振り返りの深まり</label>
 
-      <button
-        class="gray"
-        onclick="showPage('homePage')">
+<select id="deepLevel">
+<option value="1">① その時の自分の気持ち・感想</option>
+<option value="2">② 学んだことや分かったこと</option>
+<option value="3">③ 考えの変化・友達との比較・次につながる考え</option>
+</select>
 
-        ← 戻る
+<button onclick="saveDeepReflection()">
+🌱 深まりを保存
+</button>
 
-      </button>
+<button
+  class="back-button"
+  onclick="showPage('menuPage')"
+>
+メニューへ戻る
+</button>
 
-    </div>
+<div id="deepSaveMessage"></div>
 
-  </div>
-
-</section>
-
-
-<section
-  id="everyoneDetailPage"
-  class="page">
-
-  <div class="box">
-
-    <h2
-      id="everyoneDetailTitle">
-    </h2>
-
-    <div
-      id="everyoneDetailList">
-    </div>
+</div>
 
 
-    <button
-      class="gray"
-      onclick="openEveryoneHistory()">
+<!-- =========================
+     自分の振り返り
+========================= -->
 
-      ← 教科一覧へ
+<div id="historyPage" class="card hidden">
 
-    </button>
+<h2>📖 自分の振り返り</h2>
 
-  </div>
+<div id="historyContent"></div>
 
-</section>
+<button
+  class="back-button"
+  onclick="showPage('menuPage')"
+>
+戻る
+</button>
 
+</div>
+
+
+<!-- =========================
+     みんなの振り返り
+========================= -->
+
+<div id="everyonePage" class="card hidden">
+
+<h2>👫 みんなの振り返り</h2>
+
+<div id="everyoneContent"></div>
+
+<button
+  class="back-button"
+  onclick="showPage('menuPage')"
+>
+戻る
+</button>
+
+</div>
 
 </div>
 
 
 <script type="module">
 
-
-/* ==================================================
-   Firebase
-================================================== */
-
 import {
   initializeApp
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
   getFirestore,
   collection,
-  getDocs,
   addDoc,
-  query,
-  where,
-  onSnapshot,
   doc,
   updateDoc,
-  serverTimestamp
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  query,
+  where,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-/* ==================================================
-   Firebase設定
-================================================== */
+// ======================================================
+// Firebase設定
+// ↓↓↓ 自分のFirebase設定に置き換えてください ↓↓↓
+// ======================================================
 
 const firebaseConfig = {
 
-  apiKey:
-    "AIzaSyA7fBz695BTUL8lxxJ06csf6AfU_DQp3iw",
+  apiKey: "ここにAPIキー",
 
-  authDomain:
-    "manabi-album-v2.firebaseapp.com",
+  authDomain: "ここにauthDomain",
 
-  projectId:
-    "manabi-album-v2",
+  projectId: "ここにprojectId",
 
-  storageBucket:
-    "manabi-album-v2.firebasestorage.app",
+  storageBucket: "ここにstorageBucket",
 
-  messagingSenderId:
-    "226258471812",
+  messagingSenderId: "ここにmessagingSenderId",
 
-  appId:
-    "1:226258471812:web:15230ba15e7e0bd7d86bd1"
+  appId: "ここにappId"
 
 };
 
 
-const app =
-  initializeApp(firebaseConfig);
+// ======================================================
+// Firebase開始
+// ======================================================
 
-const db =
-  getFirestore(app);
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
 
 
-/* ==================================================
-   変数
-================================================== */
+// ======================================================
+// 年度
+// ======================================================
 
-let currentLesson = null;
+const SCHOOL_YEAR = 2026;
+
+
+// ======================================================
+// ログイン情報
+// ======================================================
+
+let currentStudentNumber = null;
+
+let currentLessonId = null;
 
 let currentReflectionId = null;
 
-let everyoneData = [];
+
+// ======================================================
+// キャッシュ
+// ======================================================
+
+const CACHE_PREFIX = "manabiAlbumCache_";
 
 
-/* ==================================================
-   ページ切り替え
-================================================== */
+// ------------------------------------------------------
+// キャッシュキー
+// ------------------------------------------------------
 
-window.showPage =
-function(id){
+function makeCacheKey(studentNumber, subject) {
 
-  document
-    .querySelectorAll(".page")
-    .forEach(page => {
-
-      page.classList.remove("active");
-
-    });
-
-
-  document
-    .getElementById(id)
-    .classList.add("active");
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-};
-
-
-/* ==================================================
-   現在の授業を自動取得
-================================================== */
-
-const lessonRef =
-  doc(
-    db,
-    "currentLesson",
-    "today"
+  return (
+    CACHE_PREFIX +
+    SCHOOL_YEAR +
+    "_" +
+    studentNumber +
+    "_" +
+    subject
   );
-
-
-onSnapshot(
-  lessonRef,
-
-  snapshot => {
-
-    if(snapshot.exists()){
-
-      currentLesson =
-        snapshot.data();
-
-    }else{
-
-      currentLesson =
-        null;
-
-    }
-
-
-    displayCurrentLesson();
-
-  },
-
-  error => {
-
-    console.error(error);
-
-    document.getElementById(
-      "lessonArea"
-    ).innerHTML = `
-
-      <div>
-        ⚠️ 授業情報を取得できません。
-      </div>
-
-    `;
-
-  }
-
-);
-
-
-/* ==================================================
-   授業表示
-================================================== */
-
-function displayCurrentLesson(){
-
-  const area =
-    document.getElementById(
-      "lessonArea"
-    );
-
-
-  if(!currentLesson){
-
-    area.innerHTML = `
-
-      <div>
-
-        ⏸️ 現在、授業が設定されていません。
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  if(currentLesson.active !== true){
-
-    area.innerHTML = `
-
-      <div>
-
-        ⏸️ 現在の授業は終了しています。
-
-        <br><br>
-
-        次の授業が始まるまで待ってください。
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  area.innerHTML = `
-
-    <div class="lesson-status">
-
-      🟢 現在の授業
-
-    </div>
-
-    <div class="lesson-subject">
-
-      ${escapeHtml(
-        currentLesson.subject || ""
-      )}
-
-    </div>
-
-    <div class="lesson-unit">
-
-      📘
-      ${escapeHtml(
-        currentLesson.unit || ""
-      )}
-
-    </div>
-
-    <div class="lesson-id">
-
-      授業ID：
-      ${escapeHtml(
-        currentLesson.lessonId || ""
-      )}
-
-    </div>
-
-  `;
 
 }
 
 
-/* ==================================================
-   振り返りページ
-================================================== */
+// ------------------------------------------------------
+// キャッシュ保存
+// ------------------------------------------------------
 
-window.openReflection =
-function(){
+function saveCache(studentNumber, subject, data) {
 
-  if(
-    !currentLesson ||
-    currentLesson.active !== true
-  ){
+  const key =
+    makeCacheKey(studentNumber, subject);
 
-    alert(
-      "現在、授業が開始されていません。\n先生が授業を開始してから入力してください。"
-    );
+  localStorage.setItem(
+    key,
+    JSON.stringify({
+      savedAt: Date.now(),
+      data: data
+    })
+  );
+
+}
+
+
+// ------------------------------------------------------
+// キャッシュ取得
+// ------------------------------------------------------
+
+function getCache(studentNumber, subject) {
+
+  const key =
+    makeCacheKey(studentNumber, subject);
+
+  const cached =
+    localStorage.getItem(key);
+
+  if (!cached) {
+    return null;
+  }
+
+  try {
+
+    return JSON.parse(cached);
+
+  } catch {
+
+    return null;
+
+  }
+
+}
+
+
+// ------------------------------------------------------
+// キャッシュ削除
+// ------------------------------------------------------
+
+function deleteCache(studentNumber, subject) {
+
+  const key =
+    makeCacheKey(studentNumber, subject);
+
+  localStorage.removeItem(key);
+
+}
+
+
+// ======================================================
+// ログイン
+// ======================================================
+
+window.loginStudent = function() {
+
+  const number =
+    document
+      .getElementById("studentNumberInput")
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById("passwordInput")
+      .value
+      .trim();
+
+  const message =
+    document.getElementById("loginMessage");
+
+
+  if (!number) {
+
+    message.innerHTML =
+      `<div class="warning">出席番号を入力してください。</div>`;
 
     return;
 
   }
 
 
-  showPage(
-    "reflectionPage"
+  if (password !== "1111") {
+
+    message.innerHTML =
+      `<div class="warning">パスワードが違います。</div>`;
+
+    return;
+
+  }
+
+
+  currentStudentNumber = number;
+
+  localStorage.setItem(
+    "currentStudentNumber",
+    number
   );
 
 
   document.getElementById(
-    "reflectionLesson"
-  ).innerHTML = `
-
-    <div class="lesson-status">
-      🟢 現在の授業
-    </div>
-
-    <div class="lesson-subject">
-
-      ${escapeHtml(
-        currentLesson.subject || ""
-      )}
-
-    </div>
-
-    <div class="lesson-unit">
-
-      📘
-      ${escapeHtml(
-        currentLesson.unit || ""
-      )}
-
-    </div>
-
-    <div class="lesson-id">
-
-      授業IDは自動取得されています。
-
-    </div>
-
-  `;
+    "studentInfo"
+  ).textContent =
+    `${number}番の学びアルバム`;
 
 
   document.getElementById(
-    "subject"
-  ).value =
-    currentLesson.subject || "";
+    "reflectionStudentInfo"
+  ).textContent =
+    `${number}番`;
 
 
-  document.getElementById(
-    "unit"
-  ).value =
-    currentLesson.unit || "";
+  showPage("menuPage");
 
 };
 
 
-/* ==================================================
-   AIからの問い
-================================================== */
+// ======================================================
+// 自動ログイン
+// ======================================================
 
-window.showAdvice =
-function(){
+const savedStudentNumber =
+  localStorage.getItem(
+    "currentStudentNumber"
+  );
+
+
+if (savedStudentNumber) {
+
+  currentStudentNumber =
+    savedStudentNumber;
+
+  document.getElementById(
+    "studentInfo"
+  ).textContent =
+    `${currentStudentNumber}番の学びアルバム`;
+
+  document.getElementById(
+    "reflectionStudentInfo"
+  ).textContent =
+    `${currentStudentNumber}番`;
+
+  showPage("menuPage");
+
+}
+
+
+// ======================================================
+// ログアウト
+// ======================================================
+
+window.logoutStudent = function() {
+
+  currentStudentNumber = null;
+
+  localStorage.removeItem(
+    "currentStudentNumber"
+  );
+
+  showPage("loginPage");
+
+};
+
+
+// ======================================================
+// ページ切り替え
+// ======================================================
+
+window.showPage = function(pageId) {
+
+  const pages = [
+    "loginPage",
+    "menuPage",
+    "reflectionPage",
+    "deepPage",
+    "historyPage",
+    "everyonePage"
+  ];
+
+  pages.forEach(id => {
+
+    document
+      .getElementById(id)
+      .classList.add("hidden");
+
+  });
+
+
+  document
+    .getElementById(pageId)
+    .classList.remove("hidden");
+
+};
+
+
+// ======================================================
+// 振り返りページ
+// ======================================================
+
+window.openReflection = function() {
+
+  document.getElementById("subject").value = "";
+
+  document.getElementById("unit").value = "";
+
+  document.getElementById("study").value = "";
+
+  document.getElementById(
+    "adviceBox"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "saveMessage"
+  ).innerHTML = "";
+
+
+  showPage("reflectionPage");
+
+};
+
+
+// ======================================================
+// AIからの問い
+// ======================================================
+
+window.showAdvice = function() {
 
   const subject =
-    document.getElementById(
-      "subject"
-    ).value;
+    document.getElementById("subject").value;
 
+  const study =
+    document.getElementById("study").value;
 
-  const text =
-    document.getElementById(
-      "study"
-    ).value
-    .trim();
+  if (!study.trim()) {
 
-
-  const box =
-    document.getElementById(
-      "adviceBox"
-    );
-
-
-  const question =
-    document.getElementById(
-      "aiQuestion"
-    );
-
-
-  if(!text){
-
-    box.style.display =
-      "none";
+    document
+      .getElementById("adviceBox")
+      .classList.add("hidden");
 
     return;
 
   }
 
 
-  let q =
-    "今日の学びで、一番大切だと思ったことは何ですか？";
+  let question =
+    "どうしてそう思ったのか、もう少し詳しく書いてみよう。";
 
 
-  if(subject === "国語"){
+  if (subject === "国語") {
 
-    if(
-      text.includes("考え") ||
-      text.includes("思った")
-    ){
+    if (
+      study.includes("友達") ||
+      study.includes("比べ")
+    ) {
 
-      q =
-        "その考えになった理由や、友達の考えとの違いは何ですか？";
+      question =
+        "友達の考えと比べて、自分の考えはどう変わったかな？";
 
-    }else{
+    } else {
 
-      q =
-        "今日の学習で、言葉や文章について新しく気づいたことは何ですか？";
+      question =
+        "文章のどの部分から、そう考えたのかな？";
 
     }
 
   }
 
 
-  else if(subject === "算数"){
+  if (subject === "算数") {
 
-    q =
-      "その方法を使うと、なぜ答えを求めることができるのでしょう？";
-
-  }
-
-
-  else if(subject === "理科"){
-
-    q =
-      "実験や観察の結果から、どんなことが分かったのですか？";
+    question =
+      "どうしてその方法で解くことができたのかな？";
 
   }
 
 
-  else if(subject === "社会"){
+  if (subject === "理科") {
 
-    q =
-      "今日分かったことは、私たちの生活とどのようにつながっていますか？";
-
-  }
-
-
-  else if(subject === "生活"){
-
-    q =
-      "やってみて分かったことや、最初の予想と違ったことはありましたか？";
+    question =
+      "実験や観察の結果から、どんなことが分かったかな？";
 
   }
 
 
-  else if(subject === "総合"){
+  if (subject === "社会") {
 
-    q =
-      "今日の学びを、これからの活動にどう生かせそうですか？";
-
-  }
-
-
-  else if(subject === "道徳"){
-
-    q =
-      "今日考えたことを、自分の生活の中ではどのように生かせそうですか？";
+    question =
+      "調べたことから、どんなことが大切だと思ったかな？";
 
   }
 
 
-  else if(subject === "体育"){
+  if (subject === "総合") {
 
-    q =
-      "うまくできた理由や、次にもっと上手にするためにできそうなことは何ですか？";
+    question =
+      "今回の学びを、これからどんなことに生かしたいかな？";
 
   }
 
 
-  question.textContent =
-    q;
+  if (subject === "道徳") {
+
+    question =
+      "自分だったらどうするか、理由も考えてみよう。";
+
+  }
 
 
-  box.style.display =
-    "block";
+  if (subject === "体育") {
+
+    question =
+      "できるようになるために、どんな工夫をしたかな？";
+
+  }
+
+
+  document.getElementById(
+    "aiQuestion"
+  ).textContent = question;
+
+
+  document
+    .getElementById("adviceBox")
+    .classList.remove("hidden");
 
 };
 
 
-/* ==================================================
-   振り返り保存
-================================================== */
+// ======================================================
+// 教科変更時にもAI質問を更新
+// ======================================================
 
-window.saveReflection =
-async function(){
+document
+  .getElementById("subject")
+  .addEventListener(
+    "change",
+    showAdvice
+  );
 
-  if(
-    !currentLesson ||
-    currentLesson.active !== true
-  ){
 
-    alert(
-      "授業が終了しています。"
-    );
+// ======================================================
+// 授業ID
+// ======================================================
+
+function createLessonId() {
+
+  const now = new Date();
+
+  return (
+    now.getFullYear() +
+    "" +
+    String(now.getMonth() + 1).padStart(2, "0") +
+    "" +
+    String(now.getDate()).padStart(2, "0") +
+    "_" +
+    String(now.getHours()).padStart(2, "0") +
+    "" +
+    String(now.getMinutes()).padStart(2, "0") +
+    "" +
+    String(now.getSeconds()).padStart(2, "0")
+  );
+
+}
+
+
+// ======================================================
+// 振り返り保存
+// ======================================================
+
+window.saveReflection = async function() {
+
+  if (!currentStudentNumber) {
+
+    alert("ログインしてください。");
 
     return;
 
   }
-
-
-  const name =
-    document.getElementById(
-      "studentName"
-    ).value
-    .trim();
 
 
   const subject =
-    document.getElementById(
-      "subject"
-    ).value;
-
+    document.getElementById("subject").value;
 
   const unit =
-    document.getElementById(
-      "unit"
-    ).value
-    .trim();
-
+    document.getElementById("unit").value.trim();
 
   const study =
-    document.getElementById(
-      "study"
-    ).value
-    .trim();
+    document.getElementById("study").value.trim();
 
 
-  if(!name){
+  if (!subject) {
 
-    alert(
-      "なまえを入力してください。"
-    );
+    alert("教科を選んでください。");
 
     return;
 
   }
 
 
-  if(!subject){
+  if (!unit) {
 
-    alert(
-      "教科を選択してください。"
-    );
+    alert("単元名を入力してください。");
 
     return;
 
   }
 
 
-  if(!unit){
+  if (!study) {
 
-    alert(
-      "単元名を入力してください。"
-    );
-
-    return;
-
-  }
-
-
-  if(!study){
-
-    alert(
-      "今日の学びを書いてください。"
-    );
+    alert("今日の学びを書いてください。");
 
     return;
 
@@ -1362,760 +934,602 @@ async function(){
     ).textContent;
 
 
-  try{
+  currentLessonId =
+    createLessonId();
 
-    const ref =
+
+  const now =
+    new Date();
+
+
+  const data = {
+
+    schoolYear: SCHOOL_YEAR,
+
+    studentNumber:
+      String(currentStudentNumber),
+
+    subject: subject,
+
+    unit: unit,
+
+    study: study,
+
+    aiQuestion: aiQuestion,
+
+    deepReflection: "",
+
+    deepLevel: "",
+
+    likes: 0,
+
+    lessonId:
+      currentLessonId,
+
+    date:
+      now.toISOString(),
+
+    createdAt:
+      now.getTime()
+
+  };
+
+
+  try {
+
+    const docRef =
       await addDoc(
-
-        collection(
-          db,
-          "manabi"
-        ),
-
-        {
-
-          name:name,
-
-          subject:subject,
-
-          unit:unit,
-
-          study:study,
-
-          aiQuestion:
-            aiQuestion || "",
-
-          deepReflection:"",
-
-          deepLevel:1,
-
-          lessonId:
-            currentLesson.lessonId,
-
-          lessonSubject:
-            currentLesson.subject,
-
-          lessonUnit:
-            currentLesson.unit,
-
-          date:
-            new Date().toLocaleString(
-              "ja-JP"
-            ),
-
-          createdAt:
-            serverTimestamp()
-
-        }
-
+        collection(db, "manabi"),
+        data
       );
 
 
     currentReflectionId =
-      ref.id;
+      docRef.id;
 
 
-    document.getElementById(
-      "deepReflectionArea"
-    ).style.display =
-      "block";
-
-
-    document.getElementById(
-      "levelResult"
-    ).innerHTML = `
-
-      <strong>
-        🌱 レベル1
-      </strong>
-
-      <br>
-
-      まずは自分の考えを
-      書くことができました！
-
-    `;
-
-
-    alert(
-      "振り返りを保存しました！\n続いて、もう一歩深く考えてみましょう。"
+    // キャッシュを更新
+    deleteCache(
+      currentStudentNumber,
+      subject
     );
 
 
-  }catch(error){
+    document.getElementById(
+      "deepQuestion"
+    ).textContent =
+      aiQuestion;
+
+
+    document.getElementById(
+      "deepReflection"
+    ).value = "";
+
+
+    document.getElementById(
+      "deepLevel"
+    ).value = "1";
+
+
+    document.getElementById(
+      "saveMessage"
+    ).innerHTML =
+      `<div class="success">保存しました！🌟</div>`;
+
+
+    setTimeout(() => {
+
+      showPage("deepPage");
+
+    }, 700);
+
+
+  } catch (error) {
 
     console.error(error);
 
-    alert(
-      "保存できませんでした。\nFirebaseの設定を確認してください。"
-    );
+    document.getElementById(
+      "saveMessage"
+    ).innerHTML =
+      `<div class="warning">保存できませんでした。Firebaseの設定を確認してください。</div>`;
 
   }
 
 };
 
 
-/* ==================================================
-   深まりレベル判定
-================================================== */
+// ======================================================
+// 深まり保存
+// ======================================================
 
-function judgeLevel(text){
+window.saveDeepReflection = async function() {
 
-  const length =
-    text.length;
+  if (!currentReflectionId) {
 
-
-  const keywords = [
-
-    "なぜ",
-
-    "どうして",
-
-    "理由",
-
-    "だから",
-
-    "比べ",
-
-    "違い",
-
-    "同じ",
-
-    "つなが",
-
-    "生か",
-
-    "次は",
-
-    "これから",
-
-    "工夫",
-
-    "分かった",
-
-    "気づいた"
-
-  ];
-
-
-  let score = 0;
-
-
-  keywords.forEach(
-    word => {
-
-      if(text.includes(word)){
-
-        score++;
-
-      }
-
-    }
-  );
-
-
-  if(
-    length >= 80 ||
-    score >= 3
-  ){
-
-    return 3;
-
-  }
-
-
-  if(
-    length >= 35 ||
-    score >= 1
-  ){
-
-    return 2;
-
-  }
-
-
-  return 1;
-
-}
-
-
-/* ==================================================
-   深まり保存
-================================================== */
-
-window.saveDeepReflection =
-async function(){
-
-  if(!currentReflectionId){
-
-    alert(
-      "先に「振り返りを保存」してください。"
-    );
+    alert("保存する振り返りがありません。");
 
     return;
 
   }
 
 
-  const text =
-    document.getElementById(
-      "deepReflection"
-    ).value
-    .trim();
+  const deepReflection =
+    document
+      .getElementById("deepReflection")
+      .value
+      .trim();
+
+  const deepLevel =
+    document
+      .getElementById("deepLevel")
+      .value;
 
 
-  if(!text){
+  if (!deepReflection) {
 
-    alert(
-      "深まり振り返りを書いてください。"
-    );
+    alert("もう一歩深い振り返りを書いてください。");
 
     return;
 
   }
 
 
-  const level =
-    judgeLevel(text);
-
-
-  try{
+  try {
 
     await updateDoc(
-
       doc(
         db,
         "manabi",
         currentReflectionId
       ),
-
       {
 
-        deepReflection:text,
+        deepReflection:
+          deepReflection,
 
-        deepLevel:level,
-
-        deepUpdatedAt:
-          serverTimestamp()
+        deepLevel:
+          deepLevel
 
       }
-
     );
 
 
-    if(level >= 3){
-
-      document.getElementById(
-        "levelResult"
-      ).innerHTML = `
-
-        <strong>
-          🌟 レベル3
-        </strong>
-
-        <br>
-
-        自分の考えを深め、
-        理由やつながりまで考えています。
-        とてもすばらしい振り返りです！
-
-      `;
-
-    }else if(level === 2){
-
-      document.getElementById(
-        "levelResult"
-      ).innerHTML = `
-
-        <strong>
-          🌱 レベル2
-        </strong>
-
-        <br>
-
-        学んだことをもとに、
-        自分の考えを広げています！
-
-      `;
-
-    }else{
-
-      document.getElementById(
-        "levelResult"
-      ).innerHTML = `
-
-        <strong>
-          🌱 レベル1
-        </strong>
-
-        <br>
-
-        自分の学びを振り返ることができました！
-
-      `;
-
-    }
-
-
-    alert(
-      "深まり振り返りを保存しました！"
+    // 現在の教科のキャッシュを削除
+    // 次回表示時に最新データを取得する
+    deleteCache(
+      currentStudentNumber,
+      document.getElementById("subject").value
     );
 
 
-  }catch(error){
+    document.getElementById(
+      "deepSaveMessage"
+    ).innerHTML =
+      `<div class="success">深まりを保存しました！🌱</div>`;
+
+
+    setTimeout(() => {
+
+      showPage("menuPage");
+
+    }, 700);
+
+
+  } catch (error) {
 
     console.error(error);
 
-    alert(
-      "保存できませんでした。"
-    );
+    document.getElementById(
+      "deepSaveMessage"
+    ).innerHTML =
+      `<div class="warning">保存できませんでした。</div>`;
 
   }
 
 };
 
 
-/* ==================================================
-   自分の履歴
-================================================== */
+// ======================================================
+// 自分の振り返り
+// ======================================================
 
-window.openHistory =
-function(){
+window.openHistory = async function() {
 
-  showPage(
-    "historyPage"
-  );
+  if (!currentStudentNumber) {
 
-};
-
-
-window.loadMyHistory =
-async function(){
-
-  const name =
-    document.getElementById(
-      "historyName"
-    ).value
-    .trim();
-
-
-  const area =
-    document.getElementById(
-      "historyList"
-    );
-
-
-  if(!name){
-
-    alert(
-      "なまえを入力してください。"
-    );
+    alert("ログインしてください。");
 
     return;
 
   }
 
 
-  try{
-
-    const q =
-      query(
-
-        collection(
-          db,
-          "manabi"
-        ),
-
-        where(
-          "name",
-          "==",
-          name
-        )
-
-      );
+  showPage("historyPage");
 
 
-    const snapshot =
-      await getDocs(q);
-
-
-    const data = [];
-
-
-    snapshot.forEach(
-      item => {
-
-        data.push({
-          id:item.id,
-          ...item.data()
-        });
-
-      }
+  const content =
+    document.getElementById(
+      "historyContent"
     );
 
 
+  content.innerHTML =
+    "<p>📡 データを確認しています...</p>";
+
+
+  try {
+
+    // --------------------------------------------------
+    // まず年度内の全データを取得
+    // --------------------------------------------------
+    //
+    // ここだけFirebase読み取り
+    //
+    // 一度取得したらキャッシュ
+    //
+
+    const cacheKey =
+      CACHE_PREFIX +
+      SCHOOL_YEAR +
+      "_" +
+      currentStudentNumber +
+      "_ALL";
+
+
+    const allCache =
+      localStorage.getItem(cacheKey);
+
+
+    let data;
+
+
+    if (allCache) {
+
+      console.log(
+        "📦 キャッシュから読み込み"
+      );
+
+      data =
+        JSON.parse(allCache).data;
+
+    } else {
+
+      console.log(
+        "🔥 Firebaseから読み込み"
+      );
+
+
+      const q =
+        query(
+          collection(db, "manabi"),
+
+          where(
+            "schoolYear",
+            "==",
+            SCHOOL_YEAR
+          ),
+
+          where(
+            "studentNumber",
+            "==",
+            String(currentStudentNumber)
+          )
+        );
+
+
+      const snapshot =
+        await getDocs(q);
+
+
+      data =
+        snapshot.docs.map(
+          d => ({
+            id: d.id,
+            ...d.data()
+          })
+        );
+
+
+      localStorage.setItem(
+        cacheKey,
+        JSON.stringify({
+
+          savedAt:
+            Date.now(),
+
+          data:
+            data
+
+        })
+      );
+
+    }
+
+
+    if (!data.length) {
+
+      content.innerHTML =
+        "<p>まだ振り返りがありません。</p>";
+
+      return;
+
+    }
+
+
+    // 日付順
     data.sort(
       (a,b) =>
-        String(
-          b.date || ""
-        ).localeCompare(
-          String(
-            a.date || ""
-          )
-        )
+        new Date(b.date) -
+        new Date(a.date)
     );
 
 
-    if(data.length === 0){
-
-      area.innerHTML = `
-
-        <div class="box empty">
-
-          まだ振り返りがありません。
-
-        </div>
-
-      `;
-
-      return;
-
-    }
+    let html = "";
 
 
-    area.innerHTML =
-      data.map(
-        item => `
+    data.forEach(item => {
 
-          <div class="history-card">
+      html += `
 
-            <div class="history-header">
+        <div class="entry">
 
-              <div>
-
-                <span class="subject-badge">
-
-                  ${escapeHtml(
-                    item.subject || ""
-                  )}
-
-                </span>
-
-                <strong>
-
-                  ${escapeHtml(
-                    item.unit || ""
-                  )}
-
-                </strong>
-
-              </div>
-
-              <div class="date">
-
-                ${escapeHtml(
-                  item.date || ""
-                )}
-
-              </div>
-
-            </div>
-
-
-            <div class="history-study">
-
-              <strong>
-                ✏️ 今日の学び
-              </strong>
-
-              <br><br>
-
-              ${escapeHtml(
-                item.study || ""
-              )}
-
-            </div>
-
-
-            ${
-              item.deepReflection
-              ? `
-
-                <div class="history-deep">
-
-                  <strong>
-                    🌱 深まり振り返り
-                  </strong>
-
-                  <br><br>
-
-                  ${escapeHtml(
-                    item.deepReflection
-                  )}
-
-                </div>
-
-              `
-              : ""
-            }
-
+          <div class="date">
+            ${formatDate(item.date)}
           </div>
 
-        `
-      ).join("");
-
-
-  }catch(error){
-
-    console.error(error);
-
-    area.innerHTML = `
-
-      <div class="box empty">
-
-        読み込みに失敗しました。
-
-      </div>
-
-    `;
-
-  }
-
-};
-
-
-/* ==================================================
-   みんなの振り返り
-================================================== */
-
-window.openEveryoneHistory =
-async function(){
-
-  showPage(
-    "everyonePage"
-  );
-
-
-  try{
-
-    const snapshot =
-      await getDocs(
-        collection(
-          db,
-          "manabi"
-        )
-      );
-
-
-    everyoneData = [];
-
-
-    snapshot.forEach(
-      item => {
-
-        everyoneData.push({
-
-          id:item.id,
-
-          ...item.data()
-
-        });
-
-      }
-    );
-
-
-    const subjects =
-      [
-        ...new Set(
-          everyoneData
-            .map(
-              item =>
-                item.subject
-            )
-            .filter(Boolean)
-        )
-      ];
-
-
-    const area =
-      document.getElementById(
-        "everyoneSubjects"
-      );
-
-
-    if(subjects.length === 0){
-
-      area.innerHTML = `
-
-        <div class="empty">
-          まだ振り返りがありません。
-        </div>
-
-      `;
-
-      return;
-
-    }
-
-
-    area.innerHTML =
-      subjects.map(
-        subject => `
-
-          <div
-            class="subject-card"
-            onclick=
-            "openEveryoneSubject('${escapeJs(subject)}')">
-
-            <div class="subject-name">
-
-              📚
-              ${escapeHtml(subject)}
-
-            </div>
-
-            <div>
-
-              ${everyoneData.filter(
-                item =>
-                  item.subject === subject
-              ).length}
-              件
-
-            </div>
-
-          </div>
-
-        `
-      ).join("");
-
-
-  }catch(error){
-
-    console.error(error);
-
-  }
-
-};
-
-
-/* ==================================================
-   みんなの教科
-================================================== */
-
-window.openEveryoneSubject =
-function(subject){
-
-  showPage(
-    "everyoneDetailPage"
-  );
-
-
-  document.getElementById(
-    "everyoneDetailTitle"
-  ).textContent =
-    "📚 " +
-    subject +
-    " のみんなの振り返り";
-
-
-  const data =
-    everyoneData.filter(
-      item =>
-        item.subject === subject
-    );
-
-
-  data.sort(
-    (a,b) =>
-      String(
-        b.date || ""
-      ).localeCompare(
-        String(
-          a.date || ""
-        )
-      )
-  );
-
-
-  const area =
-    document.getElementById(
-      "everyoneDetailList"
-    );
-
-
-  area.innerHTML =
-    data.map(
-      item => `
-
-        <div class="everyone-card">
-
-          <div class="student-name">
-
-            👤
-            ${escapeHtml(
-              item.name || "名前なし"
-            )}
-
-          </div>
-
-
-          <div
-            class="date"
-            style="margin-top:5px;">
-
-            ${escapeHtml(
-              item.date || ""
-            )}
-
-          </div>
-
-
-          <div class="everyone-study">
-
-            ${escapeHtml(
-              item.study || ""
-            )}
-
-          </div>
-
+          <strong>
+            ${escapeHtml(item.subject)}
+          </strong>
+
+          <p>
+            <strong>
+              ${escapeHtml(item.unit)}
+            </strong>
+          </p>
+
+          <p>
+            ${escapeHtml(item.study)}
+          </p>
 
           ${
             item.deepReflection
-            ? `
+            ?
+            `
+            <div class="level-box">
 
-              <div class="history-deep">
+              🌱 深まりレベル：
+              ${item.deepLevel || ""}
 
-                🌱
+              <p>
                 ${escapeHtml(
                   item.deepReflection
                 )}
+              </p>
 
-              </div>
-
+            </div>
             `
-            : ""
+            :
+            ""
           }
 
         </div>
 
-      `
-    ).join("");
+      `;
+
+    });
+
+
+    content.innerHTML = html;
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    content.innerHTML =
+      `<div class="warning">
+        振り返りを読み込めませんでした。
+      </div>`;
+
+  }
 
 };
 
 
-/* ==================================================
-   HTML安全化
-================================================== */
+// ======================================================
+// みんなの振り返り
+// ======================================================
 
-function escapeHtml(value){
+window.openEveryoneHistory = async function() {
 
-  if(
-    value === null ||
-    value === undefined
-  ){
+  showPage("everyonePage");
+
+
+  const content =
+    document.getElementById(
+      "everyoneContent"
+    );
+
+
+  content.innerHTML =
+    "<p>📡 振り返りを読み込んでいます...</p>";
+
+
+  try {
+
+    const cacheKey =
+      CACHE_PREFIX +
+      SCHOOL_YEAR +
+      "_EVERYONE";
+
+
+    const cached =
+      localStorage.getItem(cacheKey);
+
+
+    let data;
+
+
+    if (cached) {
+
+      console.log(
+        "📦 みんなの振り返り：キャッシュ"
+      );
+
+      data =
+        JSON.parse(cached).data;
+
+    } else {
+
+      console.log(
+        "🔥 みんなの振り返り：Firebase"
+      );
+
+
+      const q =
+        query(
+          collection(db, "manabi"),
+
+          where(
+            "schoolYear",
+            "==",
+            SCHOOL_YEAR
+          )
+        );
+
+
+      const snapshot =
+        await getDocs(q);
+
+
+      data =
+        snapshot.docs.map(
+          d => ({
+            id: d.id,
+            ...d.data()
+          })
+        );
+
+
+      localStorage.setItem(
+        cacheKey,
+        JSON.stringify({
+
+          savedAt:
+            Date.now(),
+
+          data:
+            data
+
+        })
+      );
+
+    }
+
+
+    if (!data.length) {
+
+      content.innerHTML =
+        "<p>まだ振り返りがありません。</p>";
+
+      return;
+
+    }
+
+
+    data.sort(
+      (a,b) =>
+        new Date(b.date) -
+        new Date(a.date)
+    );
+
+
+    let html = "";
+
+
+    data.forEach(item => {
+
+      html += `
+
+        <div class="entry">
+
+          <div class="date">
+            ${formatDate(item.date)}
+          </div>
+
+          <strong>
+            ${escapeHtml(item.subject)}
+          </strong>
+
+          <p>
+            <strong>
+              ${escapeHtml(item.unit)}
+            </strong>
+          </p>
+
+          <p>
+            ${escapeHtml(item.study)}
+          </p>
+
+        </div>
+
+      `;
+
+    });
+
+
+    content.innerHTML = html;
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    content.innerHTML =
+      `<div class="warning">
+        読み込みに失敗しました。
+      </div>`;
+
+  }
+
+};
+
+
+// ======================================================
+// 日付表示
+// ======================================================
+
+function formatDate(dateString) {
+
+  if (!dateString) {
+    return "";
+  }
+
+
+  const d =
+    new Date(dateString);
+
+
+  return (
+    d.getFullYear() +
+    "年" +
+    (d.getMonth() + 1) +
+    "月" +
+    d.getDate() +
+    "日"
+  );
+
+}
+
+
+// ======================================================
+// HTML安全化
+// ======================================================
+
+function escapeHtml(value) {
+
+  if (value === undefined ||
+      value === null) {
 
     return "";
 
@@ -2124,57 +1538,47 @@ function escapeHtml(value){
 
   return String(value)
 
-    .replace(
-      /&/g,
-      "&amp;"
-    )
+    .replaceAll("&", "&amp;")
 
-    .replace(
-      /</g,
-      "&lt;"
-    )
+    .replaceAll("<", "&lt;")
 
-    .replace(
-      />/g,
-      "&gt;"
-    )
+    .replaceAll(">", "&gt;")
 
-    .replace(
-      /"/g,
-      "&quot;"
-    )
+    .replaceAll('"', "&quot;")
 
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+    .replaceAll("'", "&#039;");
 
 }
 
 
-/* ==================================================
-   JS文字列安全化
-================================================== */
+// ======================================================
+// 保存後にキャッシュを更新する仕組み
+// ======================================================
 
-function escapeJs(value){
+window.clearManabiCache =
+  function() {
 
-  return String(value)
+    Object.keys(
+      localStorage
+    ).forEach(key => {
 
-    .replace(
-      /\\/g,
-      "\\\\"
-    )
+      if (
+        key.startsWith(
+          CACHE_PREFIX
+        )
+      ) {
 
-    .replace(
-      /'/g,
-      "\\'"
-    );
+        localStorage.removeItem(
+          key
+        );
 
-}
+      }
 
+    });
+
+  };
 
 </script>
 
 </body>
-
 </html>
