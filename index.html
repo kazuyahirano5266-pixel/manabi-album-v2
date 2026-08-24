@@ -107,14 +107,6 @@ button:hover {
   min-height: 70px;
 }
 
-.unit-button {
-  width: 100%;
-  text-align: left;
-  background: #f7fbff;
-  color: #333;
-  border: 1px solid #d8eaf5;
-}
-
 .entry {
   background: #f8fbfd;
   border-left: 5px solid #4aa3df;
@@ -168,6 +160,15 @@ button:hover {
   margin-top: 12px;
 }
 
+.cache-info {
+  font-size: 13px;
+  color: #777;
+  background: #f5f5f5;
+  padding: 8px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
 @media (max-width: 700px) {
   .subject-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -199,14 +200,17 @@ button:hover {
 <h2>🔐 児童ログイン</h2>
 
 <label>出席番号</label>
+
 <input
   id="studentNumberInput"
   type="number"
   min="1"
+  max="50"
   placeholder="例：12"
 >
 
 <label>パスワード</label>
+
 <input
   id="passwordInput"
   type="password"
@@ -296,8 +300,11 @@ button:hover {
 ></textarea>
 
 <div id="adviceBox" class="ai-box hidden">
+
 <strong>🤖 AIからの問い</strong>
+
 <p id="aiQuestion"></p>
+
 </div>
 
 <button onclick="saveReflection()">
@@ -329,8 +336,11 @@ button:hover {
 </p>
 
 <div class="ai-box">
+
 <strong>🤖 AIからの問い</strong>
+
 <p id="deepQuestion"></p>
+
 </div>
 
 <label>もう一歩深い振り返り</label>
@@ -343,9 +353,19 @@ button:hover {
 <label>振り返りの深まり</label>
 
 <select id="deepLevel">
-<option value="1">① その時の自分の気持ち・感想</option>
-<option value="2">② 学んだことや分かったこと</option>
-<option value="3">③ 考えの変化・友達との比較・次につながる考え</option>
+
+<option value="1">
+① その時の自分の気持ち・感想
+</option>
+
+<option value="2">
+② 学んだことや分かったこと
+</option>
+
+<option value="3">
+③ 考えの変化・友達との比較・次につながる考え
+</option>
+
 </select>
 
 <button onclick="saveDeepReflection()">
@@ -371,6 +391,11 @@ button:hover {
 <div id="historyPage" class="card hidden">
 
 <h2>📖 自分の振り返り</h2>
+
+<div class="cache-info">
+一度読み込んだ今年度の振り返りは、
+次回から一時保存したデータを利用します。
+</div>
 
 <div id="historyContent"></div>
 
@@ -426,22 +451,21 @@ import {
 
 // ======================================================
 // Firebase設定
-// ↓↓↓ 自分のFirebase設定に置き換えてください ↓↓↓
 // ======================================================
 
 const firebaseConfig = {
 
-  apiKey: "ここにAPIキー",
+  apiKey: "AIzaSyA7fBz695BTUL8lxxJ06csf6AfU_DQp3iw",
 
-  authDomain: "ここにauthDomain",
+  authDomain: "manabi-album-v2.firebaseapp.com",
 
-  projectId: "ここにprojectId",
+  projectId: "manabi-album-v2",
 
-  storageBucket: "ここにstorageBucket",
+  storageBucket: "manabi-album-v2.firebasestorage.app",
 
-  messagingSenderId: "ここにmessagingSenderId",
+  messagingSenderId: "226258471812",
 
-  appId: "ここにappId"
+  appId: "1:226258471812:web:15230ba15e7e0bd7d86bd1"
 
 };
 
@@ -450,9 +474,11 @@ const firebaseConfig = {
 // Firebase開始
 // ======================================================
 
-const app = initializeApp(firebaseConfig);
+const app =
+  initializeApp(firebaseConfig);
 
-const db = getFirestore(app);
+const db =
+  getFirestore(app);
 
 
 // ======================================================
@@ -463,7 +489,15 @@ const SCHOOL_YEAR = 2026;
 
 
 // ======================================================
-// ログイン情報
+// キャッシュ
+// ======================================================
+
+const CACHE_PREFIX =
+  "manabiAlbumCache_";
+
+
+// ======================================================
+// 現在の児童
 // ======================================================
 
 let currentStudentNumber = null;
@@ -474,15 +508,8 @@ let currentReflectionId = null;
 
 
 // ======================================================
-// キャッシュ
-// ======================================================
-
-const CACHE_PREFIX = "manabiAlbumCache_";
-
-
-// ------------------------------------------------------
 // キャッシュキー
-// ------------------------------------------------------
+// ======================================================
 
 function makeCacheKey(studentNumber, subject) {
 
@@ -498,14 +525,21 @@ function makeCacheKey(studentNumber, subject) {
 }
 
 
-// ------------------------------------------------------
+// ======================================================
 // キャッシュ保存
-// ------------------------------------------------------
+// ======================================================
 
-function saveCache(studentNumber, subject, data) {
+function saveCache(
+  studentNumber,
+  subject,
+  data
+) {
 
   const key =
-    makeCacheKey(studentNumber, subject);
+    makeCacheKey(
+      studentNumber,
+      subject
+    );
 
   localStorage.setItem(
     key,
@@ -518,47 +552,67 @@ function saveCache(studentNumber, subject, data) {
 }
 
 
-// ------------------------------------------------------
-// キャッシュ取得
-// ------------------------------------------------------
-
-function getCache(studentNumber, subject) {
-
-  const key =
-    makeCacheKey(studentNumber, subject);
-
-  const cached =
-    localStorage.getItem(key);
-
-  if (!cached) {
-    return null;
-  }
-
-  try {
-
-    return JSON.parse(cached);
-
-  } catch {
-
-    return null;
-
-  }
-
-}
-
-
-// ------------------------------------------------------
+// ======================================================
 // キャッシュ削除
-// ------------------------------------------------------
+// ======================================================
 
-function deleteCache(studentNumber, subject) {
+function deleteCache(
+  studentNumber,
+  subject
+) {
 
-  const key =
-    makeCacheKey(studentNumber, subject);
+  localStorage.removeItem(
+    makeCacheKey(
+      studentNumber,
+      subject
+    )
+  );
 
-  localStorage.removeItem(key);
+  localStorage.removeItem(
+    CACHE_PREFIX +
+    SCHOOL_YEAR +
+    "_" +
+    studentNumber +
+    "_ALL"
+  );
+
+  localStorage.removeItem(
+    CACHE_PREFIX +
+    SCHOOL_YEAR +
+    "_EVERYONE"
+  );
 
 }
+
+
+// ======================================================
+// ページ切り替え
+// ======================================================
+
+window.showPage = function(pageId) {
+
+  const pages = [
+    "loginPage",
+    "menuPage",
+    "reflectionPage",
+    "deepPage",
+    "historyPage",
+    "everyonePage"
+  ];
+
+  pages.forEach(id => {
+
+    document
+      .getElementById(id)
+      .classList.add("hidden");
+
+  });
+
+  document
+    .getElementById(pageId)
+    .classList.remove("hidden");
+
+};
 
 
 // ======================================================
@@ -569,24 +623,32 @@ window.loginStudent = function() {
 
   const number =
     document
-      .getElementById("studentNumberInput")
+      .getElementById(
+        "studentNumberInput"
+      )
       .value
       .trim();
 
   const password =
     document
-      .getElementById("passwordInput")
+      .getElementById(
+        "passwordInput"
+      )
       .value
       .trim();
 
   const message =
-    document.getElementById("loginMessage");
+    document.getElementById(
+      "loginMessage"
+    );
 
 
   if (!number) {
 
     message.innerHTML =
-      `<div class="warning">出席番号を入力してください。</div>`;
+      `<div class="warning">
+        出席番号を入力してください。
+      </div>`;
 
     return;
 
@@ -596,31 +658,35 @@ window.loginStudent = function() {
   if (password !== "1111") {
 
     message.innerHTML =
-      `<div class="warning">パスワードが違います。</div>`;
+      `<div class="warning">
+        パスワードが違います。
+      </div>`;
 
     return;
 
   }
 
 
-  currentStudentNumber = number;
+  currentStudentNumber =
+    String(number);
+
 
   localStorage.setItem(
     "currentStudentNumber",
-    number
+    currentStudentNumber
   );
 
 
   document.getElementById(
     "studentInfo"
   ).textContent =
-    `${number}番の学びアルバム`;
+    `${currentStudentNumber}番の学びアルバム`;
 
 
   document.getElementById(
     "reflectionStudentInfo"
   ).textContent =
-    `${number}番`;
+    `${currentStudentNumber}番`;
 
 
   showPage("menuPage");
@@ -676,47 +742,22 @@ window.logoutStudent = function() {
 
 
 // ======================================================
-// ページ切り替え
-// ======================================================
-
-window.showPage = function(pageId) {
-
-  const pages = [
-    "loginPage",
-    "menuPage",
-    "reflectionPage",
-    "deepPage",
-    "historyPage",
-    "everyonePage"
-  ];
-
-  pages.forEach(id => {
-
-    document
-      .getElementById(id)
-      .classList.add("hidden");
-
-  });
-
-
-  document
-    .getElementById(pageId)
-    .classList.remove("hidden");
-
-};
-
-
-// ======================================================
 // 振り返りページ
 // ======================================================
 
 window.openReflection = function() {
 
-  document.getElementById("subject").value = "";
+  document.getElementById(
+    "subject"
+  ).value = "";
 
-  document.getElementById("unit").value = "";
+  document.getElementById(
+    "unit"
+  ).value = "";
 
-  document.getElementById("study").value = "";
+  document.getElementById(
+    "study"
+  ).value = "";
 
   document.getElementById(
     "adviceBox"
@@ -725,7 +766,6 @@ window.openReflection = function() {
   document.getElementById(
     "saveMessage"
   ).innerHTML = "";
-
 
   showPage("reflectionPage");
 
@@ -739,15 +779,22 @@ window.openReflection = function() {
 window.showAdvice = function() {
 
   const subject =
-    document.getElementById("subject").value;
+    document.getElementById(
+      "subject"
+    ).value;
 
   const study =
-    document.getElementById("study").value;
+    document.getElementById(
+      "study"
+    ).value;
+
 
   if (!study.trim()) {
 
     document
-      .getElementById("adviceBox")
+      .getElementById(
+        "adviceBox"
+      )
       .classList.add("hidden");
 
     return;
@@ -783,6 +830,14 @@ window.showAdvice = function() {
 
     question =
       "どうしてその方法で解くことができたのかな？";
+
+  }
+
+
+  if (subject === "生活") {
+
+    question =
+      "やってみて分かったことや、前と変わったことは何かな？";
 
   }
 
@@ -829,19 +884,18 @@ window.showAdvice = function() {
 
   document.getElementById(
     "aiQuestion"
-  ).textContent = question;
+  ).textContent =
+    question;
 
 
   document
-    .getElementById("adviceBox")
+    .getElementById(
+      "adviceBox"
+    )
     .classList.remove("hidden");
 
 };
 
-
-// ======================================================
-// 教科変更時にもAI質問を更新
-// ======================================================
 
 document
   .getElementById("subject")
@@ -852,25 +906,36 @@ document
 
 
 // ======================================================
-// 授業ID
+// 授業ID自動作成
 // ======================================================
 
 function createLessonId() {
 
-  const now = new Date();
+  const now =
+    new Date();
 
   return (
     now.getFullYear() +
     "" +
-    String(now.getMonth() + 1).padStart(2, "0") +
+    String(
+      now.getMonth() + 1
+    ).padStart(2, "0") +
     "" +
-    String(now.getDate()).padStart(2, "0") +
+    String(
+      now.getDate()
+    ).padStart(2, "0") +
     "_" +
-    String(now.getHours()).padStart(2, "0") +
+    String(
+      now.getHours()
+    ).padStart(2, "0") +
     "" +
-    String(now.getMinutes()).padStart(2, "0") +
+    String(
+      now.getMinutes()
+    ).padStart(2, "0") +
     "" +
-    String(now.getSeconds()).padStart(2, "0")
+    String(
+      now.getSeconds()
+    ).padStart(2, "0")
   );
 
 }
@@ -880,7 +945,8 @@ function createLessonId() {
 // 振り返り保存
 // ======================================================
 
-window.saveReflection = async function() {
+window.saveReflection =
+async function() {
 
   if (!currentStudentNumber) {
 
@@ -892,13 +958,19 @@ window.saveReflection = async function() {
 
 
   const subject =
-    document.getElementById("subject").value;
+    document.getElementById(
+      "subject"
+    ).value;
 
   const unit =
-    document.getElementById("unit").value.trim();
+    document.getElementById(
+      "unit"
+    ).value.trim();
 
   const study =
-    document.getElementById("study").value.trim();
+    document.getElementById(
+      "study"
+    ).value.trim();
 
 
   if (!subject) {
@@ -944,24 +1016,34 @@ window.saveReflection = async function() {
 
   const data = {
 
-    schoolYear: SCHOOL_YEAR,
+    schoolYear:
+      SCHOOL_YEAR,
 
     studentNumber:
-      String(currentStudentNumber),
+      String(
+        currentStudentNumber
+      ),
 
-    subject: subject,
+    subject:
+      subject,
 
-    unit: unit,
+    unit:
+      unit,
 
-    study: study,
+    study:
+      study,
 
-    aiQuestion: aiQuestion,
+    aiQuestion:
+      aiQuestion,
 
-    deepReflection: "",
+    deepReflection:
+      "",
 
-    deepLevel: "",
+    deepLevel:
+      "",
 
-    likes: 0,
+    likes:
+      0,
 
     lessonId:
       currentLessonId,
@@ -979,7 +1061,10 @@ window.saveReflection = async function() {
 
     const docRef =
       await addDoc(
-        collection(db, "manabi"),
+        collection(
+          db,
+          "manabi"
+        ),
         data
       );
 
@@ -988,7 +1073,6 @@ window.saveReflection = async function() {
       docRef.id;
 
 
-    // キャッシュを更新
     deleteCache(
       currentStudentNumber,
       subject
@@ -1014,12 +1098,16 @@ window.saveReflection = async function() {
     document.getElementById(
       "saveMessage"
     ).innerHTML =
-      `<div class="success">保存しました！🌟</div>`;
+      `<div class="success">
+        保存しました！🌟
+      </div>`;
 
 
     setTimeout(() => {
 
-      showPage("deepPage");
+      showPage(
+        "deepPage"
+      );
 
     }, 700);
 
@@ -1031,7 +1119,10 @@ window.saveReflection = async function() {
     document.getElementById(
       "saveMessage"
     ).innerHTML =
-      `<div class="warning">保存できませんでした。Firebaseの設定を確認してください。</div>`;
+      `<div class="warning">
+        保存できませんでした。
+        Firebaseの設定を確認してください。
+      </div>`;
 
   }
 
@@ -1042,11 +1133,14 @@ window.saveReflection = async function() {
 // 深まり保存
 // ======================================================
 
-window.saveDeepReflection = async function() {
+window.saveDeepReflection =
+async function() {
 
   if (!currentReflectionId) {
 
-    alert("保存する振り返りがありません。");
+    alert(
+      "保存する振り返りがありません。"
+    );
 
     return;
 
@@ -1054,20 +1148,21 @@ window.saveDeepReflection = async function() {
 
 
   const deepReflection =
-    document
-      .getElementById("deepReflection")
-      .value
-      .trim();
+    document.getElementById(
+      "deepReflection"
+    ).value.trim();
 
   const deepLevel =
-    document
-      .getElementById("deepLevel")
-      .value;
+    document.getElementById(
+      "deepLevel"
+    ).value;
 
 
   if (!deepReflection) {
 
-    alert("もう一歩深い振り返りを書いてください。");
+    alert(
+      "もう一歩深い振り返りを書いてください。"
+    );
 
     return;
 
@@ -1094,23 +1189,27 @@ window.saveDeepReflection = async function() {
     );
 
 
-    // 現在の教科のキャッシュを削除
-    // 次回表示時に最新データを取得する
     deleteCache(
       currentStudentNumber,
-      document.getElementById("subject").value
+      document.getElementById(
+        "subject"
+      ).value
     );
 
 
     document.getElementById(
       "deepSaveMessage"
     ).innerHTML =
-      `<div class="success">深まりを保存しました！🌱</div>`;
+      `<div class="success">
+        深まりを保存しました！🌱
+      </div>`;
 
 
     setTimeout(() => {
 
-      showPage("menuPage");
+      showPage(
+        "menuPage"
+      );
 
     }, 700);
 
@@ -1122,7 +1221,9 @@ window.saveDeepReflection = async function() {
     document.getElementById(
       "deepSaveMessage"
     ).innerHTML =
-      `<div class="warning">保存できませんでした。</div>`;
+      `<div class="warning">
+        保存できませんでした。
+      </div>`;
 
   }
 
@@ -1133,18 +1234,23 @@ window.saveDeepReflection = async function() {
 // 自分の振り返り
 // ======================================================
 
-window.openHistory = async function() {
+window.openHistory =
+async function() {
 
   if (!currentStudentNumber) {
 
-    alert("ログインしてください。");
+    alert(
+      "ログインしてください。"
+    );
 
     return;
 
   }
 
 
-  showPage("historyPage");
+  showPage(
+    "historyPage"
+  );
 
 
   const content =
@@ -1159,15 +1265,6 @@ window.openHistory = async function() {
 
   try {
 
-    // --------------------------------------------------
-    // まず年度内の全データを取得
-    // --------------------------------------------------
-    //
-    // ここだけFirebase読み取り
-    //
-    // 一度取得したらキャッシュ
-    //
-
     const cacheKey =
       CACHE_PREFIX +
       SCHOOL_YEAR +
@@ -1176,21 +1273,25 @@ window.openHistory = async function() {
       "_ALL";
 
 
-    const allCache =
-      localStorage.getItem(cacheKey);
+    const cached =
+      localStorage.getItem(
+        cacheKey
+      );
 
 
     let data;
 
 
-    if (allCache) {
+    if (cached) {
 
       console.log(
         "📦 キャッシュから読み込み"
       );
 
       data =
-        JSON.parse(allCache).data;
+        JSON.parse(
+          cached
+        ).data;
 
     } else {
 
@@ -1201,7 +1302,11 @@ window.openHistory = async function() {
 
       const q =
         query(
-          collection(db, "manabi"),
+
+          collection(
+            db,
+            "manabi"
+          ),
 
           where(
             "schoolYear",
@@ -1212,8 +1317,11 @@ window.openHistory = async function() {
           where(
             "studentNumber",
             "==",
-            String(currentStudentNumber)
+            String(
+              currentStudentNumber
+            )
           )
+
         );
 
 
@@ -1256,7 +1364,6 @@ window.openHistory = async function() {
     }
 
 
-    // 日付順
     data.sort(
       (a,b) =>
         new Date(b.date) -
@@ -1267,28 +1374,37 @@ window.openHistory = async function() {
     let html = "";
 
 
-    data.forEach(item => {
+    data.forEach(
+      item => {
 
-      html += `
+        html += `
 
         <div class="entry">
 
           <div class="date">
-            ${formatDate(item.date)}
+            ${formatDate(
+              item.date
+            )}
           </div>
 
           <strong>
-            ${escapeHtml(item.subject)}
+            ${escapeHtml(
+              item.subject
+            )}
           </strong>
 
           <p>
             <strong>
-              ${escapeHtml(item.unit)}
+              ${escapeHtml(
+                item.unit
+              )}
             </strong>
           </p>
 
           <p>
-            ${escapeHtml(item.study)}
+            ${escapeHtml(
+              item.study
+            )}
           </p>
 
           ${
@@ -1297,8 +1413,11 @@ window.openHistory = async function() {
             `
             <div class="level-box">
 
-              🌱 深まりレベル：
-              ${item.deepLevel || ""}
+              🌱
+              深まりレベル：
+              ${escapeHtml(
+                item.deepLevel
+              )}
 
               <p>
                 ${escapeHtml(
@@ -1314,12 +1433,14 @@ window.openHistory = async function() {
 
         </div>
 
-      `;
+        `;
 
-    });
+      }
+    );
 
 
-    content.innerHTML = html;
+    content.innerHTML =
+      html;
 
 
   } catch (error) {
@@ -1340,9 +1461,12 @@ window.openHistory = async function() {
 // みんなの振り返り
 // ======================================================
 
-window.openEveryoneHistory = async function() {
+window.openEveryoneHistory =
+async function() {
 
-  showPage("everyonePage");
+  showPage(
+    "everyonePage"
+  );
 
 
   const content =
@@ -1364,7 +1488,9 @@ window.openEveryoneHistory = async function() {
 
 
     const cached =
-      localStorage.getItem(cacheKey);
+      localStorage.getItem(
+        cacheKey
+      );
 
 
     let data;
@@ -1377,7 +1503,9 @@ window.openEveryoneHistory = async function() {
       );
 
       data =
-        JSON.parse(cached).data;
+        JSON.parse(
+          cached
+        ).data;
 
     } else {
 
@@ -1388,13 +1516,18 @@ window.openEveryoneHistory = async function() {
 
       const q =
         query(
-          collection(db, "manabi"),
+
+          collection(
+            db,
+            "manabi"
+          ),
 
           where(
             "schoolYear",
             "==",
             SCHOOL_YEAR
           )
+
         );
 
 
@@ -1447,38 +1580,49 @@ window.openEveryoneHistory = async function() {
     let html = "";
 
 
-    data.forEach(item => {
+    data.forEach(
+      item => {
 
-      html += `
+        html += `
 
         <div class="entry">
 
           <div class="date">
-            ${formatDate(item.date)}
+            ${formatDate(
+              item.date
+            )}
           </div>
 
           <strong>
-            ${escapeHtml(item.subject)}
+            ${escapeHtml(
+              item.subject
+            )}
           </strong>
 
           <p>
             <strong>
-              ${escapeHtml(item.unit)}
+              ${escapeHtml(
+                item.unit
+              )}
             </strong>
           </p>
 
           <p>
-            ${escapeHtml(item.study)}
+            ${escapeHtml(
+              item.study
+            )}
           </p>
 
         </div>
 
-      `;
+        `;
 
-    });
+      }
+    );
 
 
-    content.innerHTML = html;
+    content.innerHTML =
+      html;
 
 
   } catch (error) {
@@ -1496,10 +1640,12 @@ window.openEveryoneHistory = async function() {
 
 
 // ======================================================
-// 日付表示
+// 日付
 // ======================================================
 
-function formatDate(dateString) {
+function formatDate(
+  dateString
+) {
 
   if (!dateString) {
     return "";
@@ -1507,7 +1653,9 @@ function formatDate(dateString) {
 
 
   const d =
-    new Date(dateString);
+    new Date(
+      dateString
+    );
 
 
   return (
@@ -1526,10 +1674,14 @@ function formatDate(dateString) {
 // HTML安全化
 // ======================================================
 
-function escapeHtml(value) {
+function escapeHtml(
+  value
+) {
 
-  if (value === undefined ||
-      value === null) {
+  if (
+    value === undefined ||
+    value === null
+  ) {
 
     return "";
 
@@ -1538,45 +1690,1754 @@ function escapeHtml(value) {
 
   return String(value)
 
-    .replaceAll("&", "&amp;")
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
 
-    .replaceAll("<", "&lt;")
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
 
-    .replaceAll(">", "&gt;")
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
 
-    .replaceAll('"', "&quot;")
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
 
-    .replaceAll("'", "&#039;");
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>学びアルバム Ver.2</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Noto Sans JP", sans-serif;
+  background: #f4f8fb;
+  color: #333;
+}
+
+header {
+  background: #4aa3df;
+  color: white;
+  padding: 18px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 15px;
+}
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 22px;
+  margin-bottom: 18px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+h2 {
+  margin-top: 0;
+  color: #2778b8;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 6px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+
+button {
+  border: none;
+  border-radius: 12px;
+  padding: 13px 18px;
+  margin-top: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  background: #4aa3df;
+  color: white;
+  font-weight: bold;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+.menu-button {
+  width: 100%;
+  font-size: 19px;
+  padding: 18px;
+  margin: 8px 0;
+}
+
+.back-button {
+  background: #777;
+}
+
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.subject-button {
+  background: #e8f5ff;
+  color: #2778b8;
+  border: 2px solid #b8def5;
+  min-height: 70px;
+}
+
+.entry {
+  background: #f8fbfd;
+  border-left: 5px solid #4aa3df;
+  padding: 15px;
+  margin: 12px 0;
+  border-radius: 8px;
+}
+
+.date {
+  color: #777;
+  font-size: 14px;
+}
+
+.ai-box {
+  background: #fff8dc;
+  border-left: 5px solid #f0b429;
+  padding: 15px;
+  margin-top: 15px;
+  border-radius: 10px;
+}
+
+.level-box {
+  background: #eef8ee;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.small {
+  font-size: 13px;
+  color: #777;
+}
+
+.success {
+  background: #e8f8ec;
+  color: #237a3b;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 12px;
+}
+
+.warning {
+  background: #fff4e5;
+  color: #9a5a00;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 12px;
+}
+
+.cache-info {
+  font-size: 13px;
+  color: #777;
+  background: #f5f5f5;
+  padding: 8px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+@media (max-width: 700px) {
+  .subject-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 450px) {
+  .subject-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+📘 学びアルバム Ver.2
+</header>
+
+<div class="container">
+
+<!-- =========================
+     ログイン
+========================= -->
+
+<div id="loginPage" class="card">
+
+<h2>🔐 児童ログイン</h2>
+
+<label>出席番号</label>
+
+<input
+  id="studentNumberInput"
+  type="number"
+  min="1"
+  max="50"
+  placeholder="例：12"
+>
+
+<label>パスワード</label>
+
+<input
+  id="passwordInput"
+  type="password"
+  placeholder="パスワード"
+>
+
+<button onclick="loginStudent()">
+ログイン
+</button>
+
+<div id="loginMessage"></div>
+
+</div>
+
+
+<!-- =========================
+     メニュー
+========================= -->
+
+<div id="menuPage" class="card hidden">
+
+<h2>👋 学びアルバム</h2>
+
+<p id="studentInfo"></p>
+
+<button class="menu-button" onclick="openReflection()">
+✏️ 今日の振り返りを書く
+</button>
+
+<button class="menu-button" onclick="openHistory()">
+📖 自分の振り返りを見る
+</button>
+
+<button class="menu-button" onclick="openEveryoneHistory()">
+👫 みんなの振り返りを見る
+</button>
+
+<button
+  class="menu-button"
+  style="background:#777;"
+  onclick="logoutStudent()"
+>
+ログアウト
+</button>
+
+</div>
+
+
+<!-- =========================
+     振り返り入力
+========================= -->
+
+<div id="reflectionPage" class="card hidden">
+
+<h2>✏️ 今日の振り返り</h2>
+
+<p id="reflectionStudentInfo"></p>
+
+<label>教科</label>
+
+<select id="subject">
+<option value="">教科を選んでください</option>
+<option>国語</option>
+<option>算数</option>
+<option>生活</option>
+<option>理科</option>
+<option>社会</option>
+<option>総合</option>
+<option>道徳</option>
+<option>体育</option>
+</select>
+
+<label>単元名</label>
+
+<input
+  id="unit"
+  type="text"
+  placeholder="例：小数のかけ算"
+>
+
+<label>今日の学び</label>
+
+<textarea
+  id="study"
+  placeholder="今日の授業で分かったこと、できるようになったことを書こう。"
+  oninput="showAdvice()"
+></textarea>
+
+<div id="adviceBox" class="ai-box hidden">
+
+<strong>🤖 AIからの問い</strong>
+
+<p id="aiQuestion"></p>
+
+</div>
+
+<button onclick="saveReflection()">
+💾 振り返りを保存
+</button>
+
+<button
+  class="back-button"
+  onclick="showPage('menuPage')"
+>
+戻る
+</button>
+
+<div id="saveMessage"></div>
+
+</div>
+
+
+<!-- =========================
+     深まり
+========================= -->
+
+<div id="deepPage" class="card hidden">
+
+<h2>🌱 もう一歩深めよう</h2>
+
+<p>
+今日の振り返りを、もう一段深くしてみよう。
+</p>
+
+<div class="ai-box">
+
+<strong>🤖 AIからの問い</strong>
+
+<p id="deepQuestion"></p>
+
+</div>
+
+<label>もう一歩深い振り返り</label>
+
+<textarea
+  id="deepReflection"
+  placeholder="友達の考え、自分の考えの変化、次に生かしたいことなどを書こう。"
+></textarea>
+
+<label>振り返りの深まり</label>
+
+<select id="deepLevel">
+
+<option value="1">
+① その時の自分の気持ち・感想
+</option>
+
+<option value="2">
+② 学んだことや分かったこと
+</option>
+
+<option value="3">
+③ 考えの変化・友達との比較・次につながる考え
+</option>
+
+</select>
+
+<button onclick="saveDeepReflection()">
+🌱 深まりを保存
+</button>
+
+<button
+  class="back-button"
+  onclick="showPage('menuPage')"
+>
+メニューへ戻る
+</button>
+
+<div id="deepSaveMessage"></div>
+
+</div>
+
+
+<!-- =========================
+     自分の振り返り
+========================= -->
+
+<div id="historyPage" class="card hidden">
+
+<h2>📖 自分の振り返り</h2>
+
+<div class="cache-info">
+一度読み込んだ今年度の振り返りは、
+次回から一時保存したデータを利用します。
+</div>
+
+<div id="historyContent"></div>
+
+<button
+  class="back-button"
+  onclick="showPage('menuPage')"
+>
+戻る
+</button>
+
+</div>
+
+
+<!-- =========================
+     みんなの振り返り
+========================= -->
+
+<div id="everyonePage" class="card hidden">
+
+<h2>👫 みんなの振り返り</h2>
+
+<div id="everyoneContent"></div>
+
+<button
+  class="back-button"
+  onclick="showPage('menuPage')"
+>
+戻る
+</button>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import {
+  initializeApp
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  doc,
+  updateDoc,
+  query,
+  where,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+// ======================================================
+// Firebase設定
+// ======================================================
+
+const firebaseConfig = {
+
+  apiKey: "AIzaSyA7fBz695BTUL8lxxJ06csf6AfU_DQp3iw",
+
+  authDomain: "manabi-album-v2.firebaseapp.com",
+
+  projectId: "manabi-album-v2",
+
+  storageBucket: "manabi-album-v2.firebasestorage.app",
+
+  messagingSenderId: "226258471812",
+
+  appId: "1:226258471812:web:15230ba15e7e0bd7d86bd1"
+
+};
+
+
+// ======================================================
+// Firebase開始
+// ======================================================
+
+const app =
+  initializeApp(firebaseConfig);
+
+const db =
+  getFirestore(app);
+
+
+// ======================================================
+// 年度
+// ======================================================
+
+const SCHOOL_YEAR = 2026;
+
+
+// ======================================================
+// キャッシュ
+// ======================================================
+
+const CACHE_PREFIX =
+  "manabiAlbumCache_";
+
+
+// ======================================================
+// 現在の児童
+// ======================================================
+
+let currentStudentNumber = null;
+
+let currentLessonId = null;
+
+let currentReflectionId = null;
+
+
+// ======================================================
+// キャッシュキー
+// ======================================================
+
+function makeCacheKey(studentNumber, subject) {
+
+  return (
+    CACHE_PREFIX +
+    SCHOOL_YEAR +
+    "_" +
+    studentNumber +
+    "_" +
+    subject
+  );
 
 }
 
 
 // ======================================================
-// 保存後にキャッシュを更新する仕組み
+// キャッシュ保存
 // ======================================================
 
-window.clearManabiCache =
-  function() {
+function saveCache(
+  studentNumber,
+  subject,
+  data
+) {
 
-    Object.keys(
-      localStorage
-    ).forEach(key => {
+  const key =
+    makeCacheKey(
+      studentNumber,
+      subject
+    );
 
-      if (
-        key.startsWith(
-          CACHE_PREFIX
-        )
-      ) {
+  localStorage.setItem(
+    key,
+    JSON.stringify({
+      savedAt: Date.now(),
+      data: data
+    })
+  );
 
-        localStorage.removeItem(
-          key
-        );
+}
 
-      }
 
-    });
+// ======================================================
+// キャッシュ削除
+// ======================================================
+
+function deleteCache(
+  studentNumber,
+  subject
+) {
+
+  localStorage.removeItem(
+    makeCacheKey(
+      studentNumber,
+      subject
+    )
+  );
+
+  localStorage.removeItem(
+    CACHE_PREFIX +
+    SCHOOL_YEAR +
+    "_" +
+    studentNumber +
+    "_ALL"
+  );
+
+  localStorage.removeItem(
+    CACHE_PREFIX +
+    SCHOOL_YEAR +
+    "_EVERYONE"
+  );
+
+}
+
+
+// ======================================================
+// ページ切り替え
+// ======================================================
+
+window.showPage = function(pageId) {
+
+  const pages = [
+    "loginPage",
+    "menuPage",
+    "reflectionPage",
+    "deepPage",
+    "historyPage",
+    "everyonePage"
+  ];
+
+  pages.forEach(id => {
+
+    document
+      .getElementById(id)
+      .classList.add("hidden");
+
+  });
+
+  document
+    .getElementById(pageId)
+    .classList.remove("hidden");
+
+};
+
+
+// ======================================================
+// ログイン
+// ======================================================
+
+window.loginStudent = function() {
+
+  const number =
+    document
+      .getElementById(
+        "studentNumberInput"
+      )
+      .value
+      .trim();
+
+  const password =
+    document
+      .getElementById(
+        "passwordInput"
+      )
+      .value
+      .trim();
+
+  const message =
+    document.getElementById(
+      "loginMessage"
+    );
+
+
+  if (!number) {
+
+    message.innerHTML =
+      `<div class="warning">
+        出席番号を入力してください。
+      </div>`;
+
+    return;
+
+  }
+
+
+  if (password !== "1111") {
+
+    message.innerHTML =
+      `<div class="warning">
+        パスワードが違います。
+      </div>`;
+
+    return;
+
+  }
+
+
+  currentStudentNumber =
+    String(number);
+
+
+  localStorage.setItem(
+    "currentStudentNumber",
+    currentStudentNumber
+  );
+
+
+  document.getElementById(
+    "studentInfo"
+  ).textContent =
+    `${currentStudentNumber}番の学びアルバム`;
+
+
+  document.getElementById(
+    "reflectionStudentInfo"
+  ).textContent =
+    `${currentStudentNumber}番`;
+
+
+  showPage("menuPage");
+
+};
+
+
+// ======================================================
+// 自動ログイン
+// ======================================================
+
+const savedStudentNumber =
+  localStorage.getItem(
+    "currentStudentNumber"
+  );
+
+
+if (savedStudentNumber) {
+
+  currentStudentNumber =
+    savedStudentNumber;
+
+  document.getElementById(
+    "studentInfo"
+  ).textContent =
+    `${currentStudentNumber}番の学びアルバム`;
+
+  document.getElementById(
+    "reflectionStudentInfo"
+  ).textContent =
+    `${currentStudentNumber}番`;
+
+  showPage("menuPage");
+
+}
+
+
+// ======================================================
+// ログアウト
+// ======================================================
+
+window.logoutStudent = function() {
+
+  currentStudentNumber = null;
+
+  localStorage.removeItem(
+    "currentStudentNumber"
+  );
+
+  showPage("loginPage");
+
+};
+
+
+// ======================================================
+// 振り返りページ
+// ======================================================
+
+window.openReflection = function() {
+
+  document.getElementById(
+    "subject"
+  ).value = "";
+
+  document.getElementById(
+    "unit"
+  ).value = "";
+
+  document.getElementById(
+    "study"
+  ).value = "";
+
+  document.getElementById(
+    "adviceBox"
+  ).classList.add("hidden");
+
+  document.getElementById(
+    "saveMessage"
+  ).innerHTML = "";
+
+  showPage("reflectionPage");
+
+};
+
+
+// ======================================================
+// AIからの問い
+// ======================================================
+
+window.showAdvice = function() {
+
+  const subject =
+    document.getElementById(
+      "subject"
+    ).value;
+
+  const study =
+    document.getElementById(
+      "study"
+    ).value;
+
+
+  if (!study.trim()) {
+
+    document
+      .getElementById(
+        "adviceBox"
+      )
+      .classList.add("hidden");
+
+    return;
+
+  }
+
+
+  let question =
+    "どうしてそう思ったのか、もう少し詳しく書いてみよう。";
+
+
+  if (subject === "国語") {
+
+    if (
+      study.includes("友達") ||
+      study.includes("比べ")
+    ) {
+
+      question =
+        "友達の考えと比べて、自分の考えはどう変わったかな？";
+
+    } else {
+
+      question =
+        "文章のどの部分から、そう考えたのかな？";
+
+    }
+
+  }
+
+
+  if (subject === "算数") {
+
+    question =
+      "どうしてその方法で解くことができたのかな？";
+
+  }
+
+
+  if (subject === "生活") {
+
+    question =
+      "やってみて分かったことや、前と変わったことは何かな？";
+
+  }
+
+
+  if (subject === "理科") {
+
+    question =
+      "実験や観察の結果から、どんなことが分かったかな？";
+
+  }
+
+
+  if (subject === "社会") {
+
+    question =
+      "調べたことから、どんなことが大切だと思ったかな？";
+
+  }
+
+
+  if (subject === "総合") {
+
+    question =
+      "今回の学びを、これからどんなことに生かしたいかな？";
+
+  }
+
+
+  if (subject === "道徳") {
+
+    question =
+      "自分だったらどうするか、理由も考えてみよう。";
+
+  }
+
+
+  if (subject === "体育") {
+
+    question =
+      "できるようになるために、どんな工夫をしたかな？";
+
+  }
+
+
+  document.getElementById(
+    "aiQuestion"
+  ).textContent =
+    question;
+
+
+  document
+    .getElementById(
+      "adviceBox"
+    )
+    .classList.remove("hidden");
+
+};
+
+
+document
+  .getElementById("subject")
+  .addEventListener(
+    "change",
+    showAdvice
+  );
+
+
+// ======================================================
+// 授業ID自動作成
+// ======================================================
+
+function createLessonId() {
+
+  const now =
+    new Date();
+
+  return (
+    now.getFullYear() +
+    "" +
+    String(
+      now.getMonth() + 1
+    ).padStart(2, "0") +
+    "" +
+    String(
+      now.getDate()
+    ).padStart(2, "0") +
+    "_" +
+    String(
+      now.getHours()
+    ).padStart(2, "0") +
+    "" +
+    String(
+      now.getMinutes()
+    ).padStart(2, "0") +
+    "" +
+    String(
+      now.getSeconds()
+    ).padStart(2, "0")
+  );
+
+}
+
+
+// ======================================================
+// 振り返り保存
+// ======================================================
+
+window.saveReflection =
+async function() {
+
+  if (!currentStudentNumber) {
+
+    alert("ログインしてください。");
+
+    return;
+
+  }
+
+
+  const subject =
+    document.getElementById(
+      "subject"
+    ).value;
+
+  const unit =
+    document.getElementById(
+      "unit"
+    ).value.trim();
+
+  const study =
+    document.getElementById(
+      "study"
+    ).value.trim();
+
+
+  if (!subject) {
+
+    alert("教科を選んでください。");
+
+    return;
+
+  }
+
+
+  if (!unit) {
+
+    alert("単元名を入力してください。");
+
+    return;
+
+  }
+
+
+  if (!study) {
+
+    alert("今日の学びを書いてください。");
+
+    return;
+
+  }
+
+
+  const aiQuestion =
+    document.getElementById(
+      "aiQuestion"
+    ).textContent;
+
+
+  currentLessonId =
+    createLessonId();
+
+
+  const now =
+    new Date();
+
+
+  const data = {
+
+    schoolYear:
+      SCHOOL_YEAR,
+
+    studentNumber:
+      String(
+        currentStudentNumber
+      ),
+
+    subject:
+      subject,
+
+    unit:
+      unit,
+
+    study:
+      study,
+
+    aiQuestion:
+      aiQuestion,
+
+    deepReflection:
+      "",
+
+    deepLevel:
+      "",
+
+    likes:
+      0,
+
+    lessonId:
+      currentLessonId,
+
+    date:
+      now.toISOString(),
+
+    createdAt:
+      now.getTime()
 
   };
+
+
+  try {
+
+    const docRef =
+      await addDoc(
+        collection(
+          db,
+          "manabi"
+        ),
+        data
+      );
+
+
+    currentReflectionId =
+      docRef.id;
+
+
+    deleteCache(
+      currentStudentNumber,
+      subject
+    );
+
+
+    document.getElementById(
+      "deepQuestion"
+    ).textContent =
+      aiQuestion;
+
+
+    document.getElementById(
+      "deepReflection"
+    ).value = "";
+
+
+    document.getElementById(
+      "deepLevel"
+    ).value = "1";
+
+
+    document.getElementById(
+      "saveMessage"
+    ).innerHTML =
+      `<div class="success">
+        保存しました！🌟
+      </div>`;
+
+
+    setTimeout(() => {
+
+      showPage(
+        "deepPage"
+      );
+
+    }, 700);
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    document.getElementById(
+      "saveMessage"
+    ).innerHTML =
+      `<div class="warning">
+        保存できませんでした。
+        Firebaseの設定を確認してください。
+      </div>`;
+
+  }
+
+};
+
+
+// ======================================================
+// 深まり保存
+// ======================================================
+
+window.saveDeepReflection =
+async function() {
+
+  if (!currentReflectionId) {
+
+    alert(
+      "保存する振り返りがありません。"
+    );
+
+    return;
+
+  }
+
+
+  const deepReflection =
+    document.getElementById(
+      "deepReflection"
+    ).value.trim();
+
+  const deepLevel =
+    document.getElementById(
+      "deepLevel"
+    ).value;
+
+
+  if (!deepReflection) {
+
+    alert(
+      "もう一歩深い振り返りを書いてください。"
+    );
+
+    return;
+
+  }
+
+
+  try {
+
+    await updateDoc(
+      doc(
+        db,
+        "manabi",
+        currentReflectionId
+      ),
+      {
+
+        deepReflection:
+          deepReflection,
+
+        deepLevel:
+          deepLevel
+
+      }
+    );
+
+
+    deleteCache(
+      currentStudentNumber,
+      document.getElementById(
+        "subject"
+      ).value
+    );
+
+
+    document.getElementById(
+      "deepSaveMessage"
+    ).innerHTML =
+      `<div class="success">
+        深まりを保存しました！🌱
+      </div>`;
+
+
+    setTimeout(() => {
+
+      showPage(
+        "menuPage"
+      );
+
+    }, 700);
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    document.getElementById(
+      "deepSaveMessage"
+    ).innerHTML =
+      `<div class="warning">
+        保存できませんでした。
+      </div>`;
+
+  }
+
+};
+
+
+// ======================================================
+// 自分の振り返り
+// ======================================================
+
+window.openHistory =
+async function() {
+
+  if (!currentStudentNumber) {
+
+    alert(
+      "ログインしてください。"
+    );
+
+    return;
+
+  }
+
+
+  showPage(
+    "historyPage"
+  );
+
+
+  const content =
+    document.getElementById(
+      "historyContent"
+    );
+
+
+  content.innerHTML =
+    "<p>📡 データを確認しています...</p>";
+
+
+  try {
+
+    const cacheKey =
+      CACHE_PREFIX +
+      SCHOOL_YEAR +
+      "_" +
+      currentStudentNumber +
+      "_ALL";
+
+
+    const cached =
+      localStorage.getItem(
+        cacheKey
+      );
+
+
+    let data;
+
+
+    if (cached) {
+
+      console.log(
+        "📦 キャッシュから読み込み"
+      );
+
+      data =
+        JSON.parse(
+          cached
+        ).data;
+
+    } else {
+
+      console.log(
+        "🔥 Firebaseから読み込み"
+      );
+
+
+      const q =
+        query(
+
+          collection(
+            db,
+            "manabi"
+          ),
+
+          where(
+            "schoolYear",
+            "==",
+            SCHOOL_YEAR
+          ),
+
+          where(
+            "studentNumber",
+            "==",
+            String(
+              currentStudentNumber
+            )
+          )
+
+        );
+
+
+      const snapshot =
+        await getDocs(q);
+
+
+      data =
+        snapshot.docs.map(
+          d => ({
+            id: d.id,
+            ...d.data()
+          })
+        );
+
+
+      localStorage.setItem(
+        cacheKey,
+        JSON.stringify({
+
+          savedAt:
+            Date.now(),
+
+          data:
+            data
+
+        })
+      );
+
+    }
+
+
+    if (!data.length) {
+
+      content.innerHTML =
+        "<p>まだ振り返りがありません。</p>";
+
+      return;
+
+    }
+
+
+    data.sort(
+      (a,b) =>
+        new Date(b.date) -
+        new Date(a.date)
+    );
+
+
+    let html = "";
+
+
+    data.forEach(
+      item => {
+
+        html += `
+
+        <div class="entry">
+
+          <div class="date">
+            ${formatDate(
+              item.date
+            )}
+          </div>
+
+          <strong>
+            ${escapeHtml(
+              item.subject
+            )}
+          </strong>
+
+          <p>
+            <strong>
+              ${escapeHtml(
+                item.unit
+              )}
+            </strong>
+          </p>
+
+          <p>
+            ${escapeHtml(
+              item.study
+            )}
+          </p>
+
+          ${
+            item.deepReflection
+            ?
+            `
+            <div class="level-box">
+
+              🌱
+              深まりレベル：
+              ${escapeHtml(
+                item.deepLevel
+              )}
+
+              <p>
+                ${escapeHtml(
+                  item.deepReflection
+                )}
+              </p>
+
+            </div>
+            `
+            :
+            ""
+          }
+
+        </div>
+
+        `;
+
+      }
+    );
+
+
+    content.innerHTML =
+      html;
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    content.innerHTML =
+      `<div class="warning">
+        振り返りを読み込めませんでした。
+      </div>`;
+
+  }
+
+};
+
+
+// ======================================================
+// みんなの振り返り
+// ======================================================
+
+window.openEveryoneHistory =
+async function() {
+
+  showPage(
+    "everyonePage"
+  );
+
+
+  const content =
+    document.getElementById(
+      "everyoneContent"
+    );
+
+
+  content.innerHTML =
+    "<p>📡 振り返りを読み込んでいます...</p>";
+
+
+  try {
+
+    const cacheKey =
+      CACHE_PREFIX +
+      SCHOOL_YEAR +
+      "_EVERYONE";
+
+
+    const cached =
+      localStorage.getItem(
+        cacheKey
+      );
+
+
+    let data;
+
+
+    if (cached) {
+
+      console.log(
+        "📦 みんなの振り返り：キャッシュ"
+      );
+
+      data =
+        JSON.parse(
+          cached
+        ).data;
+
+    } else {
+
+      console.log(
+        "🔥 みんなの振り返り：Firebase"
+      );
+
+
+      const q =
+        query(
+
+          collection(
+            db,
+            "manabi"
+          ),
+
+          where(
+            "schoolYear",
+            "==",
+            SCHOOL_YEAR
+          )
+
+        );
+
+
+      const snapshot =
+        await getDocs(q);
+
+
+      data =
+        snapshot.docs.map(
+          d => ({
+            id: d.id,
+            ...d.data()
+          })
+        );
+
+
+      localStorage.setItem(
+        cacheKey,
+        JSON.stringify({
+
+          savedAt:
+            Date.now(),
+
+          data:
+            data
+
+        })
+      );
+
+    }
+
+
+    if (!data.length) {
+
+      content.innerHTML =
+        "<p>まだ振り返りがありません。</p>";
+
+      return;
+
+    }
+
+
+    data.sort(
+      (a,b) =>
+        new Date(b.date) -
+        new Date(a.date)
+    );
+
+
+    let html = "";
+
+
+    data.forEach(
+      item => {
+
+        html += `
+
+        <div class="entry">
+
+          <div class="date">
+            ${formatDate(
+              item.date
+            )}
+          </div>
+
+          <strong>
+            ${escapeHtml(
+              item.subject
+            )}
+          </strong>
+
+          <p>
+            <strong>
+              ${escapeHtml(
+                item.unit
+              )}
+            </strong>
+          </p>
+
+          <p>
+            ${escapeHtml(
+              item.study
+            )}
+          </p>
+
+        </div>
+
+        `;
+
+      }
+    );
+
+
+    content.innerHTML =
+      html;
+
+
+  } catch (error) {
+
+    console.error(error);
+
+    content.innerHTML =
+      `<div class="warning">
+        読み込みに失敗しました。
+      </div>`;
+
+  }
+
+};
+
+
+// ======================================================
+// 日付
+// ======================================================
+
+function formatDate(
+  dateString
+) {
+
+  if (!dateString) {
+    return "";
+  }
+
+
+  const d =
+    new Date(
+      dateString
+    );
+
+
+  return (
+    d.getFullYear() +
+    "年" +
+    (d.getMonth() + 1) +
+    "月" +
+    d.getDate() +
+    "日"
+  );
+
+}
+
+
+// ======================================================
+// HTML安全化
+// ======================================================
+
+function escapeHtml(
+  value
+) {
+
+  if (
+    value === undefined ||
+    value === null
+  ) {
+
+    return "";
+
+  }
+
+
+  return String(value)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
 
 </script>
 
