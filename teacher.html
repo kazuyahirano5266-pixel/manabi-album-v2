@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>学びアルバム Ver.2 先生ページ</title>
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<title>
+学びアルバム Ver.2 先生ページ
+</title>
 
 <style>
 
@@ -67,7 +74,7 @@ button:hover {
 
 .student-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 15px;
 }
 
@@ -140,15 +147,24 @@ button:hover {
   font-size: 13px;
   color: #777;
   background: #f5f5f5;
-  padding: 8px;
+  padding: 10px;
   border-radius: 8px;
+  margin-bottom: 15px;
 }
 
 .hidden {
   display: none;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 900px) {
+
+  .student-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+}
+
+@media (max-width: 700px) {
 
   .student-grid,
   .subject-grid {
@@ -167,6 +183,7 @@ button:hover {
 }
 
 </style>
+
 </head>
 
 <body>
@@ -179,15 +196,22 @@ button:hover {
 
 
 <!-- =====================================================
-     メイン
+     ホーム
 ===================================================== -->
 
-<div id="teacherHome" class="card">
+<div
+  id="teacherHome"
+  class="card"
+>
 
-<h2>📚 先生メニュー</h2>
+<h2>
+📚 先生メニュー
+</h2>
 
 <p>
-<strong>2026年度</strong>
+<strong>
+2026年度
+</strong>
 </p>
 
 <button onclick="loadStudents()">
@@ -195,7 +219,7 @@ button:hover {
 </button>
 
 <button onclick="clearAllCache()">
-🔄 キャッシュを更新
+🔄 最新データに更新
 </button>
 
 <div id="homeMessage"></div>
@@ -207,13 +231,21 @@ button:hover {
      児童一覧
 ===================================================== -->
 
-<div id="studentPage" class="card hidden">
+<div
+  id="studentPage"
+  class="card hidden"
+>
 
-<h2>👧 児童一覧</h2>
+<h2>
+👧 児童一覧
+</h2>
 
 <div class="cache-info">
-💡 一度取得したデータはブラウザに一時保存し、
+
+💡
+一度取得したデータはブラウザに一時保存します。
 同じ情報を何度もFirebaseから読み込まない仕組みです。
+
 </div>
 
 <div
@@ -236,7 +268,10 @@ button:hover {
      教科一覧
 ===================================================== -->
 
-<div id="subjectPage" class="card hidden">
+<div
+  id="subjectPage"
+  class="card hidden"
+>
 
 <h2 id="studentTitle">
 📚 教科を選んでください
@@ -262,11 +297,21 @@ button:hover {
      振り返り一覧
 ===================================================== -->
 
-<div id="reflectionPage" class="card hidden">
+<div
+  id="reflectionPage"
+  class="card hidden"
+>
 
 <h2 id="reflectionTitle">
 📝 振り返り
 </h2>
+
+<div
+  class="cache-info"
+>
+📦
+この児童・教科を一度開くと、そのデータを一時保存します。
+</div>
 
 <div
   id="reflectionList"
@@ -303,28 +348,33 @@ import {
 
 // ======================================================
 // Firebase設定
-// ↓↓↓ 自分のFirebase設定に置き換えてください ↓↓↓
 // ======================================================
 
 const firebaseConfig = {
 
-  apiKey: "ここにAPIキー",
+  apiKey: "AIzaSyA7fBz695BTUL8lxxJ06csf6AfU_DQp3iw",
 
-  authDomain: "ここにauthDomain",
+  authDomain: "manabi-album-v2.firebaseapp.com",
 
-  projectId: "ここにprojectId",
+  projectId: "manabi-album-v2",
 
-  storageBucket: "ここにstorageBucket",
+  storageBucket: "manabi-album-v2.firebasestorage.app",
 
-  messagingSenderId: "ここにmessagingSenderId",
+  messagingSenderId: "226258471812",
 
-  appId: "ここにappId"
+  appId: "1:226258471812:web:15230ba15e7e0bd7d86bd1"
 
 };
 
 
+// ======================================================
+// Firebase開始
+// ======================================================
+
 const app =
-  initializeApp(firebaseConfig);
+  initializeApp(
+    firebaseConfig
+  );
 
 const db =
   getFirestore(app);
@@ -334,7 +384,8 @@ const db =
 // 年度
 // ======================================================
 
-const SCHOOL_YEAR = 2026;
+const SCHOOL_YEAR =
+  2026;
 
 
 // ======================================================
@@ -349,11 +400,14 @@ const CACHE_PREFIX =
 // 現在選択中
 // ======================================================
 
-let currentStudentNumber = null;
+let currentStudentNumber =
+  null;
 
-let currentSubject = null;
+let currentSubject =
+  null;
 
-let currentStudentData = [];
+let currentStudentData =
+  [];
 
 
 // ======================================================
@@ -363,25 +417,38 @@ let currentStudentData = [];
 function showOnly(id) {
 
   const pages = [
+
     "teacherHome",
+
     "studentPage",
+
     "subjectPage",
+
     "reflectionPage"
+
   ];
 
 
-  pages.forEach(page => {
+  pages.forEach(
+    page => {
 
-    document
-      .getElementById(page)
-      .classList.add("hidden");
+      document
+        .getElementById(
+          page
+        )
+        .classList.add(
+          "hidden"
+        );
 
-  });
+    }
+  );
 
 
   document
     .getElementById(id)
-    .classList.remove("hidden");
+    .classList.remove(
+      "hidden"
+    );
 
 }
 
@@ -390,9 +457,12 @@ function showOnly(id) {
 // ホーム
 // ======================================================
 
-window.goHome = function() {
+window.goHome =
+function() {
 
-  showOnly("teacherHome");
+  showOnly(
+    "teacherHome"
+  );
 
 };
 
@@ -401,9 +471,12 @@ window.goHome = function() {
 // 児童一覧
 // ======================================================
 
-window.loadStudents = async function() {
+window.loadStudents =
+async function() {
 
-  showOnly("studentPage");
+  showOnly(
+    "studentPage"
+  );
 
 
   const list =
@@ -435,9 +508,9 @@ window.loadStudents = async function() {
     let data;
 
 
-    // --------------------------------------------------
-    // キャッシュがある場合
-    // --------------------------------------------------
+    // ==================================================
+    // キャッシュあり
+    // ==================================================
 
     if (cached) {
 
@@ -447,14 +520,16 @@ window.loadStudents = async function() {
 
 
       data =
-        JSON.parse(cached).data;
+        JSON.parse(
+          cached
+        ).data;
 
 
     } else {
 
-      // ------------------------------------------------
-      // キャッシュがない場合だけFirebase
-      // ------------------------------------------------
+      // =================================================
+      // Firebase
+      // =================================================
 
       console.log(
         "🔥 児童一覧：Firebase"
@@ -463,13 +538,18 @@ window.loadStudents = async function() {
 
       const q =
         query(
-          collection(db, "manabi"),
+
+          collection(
+            db,
+            "manabi"
+          ),
 
           where(
             "schoolYear",
             "==",
             SCHOOL_YEAR
           )
+
         );
 
 
@@ -507,46 +587,51 @@ window.loadStudents = async function() {
 
 
     // ==================================================
-    // 児童ごとの集計
+    // 児童ごとに集計
     // ==================================================
 
-    const students = {};
+    const students =
+      {};
 
 
-    data.forEach(item => {
+    data.forEach(
+      item => {
 
-      const number =
-        String(
-          item.studentNumber
-        );
+        const number =
+          String(
+            item.studentNumber
+          );
 
 
-      if (!students[number]) {
+        if (!students[number]) {
 
-        students[number] = {
+          students[number] = {
 
-          studentNumber:
-            number,
+            studentNumber:
+              number,
 
-          count: 0
+            count:
+              0
 
-        };
+          };
+
+        }
+
+
+        students[number].count++;
 
       }
-
-
-      students[number].count++;
-
-    });
+    );
 
 
     const numbers =
-      Object.keys(students)
-        .sort(
-          (a,b) =>
-            Number(a) -
-            Number(b)
-        );
+      Object.keys(
+        students
+      ).sort(
+        (a,b) =>
+          Number(a) -
+          Number(b)
+      );
 
 
     if (!numbers.length) {
@@ -559,55 +644,67 @@ window.loadStudents = async function() {
     }
 
 
-    list.innerHTML = "";
+    list.innerHTML =
+      "";
 
 
-    numbers.forEach(number => {
+    numbers.forEach(
+      number => {
 
-      const student =
-        students[number];
-
-
-      const card =
-        document.createElement("div");
+        const student =
+          students[number];
 
 
-      card.className =
-        "student-card";
-
-
-      card.innerHTML = `
-
-        <h3>
-          ${escapeHtml(number)}番
-        </h3>
-
-        <p>
-          振り返り
-          <strong>
-            ${student.count}
-          </strong>
-          件
-        </p>
-
-      `;
-
-
-      card.onclick =
-        () =>
-          openStudent(
-            number
+        const card =
+          document.createElement(
+            "div"
           );
 
 
-      list.appendChild(card);
+        card.className =
+          "student-card";
 
-    });
+
+        card.innerHTML = `
+
+          <h3>
+            ${escapeHtml(
+              number
+            )}番
+          </h3>
+
+          <p>
+            振り返り
+            <strong>
+              ${student.count}
+            </strong>
+            件
+          </p>
+
+        `;
+
+
+        card.onclick =
+          () =>
+            openStudent(
+              number
+            );
+
+
+        list.appendChild(
+          card
+        );
+
+      }
+    );
 
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     list.innerHTML =
       `<p>
@@ -623,12 +720,15 @@ window.loadStudents = async function() {
 // 児童を開く
 // ======================================================
 
-window.openStudent = function(
+window.openStudent =
+function(
   studentNumber
 ) {
 
   currentStudentNumber =
-    String(studentNumber);
+    String(
+      studentNumber
+    );
 
 
   document.getElementById(
@@ -637,7 +737,9 @@ window.openStudent = function(
     `👤 ${currentStudentNumber}番の教科`;
 
 
-  showOnly("subjectPage");
+  showOnly(
+    "subjectPage"
+  );
 
 
   showSubjects();
@@ -671,63 +773,80 @@ function showSubjects() {
     );
 
 
-  list.innerHTML = "";
+  list.innerHTML =
+    "";
 
 
-  subjects.forEach(subject => {
+  subjects.forEach(
+    subject => {
 
-    const count =
-      currentStudentData.filter(
-        item =>
-          String(
-            item.studentNumber
-          ) ===
-          String(
-            currentStudentNumber
-          ) &&
-          item.subject ===
-          subject
-      ).length;
+      const count =
+        currentStudentData.filter(
+          item =>
 
+            String(
+              item.studentNumber
+            ) ===
+            String(
+              currentStudentNumber
+            )
 
-    const card =
-      document.createElement(
-        "div"
-      );
+            &&
 
+            item.subject ===
+            subject
 
-    card.className =
-      "subject-card";
+        ).length;
 
 
-    card.innerHTML = `
-
-      <div style="font-size:30px;">
-        📖
-      </div>
-
-      <div>
-        ${subject}
-      </div>
-
-      <div style="font-size:13px;color:#777;">
-        ${count}件
-      </div>
-
-    `;
-
-
-    card.onclick =
-      () =>
-        openSubject(
-          currentStudentNumber,
-          subject
+      const card =
+        document.createElement(
+          "div"
         );
 
 
-    list.appendChild(card);
+      card.className =
+        "subject-card";
 
-  });
+
+      card.innerHTML = `
+
+        <div
+          style="font-size:30px;"
+        >
+          📖
+        </div>
+
+        <div>
+          ${subject}
+        </div>
+
+        <div
+          style="
+            font-size:13px;
+            color:#777;
+          "
+        >
+          ${count}件
+        </div>
+
+      `;
+
+
+      card.onclick =
+        () =>
+          openSubject(
+            currentStudentNumber,
+            subject
+          );
+
+
+      list.appendChild(
+        card
+      );
+
+    }
+  );
 
 }
 
@@ -736,13 +855,16 @@ function showSubjects() {
 // 教科を開く
 // ======================================================
 
-window.openSubject = async function(
+window.openSubject =
+async function(
   studentNumber,
   subject
 ) {
 
   currentStudentNumber =
-    String(studentNumber);
+    String(
+      studentNumber
+    );
 
   currentSubject =
     subject;
@@ -754,7 +876,9 @@ window.openSubject = async function(
     `📝 ${currentStudentNumber}番　${subject}`;
 
 
-  showOnly("reflectionPage");
+  showOnly(
+    "reflectionPage"
+  );
 
 
   const list =
@@ -772,9 +896,7 @@ window.openSubject = async function(
   try {
 
     // ==================================================
-    // 重要
-    //
-    // 教科ごとのキャッシュを使用
+    // 教科ごとのキャッシュ
     // ==================================================
 
     const cacheKey =
@@ -795,6 +917,10 @@ window.openSubject = async function(
     let data;
 
 
+    // ==================================================
+    // キャッシュあり
+    // ==================================================
+
     if (cached) {
 
       console.log(
@@ -803,10 +929,16 @@ window.openSubject = async function(
 
 
       data =
-        JSON.parse(cached).data;
+        JSON.parse(
+          cached
+        ).data;
 
 
     } else {
+
+      // =================================================
+      // Firebaseから必要なデータだけ取得
+      // =================================================
 
       console.log(
         "🔥 教科データ：Firebase"
@@ -894,109 +1026,137 @@ window.openSubject = async function(
     // 単元ごとに整理
     // ==================================================
 
-    const units = {};
+    const units =
+      {};
 
 
-    data.forEach(item => {
+    data.forEach(
+      item => {
 
-      const unit =
-        item.unit ||
-        "単元名なし";
+        const unit =
+          item.unit ||
+          "単元名なし";
 
 
-      if (!units[unit]) {
+        if (!units[unit]) {
 
-        units[unit] = [];
+          units[unit] =
+            [];
+
+        }
+
+
+        units[unit].push(
+          item
+        );
 
       }
+    );
 
 
-      units[unit].push(item);
-
-    });
-
-
-    let html = "";
+    let html =
+      "";
 
 
-    Object.keys(units).forEach(unit => {
-
-      html += `
-
-        <div class="unit-card">
-
-          <h3>
-            📚 ${escapeHtml(unit)}
-          </h3>
-
-      `;
-
-
-      units[unit].forEach(item => {
+    Object.keys(
+      units
+    ).forEach(
+      unit => {
 
         html += `
 
-          <div class="reflection-card">
+          <div
+            class="unit-card"
+          >
 
-            <div class="date">
-              ${formatDate(item.date)}
-            </div>
-
-            <p>
-              ${escapeHtml(item.study)}
-            </p>
-
-            ${
-              item.aiQuestion
-              ?
-              `
-              <div>
-                🤖
-                ${escapeHtml(
-                  item.aiQuestion
-                )}
-              </div>
-              `
-              :
-              ""
-            }
-
-
-            ${
-              item.deepReflection
-              ?
-              `
-              <div class="level">
-
-                🌱
-                深まりレベル：
-                ${escapeHtml(
-                  item.deepLevel ||
-                  ""
-                )}
-
-                <p>
-                  ${escapeHtml(
-                    item.deepReflection
-                  )}
-                </p>
-
-              </div>
-              `
-              :
-              ""
-            }
-
-          </div>
+            <h3>
+              📚
+              ${escapeHtml(
+                unit
+              )}
+            </h3>
 
         `;
 
-      });
+
+        units[unit].forEach(
+          item => {
+
+            html += `
+
+              <div
+                class="reflection-card"
+              >
+
+                <div
+                  class="date"
+                >
+                  ${formatDate(
+                    item.date
+                  )}
+                </div>
+
+                <p>
+                  ${escapeHtml(
+                    item.study
+                  )}
+                </p>
+
+                ${
+                  item.aiQuestion
+                  ?
+                  `
+                  <div>
+                    🤖
+                    ${escapeHtml(
+                      item.aiQuestion
+                    )}
+                  </div>
+                  `
+                  :
+                  ""
+                }
+
+                ${
+                  item.deepReflection
+                  ?
+                  `
+                  <div
+                    class="level"
+                  >
+
+                    🌱
+                    深まりレベル：
+                    ${escapeHtml(
+                      item.deepLevel ||
+                      ""
+                    )}
+
+                    <p>
+                      ${escapeHtml(
+                        item.deepReflection
+                      )}
+                    </p>
+
+                  </div>
+                  `
+                  :
+                  ""
+                }
+
+              </div>
+
+            `;
+
+          }
+        );
 
 
-      html += `</div>`;
+        html +=
+          `</div>`;
 
-    });
+      }
+    );
 
 
     list.innerHTML =
@@ -1005,7 +1165,10 @@ window.openSubject = async function(
 
   } catch (error) {
 
-    console.error(error);
+    console.error(
+      error
+    );
+
 
     list.innerHTML =
       `<p>
@@ -1022,11 +1185,11 @@ window.openSubject = async function(
 // ======================================================
 
 window.backToStudents =
-  function() {
+function() {
 
-    loadStudents();
+  loadStudents();
 
-  };
+};
 
 
 // ======================================================
@@ -1034,76 +1197,86 @@ window.backToStudents =
 // ======================================================
 
 window.backToSubjects =
-  function() {
+function() {
 
-    openStudent(
-      currentStudentNumber
-    );
+  openStudent(
+    currentStudentNumber
+  );
 
-  };
+};
 
 
 // ======================================================
-// キャッシュ全削除
+// キャッシュ削除
 // ======================================================
 
 window.clearAllCache =
-  function() {
+function() {
 
-    const keys = [];
+  const keys =
+    [];
 
 
-    for (
-      let i = 0;
-      i < localStorage.length;
-      i++
+  for (
+    let i = 0;
+    i < localStorage.length;
+    i++
+  ) {
+
+    const key =
+      localStorage.key(i);
+
+
+    if (
+      key &&
+      key.startsWith(
+        CACHE_PREFIX
+      )
     ) {
 
-      const key =
-        localStorage.key(i);
-
-
-      if (
-        key &&
-        key.startsWith(
-          CACHE_PREFIX
-        )
-      ) {
-
-        keys.push(key);
-
-      }
+      keys.push(
+        key
+      );
 
     }
 
-
-    keys.forEach(
-      key =>
-        localStorage.removeItem(key)
-    );
+  }
 
 
-    document.getElementById(
-      "homeMessage"
-    ).innerHTML =
-      `<div style="
+  keys.forEach(
+    key =>
+      localStorage.removeItem(
+        key
+      )
+  );
+
+
+  document.getElementById(
+    "homeMessage"
+  ).innerHTML =
+    `<div
+      style="
         margin-top:10px;
         padding:10px;
         background:#e8f8ec;
         border-radius:8px;
-      ">
-        🔄 キャッシュを更新しました。
-        次回はFirebaseから最新データを取得します。
-      </div>`;
+      "
+    >
+      🔄
+      キャッシュを更新しました。
+      次回はFirebaseから最新データを取得します。
+    </div>`;
 
-  };
+};
 
 
 // ======================================================
 // 日付
 // ======================================================
 
-function formatDate(dateString) {
+function formatDate(
+  dateString
+) {
 
   if (!dateString) {
     return "";
@@ -1111,7 +1284,9 @@ function formatDate(dateString) {
 
 
   const d =
-    new Date(dateString);
+    new Date(
+      dateString
+    );
 
 
   return (
@@ -1130,7 +1305,9 @@ function formatDate(dateString) {
 // HTML安全化
 // ======================================================
 
-function escapeHtml(value) {
+function escapeHtml(
+  value
+) {
 
   if (
     value === undefined ||
@@ -1142,32 +1319,34 @@ function escapeHtml(value) {
   }
 
 
-  return String(value)
+  return String(
+    value
+  )
 
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
+  .replaceAll(
+    "&",
+    "&amp;"
+  )
 
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
+  .replaceAll(
+    "<",
+    "&lt;"
+  )
 
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
+  .replaceAll(
+    ">",
+    "&gt;"
+  )
 
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
+  .replaceAll(
+    '"',
+    "&quot;"
+  )
 
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+  .replaceAll(
+    "'",
+    "&#039;"
+  );
 
 }
 
