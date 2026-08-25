@@ -132,6 +132,24 @@ button:hover {
   margin: 8px 0;
 }
 
+.copilot-link {
+  display: block;
+  width: 100%;
+  text-align: center;
+  padding: 12px;
+  margin-top: 5px;
+  border-radius: 10px;
+  background: #eef7ff;
+  color: #1769aa;
+  font-weight: bold;
+  text-decoration: none;
+  border: 2px solid #1769aa;
+}
+
+.copilot-link:hover {
+  background: #dceeff;
+}
+
 .box {
   background: #eef7ff;
   border-left: 6px solid #4c8dcc;
@@ -242,6 +260,7 @@ button:hover {
   border-radius: 14px;
   padding: 18px;
   margin: 12px 0;
+  cursor: pointer;
 }
 
 .reflection-card {
@@ -279,38 +298,8 @@ button:hover {
   line-height: 1.8;
 }
 
-.setting-row {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin: 8px 0;
-}
-
-.setting-row input {
-  flex: 1;
-}
-
 .setting-number {
   width: 100px !important;
-  flex: none !important;
-}
-
-.badge {
-  display: inline-block;
-  padding: 5px 10px;
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: bold;
-}
-
-.badge-green {
-  background: #dff3e4;
-  color: #26733d;
-}
-
-.badge-gray {
-  background: #eee;
-  color: #666;
 }
 
 .center {
@@ -321,6 +310,29 @@ hr {
   border: none;
   border-top: 1px solid #ddd;
   margin: 25px 0;
+}
+
+.error-box {
+  background: #fff0f0;
+  border-left: 6px solid #c75b5b;
+  padding: 16px;
+  border-radius: 10px;
+  margin: 15px 0;
+}
+
+.success-box {
+  background: #eef9f0;
+  border-left: 6px solid #4d9c68;
+  padding: 16px;
+  border-radius: 10px;
+  margin: 15px 0;
+}
+
+.copilot-big {
+  background: #1769aa;
+  font-size: 19px;
+  padding: 18px 22px;
+  width: 100%;
 }
 
 @media(max-width:650px) {
@@ -353,355 +365,367 @@ hr {
 
 
 <!-- ==================================================
-     HOME
+HOME
 ================================================== -->
 
 <div id="homePage" class="page">
 
-  <h2>先生メニュー</h2>
+<h2>先生メニュー</h2>
 
-  <div id="lessonStatus">
-    授業情報を読み込んでいます...
-  </div>
+<div id="lessonStatus">
+授業情報を読み込んでいます...
+</div>
 
-  <button
-    class="large-button green"
-    onclick="openLessonSetting()">
-    🟢 授業を開始・終了する
-  </button>
+<button
+class="large-button green"
+onclick="openLessonSetting()">
+🟢 授業を開始・終了する
+</button>
 
-  <button
-    class="large-button purple"
-    onclick="openStudentSetting()">
-    👦 児童の登録・設定
-  </button>
+<button
+class="large-button"
+onclick="openStudentSetting()">
+👦 児童の登録・設定
+</button>
 
-  <button
-    class="large-button blue"
-    onclick="openStudentList()">
-    📚 児童の振り返りを見る
-  </button>
+<button
+class="large-button blue"
+onclick="openStudentList()">
+📚 児童の振り返りを見る
+</button>
 
-  <button
-    class="large-button orange"
-    onclick="openCommentData()">
-    📝 所見作成用データを見る
-  </button>
+<button
+class="large-button orange"
+onclick="openCommentData()">
+📝 所見作成用データを見る
+</button>
 
-  <button
-    class="large-button copilot"
-    onclick="openCopilot()">
-    🤖 Microsoft Copilotを開く
-  </button>
+<button
+class="large-button copilot"
+onclick="openCopilot()">
+🤖 Microsoft Copilotを開く
+</button>
+
+<a
+href="https://copilot.microsoft.com/"
+target="_blank"
+rel="noopener"
+class="copilot-link">
+
+🔗 Copilotが開かない場合はこちら
+
+</a>
 
 </div>
 
 
 <!-- ==================================================
-     LESSON SETTING
+LESSON
 ================================================== -->
 
-<div id="lessonPage"
-     class="page hidden">
+<div id="lessonPage" class="page hidden">
 
-  <h2>🟢 授業設定</h2>
+<h2>🟢 授業設定</h2>
 
-  <div id="lessonSettingStatus"></div>
+<div id="lessonSettingStatus"></div>
 
-  <label>
-    教科
-  </label>
+<label>教科</label>
 
-  <select id="lessonSubject">
+<select id="lessonSubject">
 
-    <option value="">教科を選んでください</option>
+<option value="">教科を選んでください</option>
 
-    <option>国語</option>
-    <option>算数</option>
-    <option>生活</option>
-    <option>理科</option>
-    <option>社会</option>
-    <option>総合</option>
-    <option>道徳</option>
-    <option>体育</option>
+<option>国語</option>
+<option>算数</option>
+<option>生活</option>
+<option>理科</option>
+<option>社会</option>
+<option>総合</option>
+<option>道徳</option>
+<option>体育</option>
 
-  </select>
+</select>
 
-  <label>
-    単元名
-  </label>
+<label>単元名</label>
 
-  <input
-    id="lessonUnit"
-    placeholder="例：わり算">
+<input
+id="lessonUnit"
+placeholder="例：わり算">
 
-  <button
-    class="green"
-    onclick="startLesson()">
-    🟢 授業を開始する
-  </button>
+<button
+class="green"
+onclick="startLesson()">
 
-  <button
-    class="red"
-    onclick="endLesson()">
-    🔴 授業を終了する
-  </button>
+🟢 授業を開始する
 
-  <button
-    class="gray"
-    onclick="goHome()">
-    戻る
-  </button>
+</button>
+
+<button
+class="red"
+onclick="endLesson()">
+
+🔴 授業を終了する
+
+</button>
+
+<button
+class="gray"
+onclick="goHome()">
+
+戻る
+
+</button>
 
 </div>
 
 
 <!-- ==================================================
-     STUDENT SETTING
+STUDENT SETTING
 ================================================== -->
 
 <div id="studentSettingPage"
-     class="page hidden">
+class="page hidden">
 
-  <h2>👦 児童の登録・設定</h2>
+<h2>👦 児童の登録・設定</h2>
 
-  <div class="purple-box">
+<div class="purple-box">
 
-    <strong>🔐 児童名について</strong>
+<strong>🔐 児童名について</strong>
 
-    <p>
-      児童名は先生ページで管理するためのものです。
-    </p>
+<p>
+児童名は先生ページで管理するためのものです。
+</p>
 
-    <p>
-      児童側の「みんなの振り返り」には、
-      児童名も出席番号も表示されません。
-    </p>
+<p>
+児童側の「みんなの振り返り」には、
+児童名も出席番号も表示されません。
+</p>
 
-  </div>
+</div>
 
-  <label>
-    出席番号
-  </label>
+<label>出席番号</label>
 
-  <input
-    id="newStudentNumber"
-    class="setting-number"
-    type="number"
-    min="1"
-    max="50"
-    placeholder="1">
+<input
+id="newStudentNumber"
+class="setting-number"
+type="number"
+min="1"
+max="50"
+placeholder="1">
 
-  <label>
-    児童名
-  </label>
+<label>児童名</label>
 
-  <input
-    id="newStudentName"
-    placeholder="山田 太郎">
+<input
+id="newStudentName"
+placeholder="山田 太郎">
 
-  <button
-    class="green"
-    onclick="saveStudent()">
-    💾 児童を登録する
-  </button>
+<button
+class="green"
+onclick="saveStudent()">
 
-  <hr>
+💾 児童を登録する
 
-  <h3>
-    👦 登録されている児童
-  </h3>
+</button>
 
-  <div
-    id="studentSettingList">
-    読み込み中...
-  </div>
+<hr>
 
-  <button
-    class="gray"
-    onclick="goHome()">
-    戻る
-  </button>
+<h3>👦 登録されている児童</h3>
+
+<div id="studentSettingList">
+読み込み中...
+</div>
+
+<button
+class="gray"
+onclick="goHome()">
+
+戻る
+
+</button>
 
 </div>
 
 
 <!-- ==================================================
-     STUDENT LIST
+STUDENT LIST
 ================================================== -->
 
-<div id="studentListPage"
-     class="page hidden">
+<div id="studentListPage" class="page hidden">
 
-  <h2>📚 児童一覧</h2>
+<h2>📚 児童一覧</h2>
 
-  <div class="box">
+<div class="box">
 
-    児童を選ぶと、
-    <strong>1年間の振り返り</strong>を
-    教科ごとに確認できます。
+児童を選ぶと、
+<strong>1年間の振り返り</strong>を
+教科ごとに確認できます。
 
-  </div>
+</div>
 
-  <div
-    id="studentList">
-    読み込み中...
-  </div>
+<div id="studentList">
+読み込み中...
+</div>
 
-  <button
-    class="gray"
-    onclick="goHome()">
-    戻る
-  </button>
+<button
+class="gray"
+onclick="goHome()">
+
+戻る
+
+</button>
 
 </div>
 
 
 <!-- ==================================================
-     SUBJECT LIST
+SUBJECT
 ================================================== -->
 
-<div id="subjectPage"
-     class="page hidden">
+<div id="subjectPage" class="page hidden">
 
-  <h2 id="subjectPageTitle">
-    📖 教科を選択
-  </h2>
+<h2 id="subjectPageTitle">
+📖 教科を選択
+</h2>
 
-  <div
-    id="subjectList"
-    class="subject-grid">
-  </div>
+<div
+id="subjectList"
+class="subject-grid">
+</div>
 
-  <button
-    class="gray"
-    onclick="openStudentList()">
-    ← 児童一覧へ
-  </button>
+<button
+class="gray"
+onclick="openStudentList()">
+
+← 児童一覧へ
+
+</button>
 
 </div>
 
 
 <!-- ==================================================
-     UNIT LIST
+UNIT
 ================================================== -->
 
-<div id="unitPage"
-     class="page hidden">
+<div id="unitPage" class="page hidden">
 
-  <h2 id="unitPageTitle">
-    📚 単元を選択
-  </h2>
+<h2 id="unitPageTitle">
+📚 単元を選択
+</h2>
 
-  <div
-    id="unitList">
-  </div>
+<div id="unitList"></div>
 
-  <button
-    class="gray"
-    onclick="goBackSubject()">
-    ← 教科一覧へ
-  </button>
+<button
+class="gray"
+onclick="goBackSubject()">
+
+← 教科一覧へ
+
+</button>
 
 </div>
 
 
 <!-- ==================================================
-     REFLECTION LIST
+REFLECTION
 ================================================== -->
 
-<div id="reflectionListPage"
-     class="page hidden">
+<div
+id="reflectionListPage"
+class="page hidden">
 
-  <h2 id="reflectionListTitle">
-    振り返り
-  </h2>
+<h2 id="reflectionListTitle">
+振り返り
+</h2>
 
-  <div
-    id="reflectionList">
-  </div>
+<div id="reflectionList"></div>
 
-  <button
-    class="gray"
-    onclick="goBackUnit()">
-    ← 単元一覧へ
-  </button>
+<button
+class="gray"
+onclick="goBackUnit()">
+
+← 単元一覧へ
+
+</button>
 
 </div>
 
 
 <!-- ==================================================
-     COMMENT DATA
+COMMENT
 ================================================== -->
 
-<div id="commentPage"
-     class="page hidden">
+<div id="commentPage" class="page hidden">
 
-  <h2>
-    📝 所見作成用データ
-  </h2>
+<h2>📝 所見作成用データ</h2>
 
-  <div class="orange-box">
+<div class="orange-box">
 
-    <strong>
-      1年間の学びを自動整理しています。
-    </strong>
+<strong>
+1年間の学びを自動整理しています。
+</strong>
 
-    <p>
-      児童ごとの振り返り、
-      深まりレベル、
-      考えの変化などをまとめて、
-      所見作成に使いやすい文章にしています。
-    </p>
+<p>
+児童ごとの振り返り、
+深まりレベル、
+考えの変化などをまとめて、
+所見作成に使いやすい文章にしています。
+</p>
 
-  </div>
+</div>
 
-  <div
-    id="commentStudentList">
-    読み込み中...
-  </div>
+<div id="commentStudentList">
+読み込み中...
+</div>
 
-  <button
-    class="gray"
-    onclick="goHome()">
-    戻る
-  </button>
+<button
+class="gray"
+onclick="goHome()">
+
+戻る
+
+</button>
 
 </div>
 
 
 <!-- ==================================================
-     COMMENT DETAIL
+COMMENT DETAIL
 ================================================== -->
 
-<div id="commentDetailPage"
-     class="page hidden">
+<div
+id="commentDetailPage"
+class="page hidden">
 
-  <h2 id="commentDetailTitle">
-    所見作成用データ
-  </h2>
+<h2 id="commentDetailTitle">
+所見作成用データ
+</h2>
 
-  <div
-    id="commentDetailData">
-  </div>
+<div id="commentDetailData"></div>
 
-  <button
-    class="copilot"
-    onclick="openCopilotWithData()">
-    🤖 この児童のデータでCopilotを開く
-  </button>
+<button
+class="copilot copilot-big"
+onclick="openCopilotWithData()">
 
-  <button
-    class="blue"
-    onclick="copyCommentData()">
-    📋 所見作成用データをコピー
-  </button>
+🤖 この児童のデータでCopilotを開く
 
-  <button
-    class="gray"
-    onclick="openCommentData()">
-    ← 児童一覧へ
-  </button>
+</button>
+
+<button
+class="blue"
+onclick="copyCommentData()">
+
+📋 所見作成用データをコピー
+
+</button>
+
+<button
+class="gray"
+onclick="openCommentData()">
+
+← 児童一覧へ
+
+</button>
 
 </div>
 
@@ -713,29 +737,28 @@ hr {
 
 
 /* ==================================================
-   Firebase
+Firebase
 ================================================== */
 
 import {
-  initializeApp
+initializeApp
 }
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-
 import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  where,
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-  deleteDoc,
-  serverTimestamp
+getFirestore,
+collection,
+addDoc,
+getDocs,
+query,
+where,
+doc,
+getDoc,
+setDoc,
+updateDoc,
+deleteDoc,
+serverTimestamp
 }
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
@@ -743,39 +766,36 @@ from
 
 const firebaseConfig = {
 
-  apiKey:
-    "AIzaSyA7fBz695BTUL8lxxJ06csf6AfU_DQp3iw",
+apiKey:
+"AIzaSyA7fBz695BTUL8lxxJ06csf6AfU_DQp3iw",
 
-  authDomain:
-    "manabi-album-v2.firebaseapp.com",
+authDomain:
+"manabi-album-v2.firebaseapp.com",
 
-  projectId:
-    "manabi-album-v2",
+projectId:
+"manabi-album-v2",
 
-  storageBucket:
-    "manabi-album-v2.firebasestorage.app",
+storageBucket:
+"manabi-album-v2.firebasestorage.app",
 
-  messagingSenderId:
-    "226258471812",
+messagingSenderId:
+"226258471812",
 
-  appId:
-    "1:226258471812:web:15230ba15e7e0bd7d86bd1"
+appId:
+"1:226258471812:web:15230ba15e7e0bd7d86bd1"
 
 };
 
 
 const app =
-  initializeApp(
-    firebaseConfig
-  );
-
+initializeApp(firebaseConfig);
 
 const db =
-  getFirestore(app);
+getFirestore(app);
 
 
 /* ==================================================
-   状態
+状態
 ================================================== */
 
 let currentLesson = null;
@@ -794,1749 +814,1572 @@ let currentCommentStudent = null;
 
 
 /* ==================================================
-   画面切替
+画面切替
 ================================================== */
 
 function showPage(id) {
 
-  const pages = [
+const pages = [
 
-    "homePage",
-    "lessonPage",
-    "studentSettingPage",
-    "studentListPage",
-    "subjectPage",
-    "unitPage",
-    "reflectionListPage",
-    "commentPage",
-    "commentDetailPage"
+"homePage",
+"lessonPage",
+"studentSettingPage",
+"studentListPage",
+"subjectPage",
+"unitPage",
+"reflectionListPage",
+"commentPage",
+"commentDetailPage"
 
-  ];
+];
+
+pages.forEach(page => {
+
+const element =
+document.getElementById(page);
+
+if(element){
+
+element.classList.add("hidden");
+
+}
+
+});
 
 
-  pages.forEach(
-    page => {
-
-      document
-        .getElementById(page)
-        .classList
-        .add("hidden");
-
-    }
-  );
-
-
-  document
-    .getElementById(id)
-    .classList
-    .remove("hidden");
+document
+.getElementById(id)
+.classList
+.remove("hidden");
 
 }
 
 
 /* ==================================================
-   HOME
+HOME
 ================================================== */
 
 window.goHome =
-function() {
+function(){
 
-  showPage("homePage");
+showPage("homePage");
 
-  loadCurrentLesson();
+loadCurrentLesson();
 
 };
 
 
 /* ==================================================
-   授業情報
+授業情報
 ================================================== */
 
-async function loadCurrentLesson() {
+async function loadCurrentLesson(){
 
-  const area =
-    document.getElementById(
-      "lessonStatus"
-    );
+const area =
+document.getElementById("lessonStatus");
 
+try{
 
-  try {
+const ref =
+doc(
+db,
+"currentLesson",
+"today"
+);
 
-    const ref =
-      doc(
-        db,
-        "currentLesson",
-        "today"
-      );
+const snap =
+await getDoc(ref);
 
+if(!snap.exists()){
 
-    const snap =
-      await getDoc(ref);
+currentLesson = null;
 
+showLessonStatus();
 
-    if (
-      !snap.exists()
-    ) {
+return;
 
-      currentLesson =
-        null;
+}
 
-      showLessonStatus();
+const data =
+snap.data();
 
-      return;
+if(data.active !== true){
 
-    }
+currentLesson = null;
 
+}else{
 
-    const data =
-      snap.data();
+currentLesson = data;
 
+}
 
-    if (
-      data.active !== true
-    ) {
+showLessonStatus();
 
-      currentLesson =
-        null;
+}
+catch(error){
 
-    }
-    else {
+console.error(error);
 
-      currentLesson =
-        data;
+area.innerHTML = `
 
-    }
+<div class="error-box">
 
+❌ 授業情報を読み込めません。
 
-    showLessonStatus();
+<br><br>
 
-  }
-  catch(error) {
+${escapeHtml(error.message)}
 
-    console.error(error);
+</div>
 
-    area.innerHTML = `
+`;
 
-      <div class="lesson-status lesson-off">
-
-        ❌ 授業情報を読み込めません。
-
-        <br><br>
-
-        ${escapeHtml(
-          error.message
-        )}
-
-      </div>
-
-    `;
-
-  }
+}
 
 }
 
 
-function showLessonStatus() {
+function showLessonStatus(){
 
-  const area =
-    document.getElementById(
-      "lessonStatus"
-    );
+const area =
+document.getElementById("lessonStatus");
+
+if(!currentLesson){
+
+area.innerHTML = `
+
+<div class="lesson-status lesson-off">
+
+🔴
+<strong>
+現在、授業は開始されていません。
+</strong>
+
+<br><br>
+
+「授業を開始・終了する」から
+授業を開始してください。
+
+</div>
+
+`;
+
+return;
+
+}
 
 
-  if (!currentLesson) {
+area.innerHTML = `
 
-    area.innerHTML = `
+<div class="lesson-status">
 
-      <div class="lesson-status lesson-off">
+🟢
+<strong>
+現在、授業中
+</strong>
 
-        🔴 <strong>現在、授業は開始されていません。</strong>
+<br><br>
 
-        <br><br>
+教科：
+<strong>
+${escapeHtml(currentLesson.subject || "")}
+</strong>
 
-        「授業を開始・終了する」から
-        授業を開始してください。
+<br>
 
-      </div>
+単元：
+<strong>
+${escapeHtml(currentLesson.unit || "")}
+</strong>
 
-    `;
+<br>
 
-    return;
+授業ID：
+${escapeHtml(currentLesson.lessonId || "")}
 
-  }
+</div>
 
-
-  area.innerHTML = `
-
-    <div class="lesson-status">
-
-      🟢 <strong>現在、授業中</strong>
-
-      <br><br>
-
-      教科：
-      <strong>
-        ${escapeHtml(
-          currentLesson.subject || ""
-        )}
-      </strong>
-
-      <br>
-
-      単元：
-      <strong>
-        ${escapeHtml(
-          currentLesson.unit || ""
-        )}
-      </strong>
-
-      <br>
-
-      授業ID：
-      ${escapeHtml(
-        currentLesson.lessonId || ""
-      )}
-
-    </div>
-
-  `;
+`;
 
 }
 
 
 /* ==================================================
-   授業設定
+授業設定
 ================================================== */
 
 window.openLessonSetting =
-async function() {
+async function(){
 
-  showPage(
-    "lessonPage"
-  );
+showPage("lessonPage");
 
-  await loadCurrentLesson();
+await loadCurrentLesson();
 
-  const subject =
-    document.getElementById(
-      "lessonSubject"
-    );
+const subject =
+document.getElementById("lessonSubject");
 
-  const unit =
-    document.getElementById(
-      "lessonUnit"
-    );
+const unit =
+document.getElementById("lessonUnit");
 
+if(currentLesson){
 
-  if (currentLesson) {
+subject.value =
+currentLesson.subject || "";
 
-    subject.value =
-      currentLesson.subject || "";
+unit.value =
+currentLesson.unit || "";
 
-    unit.value =
-      currentLesson.unit || "";
+}
+else{
 
-  }
-  else {
+subject.value = "";
 
-    subject.value =
-      "";
+unit.value = "";
 
-    unit.value =
-      "";
-
-  }
+}
 
 };
 
 
 window.startLesson =
-async function() {
+async function(){
 
-  const subject =
-    document.getElementById(
-      "lessonSubject"
-    ).value;
+const subject =
+document
+.getElementById("lessonSubject")
+.value;
 
+const unit =
+document
+.getElementById("lessonUnit")
+.value
+.trim();
 
-  const unit =
-    document.getElementById(
-      "lessonUnit"
-    ).value.trim();
+if(!subject){
 
+alert("教科を選んでください。");
 
-  if (!subject) {
+return;
 
-    alert(
-      "教科を選んでください。"
-    );
+}
 
-    return;
+if(!unit){
 
-  }
+alert("単元名を入力してください。");
 
+return;
 
-  if (!unit) {
-
-    alert(
-      "単元名を入力してください。"
-    );
-
-    return;
-
-  }
+}
 
 
-  const lessonId =
-    "lesson-" +
-    new Date()
-      .toISOString()
-      .replace(
-        /[-:.TZ]/g,
-        ""
-      );
+const lessonId =
+"lesson-" +
+new Date()
+.toISOString()
+.replace(/[-:.TZ]/g,"");
 
 
-  try {
+try{
 
-    await setDoc(
+await setDoc(
 
-      doc(
-        db,
-        "currentLesson",
-        "today"
-      ),
+doc(
+db,
+"currentLesson",
+"today"
+),
 
-      {
+{
 
-        active:
-          true,
+active:true,
 
-        subject:
-          subject,
+subject:subject,
 
-        unit:
-          unit,
+unit:unit,
 
-        lessonId:
-          lessonId,
+lessonId:lessonId,
 
-        startedAt:
-          serverTimestamp(),
+startedAt:
+serverTimestamp(),
 
-        updatedAt:
-          serverTimestamp()
+updatedAt:
+serverTimestamp()
 
-      }
+}
 
-    );
+);
 
 
-    alert(
-      "授業を開始しました！"
-    );
+alert("授業を開始しました！");
 
+await loadCurrentLesson();
 
-    await loadCurrentLesson();
+showPage("homePage");
 
-    showPage(
-      "homePage"
-    );
+}
+catch(error){
 
-  }
-  catch(error) {
+console.error(error);
 
-    console.error(error);
+alert(
+"授業を開始できませんでした。\n" +
+error.message
+);
 
-    alert(
-      "授業を開始できませんでした。\n" +
-      error.message
-    );
-
-  }
+}
 
 };
 
 
 window.endLesson =
-async function() {
+async function(){
 
-  if (!currentLesson) {
+if(!currentLesson){
 
-    alert(
-      "現在、授業は開始されていません。"
-    );
+alert(
+"現在、授業は開始されていません。"
+);
 
-    return;
+return;
 
-  }
-
-
-  const ok =
-    confirm(
-      "現在の授業を終了しますか？"
-    );
+}
 
 
-  if (!ok)
-    return;
+if(!confirm(
+"現在の授業を終了しますか？"
+)){
+
+return;
+
+}
 
 
-  try {
+try{
 
-    await updateDoc(
+await updateDoc(
 
-      doc(
-        db,
-        "currentLesson",
-        "today"
-      ),
+doc(
+db,
+"currentLesson",
+"today"
+),
 
-      {
+{
 
-        active:
-          false,
+active:false,
 
-        endedAt:
-          serverTimestamp(),
+endedAt:
+serverTimestamp(),
 
-        updatedAt:
-          serverTimestamp()
+updatedAt:
+serverTimestamp()
 
-      }
+}
 
-    );
-
-
-    currentLesson =
-      null;
+);
 
 
-    alert(
-      "授業を終了しました。"
-    );
+currentLesson = null;
 
+alert("授業を終了しました。");
 
-    showPage(
-      "homePage"
-    );
+showPage("homePage");
 
+loadCurrentLesson();
 
-    loadCurrentLesson();
+}
+catch(error){
 
-  }
-  catch(error) {
+console.error(error);
 
-    console.error(error);
+alert(
+"授業を終了できませんでした。\n" +
+error.message
+);
 
-    alert(
-      "授業を終了できませんでした。\n" +
-      error.message
-    );
-
-  }
+}
 
 };
 
 
 /* ==================================================
-   児童設定
+児童登録
 ================================================== */
 
 window.openStudentSetting =
-async function() {
+async function(){
 
-  showPage(
-    "studentSettingPage"
-  );
+showPage("studentSettingPage");
 
-
-  await loadStudents();
+await loadStudents();
 
 };
 
 
-async function loadStudents() {
+async function loadStudents(){
 
-  const area =
-    document.getElementById(
-      "studentSettingList"
-    );
+const area =
+document.getElementById(
+"studentSettingList"
+);
 
-
-  area.innerHTML =
-    "📡 児童情報を読み込んでいます...";
-
-
-  try {
-
-    const snapshot =
-      await getDocs(
-        collection(
-          db,
-          "students"
-        )
-      );
+area.innerHTML =
+"📡 児童情報を読み込んでいます...";
 
 
-    studentsData =
-      snapshot.docs
-        .map(
-          d => ({
+try{
 
-            id:
-              d.id,
-
-            ...d.data()
-
-          })
-        )
-        .sort(
-          (a,b) =>
-            Number(a.studentNumber || 0) -
-            Number(b.studentNumber || 0)
-        );
+const snapshot =
+await getDocs(
+collection(
+db,
+"students"
+)
+);
 
 
-    displayStudentSettingList();
+studentsData =
+snapshot.docs
+.map(d => ({
 
-  }
-  catch(error) {
+id:d.id,
 
-    console.error(error);
+...d.data()
 
-    area.innerHTML = `
+}))
+.sort(
 
-      <div class="box">
+(a,b) =>
+Number(a.studentNumber || 0) -
+Number(b.studentNumber || 0)
 
-        ❌ 児童を読み込めませんでした。
+);
 
-        <br><br>
 
-        ${escapeHtml(
-          error.message
-        )}
+displayStudentSettingList();
 
-      </div>
+}
+catch(error){
 
-    `;
+console.error(error);
 
-  }
+area.innerHTML = `
+
+<div class="error-box">
+
+❌ 児童を読み込めませんでした。
+
+<br><br>
+
+${escapeHtml(error.message)}
+
+</div>
+
+`;
+
+}
 
 }
 
 
-function displayStudentSettingList() {
+function displayStudentSettingList(){
 
-  const area =
-    document.getElementById(
-      "studentSettingList"
-    );
-
-
-  if (
-    !studentsData.length
-  ) {
-
-    area.innerHTML = `
-
-      <div class="box">
-
-        まだ児童が登録されていません。
-
-      </div>
-
-    `;
-
-    return;
-
-  }
+const area =
+document.getElementById(
+"studentSettingList"
+);
 
 
-  area.innerHTML =
-    studentsData
-      .map(
-        student => `
+if(!studentsData.length){
 
-          <div class="student-card">
+area.innerHTML = `
 
-            <span class="student-number">
+<div class="box">
 
-              出席番号
-              ${escapeHtml(
-                student.studentNumber
-              )}
+まだ児童が登録されていません。
 
-            </span>
+</div>
 
-            <div class="student-name">
+`;
 
-              ${escapeHtml(
-                student.name
-              )}
-
-            </div>
-
-            <br>
-
-            <button
-              class="blue"
-              onclick="editStudent(
-                '${student.id}'
-              )">
-
-              ✏️ 変更
-
-            </button>
-
-            <button
-              class="red"
-              onclick="deleteStudent(
-                '${student.id}'
-              )">
-
-              🗑️ 削除
-
-            </button>
-
-          </div>
-
-        `
-      )
-      .join("");
+return;
 
 }
 
+
+area.innerHTML =
+studentsData
+.map(student => `
+
+<div class="student-card">
+
+<span class="student-number">
+
+出席番号
+${escapeHtml(student.studentNumber)}
+
+</span>
+
+<div class="student-name">
+
+${escapeHtml(student.name)}
+
+</div>
+
+<br>
+
+<button
+class="blue"
+onclick="editStudent('${student.id}')">
+
+✏️ 変更
+
+</button>
+
+<button
+class="red"
+onclick="deleteStudent('${student.id}')">
+
+🗑️ 削除
+
+</button>
+
+</div>
+
+`)
+.join("");
+
+}
+
+
+/* ==================================================
+児童を登録
+================================================== */
 
 window.saveStudent =
-async function() {
+async function(){
 
-  const number =
-    document.getElementById(
-      "newStudentNumber"
-    ).value.trim();
+const number =
+document
+.getElementById("newStudentNumber")
+.value
+.trim();
 
+const name =
+document
+.getElementById("newStudentName")
+.value
+.trim();
 
-  const name =
-    document.getElementById(
-      "newStudentName"
-    ).value.trim();
 
+if(!number){
 
-  if (!number) {
+alert(
+"出席番号を入力してください。"
+);
 
-    alert(
-      "出席番号を入力してください。"
-    );
+return;
 
-    return;
+}
 
-  }
 
+if(!name){
 
-  if (!name) {
+alert(
+"児童名を入力してください。"
+);
 
-    alert(
-      "児童名を入力してください。"
-    );
+return;
 
-    return;
+}
 
-  }
 
+const numberValue =
+Number(number);
 
-  const numberValue =
-    Number(number);
 
+const already =
+studentsData.find(
+student =>
+Number(student.studentNumber) ===
+numberValue
+);
 
-  const already =
-    studentsData.find(
-      student =>
-        Number(
-          student.studentNumber
-        ) === numberValue
-    );
 
+if(already){
 
-  if (already) {
+alert(
+"その出席番号はすでに登録されています。"
+);
 
-    alert(
-      "その出席番号はすでに登録されています。"
-    );
+return;
 
-    return;
+}
 
-  }
 
+try{
 
-  try {
+await addDoc(
 
-    await addDoc(
+collection(
+db,
+"students"
+),
 
-      collection(
-        db,
-        "students"
-      ),
+{
 
-      {
+studentNumber:numberValue,
 
-        studentNumber:
-          numberValue,
+name:name,
 
-        name:
-          name,
+createdAt:
+serverTimestamp(),
 
-        createdAt:
-          serverTimestamp(),
+updatedAt:
+serverTimestamp()
 
-        updatedAt:
-          serverTimestamp()
+}
 
-      }
+);
 
-    );
 
+document
+.getElementById("newStudentNumber")
+.value = "";
 
-    document.getElementById(
-      "newStudentNumber"
-    ).value = "";
+document
+.getElementById("newStudentName")
+.value = "";
 
 
-    document.getElementById(
-      "newStudentName"
-    ).value = "";
+alert("児童を登録しました！");
 
+await loadStudents();
 
-    alert(
-      "児童を登録しました！"
-    );
+}
+catch(error){
 
+console.error(error);
 
-    await loadStudents();
+alert(
+"児童を登録できませんでした。\n\n" +
+error.message
+);
 
-  }
-  catch(error) {
-
-    console.error(error);
-
-    alert(
-      "児童を登録できませんでした。\n" +
-      error.message
-    );
-
-  }
-
-};
-
-
-window.editStudent =
-async function(id) {
-
-  const student =
-    studentsData.find(
-      item =>
-        item.id === id
-    );
-
-
-  if (!student)
-    return;
-
-
-  const newName =
-    prompt(
-      "児童名を変更します。",
-      student.name
-    );
-
-
-  if (
-    newName === null
-  )
-    return;
-
-
-  const name =
-    newName.trim();
-
-
-  if (!name) {
-
-    alert(
-      "児童名を入力してください。"
-    );
-
-    return;
-
-  }
-
-
-  try {
-
-    await updateDoc(
-
-      doc(
-        db,
-        "students",
-        id
-      ),
-
-      {
-
-        name:
-          name,
-
-        updatedAt:
-          serverTimestamp()
-
-      }
-
-    );
-
-
-    await loadStudents();
-
-  }
-  catch(error) {
-
-    console.error(error);
-
-    alert(
-      "変更できませんでした。\n" +
-      error.message
-    );
-
-  }
-
-};
-
-
-window.deleteStudent =
-async function(id) {
-
-  const student =
-    studentsData.find(
-      item =>
-        item.id === id
-    );
-
-
-  if (!student)
-    return;
-
-
-  const ok =
-    confirm(
-      "「" +
-      student.name +
-      "」を児童名簿から削除しますか？\n\n" +
-      "※過去の振り返りデータは削除されません。"
-    );
-
-
-  if (!ok)
-    return;
-
-
-  try {
-
-    await deleteDoc(
-
-      doc(
-        db,
-        "students",
-        id
-      )
-
-    );
-
-
-    await loadStudents();
-
-  }
-  catch(error) {
-
-    console.error(error);
-
-    alert(
-      "削除できませんでした。\n" +
-      error.message
-    );
-
-  }
+}
 
 };
 
 
 /* ==================================================
-   児童一覧
+児童変更
+================================================== */
+
+window.editStudent =
+async function(id){
+
+const student =
+studentsData.find(
+item => item.id === id
+);
+
+if(!student)
+return;
+
+
+const newName =
+prompt(
+"児童名を変更します。",
+student.name
+);
+
+
+if(newName === null)
+return;
+
+
+const name =
+newName.trim();
+
+
+if(!name){
+
+alert(
+"児童名を入力してください。"
+);
+
+return;
+
+}
+
+
+try{
+
+await updateDoc(
+
+doc(
+db,
+"students",
+id
+),
+
+{
+
+name:name,
+
+updatedAt:
+serverTimestamp()
+
+}
+
+);
+
+
+await loadStudents();
+
+}
+catch(error){
+
+console.error(error);
+
+alert(
+"変更できませんでした。\n" +
+error.message
+);
+
+}
+
+};
+
+
+/* ==================================================
+児童削除
+================================================== */
+
+window.deleteStudent =
+async function(id){
+
+const student =
+studentsData.find(
+item => item.id === id
+);
+
+if(!student)
+return;
+
+
+const ok =
+confirm(
+
+"「" +
+student.name +
+"」を児童名簿から削除しますか？\n\n" +
+"※過去の振り返りデータは削除されません。"
+
+);
+
+
+if(!ok)
+return;
+
+
+try{
+
+await deleteDoc(
+
+doc(
+db,
+"students",
+id
+)
+
+);
+
+
+await loadStudents();
+
+}
+catch(error){
+
+console.error(error);
+
+alert(
+"削除できませんでした。\n" +
+error.message
+);
+
+}
+
+};
+
+
+/* ==================================================
+児童一覧
 ================================================== */
 
 window.openStudentList =
-async function() {
+async function(){
 
-  showPage(
-    "studentListPage"
-  );
+showPage("studentListPage");
 
-
-  await loadStudents();
+await loadStudents();
 
 
-  const area =
-    document.getElementById(
-      "studentList"
-    );
+const area =
+document.getElementById(
+"studentList"
+);
 
 
-  if (
-    !studentsData.length
-  ) {
+if(!studentsData.length){
 
-    area.innerHTML = `
+area.innerHTML = `
 
-      <div class="box">
+<div class="box">
 
-        児童がまだ登録されていません。
+児童がまだ登録されていません。
 
-        <br><br>
+<br><br>
 
-        「児童の登録・設定」から登録してください。
+「児童の登録・設定」から登録してください。
 
-      </div>
+</div>
 
-    `;
+`;
 
-    return;
+return;
 
-  }
+}
 
 
-  area.innerHTML = `
+area.innerHTML = `
 
-    <div class="student-grid">
+<div class="student-grid">
 
-      ${
-        studentsData
-          .map(
-            student => `
+${
+studentsData
+.map(student => `
 
-              <div
-                class="student-card"
-                onclick="openStudent(
-                  '${student.id}'
-                )">
+<div
+class="student-card"
+onclick="openStudent('${student.id}')">
 
-                <span class="student-number">
+<span class="student-number">
 
-                  出席番号
-                  ${escapeHtml(
-                    student.studentNumber
-                  )}
+出席番号
+${escapeHtml(student.studentNumber)}
 
-                </span>
+</span>
 
-                <div class="student-name">
+<div class="student-name">
 
-                  ${escapeHtml(
-                    student.name
-                  )}
+${escapeHtml(student.name)}
 
-                </div>
+</div>
 
-                <p>
+<p>
 
-                  振り返りを開く →
+振り返りを開く →
 
-                </p>
+</p>
 
-              </div>
+</div>
 
-            `
-          )
-          .join("")
-      }
+`)
+.join("")
+}
 
-    </div>
+</div>
 
-  `;
+`;
 
 };
 
 
 /* ==================================================
-   児童を開く
+児童を開く
 ================================================== */
 
 window.openStudent =
-async function(id) {
+async function(id){
 
-  const student =
-    studentsData.find(
-      item =>
-        item.id === id
-    );
-
-
-  if (!student)
-    return;
+const student =
+studentsData.find(
+item => item.id === id
+);
 
 
-  currentStudent =
-    student;
+if(!student)
+return;
 
 
-  showPage(
-    "subjectPage"
-  );
+currentStudent =
+student;
 
 
-  document.getElementById(
-    "subjectPageTitle"
-  ).textContent =
-    "📖 " +
-    student.name +
-    " さんの学び";
+showPage("subjectPage");
 
 
-  const area =
-    document.getElementById(
-      "subjectList"
-    );
+document.getElementById(
+"subjectPageTitle"
+).textContent =
+"📖 " +
+student.name +
+" さんの学び";
 
 
-  area.innerHTML =
-    "📡 1年間の振り返りを読み込んでいます...";
+const area =
+document.getElementById(
+"subjectList"
+);
 
 
-  try {
-
-    const q =
-      query(
-
-        collection(
-          db,
-          "manabi"
-        ),
-
-        where(
-          "studentNumber",
-          "==",
-          Number(
-            student.studentNumber
-          )
-        )
-
-      );
+area.innerHTML =
+"📡 1年間の振り返りを読み込んでいます...";
 
 
-    const snapshot =
-      await getDocs(q);
+try{
+
+const q =
+query(
+
+collection(
+db,
+"manabi"
+),
+
+where(
+"studentNumber",
+"==",
+Number(student.studentNumber)
+)
+
+);
 
 
-    currentStudentReflections =
-      snapshot.docs
-        .map(
-          d => ({
-
-            id:
-              d.id,
-
-            ...d.data()
-
-          })
-        )
-        .sort(
-          (a,b) =>
-            new Date(b.date) -
-            new Date(a.date)
-        );
+const snapshot =
+await getDocs(q);
 
 
-    const subjects =
-      [
-        ...new Set(
-          currentStudentReflections
-            .map(
-              item =>
-                item.subject
-            )
-            .filter(Boolean)
-        )
-      ];
+currentStudentReflections =
+snapshot.docs
+.map(d => ({
+
+id:d.id,
+
+...d.data()
+
+}))
+.sort(
+
+(a,b) =>
+new Date(b.date) -
+new Date(a.date)
+
+);
 
 
-    if (!subjects.length) {
+const subjects =
+[
+...new Set(
 
-      area.innerHTML = `
+currentStudentReflections
+.map(item => item.subject)
+.filter(Boolean)
 
-        <div class="box">
-
-          まだ振り返りがありません。
-
-        </div>
-
-      `;
-
-      return;
-
-    }
+)
+];
 
 
-    area.innerHTML =
-      subjects
-        .map(
-          subject => {
+if(!subjects.length){
 
-            const count =
-              currentStudentReflections
-                .filter(
-                  item =>
-                    item.subject ===
-                    subject
-                )
-                .length;
+area.innerHTML = `
+
+<div class="box">
+
+まだ振り返りがありません。
+
+</div>
+
+`;
+
+return;
+
+}
 
 
-            return `
+area.innerHTML =
+subjects
+.map(subject => {
 
-              <div
-                class="subject-card"
-                onclick="openSubject(
-                  '${escapeHtml(subject)}'
-                )">
+const count =
+currentStudentReflections
+.filter(
+item =>
+item.subject === subject
+)
+.length;
 
-                <h3>
-                  ${escapeHtml(
-                    subject
-                  )}
-                </h3>
 
-                <p>
-                  ${count}件の振り返り
-                </p>
+return `
 
-              </div>
+<div
+class="subject-card"
+onclick="openSubject('${escapeHtml(subject)}')">
 
-            `;
+<h3>
+${escapeHtml(subject)}
+</h3>
 
-          }
-        )
-        .join("");
+<p>
+${count}件の振り返り
+</p>
 
-  }
-  catch(error) {
+</div>
 
-    console.error(error);
+`;
 
-    area.innerHTML = `
+})
+.join("");
 
-      <div class="box">
+}
+catch(error){
 
-        ❌ 振り返りを読み込めませんでした。
+console.error(error);
 
-        <br><br>
+area.innerHTML = `
 
-        ${escapeHtml(
-          error.message
-        )}
+<div class="error-box">
 
-      </div>
+❌ 振り返りを読み込めませんでした。
 
-    `;
+<br><br>
 
-  }
+${escapeHtml(error.message)}
+
+</div>
+
+`;
+
+}
 
 };
 
 
 /* ==================================================
-   教科
+教科
 ================================================== */
 
 window.openSubject =
-function(subject) {
+function(subject){
 
-  currentSubject =
-    subject;
-
-
-  showPage(
-    "unitPage"
-  );
+currentSubject =
+subject;
 
 
-  document.getElementById(
-    "unitPageTitle"
-  ).textContent =
-    "📚 " +
-    currentStudent.name +
-    " ／ " +
-    subject;
+showPage("unitPage");
 
 
-  const area =
-    document.getElementById(
-      "unitList"
-    );
+document.getElementById(
+"unitPageTitle"
+).textContent =
+
+"📚 " +
+currentStudent.name +
+" ／ " +
+subject;
 
 
-  const data =
-    currentStudentReflections
-      .filter(
-        item =>
-          item.subject ===
-          subject
-      );
+const area =
+document.getElementById(
+"unitList"
+);
 
 
-  const units =
-    [
-      ...new Set(
-        data
-          .map(
-            item =>
-              item.unit
-          )
-          .filter(Boolean)
-      )
-    ];
+const data =
+currentStudentReflections
+.filter(
+item =>
+item.subject === subject
+);
 
 
-  if (!units.length) {
-
-    area.innerHTML =
-      "この教科の振り返りはありません。";
-
-    return;
-
-  }
-
-
-  area.innerHTML =
-    units
-      .map(
-        unit => {
-
-          const count =
-            data.filter(
-              item =>
-                item.unit === unit
-            ).length;
+const units =
+[
+...new Set(
+data
+.map(item => item.unit)
+.filter(Boolean)
+)
+];
 
 
-          return `
+if(!units.length){
 
-            <div
-              class="unit-card"
-              onclick="openUnit(
-                '${escapeHtml(unit)}'
-              )">
+area.innerHTML =
+"この教科の振り返りはありません。";
 
-              <h3>
-                ${escapeHtml(unit)}
-              </h3>
+return;
 
-              <p>
-                振り返り ${count}件
-              </p>
+}
 
-              <button
-                class="blue">
 
-                振り返りを見る →
+area.innerHTML =
+units
+.map(unit => {
 
-              </button>
+const count =
+data.filter(
+item =>
+item.unit === unit
+)
+.length;
 
-            </div>
 
-          `;
+return `
 
-        }
-      )
-      .join("");
+<div
+class="unit-card"
+onclick="openUnit('${escapeHtml(unit)}')">
+
+<h3>
+${escapeHtml(unit)}
+</h3>
+
+<p>
+振り返り ${count}件
+</p>
+
+<button class="blue">
+
+振り返りを見る →
+
+</button>
+
+</div>
+
+`;
+
+})
+.join("");
 
 };
 
 
 window.goBackSubject =
-function() {
+function(){
 
-  openStudent(
-    currentStudent.id
-  );
+openStudent(
+currentStudent.id
+);
 
 };
 
 
 /* ==================================================
-   単元
+単元
 ================================================== */
 
 window.openUnit =
-function(unit) {
+function(unit){
 
-  currentUnit =
-    unit;
-
-
-  showPage(
-    "reflectionListPage"
-  );
+currentUnit =
+unit;
 
 
-  document.getElementById(
-    "reflectionListTitle"
-  ).textContent =
-
-    "📝 " +
-    currentStudent.name +
-    " ／ " +
-    currentSubject +
-    " ／ " +
-    unit;
+showPage(
+"reflectionListPage"
+);
 
 
-  const area =
-    document.getElementById(
-      "reflectionList"
-    );
+document.getElementById(
+"reflectionListTitle"
+).textContent =
+
+"📝 " +
+currentStudent.name +
+" ／ " +
+currentSubject +
+" ／ " +
+unit;
 
 
-  const data =
-    currentStudentReflections
-      .filter(
-        item =>
-
-          item.subject ===
-          currentSubject &&
-
-          item.unit ===
-          unit
-
-      );
+const area =
+document.getElementById(
+"reflectionList"
+);
 
 
-  area.innerHTML =
-    data
-      .map(
-        item => `
+const data =
+currentStudentReflections
+.filter(
 
-          <div class="reflection-card">
+item =>
 
-            <div class="reflection-date">
+item.subject === currentSubject &&
 
-              ${formatDate(
-                item.date
-              )}
+item.unit === unit
 
-            </div>
-
-            <p class="reflection-text">
-
-              ${escapeHtml(
-                item.study || ""
-              )}
-
-            </p>
+);
 
 
-            ${
-              item.aiQuestion
-              ?
+if(!data.length){
 
-              `
+area.innerHTML =
+"振り返りがありません。";
 
-              <div class="orange-box">
+return;
 
-                🤖 AIからの問い
-
-                <br><br>
-
-                ${escapeHtml(
-                  item.aiQuestion
-                )}
-
-              </div>
-
-              `
-
-              :
-
-              ""
-
-            }
+}
 
 
-            ${
-              item.deepReflection
-              ?
+area.innerHTML =
+data
+.map(item => `
 
-              `
+<div class="reflection-card">
 
-              <div class="deep-box">
+<div class="reflection-date">
 
-                🌱 <strong>深めた考え</strong>
+${formatDate(item.date)}
 
-                <br><br>
+</div>
 
-                ${escapeHtml(
-                  item.deepReflection
-                )}
+<p class="reflection-text">
 
-                <br><br>
+${escapeHtml(item.study || "")}
 
-                深まりレベル：
+</p>
 
-                ${escapeHtml(
-                  item.deepLevel || ""
-                )}
+${
+item.aiQuestion
+?
+`
 
-              </div>
+<div class="orange-box">
 
-              `
+🤖 AIからの問い
 
-              :
+<br><br>
 
-              ""
+${escapeHtml(item.aiQuestion)}
 
-            }
+</div>
 
-          </div>
+`
+:
+""
+}
 
-        `
-      )
-      .join("");
+${
+item.deepReflection
+?
+`
 
+<div class="deep-box">
+
+🌱
+<strong>深めた考え</strong>
+
+<br><br>
+
+${escapeHtml(item.deepReflection)}
+
+<br><br>
+
+深まりレベル：
+${escapeHtml(item.deepLevel || "")}
+
+</div>
+
+`
+:
+""
+}
+
+</div>
+
+`)
+.join("");
 
 };
 
 
 window.goBackUnit =
-function() {
+function(){
 
-  openSubject(
-    currentSubject
-  );
+openSubject(
+currentSubject
+);
 
 };
 
 
 /* ==================================================
-   所見作成用データ
+所見データ
 ================================================== */
 
 window.openCommentData =
-async function() {
+async function(){
 
-  showPage(
-    "commentPage"
-  );
+showPage("commentPage");
 
-
-  await loadStudents();
+await loadStudents();
 
 
-  const area =
-    document.getElementById(
-      "commentStudentList"
-    );
+const area =
+document.getElementById(
+"commentStudentList"
+);
 
 
-  if (
-    !studentsData.length
-  ) {
+if(!studentsData.length){
 
-    area.innerHTML =
-      "児童が登録されていません。";
+area.innerHTML =
+"児童が登録されていません。";
 
-    return;
+return;
 
-  }
+}
 
 
-  area.innerHTML =
-    `
+area.innerHTML = `
 
-    <div class="student-grid">
+<div class="student-grid">
 
-      ${
-        studentsData
-          .map(
-            student => `
+${
+studentsData
+.map(student => `
 
-              <div
-                class="student-card"
-                onclick="openCommentStudent(
-                  '${student.id}'
-                )">
+<div
+class="student-card"
+onclick="openCommentStudent('${student.id}')">
 
-                <span class="student-number">
+<span class="student-number">
 
-                  出席番号
-                  ${escapeHtml(
-                    student.studentNumber
-                  )}
+出席番号
+${escapeHtml(student.studentNumber)}
 
-                </span>
+</span>
 
-                <div class="student-name">
+<div class="student-name">
 
-                  ${escapeHtml(
-                    student.name
-                  )}
+${escapeHtml(student.name)}
 
-                </div>
+</div>
 
-                <p>
-                  1年間の学びを整理 →
-                </p>
+<p>
 
-              </div>
+1年間の学びを整理 →
 
-            `
-          )
-          .join("")
-      }
+</p>
 
-    </div>
+</div>
 
-    `;
+`)
+.join("")
+}
+
+</div>
+
+`;
 
 };
 
 
 /* ==================================================
-   所見データ詳細
+所見データ詳細
 ================================================== */
 
 window.openCommentStudent =
-async function(id) {
+async function(id){
 
-  const student =
-    studentsData.find(
-      item =>
-        item.id === id
-    );
+const student =
+studentsData.find(
+item => item.id === id
+);
 
 
-  if (!student)
-    return;
+if(!student)
+return;
 
 
-  currentCommentStudent =
-    student;
+currentCommentStudent =
+student;
 
 
-  showPage(
-    "commentDetailPage"
-  );
+showPage(
+"commentDetailPage"
+);
 
 
-  document.getElementById(
-    "commentDetailTitle"
-  ).textContent =
-    "📝 " +
-    student.name +
-    " さん ― 所見作成用データ";
+document.getElementById(
+"commentDetailTitle"
+).textContent =
 
+"📝 " +
+student.name +
+" さん ― 所見作成用データ";
 
-  const area =
-    document.getElementById(
-      "commentDetailData"
-    );
 
+const area =
+document.getElementById(
+"commentDetailData"
+);
 
-  area.innerHTML =
-    "📡 1年間の振り返りを整理しています...";
 
+area.innerHTML =
+"📡 1年間の振り返りを整理しています...";
 
-  try {
 
-    const q =
-      query(
+try{
 
-        collection(
-          db,
-          "manabi"
-        ),
+const q =
+query(
 
-        where(
-          "studentNumber",
-          "==",
-          Number(
-            student.studentNumber
-          )
-        )
+collection(
+db,
+"manabi"
+),
 
-      );
+where(
+"studentNumber",
+"==",
+Number(student.studentNumber)
+)
 
+);
 
-    const snapshot =
-      await getDocs(q);
 
+const snapshot =
+await getDocs(q);
 
-    const data =
-      snapshot.docs
-        .map(
-          d => d.data()
-        )
-        .sort(
-          (a,b) =>
-            new Date(a.date) -
-            new Date(b.date)
-        );
 
+const data =
+snapshot.docs
+.map(d => d.data())
+.sort(
 
-    if (!data.length) {
+(a,b) =>
+new Date(a.date) -
+new Date(b.date)
 
-      area.innerHTML = `
+);
 
-        <div class="box">
 
-          まだ振り返りがありません。
+if(!data.length){
 
-        </div>
+area.innerHTML = `
 
-      `;
+<div class="box">
 
-      return;
+まだ振り返りがありません。
 
-    }
+</div>
 
+`;
 
-    const subjectMap = {};
+return;
 
+}
 
-    data.forEach(
-      item => {
 
-        if (
-          !subjectMap[
-            item.subject
-          ]
-        ) {
+const subjectMap = {};
 
-          subjectMap[
-            item.subject
-          ] = [];
 
-        }
+data.forEach(item => {
 
+if(!subjectMap[item.subject]){
 
-        subjectMap[
-          item.subject
-        ].push(item);
+subjectMap[item.subject] = [];
 
-      }
-    );
+}
 
+subjectMap[item.subject].push(item);
 
-    let text = "";
+});
 
 
-    Object.keys(
-      subjectMap
-    ).forEach(
-      subject => {
+let text = "";
 
-        text +=
-          "\n【" +
-          subject +
-          "】\n";
 
+Object.keys(subjectMap)
+.forEach(subject => {
 
-        subjectMap[
-          subject
-        ].forEach(
-          item => {
+text +=
+"\n【" +
+subject +
+"】\n";
 
-            text +=
 
-              "\n■ " +
-              (
-                item.unit || ""
-              ) +
+subjectMap[subject]
+.forEach(item => {
 
-              "\n学び：" +
-              (
-                item.study || ""
-              );
+text +=
 
+"\n■ " +
+(item.unit || "") +
 
-            if (
-              item.deepReflection
-            ) {
+"\n学び：" +
+(item.study || "");
 
-              text +=
 
-                "\n深めた考え：" +
-                item.deepReflection;
+if(item.deepReflection){
 
-            }
+text +=
 
+"\n深めた考え：" +
+item.deepReflection;
 
-            if (
-              item.deepLevel
-            ) {
+}
 
-              text +=
 
-                "\n深まりレベル：" +
-                item.deepLevel;
+if(item.deepLevel){
 
-            }
+text +=
 
+"\n深まりレベル：" +
+item.deepLevel;
 
-            text +=
-              "\n";
+}
 
-          }
-        );
 
-      }
-    );
+text += "\n";
 
+});
 
-    const averageLevel =
-      data
-        .filter(
-          item =>
-            item.deepLevel
-        )
-        .map(
-          item =>
-            Number(
-              item.deepLevel
-            )
-        );
+});
 
 
-    let averageText =
-      "記録なし";
+const levels =
+data
+.filter(item => item.deepLevel)
+.map(
+item => Number(item.deepLevel)
+);
 
 
-    if (
-      averageLevel.length
-    ) {
+let averageText =
+"記録なし";
 
-      const average =
-        averageLevel
-          .reduce(
-            (a,b) =>
-              a + b,
-            0
-          ) /
-        averageLevel.length;
 
+if(levels.length){
 
-      averageText =
-        average.toFixed(1);
+const average =
+levels.reduce(
+(a,b) => a + b,
+0
+) /
+levels.length;
 
-    }
 
+averageText =
+average.toFixed(1);
 
-    const promptText =
+}
+
+
+const promptText =
 
 `【総合的な学習の記録】
 
@@ -2558,295 +2401,367 @@ ${averageText}
 ・100～120字程度にする`;
 
 
-    area.innerHTML = `
+area.innerHTML = `
 
-      <div class="purple-box">
+<div class="purple-box">
 
-        <strong>
-          📊 1年間の振り返り
-        </strong>
+<strong>
+📊 1年間の振り返り
+</strong>
 
-        <p>
-          振り返り件数：
-          ${data.length}件
-        </p>
+<p>
+振り返り件数：
+${data.length}件
+</p>
 
-        <p>
-          深まりレベル平均：
-          ${averageText}
-        </p>
+<p>
+深まりレベル平均：
+${averageText}
+</p>
 
-      </div>
+</div>
 
+<h3>
+📋 Copilotに渡すデータ
+</h3>
 
-      <h3>
-        📋 Copilotに渡すデータ
-      </h3>
+<div
+id="commentPrompt"
+class="ai-data">
 
-      <div
-        id="commentPrompt"
-        class="ai-data">
+${escapeHtml(promptText)}
 
-        ${escapeHtml(
-          promptText
-        )}
+</div>
 
-      </div>
-
-    `;
+`;
 
 
-    currentCommentStudent =
-      {
+currentCommentStudent = {
 
-        ...student,
+...student,
 
-        commentPrompt:
-          promptText
+commentPrompt:promptText
 
-      };
+};
 
-  }
-  catch(error) {
+}
+catch(error){
 
-    console.error(error);
+console.error(error);
 
-    area.innerHTML = `
+area.innerHTML = `
 
-      <div class="box">
+<div class="error-box">
 
-        ❌ 所見データを読み込めませんでした。
+❌ 所見データを読み込めませんでした。
 
-        <br><br>
+<br><br>
 
-        ${escapeHtml(
-          error.message
-        )}
+${escapeHtml(error.message)}
 
-      </div>
+</div>
 
-    `;
+`;
 
-  }
+}
 
 };
 
 
 /* ==================================================
-   Copilot
+COPILOT
 ================================================== */
 
-window.openCopilot =
-function() {
+const COPILOT_URL =
+"https://copilot.microsoft.com/";
 
-  window.open(
-    "https://copilot.microsoft.com/",
-    "_blank"
-  );
+
+/* -----------------------------------------------
+ホームからCopilot
+------------------------------------------------ */
+
+window.openCopilot =
+function(){
+
+const newWindow =
+window.open(
+COPILOT_URL,
+"_blank"
+);
+
+
+if(
+!newWindow ||
+newWindow.closed ||
+typeof newWindow.closed === "undefined"
+){
+
+window.location.href =
+COPILOT_URL;
+
+}
 
 };
 
 
+/* -----------------------------------------------
+所見データ付きCopilot
+------------------------------------------------ */
+
 window.openCopilotWithData =
-function() {
+async function(){
 
-  if (
-    !currentCommentStudent ||
-    !currentCommentStudent.commentPrompt
-  ) {
+if(
+!currentCommentStudent ||
+!currentCommentStudent.commentPrompt
+){
 
-    alert(
-      "先に所見作成用データを開いてください。"
-    );
+alert(
+"先に所見作成用データを開いてください。"
+);
 
-    return;
+return;
 
-  }
-
-
-  const text =
-    currentCommentStudent.commentPrompt;
+}
 
 
-  copyText(
-    text
-  );
+const text =
+currentCommentStudent.commentPrompt;
 
 
-  window.open(
-    "https://copilot.microsoft.com/",
-    "_blank"
-  );
+await copyText(text);
 
 
-  alert(
-    "所見作成用データをコピーしました。\n\nCopilotを開いたら貼り付けてください。"
-  );
+/*
+  Copilotを開く
+*/
+
+const newWindow =
+window.open(
+COPILOT_URL,
+"_blank"
+);
+
+
+if(
+!newWindow ||
+newWindow.closed ||
+typeof newWindow.closed === "undefined"
+){
+
+window.location.href =
+COPILOT_URL;
+
+return;
+
+}
+
+
+setTimeout(
+function(){
+
+alert(
+
+"📋 所見作成用データをコピーしました！\n\n" +
+"Copilotが開いたら、\n" +
+"貼り付けてください。"
+
+);
+
+},
+500
+);
 
 };
 
 
 /* ==================================================
-   コピー
+コピー
 ================================================== */
 
 window.copyCommentData =
-async function() {
+async function(){
 
-  if (
-    !currentCommentStudent ||
-    !currentCommentStudent.commentPrompt
-  ) {
+if(
+!currentCommentStudent ||
+!currentCommentStudent.commentPrompt
+){
 
-    alert(
-      "コピーするデータがありません。"
-    );
+alert(
+"コピーするデータがありません。"
+);
 
-    return;
+return;
 
-  }
-
-
-  await copyText(
-    currentCommentStudent.commentPrompt
-  );
+}
 
 
-  alert(
-    "所見作成用データをコピーしました！"
-  );
+await copyText(
+currentCommentStudent.commentPrompt
+);
+
+
+alert(
+"📋 所見作成用データをコピーしました！"
+);
 
 };
 
 
-async function copyText(text) {
+async function copyText(text){
 
-  try {
+if(
+navigator.clipboard &&
+navigator.clipboard.writeText
+){
 
-    await navigator.clipboard.writeText(
-      text
-    );
+try{
 
-  }
-  catch(error) {
+await navigator.clipboard.writeText(text);
 
-    const textarea =
-      document.createElement(
-        "textarea"
-      );
+return;
 
+}
+catch(error){
 
-    textarea.value =
-      text;
+console.log(
+"Clipboard API failed.",
+error
+);
 
+}
 
-    document.body.appendChild(
-      textarea
-    );
-
-
-    textarea.select();
+}
 
 
-    document.execCommand(
-      "copy"
-    );
+const textarea =
+document.createElement("textarea");
 
 
-    textarea.remove();
+textarea.value =
+text;
 
-  }
+
+textarea.style.position =
+"fixed";
+
+textarea.style.left =
+"-9999px";
+
+textarea.style.top =
+"0";
+
+
+document.body.appendChild(
+textarea
+);
+
+
+textarea.focus();
+
+textarea.select();
+
+
+try{
+
+document.execCommand("copy");
+
+}
+catch(error){
+
+console.error(error);
+
+}
+
+
+textarea.remove();
 
 }
 
 
 /* ==================================================
-   日付
+日付
 ================================================== */
 
-function formatDate(value) {
+function formatDate(value){
 
-  if (!value)
-    return "";
-
-
-  const d =
-    new Date(value);
+if(!value)
+return "";
 
 
-  if (
-    isNaN(
-      d.getTime()
-    )
-  ) {
-
-    return String(value);
-
-  }
+const d =
+new Date(value);
 
 
-  return (
+if(isNaN(d.getTime())){
 
-    d.getFullYear() +
-    "年" +
-    (d.getMonth() + 1) +
-    "月" +
-    d.getDate() +
-    "日"
+return String(value);
 
-  );
+}
+
+
+return (
+
+d.getFullYear() +
+"年" +
+(d.getMonth()+1) +
+"月" +
+d.getDate() +
+"日"
+
+);
 
 }
 
 
 /* ==================================================
-   HTML安全化
+HTML安全化
 ================================================== */
 
-function escapeHtml(value) {
+function escapeHtml(value){
 
-  if (
-    value === null ||
-    value === undefined
-  ) {
+if(
+value === null ||
+value === undefined
+){
 
-    return "";
+return "";
 
-  }
+}
 
 
-  return String(value)
+return String(value)
 
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
+.replaceAll(
+"&",
+"&amp;"
+)
 
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
+.replaceAll(
+"<",
+"&lt;"
+)
 
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
+.replaceAll(
+">",
+"&gt;"
+)
 
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
+.replaceAll(
+'"',
+"&quot;"
+)
 
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
+.replaceAll(
+"'",
+"&#039;"
+);
 
 }
 
 
 /* ==================================================
-   初期表示
+初期表示
 ================================================== */
 
 loadCurrentLesson();
