@@ -91,11 +91,25 @@ button:hover{
   opacity:.9;
 }
 
-.green{background:#4d9c68;}
-.orange{background:#d68c36;}
-.purple{background:#7656a8;}
-.gray{background:#777;}
-.red{background:#c75b5b;}
+.green{
+  background:#4d9c68;
+}
+
+.orange{
+  background:#d68c36;
+}
+
+.purple{
+  background:#7656a8;
+}
+
+.gray{
+  background:#777;
+}
+
+.red{
+  background:#c75b5b;
+}
 
 .menu-button{
   width:100%;
@@ -178,6 +192,53 @@ button:hover{
   text-align:center;
 }
 
+/* =========================================
+   提出完了画面
+========================================= */
+
+.submission-complete{
+  background:#eef9f0;
+  border:3px solid #4d9c68;
+  border-radius:20px;
+  padding:30px 20px;
+  margin-top:20px;
+  text-align:center;
+}
+
+.submission-icon{
+  font-size:58px;
+  line-height:1;
+  margin-bottom:15px;
+}
+
+.submission-complete h3{
+  margin:8px 0 12px;
+  color:#278247;
+  font-size:25px;
+}
+
+.submission-complete p{
+  font-size:17px;
+  line-height:1.8;
+}
+
+.submission-note{
+  font-weight:bold;
+  color:#555;
+}
+
+.submission-actions{
+  margin-top:22px;
+}
+
+.submission-actions button{
+  width:100%;
+  max-width:600px;
+  margin:7px auto;
+  display:block;
+  padding:17px;
+  font-size:17px;
+}
 
 /* =========================================
    思考ツール選択
@@ -214,7 +275,6 @@ button:hover{
   margin-bottom:5px;
 }
 
-
 /* =========================================
    思考ヒント
 ========================================= */
@@ -239,7 +299,6 @@ button:hover{
   font-weight:bold;
 }
 
-
 /* =========================================
    最後の考え
 ========================================= */
@@ -255,7 +314,6 @@ button:hover{
 .final-thinking textarea{
   min-height:140px;
 }
-
 
 /* =========================================
    思考キャンバス
@@ -294,7 +352,6 @@ button:hover{
   z-index:10;
   font-size:14px;
 }
-
 
 /* =========================================
    思考カード
@@ -387,7 +444,6 @@ button:hover{
   line-height:1.6;
 }
 
-
 /* =========================================
    ボード背景
 ========================================= */
@@ -429,7 +485,6 @@ button:hover{
     #fff8ed 100%
   );
 }
-
 
 /* =========================================
    ベン図
@@ -479,7 +534,6 @@ button:hover{
   z-index:5;
 }
 
-
 /* =========================================
    ウェビング
 ========================================= */
@@ -500,7 +554,6 @@ button:hover{
   text-align:center;
   font-weight:bold;
 }
-
 
 /* =========================================
    クラゲ
@@ -579,7 +632,6 @@ button:hover{
   z-index:4;
 }
 
-
 /* =========================================
    Yチャート
 ========================================= */
@@ -647,7 +699,6 @@ button:hover{
   right:7%;
 }
 
-
 /* =========================================
    Before After
 ========================================= */
@@ -697,7 +748,6 @@ button:hover{
   right:12%;
 }
 
-
 /* =========================================
    ボタン
 ========================================= */
@@ -723,7 +773,6 @@ button:hover{
   padding:15px 20px;
 }
 
-
 /* =========================================
    思考→振り返り
 ========================================= */
@@ -744,7 +793,6 @@ button:hover{
   margin-top:10px;
 }
 
-
 /* =========================================
    軽量化表示
 ========================================= */
@@ -758,7 +806,6 @@ button:hover{
   color:#777;
   margin-top:8px;
 }
-
 
 /* =========================================
    スマホ・Dynabook
@@ -817,16 +864,13 @@ button:hover{
 </style>
 </head>
 
-
 <body>
 
 <header>
 📚 学びアルバム Ver.2
 </header>
 
-
 <div class="container">
-
 
 <!-- =================================
 HOME
@@ -876,11 +920,12 @@ class="thinking-draft-box hidden">
 </p>
 
 <div class="draft-note">
-✏️ <strong>そのまま提出するのではなく、自分の言葉に直して完成させよう。</strong>
+✏️ <strong>
+そのまま提出するのではなく、自分の言葉に直して完成させよう。
+</strong>
 </div>
 
 </div>
-
 
 <label>出席番号</label>
 
@@ -890,7 +935,6 @@ type="number"
 min="1"
 max="50"
 placeholder="出席番号を入力">
-
 
 <label>教科</label>
 
@@ -911,13 +955,11 @@ placeholder="出席番号を入力">
 
 </select>
 
-
 <label>単元名</label>
 
 <input
 id="unit"
 placeholder="単元名">
-
 
 <label>今日の学び</label>
 
@@ -926,7 +968,6 @@ id="study"
 oninput="showAdvice()"
 placeholder="今日の授業で分かったこと、考えたことを書こう">
 </textarea>
-
 
 <div id="adviceBox" class="advice-box hidden">
 
@@ -937,11 +978,15 @@ placeholder="今日の授業で分かったこと、考えたことを書こう"
 </div>
 
 
+<!-- =================================
+提出ボタン
+================================= -->
+
 <div id="firstSaveArea">
 
 <button class="green"
 onclick="saveReflection()">
-💾 振り返りを保存する
+📤 振り返りを提出する
 </button>
 
 <button class="gray"
@@ -952,25 +997,43 @@ onclick="goHome()">
 </div>
 
 
-<div id="deepReflectionArea" class="hidden">
+<!-- =================================
+提出完了
+================================= -->
 
-<div class="level-box">
+<div id="submissionCompleteArea"
+class="submission-complete hidden">
 
-<h3>🌱 もう一歩深く考えてみよう</h3>
-
-<div id="levelDisplay"></div>
-
+<div class="submission-icon">
+🎉
 </div>
 
-<textarea
-id="deepReflection"
-placeholder="AIからの問いをもとに、もう一度自分の考えを深めよう">
-</textarea>
+<h3>
+振り返りを提出しました！
+</h3>
 
-<button class="green"
-onclick="saveDeepReflection()">
-💾 深めた考えを保存する
+<p>
+今日の学びが、しっかり記録されました。
+</p>
+
+<p class="submission-note">
+これで今日の振り返りは終了です。
+</p>
+
+<div class="submission-actions">
+
+<button
+class="green"
+onclick="goHome()">
+🏠 トップページへ戻る
 </button>
+
+<button
+onclick="openHistory()">
+📖 自分の振り返りを見る
+</button>
+
+</div>
 
 </div>
 
@@ -990,7 +1053,6 @@ class="lesson-status">
 授業情報を確認しています...
 </div>
 
-
 <div class="box">
 
 <span class="anonymous-label">
@@ -1008,11 +1070,9 @@ class="lesson-status">
 
 </div>
 
-
 <div id="everyoneList">
 読み込み中...
 </div>
-
 
 <div id="thinkingStartArea" class="hidden">
 
@@ -1036,7 +1096,6 @@ onclick="openThinkingTools()">
 
 </div>
 
-
 <button class="gray"
 onclick="goHome()">
 戻る
@@ -1054,7 +1113,6 @@ THINKING
 <h2>
 🧠 友達の考えをもとに考える
 </h2>
-
 
 <div class="box">
 
@@ -1084,17 +1142,13 @@ THINKING
 
 </div>
 
-
 <div id="selectedReflections"></div>
-
 
 <h3>
 🔍 どのように考えてみる？
 </h3>
 
-
 <div class="tool-grid">
-
 
 <div class="tool-card"
 onclick="selectTool('compare',this)">
@@ -1107,7 +1161,6 @@ onclick="selectTool('compare',this)">
 
 </div>
 
-
 <div class="tool-card"
 onclick="selectTool('web',this)">
 
@@ -1118,7 +1171,6 @@ onclick="selectTool('web',this)">
 <p>ウェビング</p>
 
 </div>
-
 
 <div class="tool-card"
 onclick="selectTool('jellyfish',this)">
@@ -1131,7 +1183,6 @@ onclick="selectTool('jellyfish',this)">
 
 </div>
 
-
 <div class="tool-card"
 onclick="selectTool('y',this)">
 
@@ -1142,7 +1193,6 @@ onclick="selectTool('y',this)">
 <p>Yチャート</p>
 
 </div>
-
 
 <div class="tool-card"
 onclick="selectTool('beforeAfter',this)">
@@ -1157,15 +1207,11 @@ onclick="selectTool('beforeAfter',this)">
 
 </div>
 
-
 <div id="thinkingHintArea"></div>
-
 
 <div id="thinkingWorkspace"></div>
 
-
 <div id="finalThinkingArea"></div>
-
 
 <button class="gray"
 onclick="openEveryoneHistory()">
@@ -1185,7 +1231,6 @@ HISTORY
 📖 自分の振り返り
 </h2>
 
-
 <label>出席番号</label>
 
 <input
@@ -1195,14 +1240,11 @@ min="1"
 max="50"
 placeholder="出席番号を入力">
 
-
 <button onclick="loadMyHistory()">
 🔍 振り返りを見る
 </button>
 
-
 <div id="historyList"></div>
-
 
 <button class="gray"
 onclick="goHome()">
@@ -1210,7 +1252,6 @@ onclick="goHome()">
 </button>
 
 </div>
-
 
 </div>
 
@@ -1228,7 +1269,6 @@ initializeApp
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-
 import {
 getFirestore,
 collection,
@@ -1238,7 +1278,6 @@ query,
 where,
 doc,
 getDoc,
-updateDoc,
 serverTimestamp
 }
 from
@@ -1268,9 +1307,11 @@ appId:
 };
 
 
-const app=initializeApp(firebaseConfig);
+const app=
+initializeApp(firebaseConfig);
 
-const db=getFirestore(app);
+const db=
+getFirestore(app);
 
 
 /* =================================
@@ -1290,16 +1331,16 @@ let selectedTool=null;
 let cardCounter=0;
 
 
+/*
+二重保存防止
+*/
+
+let savingReflection=false;
+
+
 /* =================================
 軽量化用キャッシュ
 ================================= */
-
-/*
-授業情報
-短時間だけメモリに保持する。
-先生が授業を切り替えた場合も
-長時間古い情報を使わないようにする。
-*/
 
 let lessonCache=null;
 
@@ -1307,26 +1348,9 @@ let lessonCacheTime=0;
 
 const LESSON_CACHE_MS=15000;
 
-
-/*
-みんなの振り返り
-授業IDごとに一時保存。
-*/
-
 const everyoneCache=new Map();
 
-
-/*
-自分の履歴
-出席番号ごとに一時保存。
-*/
-
 const historyCache=new Map();
-
-
-/*
-最後に読み込んだ授業
-*/
 
 let lastEveryoneCacheKey="";
 
@@ -1347,10 +1371,13 @@ const pages=[
 
 pages.forEach(page=>{
 
-const el=document.getElementById(page);
+const el=
+document.getElementById(page);
 
 if(el){
+
 el.classList.add("hidden");
+
 }
 
 });
@@ -1359,10 +1386,13 @@ const target=
 document.getElementById(id);
 
 if(target){
+
 target.classList.remove("hidden");
+
 }
 
 }
+
 
 window.goHome=function(){
 
@@ -1373,7 +1403,6 @@ showPage("homePage");
 
 /* =================================
 授業情報取得
-軽量化版
 ================================= */
 
 async function getCurrentLesson(options={}){
@@ -1382,17 +1411,15 @@ const force=
 options.force===true;
 
 
-/*
-短時間ならFirebaseへ行かない
-*/
-
 if(
 !force &&
 lessonCache &&
-Date.now()-lessonCacheTime<LESSON_CACHE_MS
+Date.now()-lessonCacheTime<
+LESSON_CACHE_MS
 ){
 
-currentLesson=lessonCache;
+currentLesson=
+lessonCache;
 
 return lessonCache;
 
@@ -1425,7 +1452,8 @@ return null;
 }
 
 
-const data=snap.data();
+const data=
+snap.data();
 
 
 if(data.active!==true){
@@ -1463,11 +1491,6 @@ return null;
 }
 
 
-/*
-先生が授業を変更した場合など、
-必要なときだけ強制更新できる。
-*/
-
 window.refreshLesson=function(){
 
 lessonCache=null;
@@ -1490,9 +1513,10 @@ async function displayCurrentLesson(){
 const lesson=
 await getCurrentLesson();
 
-
 const area=
-document.getElementById("currentLessonBox");
+document.getElementById(
+"currentLessonBox"
+);
 
 
 if(!lesson){
@@ -1527,14 +1551,18 @@ area.innerHTML=`
 
 教科：
 <strong>
-${escapeHtml(lesson.subject||"")}
+${escapeHtml(
+lesson.subject||""
+)}
 </strong>
 
 <br>
 
 単元：
 <strong>
-${escapeHtml(lesson.unit||"")}
+${escapeHtml(
+lesson.unit||""
+)}
 </strong>
 
 </div>
@@ -1542,17 +1570,22 @@ ${escapeHtml(lesson.unit||"")}
 `;
 
 
-document.getElementById("subject").value=
+document.getElementById(
+"subject"
+).value=
 lesson.subject||"";
 
-document.getElementById("unit").value=
+
+document.getElementById(
+"unit"
+).value=
 lesson.unit||"";
 
 }
 
 
 /* =================================
-思考→振り返り 下書き取得
+思考→振り返り 下書き
 ================================= */
 
 function getThinkingDraft(){
@@ -1593,7 +1626,6 @@ function applyThinkingDraft(){
 const draft=
 getThinkingDraft();
 
-
 if(!draft){
 
 return;
@@ -1604,10 +1636,8 @@ return;
 const study=
 document.getElementById("study");
 
-
 const subject=
 document.getElementById("subject");
-
 
 const unit=
 document.getElementById("unit");
@@ -1615,14 +1645,16 @@ document.getElementById("unit");
 
 if(draft.subject){
 
-subject.value=draft.subject;
+subject.value=
+draft.subject;
 
 }
 
 
 if(draft.unit){
 
-unit.value=draft.unit;
+unit.value=
+draft.unit;
 
 }
 
@@ -1640,10 +1672,6 @@ document.getElementById(
 showAdvice();
 
 
-/*
-一度使った下書きは消す
-*/
-
 sessionStorage.removeItem(
 "thinkingReflectionDraft"
 );
@@ -1660,36 +1688,49 @@ window.openReflection=async function(){
 showPage("reflectionPage");
 
 
-document.getElementById("study")
-.value="";
+document.getElementById(
+"study"
+).value="";
 
 
-document.getElementById("deepReflection")
-.value="";
+document.getElementById(
+"adviceBox"
+).classList.add("hidden");
 
 
-document.getElementById("adviceBox")
-.classList.add("hidden");
+document.getElementById(
+"submissionCompleteArea"
+).classList.add("hidden");
 
 
-document.getElementById("deepReflectionArea")
-.classList.add("hidden");
+document.getElementById(
+"firstSaveArea"
+).classList.remove("hidden");
 
 
-document.getElementById("firstSaveArea")
-.classList.remove("hidden");
+document.getElementById(
+"thinkingDraftNotice"
+).classList.add("hidden");
 
 
-document.getElementById("thinkingDraftNotice")
-.classList.add("hidden");
+document.getElementById(
+"aiQuestion"
+).textContent="";
 
 
 currentReflectionId=null;
 
 
 /*
+新しく振り返りを書くときは
+保存ボタンを使用できる状態にする
+*/
+
+savingReflection=false;
+
+
+/*
 授業情報取得
-キャッシュがあればFirebaseへ行かない
 */
 
 await displayCurrentLesson();
@@ -1711,18 +1752,24 @@ AIの問い
 window.showAdvice=function(){
 
 const subject=
-document.getElementById("subject").value;
-
+document.getElementById(
+"subject"
+).value;
 
 const text=
-document.getElementById("study")
-.value.trim();
+document.getElementById(
+"study"
+).value.trim();
 
 
-if(!subject||text.length<5){
+if(
+!subject||
+text.length<5
+){
 
-document.getElementById("adviceBox")
-.classList.add("hidden");
+document.getElementById(
+"adviceBox"
+).classList.add("hidden");
 
 return;
 
@@ -1786,12 +1833,15 @@ question=
 }
 
 
-document.getElementById("aiQuestion")
-.textContent=question;
+document.getElementById(
+"aiQuestion"
+).textContent=
+question;
 
 
-document.getElementById("adviceBox")
-.classList.remove("hidden");
+document.getElementById(
+"adviceBox"
+).classList.remove("hidden");
 
 };
 
@@ -1808,6 +1858,7 @@ lastEveryoneCacheKey="";
 
 }
 
+
 function clearHistoryCache(number){
 
 historyCache.delete(
@@ -1823,28 +1874,41 @@ String(number)
 
 window.saveReflection=async function(){
 
-const studentNumber=
-document.getElementById("studentNumber")
-.value.trim();
+/*
+二重クリック防止
+*/
 
+if(savingReflection){
+
+return;
+
+}
+
+
+const studentNumber=
+document.getElementById(
+"studentNumber"
+).value.trim();
 
 const subject=
-document.getElementById("subject").value;
-
+document.getElementById(
+"subject"
+).value;
 
 const unit=
-document.getElementById("unit")
-.value.trim();
-
+document.getElementById(
+"unit"
+).value.trim();
 
 const study=
-document.getElementById("study")
-.value.trim();
-
+document.getElementById(
+"study"
+).value.trim();
 
 const aiQuestion=
-document.getElementById("aiQuestion")
-.textContent;
+document.getElementById(
+"aiQuestion"
+).textContent;
 
 
 if(!studentNumber){
@@ -1899,6 +1963,13 @@ return;
 
 
 /*
+ここから保存中
+*/
+
+savingReflection=true;
+
+
+/*
 思考ツールから来た情報
 */
 
@@ -1937,6 +2008,11 @@ study,
 aiQuestion:
 aiQuestion,
 
+/*
+以前のデータとの互換性のため
+空欄で保存
+*/
+
 deepReflection:
 "",
 
@@ -1969,7 +2045,7 @@ ref.id;
 
 
 /*
-保存したので履歴キャッシュを削除
+履歴キャッシュ削除
 */
 
 clearHistoryCache(
@@ -1978,16 +2054,17 @@ Number(studentNumber)
 
 
 /*
-授業中の「みんなの振り返り」の
-キャッシュも削除
+みんなの振り返りキャッシュ削除
 */
 
 clearEveryoneCache();
 
 
 /*
-思考ツール情報は一度使ったら削除
+思考ツール情報削除
 */
+
+try{
 
 sessionStorage.removeItem(
 "thinkingReflectionTool"
@@ -1997,6 +2074,27 @@ sessionStorage.removeItem(
 "thinkingSourceIds"
 );
 
+sessionStorage.removeItem(
+"thinkingReflectionDraft"
+);
+
+}
+catch(e){}
+
+
+/*
+AIの問いを閉じる
+*/
+
+document.getElementById(
+"adviceBox"
+)
+.classList.add("hidden");
+
+
+/*
+保存ボタンを隠す
+*/
 
 document.getElementById(
 "firstSaveArea"
@@ -2004,16 +2102,16 @@ document.getElementById(
 .classList.add("hidden");
 
 
+/*
+提出完了画面を表示
+*/
+
 document.getElementById(
-"deepReflectionArea"
+"submissionCompleteArea"
 )
 .classList.remove("hidden");
 
 
-judgeDeepReflectionLevel(
-study
-);
-
 }
 catch(error){
 
@@ -2025,195 +2123,9 @@ error.message
 );
 
 }
+finally{
 
-};
-
-
-/* =================================
-深まり判定
-================================= */
-
-function judgeDeepReflectionLevel(text){
-
-let level=1;
-
-
-const level3Words=[
-"なぜ",
-"理由",
-"比べ",
-"比較",
-"つなが",
-"考えが変わ",
-"気づいた",
-"気付いた",
-"生かし",
-"活かし",
-"次は",
-"これから"
-];
-
-
-const level2Words=[
-"分かった",
-"わかった",
-"できた",
-"気づ",
-"気付",
-"工夫",
-"考えた"
-];
-
-
-const l3=
-level3Words.filter(
-word=>text.includes(word)
-).length;
-
-
-const l2=
-level2Words.filter(
-word=>text.includes(word)
-).length;
-
-
-if(l3>=2){
-
-level=3;
-
-}
-else if(l3>=1||l2>=1){
-
-level=2;
-
-}
-
-
-document.getElementById(
-"levelDisplay"
-)
-.innerHTML=`
-
-<strong>
-今の振り返りの深まり：
-レベル${level}
-</strong>
-
-<br><br>
-
-${
-level===3
-?
-"🌳 自分の考えを深く見つめています。すばらしいです！"
-:
-level===2
-?
-"🌿 学んだことや考えたことが表れています。"
-:
-"🌱 まずは今日分かったことを大切にしましょう。"
-}
-
-`;
-
-window.currentLevel=level;
-
-}
-
-
-/* =================================
-深い振り返り保存
-================================= */
-
-window.saveDeepReflection=async function(){
-
-const text=
-document.getElementById("deepReflection")
-.value.trim();
-
-
-if(!text){
-
-alert(
-"深めた考えを書いてください。"
-);
-
-return;
-
-}
-
-
-if(!currentReflectionId){
-
-alert(
-"保存する振り返りが見つかりません。"
-);
-
-return;
-
-}
-
-
-try{
-
-await updateDoc(
-doc(
-db,
-"manabi",
-currentReflectionId
-),
-{
-
-deepReflection:
-text,
-
-deepLevel:
-window.currentLevel||1,
-
-reflectionLevel:
-window.currentLevel||1
-
-}
-);
-
-
-/*
-自分の履歴とみんなの振り返りを
-更新できるようにする
-*/
-
-clearEveryoneCache();
-
-const studentNumber=
-document.getElementById(
-"studentNumber"
-).value.trim();
-
-if(studentNumber){
-
-clearHistoryCache(
-Number(studentNumber)
-);
-
-}
-
-
-alert(
-"深めた考えを保存しました！\n\n"+
-"この時間のみんなの振り返りを見てみましょう。"
-);
-
-
-await openEveryoneHistory();
-
-}
-catch(error){
-
-console.error(error);
-
-alert(
-"保存できませんでした。\n"+
-error.message
-);
+savingReflection=false;
 
 }
 
@@ -2230,7 +2142,6 @@ showPage("everyonePage");
 
 
 selectedReflectionIds=[];
-
 
 updateSelectedCount();
 
@@ -2270,20 +2181,26 @@ lessonBox.innerHTML=`
 
 教科：
 <strong>
-${escapeHtml(lesson.subject||"")}
+${escapeHtml(
+lesson.subject||""
+)}
 </strong>
 
 <br>
 
 単元：
 <strong>
-${escapeHtml(lesson.unit||"")}
+${escapeHtml(
+lesson.unit||""
+)}
 </strong>
 
 `;
 
 
-await loadEveryoneData(lesson);
+await loadEveryoneData(
+lesson
+);
 
 };
 
@@ -2301,13 +2218,6 @@ document.getElementById(
 );
 
 
-/*
-授業IDがある場合は、
-subject + unit 全件取得ではなく
-授業IDだけを取得する。
-これが大きな軽量化ポイント。
-*/
-
 const cacheKey=
 lesson.lessonId
 ?
@@ -2317,18 +2227,12 @@ lesson.lessonId
 "|unit:"+lesson.unit;
 
 
-/*
-同じ授業を短時間で再表示した場合は
-Firebaseから再取得しない
-*/
-
 if(
 everyoneCache.has(cacheKey)
 ){
 
 everyoneData=
 everyoneCache.get(cacheKey);
-
 
 displayEveryoneData();
 
@@ -2346,10 +2250,6 @@ try{
 let q;
 
 
-/*
-新しいデータは lessonId で取得
-*/
-
 if(lesson.lessonId){
 
 q=
@@ -2364,10 +2264,6 @@ lesson.lessonId
 
 }
 else{
-
-/*
-古いデータ用の予備処理
-*/
 
 q=
 query(
@@ -2399,10 +2295,6 @@ id:d.id,
 }))
 .filter(item=>{
 
-/*
-lessonId検索の場合はそのまま
-*/
-
 if(lesson.lessonId){
 
 return item.lessonId===
@@ -2410,10 +2302,6 @@ lesson.lessonId;
 
 }
 
-
-/*
-旧データ
-*/
 
 return(
 item.subject===
@@ -2445,10 +2333,6 @@ item.aiQuestion
 }));
 
 
-/*
-キャッシュ
-*/
-
 everyoneCache.set(
 cacheKey,
 everyoneData
@@ -2473,30 +2357,6 @@ error.message;
 }
 
 }
-
-
-/*
-必要な時だけ「最新情報」を取得するボタン
-*/
-
-window.refreshEveryone=async function(){
-
-clearEveryoneCache();
-
-const lesson=
-await getCurrentLesson({
-force:true
-});
-
-if(lesson){
-
-await loadEveryoneData(
-lesson
-);
-
-}
-
-};
 
 
 /* =================================
@@ -2551,7 +2411,9 @@ card.innerHTML=`
 </span>
 
 <p>
-${escapeHtml(item.study||"")}
+${escapeHtml(
+item.study||""
+)}
 </p>
 
 ${
@@ -2561,7 +2423,9 @@ item.deepReflection
 <div class="level-box">
 
 🌱
-${escapeHtml(item.deepReflection)}
+${escapeHtml(
+item.deepReflection
+)}
 
 </div>
 `
@@ -2586,7 +2450,6 @@ onclick="toggleReference('${item.id}')">
 area.appendChild(card);
 
 });
-
 
 }
 
@@ -2618,7 +2481,6 @@ selectedReflectionIds.push(id);
 
 updateEveryoneCardStyle();
 
-
 updateSelectedCount();
 
 };
@@ -2632,7 +2494,6 @@ document
 
 const id=
 card.dataset.id;
-
 
 const selected=
 selectedReflectionIds.includes(id);
@@ -2675,7 +2536,6 @@ selected
 }
 
 });
-
 
 }
 
@@ -2726,7 +2586,6 @@ showPage("thinkingPage");
 
 
 cardCounter=0;
-
 
 selectedTool=null;
 
@@ -2802,9 +2661,11 @@ tool;
 document
 .querySelectorAll(".tool-card")
 .forEach(card=>{
+
 card.classList.remove(
 "selected"
 );
+
 });
 
 
@@ -2959,7 +2820,7 @@ boardHTML;
 
 
 /*
-友達カードを追加
+友達カード追加
 */
 
 loadFriendCards();
@@ -3158,7 +3019,9 @@ class="jelly-reason"
 style="left:8%;top:500px;">
 ② なぜ？<br>
 どうして？<br>
-<span style="font-size:13px;">理由を書こう</span>
+<span style="font-size:13px;">
+理由を書こう
+</span>
 </div>
 
 <div
@@ -3166,7 +3029,9 @@ class="jelly-reason"
 style="left:30%;top:530px;">
 ② なぜ？<br>
 どうして？<br>
-<span style="font-size:13px;">理由を書こう</span>
+<span style="font-size:13px;">
+理由を書こう
+</span>
 </div>
 
 <div
@@ -3174,7 +3039,9 @@ class="jelly-reason"
 style="right:30%;top:530px;">
 ② なぜ？<br>
 どうして？<br>
-<span style="font-size:13px;">理由を書こう</span>
+<span style="font-size:13px;">
+理由を書こう
+</span>
 </div>
 
 <div
@@ -3182,7 +3049,9 @@ class="jelly-reason"
 style="right:8%;top:500px;">
 ② なぜ？<br>
 どうして？<br>
-<span style="font-size:13px;">理由を書こう</span>
+<span style="font-size:13px;">
+理由を書こう
+</span>
 </div>
 
 </div>
@@ -3518,20 +3387,17 @@ event.preventDefault();
 
 dragging=true;
 
-
 startX=
 event.clientX;
 
 startY=
 event.clientY;
 
-
 originalLeft=
 element.offsetLeft;
 
 originalTop=
 element.offsetTop;
-
 
 element.style.zIndex=100;
 
@@ -3637,9 +3503,11 @@ document.getElementById(
 if(!board)return [];
 
 
-return [...board.querySelectorAll(
+return [
+...board.querySelectorAll(
 ".thought-card"
-)]
+)
+]
 .map(card=>{
 
 const textarea=
@@ -4072,8 +3940,7 @@ draftText
 
 
 /*
-後で保存するために
-思考ツール名も一時保存
+思考ツール名も保存
 */
 
 sessionStorage.setItem(
@@ -4154,7 +4021,7 @@ document.getElementById(
 
 
 /*
-キャッシュがあれば使用
+キャッシュ
 */
 
 const cacheKey=
@@ -4228,6 +4095,7 @@ data
 catch(error){
 
 console.error(error);
+
 
 area.innerHTML=
 "読み込みエラー："+
@@ -4434,11 +4302,6 @@ return String(value)
 /* =================================
 初期処理
 ================================= */
-
-/*
-最初からFirebaseを大量に読まない。
-授業情報を1回だけ確認。
-*/
 
 getCurrentLesson();
 
