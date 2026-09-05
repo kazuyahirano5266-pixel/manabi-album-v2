@@ -313,6 +313,7 @@ button:hover{
   box-shadow:0 4px 12px rgba(0,0,0,.15);
   overflow:hidden;
   touch-action:none;
+  resize:both;
   z-index:20;
 }
 
@@ -370,7 +371,7 @@ button:hover{
   background:#c75b5b;
   color:white;
   font-size:13px;
-  z-index:5;
+  z-index:50;
 }
 
 .card-text{
@@ -586,26 +587,26 @@ button:hover{
 .y-line{
   position:absolute;
   width:5px;
-  height:220px;
+  height:160px;
   background:#b9a8d5;
   left:50%;
-  top:280px;
+  top:250px;
   transform-origin:top center;
   z-index:1;
 }
 
 .y-line.left{
-  transform:rotate(58deg);
+  transform:rotate(-55deg);
 }
 
 .y-line.right{
-  transform:rotate(-58deg);
+  transform:rotate(55deg);
 }
 
 .y-center{
   position:absolute;
   left:calc(50% - 90px);
-  top:405px;
+  top:390px;
   width:180px;
   height:90px;
   border-radius:50%;
@@ -632,18 +633,18 @@ button:hover{
 }
 
 .y-see{
-  top:130px;
+  top:120px;
   left:calc(50% - 115px);
 }
 
 .y-think{
   top:545px;
-  left:8%;
+  left:7%;
 }
 
 .y-want{
   top:545px;
-  right:8%;
+  right:7%;
 }
 
 
@@ -741,6 +742,21 @@ button:hover{
   padding:12px;
   border-radius:8px;
   margin-top:10px;
+}
+
+
+/* =========================================
+   軽量化表示
+========================================= */
+
+.loading{
+  opacity:.7;
+}
+
+.cache-note{
+  font-size:12px;
+  color:#777;
+  margin-top:8px;
 }
 
 
@@ -912,8 +928,7 @@ placeholder="今日の授業で分かったこと、考えたことを書こう"
 </textarea>
 
 
-<div id="adviceBox"
-class="advice-box hidden">
+<div id="adviceBox" class="advice-box hidden">
 
 <h3>🤖 AIからの問い</h3>
 
@@ -1276,6 +1291,47 @@ let cardCounter=0;
 
 
 /* =================================
+軽量化用キャッシュ
+================================= */
+
+/*
+授業情報
+短時間だけメモリに保持する。
+先生が授業を切り替えた場合も
+長時間古い情報を使わないようにする。
+*/
+
+let lessonCache=null;
+
+let lessonCacheTime=0;
+
+const LESSON_CACHE_MS=15000;
+
+
+/*
+みんなの振り返り
+授業IDごとに一時保存。
+*/
+
+const everyoneCache=new Map();
+
+
+/*
+自分の履歴
+出席番号ごとに一時保存。
+*/
+
+const historyCache=new Map();
+
+
+/*
+最後に読み込んだ授業
+*/
+
+let lastEveryoneCacheKey="";
+
+
+/* =================================
 画面切替
 ================================= */
 
@@ -1299,8 +1355,12 @@ el.classList.add("hidden");
 
 });
 
-document.getElementById(id)
-.classList.remove("hidden");
+const target=
+document.getElementById(id);
+
+if(target){
+target.classList.remove("hidden");
+}
 
 }
 
@@ -1313,9 +1373,31 @@ showPage("homePage");
 
 /* =================================
 授業情報取得
+軽量化版
 ================================= */
 
-async function getCurrentLesson(){
+async function getCurrentLesson(options={}){
+
+const force=
+options.force===true;
+
+
+/*
+短時間ならFirebaseへ行かない
+*/
+
+if(
+!force &&
+lessonCache &&
+Date.now()-lessonCacheTime<LESSON_CACHE_MS
+){
+
+currentLesson=lessonCache;
+
+return lessonCache;
+
+}
+
 
 try{
 
@@ -1334,6 +1416,10 @@ if(!snap.exists()){
 
 currentLesson=null;
 
+lessonCache=null;
+
+lessonCacheTime=Date.now();
+
 return null;
 
 }
@@ -1346,12 +1432,20 @@ if(data.active!==true){
 
 currentLesson=null;
 
+lessonCache=null;
+
+lessonCacheTime=Date.now();
+
 return null;
 
 }
 
 
 currentLesson=data;
+
+lessonCache=data;
+
+lessonCacheTime=Date.now();
 
 return data;
 
@@ -1367,6 +1461,24 @@ return null;
 }
 
 }
+
+
+/*
+先生が授業を変更した場合など、
+必要なときだけ強制更新できる。
+*/
+
+window.refreshLesson=function(){
+
+lessonCache=null;
+
+lessonCacheTime=0;
+
+return getCurrentLesson({
+force:true
+});
+
+};
 
 
 /* =================================
@@ -1575,6 +1687,11 @@ document.getElementById("thinkingDraftNotice")
 currentReflectionId=null;
 
 
+/*
+授業情報取得
+キャッシュがあればFirebaseへ行かない
+*/
+
 await displayCurrentLesson();
 
 
@@ -1680,6 +1797,27 @@ document.getElementById("adviceBox")
 
 
 /* =================================
+キャッシュ削除
+================================= */
+
+function clearEveryoneCache(){
+
+everyoneCache.clear();
+
+lastEveryoneCacheKey="";
+
+}
+
+function clearHistoryCache(number){
+
+historyCache.delete(
+String(number)
+);
+
+}
+
+
+/* =================================
 振り返り保存
 ================================= */
 
@@ -1760,6 +1898,23 @@ return;
 }
 
 
+/*
+思考ツールから来た情報
+*/
+
+let thinkingTool="";
+
+try{
+
+thinkingTool=
+sessionStorage.getItem(
+"thinkingReflectionTool"
+)||"";
+
+}
+catch(e){}
+
+
 try{
 
 const ref=
@@ -1796,6 +1951,9 @@ likes:[],
 lessonId:
 lesson.lessonId||"",
 
+thinkingTool:
+thinkingTool,
+
 date:
 new Date().toISOString(),
 
@@ -1808,6 +1966,36 @@ serverTimestamp()
 
 currentReflectionId=
 ref.id;
+
+
+/*
+保存したので履歴キャッシュを削除
+*/
+
+clearHistoryCache(
+Number(studentNumber)
+);
+
+
+/*
+授業中の「みんなの振り返り」の
+キャッシュも削除
+*/
+
+clearEveryoneCache();
+
+
+/*
+思考ツール情報は一度使ったら削除
+*/
+
+sessionStorage.removeItem(
+"thinkingReflectionTool"
+);
+
+sessionStorage.removeItem(
+"thinkingSourceIds"
+);
 
 
 document.getElementById(
@@ -1988,6 +2176,27 @@ window.currentLevel||1
 );
 
 
+/*
+自分の履歴とみんなの振り返りを
+更新できるようにする
+*/
+
+clearEveryoneCache();
+
+const studentNumber=
+document.getElementById(
+"studentNumber"
+).value.trim();
+
+if(studentNumber){
+
+clearHistoryCache(
+Number(studentNumber)
+);
+
+}
+
+
 alert(
 "深めた考えを保存しました！\n\n"+
 "この時間のみんなの振り返りを見てみましょう。"
@@ -2048,7 +2257,6 @@ document.getElementById(
 .innerHTML=
 "先生が授業を開始すると表示されます。";
 
-
 return;
 
 }
@@ -2082,6 +2290,7 @@ await loadEveryoneData(lesson);
 
 /* =================================
 みんなのデータ
+軽量化版
 ================================= */
 
 async function loadEveryoneData(lesson){
@@ -2092,13 +2301,75 @@ document.getElementById(
 );
 
 
+/*
+授業IDがある場合は、
+subject + unit 全件取得ではなく
+授業IDだけを取得する。
+これが大きな軽量化ポイント。
+*/
+
+const cacheKey=
+lesson.lessonId
+?
+"lesson:"+lesson.lessonId
+:
+"subject:"+lesson.subject+
+"|unit:"+lesson.unit;
+
+
+/*
+同じ授業を短時間で再表示した場合は
+Firebaseから再取得しない
+*/
+
+if(
+everyoneCache.has(cacheKey)
+){
+
+everyoneData=
+everyoneCache.get(cacheKey);
+
+
+displayEveryoneData();
+
+return;
+
+}
+
+
 area.innerHTML=
 "📡 みんなの振り返りを読み込んでいます...";
 
 
 try{
 
-const q=
+let q;
+
+
+/*
+新しいデータは lessonId で取得
+*/
+
+if(lesson.lessonId){
+
+q=
+query(
+collection(db,"manabi"),
+where(
+"lessonId",
+"==",
+lesson.lessonId
+)
+);
+
+}
+else{
+
+/*
+古いデータ用の予備処理
+*/
+
+q=
 query(
 collection(db,"manabi"),
 where(
@@ -2113,6 +2384,8 @@ lesson.unit
 )
 );
 
+}
+
 
 const snapshot=
 await getDocs(q);
@@ -2126,17 +2399,28 @@ id:d.id,
 }))
 .filter(item=>{
 
-if(
-lesson.lessonId &&
-item.lessonId
-){
+/*
+lessonId検索の場合はそのまま
+*/
+
+if(lesson.lessonId){
 
 return item.lessonId===
 lesson.lessonId;
 
 }
 
-return true;
+
+/*
+旧データ
+*/
+
+return(
+item.subject===
+lesson.subject &&
+item.unit===
+lesson.unit
+);
 
 })
 .map(item=>({
@@ -2161,6 +2445,20 @@ item.aiQuestion
 }));
 
 
+/*
+キャッシュ
+*/
+
+everyoneCache.set(
+cacheKey,
+everyoneData
+);
+
+
+lastEveryoneCacheKey=
+cacheKey;
+
+
 displayEveryoneData();
 
 }
@@ -2169,12 +2467,36 @@ catch(error){
 console.error(error);
 
 area.innerHTML=
-"❌ 読み込みできませんでした。\n"+
+"❌ 読み込めませんでした。\n"+
 error.message;
 
 }
 
 }
+
+
+/*
+必要な時だけ「最新情報」を取得するボタン
+*/
+
+window.refreshEveryone=async function(){
+
+clearEveryoneCache();
+
+const lesson=
+await getCurrentLesson({
+force:true
+});
+
+if(lesson){
+
+await loadEveryoneData(
+lesson
+);
+
+}
+
+};
 
 
 /* =================================
@@ -2265,6 +2587,7 @@ area.appendChild(card);
 
 });
 
+
 }
 
 
@@ -2336,15 +2659,23 @@ selected
 );
 
 
-button.querySelector("span")
-.textContent=
+const span=
+button.querySelector("span");
+
+
+if(span){
+
+span.textContent=
 selected
 ?
 "選択中"
 :
 "この考えを参考にしたい";
 
+}
+
 });
+
 
 }
 
@@ -3741,6 +4072,25 @@ draftText
 
 
 /*
+後で保存するために
+思考ツール名も一時保存
+*/
+
+sessionStorage.setItem(
+"thinkingReflectionTool",
+selectedTool
+);
+
+
+sessionStorage.setItem(
+"thinkingSourceIds",
+JSON.stringify(
+selectedReflectionIds
+)
+);
+
+
+/*
 振り返りへ
 */
 
@@ -3772,6 +4122,11 @@ document.getElementById(
 };
 
 
+/* =================================
+自分の履歴
+軽量化版
+================================= */
+
 window.loadMyHistory=async function(){
 
 const number=
@@ -3798,8 +4153,31 @@ document.getElementById(
 );
 
 
+/*
+キャッシュがあれば使用
+*/
+
+const cacheKey=
+String(number);
+
+
+if(historyCache.has(cacheKey)){
+
+const cached=
+historyCache.get(cacheKey);
+
+
+displayMyHistory(
+cached
+);
+
+return;
+
+}
+
+
 area.innerHTML=
-"読み込み中...";
+"📡 振り返りを読み込んでいます...";
 
 
 try{
@@ -3829,6 +4207,48 @@ id:d.id,
 (a,b)=>
 new Date(b.date)-
 new Date(a.date)
+);
+
+
+/*
+キャッシュ
+*/
+
+historyCache.set(
+cacheKey,
+data
+);
+
+
+displayMyHistory(
+data
+);
+
+}
+catch(error){
+
+console.error(error);
+
+area.innerHTML=
+"読み込みエラー："+
+escapeHtml(
+error.message
+);
+
+}
+
+};
+
+
+/* =================================
+自分の履歴表示
+================================= */
+
+function displayMyHistory(data){
+
+const area=
+document.getElementById(
+"historyList"
 );
 
 
@@ -3901,17 +4321,34 @@ item.deepLevel||""
 `).join("");
 
 }
-catch(error){
 
-console.error(error);
 
-area.innerHTML=
-"読み込みエラー："+
-escapeHtml(
-error.message
-);
+/* =================================
+履歴を強制更新
+================================= */
+
+window.refreshMyHistory=async function(){
+
+const number=
+document.getElementById(
+"historyNumber"
+)
+.value.trim();
+
+
+if(!number){
+
+return;
 
 }
+
+
+clearHistoryCache(
+Number(number)
+);
+
+
+await loadMyHistory();
 
 };
 
@@ -3997,6 +4434,11 @@ return String(value)
 /* =================================
 初期処理
 ================================= */
+
+/*
+最初からFirebaseを大量に読まない。
+授業情報を1回だけ確認。
+*/
 
 getCurrentLesson();
 
