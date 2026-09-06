@@ -861,6 +861,18 @@ button:hover{
 
 }
 
+
+/* ===== 思考ツール改善CSS ===== */
+.thinking-hint-improved{margin:12px 0;padding:12px 16px;border-radius:14px;background:#fff8df;border:2px solid #ead58a;line-height:1.7;}
+.thinking-hint-improved strong{display:block;margin-bottom:4px;}
+#thinkingWorkspace .thought-card{min-width:170px;min-height:90px;border-radius:14px;box-shadow:0 3px 10px rgba(0,0,0,.12);}
+#thinkingWorkspace .thought-card.friend-card{border:3px solid #62a9d9;}
+#thinkingWorkspace .thought-card.my-card{border:3px solid #e2a84a;}
+#thinkingWorkspace .thought-card.new-card{border:3px solid #8c72bd;}
+#thinkingWorkspace .drag-handle{cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none;}
+#thinkingWorkspace textarea{font-size:16px;line-height:1.5;}
+@media (max-width:900px){#thinkingWorkspace .thought-card{min-width:145px;min-height:80px;}}
+
 </style>
 </head>
 
@@ -1121,7 +1133,7 @@ THINKING
 </strong>
 
 <p>
-🟢 友達の考えは、上のバーをつかんで動かせます。
+🟢 友達の考えは、考えや理由に合う場所へ動かして整理できます。
 </p>
 
 <p>
@@ -1129,7 +1141,7 @@ THINKING
 </p>
 
 <p>
-🟣 「＋新しいカード」で自由にカードを増やせます。
+🟣 「＋新しいカード」で、整理して気付いたことを追加できます。
 </p>
 
 <p>
@@ -2562,6 +2574,47 @@ count===0
 
 }
 
+
+/* =================================
+思考ツール Ver.2 改良
+・ツールごとの考え方を表示
+・友達／自分／新しい考えを色分け
+・タッチ端末でもカードを動かしやすく
+================================= */
+const THINKING_TOOL_HELP={
+ compare:"2つの考えを比べて、「それぞれ」「同じところ」を見つけよう。",
+ web:"中心の考えから、関連することをどんどんつなげよう。",
+ jellyfish:"自分の考えの「なぜ？」を、理由に分けて考えよう。",
+ y:"見たこと・考えたこと・もっと知りたいことから、考えを広げよう。",
+ beforeAfter:"授業の前と後を比べて、自分の考えがどう変わったか見つけよう。"
+};
+function setThinkingHint(text){
+ const area=document.getElementById("thinkingHintArea");
+ if(!area)return;
+ area.innerHTML=`<div class="thinking-hint-improved"><strong>💡 考え方のヒント</strong><div>${escapeHtml(text||"")}</div></div>`;
+}
+function thinkingCardClass(type){
+ if(type==="友達の考え")return "friend-card";
+ if(type==="自分の考え")return "my-card";
+ return "new-card";
+}
+function improveThinkingCard(card){
+ if(!card)return;
+ const type=card.dataset.type||"新しいカード";
+ card.classList.add(thinkingCardClass(type));
+ const handle=card.querySelector(".drag-handle");
+ if(handle){handle.style.touchAction="none";handle.title="ここをつかんで動かす";}
+}
+function improveThinkingWorkspace(){
+ document.querySelectorAll("#thinkingWorkspace .thought-card").forEach(improveThinkingCard);
+}
+function showToolPurpose(tool){setThinkingHint(THINKING_TOOL_HELP[tool]||"カードを動かして、自分の考えを整理しよう。");}
+const _originalSelectTool=window.selectTool;
+window.selectTool=function(tool,element){
+ if(typeof _originalSelectTool==="function")_originalSelectTool(tool,element);
+ showToolPurpose(tool);
+ setTimeout(improveThinkingWorkspace,100);
+};
 
 /* =================================
 思考ツール開始
