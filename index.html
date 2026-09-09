@@ -6,17 +6,13 @@
 <title>学びアルバム Ver.2</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
-
+*{box-sizing:border-box;}
 body{
   margin:0;
   font-family:"Noto Sans JP","Yu Gothic",sans-serif;
   background:#f4f8fb;
   color:#333;
 }
-
 header{
   background:#4c8dcc;
   color:white;
@@ -25,13 +21,11 @@ header{
   font-size:24px;
   font-weight:bold;
 }
-
 .container{
   max-width:1100px;
   margin:auto;
   padding:20px;
 }
-
 .page{
   background:white;
   border-radius:18px;
@@ -39,25 +33,15 @@ header{
   box-shadow:0 3px 15px rgba(0,0,0,.08);
   margin-bottom:20px;
 }
-
-.hidden{
-  display:none;
-}
-
-h2{
-  margin-top:0;
-}
-
+.hidden{display:none;}
+h2{margin-top:0;}
 label{
   display:block;
   font-weight:bold;
   margin-top:15px;
   margin-bottom:7px;
 }
-
-input,
-select,
-textarea{
+input,select,textarea{
   width:100%;
   padding:13px;
   border:1px solid #ccd5dd;
@@ -65,13 +49,11 @@ textarea{
   font-size:16px;
   font-family:inherit;
 }
-
 textarea{
   min-height:150px;
   line-height:1.8;
   resize:vertical;
 }
-
 button{
   border:none;
   border-radius:10px;
@@ -83,35 +65,12 @@ button{
   background:#4c8dcc;
   color:white;
 }
-
-button:hover{
-  opacity:.9;
-}
-
-button:disabled{
-  opacity:.6;
-  cursor:wait;
-}
-
-.green{
-  background:#4d9c68;
-}
-
-.orange{
-  background:#d68c36;
-}
-
-.purple{
-  background:#7656a8;
-}
-
-.gray{
-  background:#777;
-}
-
-.red{
-  background:#c75b5b;
-}
+button:hover{opacity:.9;}
+.green{background:#4d9c68;}
+.orange{background:#d68c36;}
+.purple{background:#7656a8;}
+.gray{background:#777;}
+.red{background:#c75b5b;}
 
 .menu-button{
   width:100%;
@@ -119,7 +78,6 @@ button:disabled{
   font-size:18px;
   margin:8px 0;
 }
-
 .box{
   background:#eef7ff;
   border-left:6px solid #4c8dcc;
@@ -127,7 +85,6 @@ button:disabled{
   border-radius:10px;
   margin:15px 0;
 }
-
 .advice-box{
   background:#fff8dd;
   border-left:6px solid #e0aa32;
@@ -135,15 +92,12 @@ button:disabled{
   border-radius:10px;
   margin:15px 0;
 }
-
 .level-box{
   background:#eef9f0;
   border-left:6px solid #4d9c68;
   padding:16px;
   border-radius:10px;
-  margin:15px 0;
 }
-
 .everyone-card{
   background:#fafcff;
   border:2px solid #dbe7f0;
@@ -151,22 +105,18 @@ button:disabled{
   padding:18px;
   margin:15px 0;
 }
-
 .everyone-card.selected{
   border:3px solid #4d9c68;
   background:#f0faf2;
 }
-
 .reference-button{
   background:#4d9c68;
   width:100%;
   margin-top:10px;
 }
-
 .reference-button.selected{
   background:#d68c36;
 }
-
 .anonymous-label{
   display:inline-block;
   background:#e9f2ff;
@@ -176,7 +126,6 @@ button:disabled{
   font-size:13px;
   font-weight:bold;
 }
-
 .lesson-status{
   background:#eef9f0;
   border-left:6px solid #4d9c68;
@@ -184,34 +133,13 @@ button:disabled{
   border-radius:10px;
   margin-bottom:15px;
 }
-
 .success{
   color:#278247;
   font-weight:bold;
 }
+.center{text-align:center;}
 
-.center{
-  text-align:center;
-}
-
-
-/* ================================
-   トップへ戻るボタン
-================================ */
-
-.top-return-button{
-  width:100%;
-  margin-top:20px;
-  padding:15px;
-  background:#777;
-  font-size:16px;
-}
-
-
-/* ================================
-   提出完了画面
-================================ */
-
+/* 提出完了画面 */
 .submission-complete{
   background:#eef9f0;
   border:3px solid #4d9c68;
@@ -220,29 +148,24 @@ button:disabled{
   margin-top:20px;
   text-align:center;
 }
-
 .submission-icon{
   font-size:58px;
   line-height:1;
   margin-bottom:15px;
 }
-
 .submission-complete h3{
   margin:8px 0 12px;
   color:#278247;
   font-size:25px;
 }
-
 .submission-complete p{
   font-size:17px;
   line-height:1.8;
 }
-
 .submission-note{
   font-weight:bold;
   color:#555;
 }
-
 .learning-comment{
   background:white;
   border:2px solid #d9eadf;
@@ -253,17 +176,14 @@ button:disabled{
   text-align:left;
   line-height:1.8;
 }
-
 .learning-comment-title{
   font-weight:bold;
   color:#278247;
   margin-bottom:6px;
 }
-
 .submission-actions{
   margin-top:22px;
 }
-
 .submission-actions button{
   width:100%;
   max-width:600px;
@@ -273,18 +193,13 @@ button:disabled{
   font-size:17px;
 }
 
-
-/* ================================
-   思考ツール選択
-================================ */
-
+/* 思考ツール選択 */
 .tool-grid{
   display:grid;
   grid-template-columns:repeat(5,1fr);
   gap:10px;
   margin:15px 0;
 }
-
 .tool-card{
   border:2px solid #d5e0ea;
   border-radius:14px;
@@ -294,26 +209,17 @@ button:disabled{
   text-align:center;
   min-height:125px;
 }
-
-.tool-card:hover{
-  background:#eef7ff;
-}
-
+.tool-card:hover{background:#eef7ff;}
 .tool-card.selected{
   border:3px solid #4c8dcc;
   background:#eef7ff;
 }
-
 .tool-icon{
   font-size:30px;
   margin-bottom:5px;
 }
 
-
-/* ================================
-   思考ヒント
-================================ */
-
+/* 思考ヒント */
 .thinking-hint{
   background:#fff8dd;
   border:3px solid #e0aa32;
@@ -321,11 +227,7 @@ button:disabled{
   padding:16px;
   margin:15px 0;
 }
-
-.thinking-hint h3{
-  margin-top:0;
-}
-
+.thinking-hint h3{margin-top:0;}
 .hint-question{
   background:white;
   border-radius:10px;
@@ -334,11 +236,7 @@ button:disabled{
   font-weight:bold;
 }
 
-
-/* ================================
-   最後の考え
-================================ */
-
+/* 最後の考え */
 .final-thinking{
   background:#f3efff;
   border-left:6px solid #7656a8;
@@ -346,16 +244,11 @@ button:disabled{
   padding:18px;
   margin-top:20px;
 }
-
 .final-thinking textarea{
   min-height:140px;
 }
 
-
-/* ================================
-   思考キャンバス
-================================ */
-
+/* 思考キャンバス */
 .thinking-board{
   position:relative;
   width:100%;
@@ -367,7 +260,6 @@ button:disabled{
   margin-top:20px;
   touch-action:none;
 }
-
 .board-title{
   position:absolute;
   top:12px;
@@ -376,7 +268,6 @@ button:disabled{
   font-weight:bold;
   z-index:10;
 }
-
 .board-help{
   position:absolute;
   top:48px;
@@ -390,11 +281,7 @@ button:disabled{
   font-size:14px;
 }
 
-
-/* ================================
-   思考カード
-================================ */
-
+/* 思考カード */
 .thought-card{
   position:absolute;
   min-width:150px;
@@ -411,21 +298,15 @@ button:disabled{
   resize:both;
   z-index:20;
 }
-
-.thought-card.friend{
-  border-color:#4d9c68;
-}
-
+.thought-card.friend{border-color:#4d9c68;}
 .thought-card.mine{
   border-color:#d68c36;
   background:#fffaf1;
 }
-
 .thought-card.new-card{
   border-color:#7656a8;
   background:#faf7ff;
 }
-
 .card-handle{
   position:absolute;
   top:0;
@@ -441,19 +322,13 @@ button:disabled{
   user-select:none;
   touch-action:none;
 }
-
 .thought-card.mine .card-handle{
   background:#fff2d9;
 }
-
 .thought-card.new-card .card-handle{
   background:#eee6ff;
 }
-
-.card-handle:active{
-  cursor:grabbing;
-}
-
+.card-handle:active{cursor:grabbing;}
 .card-resize-handle{
   position:absolute;
   right:2px;
@@ -472,7 +347,6 @@ button:disabled{
   user-select:none;
   touch-action:none;
 }
-
 .card-delete{
   position:absolute;
   top:2px;
@@ -487,7 +361,6 @@ button:disabled{
   font-size:13px;
   z-index:50;
 }
-
 .card-text{
   width:100%;
   height:100%;
@@ -501,54 +374,34 @@ button:disabled{
   line-height:1.6;
 }
 
-
-/* ================================
-   ボード背景
-================================ */
-
+/* ボード背景 */
 .compare-board{
-  background:
-    linear-gradient(
-      90deg,
-      #eef7ff 0%,
-      #eef7ff 47%,
-      white 47%,
-      white 53%,
-      #fff3f3 53%,
-      #fff3f3 100%
-    );
+  background:linear-gradient(
+    90deg,
+    #eef7ff 0%,
+    #eef7ff 47%,
+    white 47%,
+    white 53%,
+    #fff3f3 53%,
+    #fff3f3 100%
+  );
 }
-
-.web-board{
-  background:#f9fbfd;
-}
-
-.jelly-board{
-  background:#f8fcff;
-}
-
-.y-board{
-  background:#fbf9ff;
-}
-
+.web-board{background:#f9fbfd;}
+.jelly-board{background:#f8fcff;}
+.y-board{background:#fbf9ff;}
 .before-board{
-  background:
-    linear-gradient(
-      90deg,
-      #eef7ff 0%,
-      #eef7ff 49.8%,
-      #fff 49.8%,
-      #fff 50.2%,
-      #fff8ed 50.2%,
-      #fff8ed 100%
-    );
+  background:linear-gradient(
+    90deg,
+    #eef7ff 0%,
+    #eef7ff 49.8%,
+    #fff 49.8%,
+    #fff 50.2%,
+    #fff8ed 50.2%,
+    #fff8ed 100%
+  );
 }
 
-
-/* ================================
-   ベン図
-================================ */
-
+/* ベン図 */
 .venn-circle{
   position:absolute;
   width:300px;
@@ -558,17 +411,12 @@ button:disabled{
   background:rgba(76,141,204,.12);
   top:220px;
 }
-
-.venn-left{
-  left:18%;
-}
-
+.venn-left{left:18%;}
 .venn-right{
   right:18%;
   border-color:#d68c36;
   background:rgba(214,140,54,.12);
 }
-
 .venn-label{
   position:absolute;
   top:175px;
@@ -576,15 +424,8 @@ button:disabled{
   font-size:18px;
   z-index:4;
 }
-
-.venn-label.left{
-  left:25%;
-}
-
-.venn-label.right{
-  right:25%;
-}
-
+.venn-label.left{left:25%;}
+.venn-label.right{right:25%;}
 .venn-middle{
   position:absolute;
   top:355px;
@@ -593,11 +434,7 @@ button:disabled{
   z-index:5;
 }
 
-
-/* ================================
-   ウェビング
-================================ */
-
+/* ウェビング */
 .web-center{
   position:absolute;
   top:300px;
@@ -615,11 +452,7 @@ button:disabled{
   font-weight:bold;
 }
 
-
-/* ================================
-   クラゲ
-================================ */
-
+/* クラゲ */
 .jelly-main{
   position:absolute;
   top:190px;
@@ -637,7 +470,6 @@ button:disabled{
   text-align:center;
   z-index:5;
 }
-
 .jelly-instruction{
   position:absolute;
   top:125px;
@@ -651,7 +483,6 @@ button:disabled{
   font-weight:bold;
   z-index:5;
 }
-
 .jelly-tentacle{
   position:absolute;
   top:300px;
@@ -661,25 +492,16 @@ button:disabled{
   transform-origin:top;
   z-index:2;
 }
-
 .jelly-t1{
   left:30%;
   transform:rotate(18deg);
 }
-
-.jelly-t2{
-  left:40%;
-}
-
-.jelly-t3{
-  left:50%;
-}
-
+.jelly-t2{left:40%;}
+.jelly-t3{left:50%;}
 .jelly-t4{
   left:60%;
   transform:rotate(-18deg);
 }
-
 .jelly-reason{
   position:absolute;
   width:180px;
@@ -693,16 +515,11 @@ button:disabled{
   z-index:4;
 }
 
-
-/* ================================
-   Yチャート
-================================ */
-
+/* Yチャート */
 .y-board{
   height:900px;
   overflow:hidden;
 }
-
 .y-line{
   position:absolute;
   width:6px;
@@ -714,19 +531,9 @@ button:disabled{
   z-index:1;
   border-radius:6px;
 }
-
-.y-line.left{
-  transform:rotate(-55deg);
-}
-
-.y-line.middle{
-  transform:rotate(0deg);
-}
-
-.y-line.right{
-  transform:rotate(55deg);
-}
-
+.y-line.left{transform:rotate(-55deg);}
+.y-line.middle{transform:rotate(0deg);}
+.y-line.right{transform:rotate(55deg);}
 .y-center{
   position:absolute;
   left:calc(50% - 85px);
@@ -743,7 +550,6 @@ button:disabled{
   text-align:center;
   z-index:5;
 }
-
 .y-label{
   background:white;
   border:3px solid #7656a8;
@@ -756,22 +562,18 @@ button:disabled{
   z-index:5;
   box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
-
 .y-see{
   top:65px;
   left:calc(50% - 115px);
 }
-
 .y-think{
   top:145px;
   left:5%;
 }
-
 .y-want{
   top:145px;
   right:5%;
 }
-
 .y-own-area{
   position:absolute;
   left:8%;
@@ -783,22 +585,16 @@ button:disabled{
   border-radius:16px;
   padding:12px;
 }
-
 .y-own-area strong{
   display:block;
   margin-bottom:7px;
 }
-
 .y-own-area textarea{
   min-height:105px;
   background:#fffaf1;
 }
 
-
-/* ================================
-   Before After
-================================ */
-
+/* Before After */
 .before-title,
 .after-title{
   position:absolute;
@@ -807,15 +603,8 @@ button:disabled{
   font-weight:bold;
   z-index:5;
 }
-
-.before-title{
-  left:20%;
-}
-
-.after-title{
-  right:20%;
-}
-
+.before-title{left:20%;}
+.after-title{right:20%;}
 .change-arrow{
   position:absolute;
   top:350px;
@@ -823,7 +612,6 @@ button:disabled{
   font-size:50px;
   z-index:5;
 }
-
 .before-help,
 .after-help{
   position:absolute;
@@ -835,212 +623,240 @@ button:disabled{
   text-align:center;
   z-index:5;
 }
+.before-help{left:12%;}
+.after-help{right:12%;}
 
-.before-help{
-  left:12%;
+/* ボタン */
+.board-controls{
+  margin-top:12px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+}
+.add-card-button{background:#7656a8;}
+.save-thinking-button{background:#4d9c68;}
+.to-reflection-button{
+  background:#4c8dcc;
+  font-size:17px;
+  padding:15px 20px;
 }
 
-.after-help{
-  right:12%;
+/* 思考→振り返り */
+.thinking-draft-box{
+  background:#eef7ff;
+  border:3px solid #4c8dcc;
+  border-radius:15px;
+  padding:16px;
+  margin:15px 0;
+}
+.draft-note{
+  background:#fff8dd;
+  border-left:5px solid #e0aa32;
+  padding:12px;
+  border-radius:8px;
+  margin-top:10px;
 }
 
+/* 軽量化表示 */
+.loading{opacity:.7;}
+.cache-note{
+  font-size:12px;
+  color:#777;
+  margin-top:8px;
+}
 
-/* ================================
-   スマートフォン・小型端末
-================================ */
-
-@media(max-width:800px){
-
+/* スマホ・Dynabook */
+@media(max-width:900px){
   .tool-grid{
-    grid-template-columns:repeat(2,1fr);
+    grid-template-columns:repeat(3,1fr);
   }
-
-  .thinking-board{
-    height:800px;
+}
+@media(max-width:600px){
+  .container{padding:10px;}
+  .tool-grid{
+    grid-template-columns:1fr 1fr;
   }
-
+  header{font-size:20px;}
+  .thinking-board{height:700px;}
+  .thought-card{width:190px;}
+  .jelly-instruction{
+    left:5%;
+    width:90%;
+  }
   .venn-circle{
-    width:220px;
-    height:220px;
+    width:240px;
+    height:240px;
   }
-
-  .venn-left{
-    left:8%;
-  }
-
-  .venn-right{
-    right:8%;
-  }
-
-  .y-board{
-    height:850px;
-  }
+  .venn-left{left:5%;}
+  .venn-right{right:5%;}
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  📚 学びアルバム Ver.2
-</header>
+<header>📚 学びアルバム Ver.2</header>
 
 <div class="container">
 
-<!-- =========================================
+<!-- =========================
      トップページ
-========================================= -->
-
+========================= -->
 <div id="homePage" class="page">
 
-  <h2 class="center">
-    🌟 学びアルバム
-  </h2>
+  <h2>こんにちは！</h2>
 
-  <p class="center">
-    今日の学びを記録しよう！
-  </p>
-
-  <button
-    class="menu-button green"
-    onclick="openReflection()">
+  <button class="menu-button" onclick="openReflection()">
     ✏️ 今日の振り返りを書く
   </button>
 
-  <button
-    class="menu-button"
-    onclick="openHistory()">
+  <button class="menu-button" onclick="openHistory()">
     📖 自分の振り返りを見る
   </button>
 
-  <button
-    class="menu-button orange"
-    onclick="openEveryoneHistory()">
-    👀 友達の振り返りを見る
+  <button class="menu-button" onclick="openEveryoneHistory()">
+    👫 みんなの振り返りを見る
   </button>
 
 </div>
 
 
-<!-- =========================================
-     今日の振り返り
-========================================= -->
-
+<!-- =========================
+     振り返りページ
+========================= -->
 <div id="reflectionPage" class="page hidden">
 
-  <h2>
-    ✏️ 今日の振り返り
-  </h2>
+  <h2>✏️ 今日の振り返り</h2>
 
-  <div id="currentLessonArea"></div>
+  <div id="currentLessonBox">
+    授業情報を確認しています...
+  </div>
 
-  <input
-    id="subject"
-    type="hidden">
+  <div id="finalReflectionNotice"
+       class="thinking-draft-box hidden">
 
-  <input
-    id="unit"
-    type="hidden">
+    <h3>🌟 最後の振り返り</h3>
 
-  <label>
-    出席番号
-  </label>
+    <p>
+      友達の考えと思考ツールを使って、
+      もう一度自分の考えを深めました。
+    </p>
+
+    <p>
+      <strong>
+        下の「AIからの提案」をヒントに、
+        自分の言葉で最後の振り返りを書いて提出しよう。
+      </strong>
+    </p>
+
+  </div>
+
+  <div id="thinkingDraftNotice"
+       class="thinking-draft-box hidden">
+
+    <h3>🧠 思考ツールからつながりました</h3>
+
+    <p>
+      さっき整理した内容を、
+      振り返りの下書きに入れました。
+    </p>
+
+    <div class="draft-note">
+      ✏️
+      <strong>
+        そのまま提出するのではなく、
+        自分の言葉に直して完成させよう。
+      </strong>
+    </div>
+
+  </div>
+
+  <label>出席番号</label>
 
   <input
     id="studentNumber"
     type="number"
     min="1"
-    placeholder="出席番号を入力">
+    max="50"
+    placeholder="出席番号を入力"
+  >
 
-  <label>
-    今日の振り返り
-  </label>
+  <input id="subject" type="hidden">
+  <input id="unit" type="hidden">
+
+  <label>今日の学び</label>
 
   <textarea
     id="study"
-    placeholder="今日の学習で分かったこと、考えたこと、できるようになったことなどを書こう"
-    oninput="showAdvice()">
-  </textarea>
+    oninput="showAdvice()"
+    placeholder="今日の授業で分かったこと、考えたことを書こう"
+  ></textarea>
 
-  <div
-    id="adviceBox"
-    class="advice-box hidden">
+  <div id="adviceBox" class="advice-box hidden">
 
-    <strong>
-      🤖 AIからの問い
-    </strong>
+    <h3>🤖 AIからの問い</h3>
 
-    <p id="aiQuestion"></p>
+    <div id="aiQuestion"></div>
 
   </div>
-
-
-  <!-- 最初の振り返り -->
 
   <div id="firstSaveArea">
 
     <button
       class="green"
-      onclick="saveReflection()">
+      onclick="saveReflection()"
+    >
       📤 振り返りを提出する
+    </button>
+
+    <button
+      class="gray"
+      onclick="goHome()"
+    >
+      戻る
     </button>
 
   </div>
 
 
-  <!-- 最後の振り返り用 -->
-
-  <div
-    id="finalReflectionNotice"
-    class="thinking-hint hidden">
-
-    <h3>
-      🌟 最後の振り返り
-    </h3>
-
-    <p>
-      友達の考えや思考ツールを使って、
-      自分の考えを深めました。
-    </p>
-
-  </div>
-
-
-  <div
-    id="thinkingDraftNotice"
-    class="box hidden">
-  </div>
-
-
   <!-- 提出完了 -->
+  <div id="submissionCompleteArea"
+       class="submission-complete hidden">
 
-  <div
-    id="submissionCompleteArea"
-    class="submission-complete hidden">
+    <div class="submission-icon">🎉</div>
 
-    <div class="submission-icon">
-      🎉
-    </div>
-
-    <h3>
-      振り返りを提出しました！
-    </h3>
+    <h3>振り返りを提出しました！</h3>
 
     <p>
-      今日の学びがしっかり記録されました。
+      今日の学びが、しっかり記録されました。
     </p>
 
-    <div
-      id="learningComment"
-      class="learning-comment">
+    <p class="submission-note">
+      これで今日の振り返りは終了です。
+    </p>
+
+    <div id="learningComment"
+         class="learning-comment hidden">
+
+      <div class="learning-comment-title">
+        🌱 今日の学びへのコメント
+      </div>
+
+      <div id="learningCommentText"></div>
+
     </div>
 
     <div class="submission-actions">
 
       <button
         class="green"
-        onclick="showPage('homePage')">
-        🏠 トップへ戻る
+        onclick="goHome()"
+      >
+        🏠 トップページへ戻る
+      </button>
+
+      <button onclick="openHistory()">
+        📖 自分の振り返りを見る
       </button>
 
     </div>
@@ -1050,286 +866,237 @@ button:disabled{
 </div>
 
 
-<!-- =========================================
-     自分の振り返り
-========================================= -->
+<!-- =========================
+     みんなの振り返り
+========================= -->
+<div id="everyonePage" class="page hidden">
 
-<div id="historyPage" class="page hidden">
-
-  <h2>
-    📖 自分の振り返り
-  </h2>
-
-  <label>
-    出席番号
-  </label>
-
-  <input
-    id="historyNumber"
-    type="number"
-    min="1"
-    placeholder="出席番号を入力">
-
-  <button
-    class="green"
-    onclick="loadMyHistory()">
-    🔍 振り返りを見る
-  </button>
+  <h2>👫 みんなの振り返り</h2>
 
   <button
     class="gray"
-    onclick="refreshMyHistory()">
-    🔄 更新
+    onclick="goHome()"
+  >
+    🏠 トップに戻る
   </button>
 
-  <div id="historyList"></div>
+  <div
+    id="everyoneLessonBox"
+    class="lesson-status"
+  >
+    授業情報を確認しています...
+  </div>
 
-  <!-- ★追加：トップへ戻る -->
+  <div class="box">
+
+    <span class="anonymous-label">
+      🔒 完全匿名
+    </span>
+
+    <p>
+      名前や出席番号は表示されません。
+    </p>
+
+    <p>
+      「👍 この考えを参考にしたい」を押して、
+      思考ツールで考えを深めよう。
+    </p>
+
+  </div>
+
+  <div id="everyoneList">
+    読み込み中...
+  </div>
+
+  <!--
+    ここは「最初の振り返りを提出した直後」の
+    友達の振り返り画面でだけ表示。
+    トップページから入った場合は表示しない。
+  -->
+  <div id="thinkingStartArea" class="hidden">
+
+    <div class="level-box">
+
+      🧠 選んだ考え：
+      <strong>
+        <span id="selectedCount">0</span>件
+      </strong>
+
+      <br>
+
+      <button
+        class="purple"
+        onclick="openThinkingTools()"
+      >
+        🧠 選んだ考えをもとに考える
+      </button>
+
+    </div>
+
+  </div>
 
   <button
-    class="top-return-button"
-    onclick="showPage('homePage')">
-    🏠 トップに戻る
+    class="gray"
+    onclick="goHome()"
+  >
+    戻る
   </button>
 
 </div>
 
 
-<!-- =========================================
-     友達の振り返り
-========================================= -->
+<!-- =========================
+     思考ツールページ
+========================= -->
+<div id="thinkingPage" class="page hidden">
 
-<div id="everyonePage" class="page hidden">
-
-  <h2>
-    👀 友達の振り返り
-  </h2>
-
-  <div id="everyoneLessonArea"></div>
+  <h2>🧠 友達の考えをもとに考える</h2>
 
   <div class="box">
+
     <strong>
-      💡 友達の考えを参考にしよう
+      👇 友達の考えを使って、自分の考えを広げよう！
     </strong>
 
     <p>
-      「この考えを参考にしたい」を
-      押して、あとで思考ツールで整理できます。
+      🟢 友達の考えは、
+      上のバーをつかんで動かせます。
     </p>
+
+    <p>
+      🟠 「＋自分の考え」で自分の考えを追加できます。
+    </p>
+
+    <p>
+      🟣 「＋新しいカード」で自由にカードを増やせます。
+    </p>
+
+    <p>
+      ↘ カードの右下をドラッグすると大きさを変えられます。
+    </p>
+
+    <p>
+      🗑️ いらないカードは右上の「×」で消せます。
+    </p>
+
   </div>
 
-  <div
-    id="selectedCount"
-    class="level-box">
-    👍 参考にしたい考え：0個
-  </div>
+  <div id="selectedReflections"></div>
 
-  <div id="everyoneList"></div>
-
-  <div class="center">
-
-    <button
-      class="purple"
-      onclick="openThinkingTools()">
-      🧠 思考ツールで考える
-    </button>
-
-  </div>
-
-  <!-- ★追加：トップへ戻る -->
-
-  <button
-    class="top-return-button"
-    onclick="showPage('homePage')">
-    🏠 トップに戻る
-  </button>
-
-</div>
-
-
-<!-- =========================================
-     思考ツール選択
-========================================= -->
-
-<div id="toolPage" class="page hidden">
-
-  <h2>
-    🧠 思考ツールを選ぼう
-  </h2>
-
-  <p>
-    友達の考えを整理するための方法を選びます。
-  </p>
+  <h3>🔍 どのように考えてみる？</h3>
 
   <div class="tool-grid">
 
     <div
       class="tool-card"
-      onclick="selectTool('compare')">
-
-      <div class="tool-icon">
-        🔵
-      </div>
-
-      <strong>
-        比べる
-      </strong>
-
-      <p>
-        ベン図
-      </p>
-
+      onclick="selectTool('compare',this)"
+    >
+      <div class="tool-icon">🔵</div>
+      <strong>比べる</strong>
+      <p>ベン図</p>
     </div>
-
 
     <div
       class="tool-card"
-      onclick="selectTool('web')">
-
-      <div class="tool-icon">
-        🟢
-      </div>
-
-      <strong>
-        整理する
-      </strong>
-
-      <p>
-        ウェビング
-      </p>
-
+      onclick="selectTool('web',this)"
+    >
+      <div class="tool-icon">🟢</div>
+      <strong>整理する</strong>
+      <p>ウェビング</p>
     </div>
-
 
     <div
       class="tool-card"
-      onclick="selectTool('jellyfish')">
-
-      <div class="tool-icon">
-        🟡
-      </div>
-
-      <strong>
-        理由を考える
-      </strong>
-
-      <p>
-        クラゲチャート
-      </p>
-
+      onclick="selectTool('jellyfish',this)"
+    >
+      <div class="tool-icon">🟡</div>
+      <strong>理由を考える</strong>
+      <p>クラゲチャート</p>
     </div>
-
 
     <div
       class="tool-card"
-      onclick="selectTool('y')">
-
-      <div class="tool-icon">
-        🟣
-      </div>
-
-      <strong>
-        考えを広げる
-      </strong>
-
-      <p>
-        Yチャート
-      </p>
-
+      onclick="selectTool('y',this)"
+    >
+      <div class="tool-icon">🟣</div>
+      <strong>考えを広げる</strong>
+      <p>Yチャート</p>
     </div>
-
 
     <div
       class="tool-card"
-      onclick="selectTool('beforeAfter')">
-
-      <div class="tool-icon">
-        🔴
-      </div>
-
-      <strong>
-        自分の変化を見る
-      </strong>
-
-      <p>
-        Before → After
-      </p>
-
+      onclick="selectTool('beforeAfter',this)"
+    >
+      <div class="tool-icon">🔴</div>
+      <strong>自分の変化を見る</strong>
+      <p>Before → After</p>
     </div>
 
   </div>
 
+  <div id="thinkingHintArea"></div>
+
+  <div id="thinkingWorkspace"></div>
+
+  <div id="finalThinkingArea"></div>
+
   <button
     class="gray"
-    onclick="showPage('everyonePage')">
-    ← 友達の考えに戻る
+    onclick="openEveryoneHistory(true)"
+  >
+    みんなの振り返りへ戻る
   </button>
 
 </div>
 
 
-<!-- =========================================
-     思考ツール
-========================================= -->
+<!-- =========================
+     自分の振り返り
+========================= -->
+<div id="historyPage" class="page hidden">
 
-<div id="thinkingPage" class="page hidden">
+  <h2>📖 自分の振り返り</h2>
 
-  <h2 id="thinkingTitle">
-    🧠 思考ツール
-  </h2>
+  <button
+    class="gray"
+    onclick="goHome()"
+  >
+    🏠 トップに戻る
+  </button>
 
-  <div
-    id="thinkingHintArea"
-    class="thinking-hint">
-  </div>
+  <label>出席番号</label>
 
-  <div
-    id="thinkingBoard"
-    class="thinking-board">
-  </div>
+  <input
+    id="historyNumber"
+    type="number"
+    min="1"
+    max="50"
+    placeholder="出席番号を入力"
+  >
 
-  <div
-    id="finalThinkingArea"
-    class="final-thinking">
+  <button onclick="loadMyHistory()">
+    🔍 振り返りを見る
+  </button>
 
-    <h3>
-      🌟 最後に、自分の考え
-    </h3>
+  <div id="historyList"></div>
 
-    <p>
-      思考ツールを使って考えたことを、
-      自分の言葉でまとめよう。
-    </p>
-
-    <textarea
-      id="finalThought"
-      placeholder="今日の授業で、自分の考えはどうなったかな？">
-    </textarea>
-
-    <button
-      class="purple"
-      onclick="saveThinking()">
-      💾 思考した内容を保存
-    </button>
-
-    <button
-      class="green"
-      onclick="thinkingToReflection()">
-      ✏️ 最後の振り返りへ進む
-    </button>
-
-  </div>
+  <button
+    class="gray"
+    onclick="goHome()"
+  >
+    戻る
+  </button>
 
 </div>
 
 </div>
 
-
-<!-- =========================================
-     Firebase
-========================================= -->
 
 <script type="module">
+
+/* =================================
+   Firebase
+================================= */
 
 import {
   initializeApp
@@ -1340,87 +1107,39 @@ import {
   collection,
   addDoc,
   getDocs,
-  getDoc,
-  doc,
-  updateDoc,
-  serverTimestamp,
   query,
-  where
+  where,
+  doc,
+  getDoc,
+  updateDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
-/* =========================================
-   Firebase設定
-========================================= */
-
 const firebaseConfig = {
-
-  apiKey:
-    "AIzaSyA7fBz695BTUL8lxxJ06csf6AfU_DQp3iw",
-
-  authDomain:
-    "manabi-album-v2.firebaseapp.com",
-
-  projectId:
-    "manabi-album-v2",
-
-  storageBucket:
-    "manabi-album-v2.firebasestorage.app",
-
-  messagingSenderId:
-    "226258471812",
-
-  appId:
-    "1:226258471812:web:15230ba15e7e0bd7d86bd1"
-
+  apiKey:"AIzaSyA7fBz695BTUL8lxxJ06csf6AfU_DQp3iw",
+  authDomain:"manabi-album-v2.firebaseapp.com",
+  projectId:"manabi-album-v2",
+  storageBucket:"manabi-album-v2.firebasestorage.app",
+  messagingSenderId:"226258471812",
+  appId:"1:226258471812:web:15230ba15e7e0bd7d86bd1"
 };
 
 
-const app =
-  initializeApp(firebaseConfig);
-
-const db =
-  getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 
-/* =========================================
-   キャッシュ
-========================================= */
-
-let lessonCache = null;
-
-let lessonCacheTime = 0;
-
-const LESSON_CACHE_MS = 15000;
-
-const everyoneCache =
-  new Map();
-
-const historyCache =
-  new Map();
-
-
-function clearEveryoneCache(){
-  everyoneCache.clear();
-}
-
-
-function clearHistoryCache(number){
-  if(number === undefined){
-    historyCache.clear();
-  }else{
-    historyCache.delete(String(number));
-  }
-}
-
-
-/* =========================================
+/* =================================
    状態
-========================================= */
+================================= */
 
+let currentLesson = null;
 let currentReflectionId = null;
 
 let selectedReflectionIds = [];
+
+let everyoneData = [];
 
 let selectedTool = null;
 
@@ -1431,81 +1150,145 @@ let savingReflection = false;
 let submissionCompleted = false;
 
 
-/* =========================================
-   ページ切り替え
-========================================= */
+/*
+  true
+  = 最初の振り返り提出後に
+    自動で開いた「友達の振り返り」
 
-window.showPage = function(pageId){
+  false
+  = トップページから
+    「みんなの振り返りを見る」で開いた画面
 
-  document
-    .querySelectorAll(".page")
-    .forEach(page=>{
-      page.classList.add("hidden");
-    });
+  トップページから開いた場合は、
+  思考ツールボタンを表示しない。
+*/
+let everyoneThinkingEnabled = false;
 
-  const page =
-    document.getElementById(pageId);
 
-  if(page){
-    page.classList.remove("hidden");
+/* =================================
+   軽量化用キャッシュ
+================================= */
+
+let lessonCache = null;
+let lessonCacheTime = 0;
+
+const LESSON_CACHE_MS = 15000;
+
+const everyoneCache = new Map();
+
+const historyCache = new Map();
+
+let lastEveryoneCacheKey = "";
+
+
+/* =================================
+   画面切替
+================================= */
+
+function showPage(id){
+
+  const pages = [
+    "homePage",
+    "reflectionPage",
+    "everyonePage",
+    "thinkingPage",
+    "historyPage"
+  ];
+
+  pages.forEach(page => {
+
+    const el = document.getElementById(page);
+
+    if(el){
+      el.classList.add("hidden");
+    }
+
+  });
+
+  const target = document.getElementById(id);
+
+  if(target){
+    target.classList.remove("hidden");
   }
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+}
+
+
+window.goHome = function(){
+
+  everyoneThinkingEnabled = false;
+
+  showPage("homePage");
+
 };
 
 
-/* =========================================
+/* =================================
    授業情報取得
-========================================= */
+================================= */
 
-async function getCurrentLesson(){
+async function getCurrentLesson(options = {}){
 
-  const now =
-    Date.now();
+  const force = options.force === true;
 
   if(
+    !force &&
     lessonCache &&
-    now - lessonCacheTime < LESSON_CACHE_MS
+    Date.now() - lessonCacheTime < LESSON_CACHE_MS
   ){
+
+    currentLesson = lessonCache;
+
     return lessonCache;
+
   }
+
 
   try{
 
-    const ref =
-      doc(
-        db,
-        "currentLesson",
-        "today"
-      );
+    const ref = doc(
+      db,
+      "currentLesson",
+      "today"
+    );
 
-    const snap =
-      await getDoc(ref);
+    const snap = await getDoc(ref);
 
-    if(
-      !snap.exists()
-    ){
+
+    if(!snap.exists()){
+
+      currentLesson = null;
+
       lessonCache = null;
+
+      lessonCacheTime = Date.now();
+
       return null;
+
     }
 
-    const data =
-      snap.data();
 
-    if(
-      data.active !== true
-    ){
+    const data = snap.data();
+
+
+    if(data.active !== true){
+
+      currentLesson = null;
+
       lessonCache = null;
+
+      lessonCacheTime = Date.now();
+
       return null;
+
     }
+
+
+    currentLesson = data;
 
     lessonCache = data;
 
-    lessonCacheTime =
-      Date.now();
+    lessonCacheTime = Date.now();
 
     return data;
 
@@ -1513,81 +1296,181 @@ async function getCurrentLesson(){
 
     console.error(error);
 
+    currentLesson = null;
+
     return null;
+
   }
+
 }
 
 
-/* =========================================
+window.refreshLesson = function(){
+
+  lessonCache = null;
+
+  lessonCacheTime = 0;
+
+  return getCurrentLesson({
+    force:true
+  });
+
+};
+
+
+/* =================================
    授業情報表示
-========================================= */
+================================= */
 
 async function displayCurrentLesson(){
 
-  const lesson =
-    await getCurrentLesson();
+  const lesson = await getCurrentLesson();
 
   const area =
-    document.getElementById(
-      "currentLessonArea"
-    );
+    document.getElementById("currentLessonBox");
 
-  if(!area){
-    return;
-  }
 
   if(!lesson){
 
     area.innerHTML = `
-      <div class="lesson-status">
-        ⚠️ 現在、授業が開始されていません。
+      <div class="box">
+        🔴 現在、授業が開始されていません。
+        <br><br>
+        先生が授業を開始すると、
+        教科・単元が自動表示されます。
       </div>
     `;
 
     return;
+
   }
 
-  document.getElementById(
-    "subject"
-  ).value =
-    lesson.subject || "";
-
-  document.getElementById(
-    "unit"
-  ).value =
-    lesson.unit || "";
 
   area.innerHTML = `
-
     <div class="lesson-status">
 
+      🟢 授業中
+
+      <br><br>
+
+      教科：
       <strong>
-        📚 ${escapeHtml(lesson.subject || "")}
+        ${escapeHtml(lesson.subject || "")}
       </strong>
 
       <br>
 
-      📖 ${escapeHtml(lesson.unit || "")}
+      単元：
+      <strong>
+        ${escapeHtml(lesson.unit || "")}
+      </strong>
 
     </div>
-
   `;
+
+
+  document.getElementById("subject").value =
+    lesson.subject || "";
+
+  document.getElementById("unit").value =
+    lesson.unit || "";
+
 }
 
 
-/* =========================================
-   今日の振り返りを開く
-========================================= */
+/* =================================
+   思考→振り返り 下書き
+================================= */
+
+function getThinkingDraft(){
+
+  try{
+
+    const raw =
+      sessionStorage.getItem(
+        "thinkingReflectionDraft"
+      );
+
+    if(!raw){
+      return null;
+    }
+
+    return JSON.parse(raw);
+
+  }catch(error){
+
+    console.error(error);
+
+    return null;
+
+  }
+
+}
+
+
+/* =================================
+   思考→振り返り
+================================= */
+
+function applyThinkingDraft(){
+
+  const draft = getThinkingDraft();
+
+  if(!draft){
+    return;
+  }
+
+
+  const study =
+    document.getElementById("study");
+
+  const subject =
+    document.getElementById("subject");
+
+  const unit =
+    document.getElementById("unit");
+
+
+  if(draft.subject){
+
+    subject.value = draft.subject;
+
+  }
+
+
+  if(draft.unit){
+
+    unit.value = draft.unit;
+
+  }
+
+
+  study.value = draft.text || "";
+
+
+  document
+    .getElementById("thinkingDraftNotice")
+    .classList.remove("hidden");
+
+
+  showAdvice();
+
+}
+
+
+/* =================================
+   振り返り開始
+================================= */
 
 window.openReflection = async function(){
 
-  showPage(
-    "reflectionPage"
-  );
+  showPage("reflectionPage");
+
 
   let returningFromThinking = false;
 
   let active = false;
+
 
   try{
 
@@ -1595,6 +1478,7 @@ window.openReflection = async function(){
       sessionStorage.getItem(
         "thinkingFlowActive"
       ) === "true";
+
 
     returningFromThinking =
       active &&
@@ -1606,14 +1490,10 @@ window.openReflection = async function(){
 
 
   const study =
-    document.getElementById(
-      "study"
-    );
+    document.getElementById("study");
 
   const advice =
-    document.getElementById(
-      "adviceBox"
-    );
+    document.getElementById("adviceBox");
 
   const finalNotice =
     document.getElementById(
@@ -1643,29 +1523,21 @@ window.openReflection = async function(){
 
   study.value = "";
 
-  advice.classList.add(
-    "hidden"
-  );
+  advice.classList.add("hidden");
 
-  complete.classList.add(
-    "hidden"
-  );
+  complete.classList.add("hidden");
 
-  firstSave.classList.remove(
-    "hidden"
-  );
+  firstSave.classList.remove("hidden");
 
-  finalNotice.classList.add(
-    "hidden"
-  );
+  finalNotice.classList.add("hidden");
 
-  draftNotice.classList.add(
-    "hidden"
-  );
+  draftNotice.classList.add("hidden");
+
 
   document.getElementById(
     "aiQuestion"
   ).textContent = "";
+
 
   savingReflection = false;
 
@@ -1677,9 +1549,11 @@ window.openReflection = async function(){
     title.textContent =
       "🌟 最後の振り返り";
 
+
     finalNotice.classList.remove(
       "hidden"
     );
+
 
     currentReflectionId =
       sessionStorage.getItem(
@@ -1691,7 +1565,9 @@ window.openReflection = async function(){
     title.textContent =
       "✏️ 今日の振り返り";
 
+
     currentReflectionId = null;
+
 
     try{
 
@@ -1742,11 +1618,16 @@ window.openReflection = async function(){
 };
 
 
-/* =========================================
-   個別AIアドバイス
-========================================= */
+/* =================================
+   AIの問い
+================================= */
 
 window.showAdvice = function(){
+
+  const subject =
+    document.getElementById(
+      "subject"
+    ).value;
 
   const text =
     document.getElementById(
@@ -1758,313 +1639,653 @@ window.showAdvice = function(){
       "adviceBox"
     );
 
-  const question =
+  const qBox =
     document.getElementById(
       "aiQuestion"
     );
 
-  if(!text){
-
-    box.classList.add(
-      "hidden"
-    );
-
-    question.textContent = "";
-
-    return;
-  }
-
-
-  const lesson =
-    lessonCache || {};
-
-  const subject =
-    lesson.subject || "";
-
-  const hasReason =
-    /なぜ|理由|だから|ので|わけ|原因/.test(
-      text
-    );
-
-  const hasCompare =
-    /比べ|違い|同じ|似て|共通/.test(
-      text
-    );
-
-  const hasChange =
-    /前|最初|今|変わ|できるよう|分かるよう/.test(
-      text
-    );
-
-  const hasEvidence =
-    /例えば|実際|資料|数字|データ|見つけ|調べ/.test(
-      text
-    );
-
-  const hasFriend =
-    /友達|みんな|人|考え/.test(
-      text
-    );
-
-  const hasQuestion =
-    /かな|だろう|疑問|知りたい|なぜ/.test(
-      text
-    );
-
-  const hasEmotion =
-    /思った|感じた|うれしい|楽しい|難しい|驚いた|びっくり/.test(
-      text
-    );
-
-
-  let subjectFocus = "";
-
-  if(subject === "国語"){
-
-    subjectFocus =
-      "文章のどの言葉や表現からそう考えたのか";
-
-  }else if(subject === "算数"){
-
-    subjectFocus =
-      "どんな式や図、考え方を使ったのか";
-
-  }else if(subject === "生活"){
-
-    subjectFocus =
-      "実際に見たり体験したりしたこと";
-
-  }else if(subject === "理科"){
-
-    subjectFocus =
-      "実験や観察の結果と考えた理由";
-
-  }else if(subject === "社会"){
-
-    subjectFocus =
-      "資料や事実をもとにした理由";
-
-  }else if(subject === "総合"){
-
-    subjectFocus =
-      "調べたことや地域とのつながり";
-
-  }else if(subject === "道徳"){
-
-    subjectFocus =
-      "自分の生活や経験とのつながり";
-
-  }else if(subject === "体育"){
-
-    subjectFocus =
-      "動き方や友達との関わりで気付いたこと";
-
-  }else{
-
-    subjectFocus =
-      "そう考えた理由や具体的な出来事";
-
-  }
-
-
-  let q = "";
-
 
   if(
-    hasReason &&
-    hasEvidence &&
-    hasChange
+    !subject ||
+    text.length < 5
   ){
 
-    q =
-      `「${shortText(text)}」と振り返れていますね。さらに、${subjectFocus}を一つ具体的に書くと、もっと伝わる振り返りになりそうです。`;
+    box.classList.add("hidden");
 
-  }else if(
-    !hasReason &&
-    !hasEvidence
-  ){
+    qBox.textContent = "";
 
-    q =
-      `「${shortText(text)}」について、どうしてそう思ったのか、${subjectFocus}を手がかりに考えてみよう。`;
-
-  }else if(
-    hasCompare &&
-    !hasReason
-  ){
-
-    q =
-      `「${shortText(text)}」で比べたことについて、なぜその違いや同じところが生まれたのか考えてみよう。`;
-
-  }else if(
-    hasFriend
-  ){
-
-    q =
-      `「${shortText(text)}」について、友達の考えと比べると、自分の考えにどんな発見がありそうかな？`;
-
-  }else if(
-    hasChange
-  ){
-
-    q =
-      `「${shortText(text)}」と自分の変化に気付いていますね。何がきっかけで考えが変わったのか考えてみよう。`;
-
-  }else if(
-    hasQuestion
-  ){
-
-    q =
-      `「${shortText(text)}」という疑問を、${subjectFocus}を使ってもう少し詳しく考えてみよう。`;
-
-  }else if(
-    hasEmotion
-  ){
-
-    q =
-      `「${shortText(text)}」と感じたのはなぜかな？ ${subjectFocus}を思い出して、理由を付け加えてみよう。`;
-
-  }else{
-
-    q =
-      `「${shortText(text)}」について、${subjectFocus}を一つ具体的に付け加えると、もっと深い振り返りになりそうです。`;
+    return;
 
   }
 
 
-  question.textContent =
-    q;
+  /*
+    児童一人一人の文章そのものを読み取り、
+    同じ教科でも文章の特徴に応じて問いを変える。
+  */
 
-  box.classList.remove(
-    "hidden"
-  );
+  const hasReason =
+    /なぜ|どうして|理由|わけ|だから|ので/.test(text);
+
+  const hasCompare =
+    /比べ|くらべ|違い|ちがい|同じ|似て|一方|それぞれ/.test(text);
+
+  const hasChange =
+    /変わ|変化|前は|最初|今は|考え直|見方が/.test(text);
+
+  const hasEvidence =
+    /例えば|たとえば|具体的|本文|資料|実験|観察|数字|図|表|データ|証拠/.test(text);
+
+  const hasFriend =
+    /友達|友だち|みんな|他の人|別の考え/.test(text);
+
+  const hasQuestion =
+    /疑問|不思議|もっと知りたい|知りたい|気になる/.test(text);
+
+  const hasEmotion =
+    /楽しかった|嬉しかった|うれしかった|難しかった|むずかしかった|悔しかった|くやしかった|驚いた|びっくり/.test(text);
+
+
+  const subjectFocus = {
+
+    "国語":"本文の言葉や場面",
+
+    "算数":"考え方や解き方",
+
+    "生活":"身近な生活や体験",
+
+    "理科":"観察や実験の結果",
+
+    "社会":"資料や人々の立場",
+
+    "総合":"課題や自分たちの活動",
+
+    "道徳":"自分の生活や行動",
+
+    "体育":"動き方や工夫"
+
+  };
+
+
+  const focus =
+    subjectFocus[subject] ||
+    "今日の学び";
+
+
+  const quoted =
+    shortLearningText(
+      text,
+      46
+    );
+
+
+  let question = "";
+
+
+  if(hasFriend){
+
+    question =
+      `「${quoted}」と書いたあなたの考えについて、友達の考えのどこが似ていて、どこが違っていたかな？そこから自分の考えはどう変わりそうかな？`;
+
+  }else if(hasChange){
+
+    question =
+      `「${quoted}」と書いたあなたに聞いてみよう。最初に考えていたことと今の考えを比べると、何が変わったかな？そのきっかけは何だったかな？`;
+
+  }else if(hasReason){
+
+    question =
+      `「${quoted}」と考えた理由を、もう一歩くわしくしてみよう。${hasEvidence ? focus+"の中から、根拠になるものを一つ選べるかな？" : "具体的な出来事や授業で分かったことを一つ足せるかな？"}`;
+
+  }else if(hasCompare){
+
+    question =
+      `「${quoted}」について、比べたからこそ分かったことは何かな？同じところと違うところのどちらが、自分の考えに大きく関係しているかな？`;
+
+  }else if(hasQuestion){
+
+    question =
+      `「${quoted}」について、どうしてそれが気になったのかな？答えを確かめるために、次に何を見たり調べたりしたらよさそうかな？`;
+
+  }else if(hasEmotion){
+
+    question =
+      `「${quoted}」と感じたのは、${focus}のどんなところがきっかけだったのかな？その気持ちから、もう一つ分かったことや考えたことはあるかな？`;
+
+  }else{
+
+    question =
+      `「${quoted}」と書いたあなたに、もう一つ聞いてみよう。${focus}について、どうしてそう思ったのか、または具体的にどんなことがあったのかを一つ付け足せるかな？`;
+
+  }
+
+
+  qBox.textContent = question;
+
+  box.classList.remove("hidden");
 
 };
 
 
-/* =========================================
-   最終振り返りAIアドバイス
-========================================= */
+/* =================================
+   最後の振り返り用AI提案
+================================= */
 
-window.showFinalAdvice = function(){
-
-  const study =
-    document.getElementById(
-      "study"
-    );
+function showFinalAdvice(){
 
   const box =
     document.getElementById(
       "adviceBox"
     );
 
-  const question =
+  const subject =
     document.getElementById(
-      "aiQuestion"
-    );
+      "subject"
+    ).value;
 
-  const text =
-    study.value.trim();
 
-  if(!text){
+  const draft =
+    getThinkingDraft();
 
-    box.classList.add(
-      "hidden"
-    );
 
+  if(!box){
     return;
   }
 
 
-  const initial =
-    sessionStorage.getItem(
-      "thinkingInitialStudy"
-    ) || "";
+  const text =
+    (
+      draft &&
+      draft.text
+        ? draft.text
+        : document.getElementById("study")?.value || ""
+    ).trim();
 
 
-  const hasChange =
-    /変わ|前|最初|今|考えが/.test(
-      text
-    );
+  const finalThought =
+    extractFinalThought(text);
 
-  const hasReason =
-    /なぜ|理由|だから|ので|わけ/.test(
-      text
-    );
 
   const hasFriend =
-    /友達|みんな|考え/.test(
-      text
+    /友達|友だち|みんな|他の人/.test(text);
+
+  const hasChange =
+    /変わ|変化|前は|最初|今は|考え直|見方/.test(text);
+
+  const hasReason =
+    /なぜ|どうして|理由|わけ/.test(text);
+
+  const hasCompare =
+    /比べ|くらべ|違い|ちがい|同じ|似て/.test(text);
+
+  const hasNew =
+    /気付|気づ|分かった|わかった|新しく|発見/.test(text);
+
+
+  const questions = [];
+
+
+  if(hasFriend){
+
+    questions.push(
+      "友達のどの考えが、自分の考えを広げるきっかけになったかな？"
     );
 
+  }
 
-  let q = "";
+
+  if(hasCompare){
+
+    questions.push(
+      "比べてみて分かった「同じところ」「違うところ」は、自分の考えに何を教えてくれたかな？"
+    );
+
+  }
+
+
+  if(hasReason){
+
+    questions.push(
+      "その考えにした理由を、授業で見たこと・聞いたこと・分かったことを使って説明できるかな？"
+    );
+
+  }
 
 
   if(hasChange){
 
-    q =
-      "最初の自分の考えと比べて、どんなところが変わったのか、そのきっかけまで書けるかな？";
+    questions.push(
+      "最初の考えと最後の考えを比べて、どこが変わった？その変化のきっかけは何だったかな？"
+    );
 
-  }else if(hasFriend){
+  }
 
-    q =
-      "友達の考えを参考にして、自分の考えにどんな新しい発見が生まれたのか書いてみよう。";
 
-  }else if(hasReason){
+  if(hasNew){
 
-    q =
-      "その考えになった理由を、今日の学習で分かったこととつなげて説明できるかな？";
+    questions.push(
+      "思考ツールを使ったことで、新しく気付いたことは何かな？それはなぜ大切だと思うかな？"
+    );
 
-  }else if(initial){
+  }
 
-    q =
-      "最初の振り返りと比べて、今の自分の考えはどう深まったかな？";
+
+  const subjectQuestions = {
+
+    "国語":
+      "本文のどの言葉や場面が、自分の考えの根拠になっているかな？",
+
+    "算数":
+      "友達の方法と比べて、自分の方法のよさや、もっとよい方法は見つかったかな？",
+
+    "生活":
+      "今日の気付きは、自分の生活やこれまでの経験とどのようにつながっているかな？",
+
+    "理科":
+      "実験や観察の結果をもとに、どうしてそう考えたのかな？",
+
+    "社会":
+      "資料や友達の考えから、新しく分かったことを一つ選ぶとしたら何かな？",
+
+    "総合":
+      "いろいろな考えを取り入れて、自分の考えはどのように広がったかな？",
+
+    "道徳":
+      "今日考えたことを、自分の生活の中ではどんな場面で生かせそうかな？",
+
+    "体育":
+      "今日できるようになったことや工夫したことを、次はどう生かしてみたいかな？"
+
+  };
+
+
+  if(questions.length === 0){
+
+    questions.push(
+      subjectQuestions[subject] ||
+      "今日の学びを振り返って、自分の考えが深まったところを一つ見つけてみよう。"
+    );
 
   }else{
 
-    q =
-      "今日の学習で得た気付きが、自分の考えにどうつながったのか考えてみよう。";
+    questions.push(
+      subjectQuestions[subject] ||
+      "今日の学びを、自分の言葉で一番伝えたいことは何かな？"
+    );
 
   }
 
 
-  question.textContent =
-    q;
-
-  box.classList.remove(
-    "hidden"
-  );
-
-};
+  const focus =
+    finalThought
+      ? `あなたが書いた「${escapeHtml(shortLearningText(finalThought,38))}」をもとに、もう一歩考えてみよう。`
+      : "思考ツールで整理したことをもとに、もう一歩考えてみよう。";
 
 
-/* =========================================
-   短縮表示
-========================================= */
+  box.innerHTML = `
 
-function shortText(text){
+    <div class="advice-title">
+      🤖 AIからの提案
+    </div>
 
-  if(text.length <= 35){
-    return text;
-  }
+    <p>
+      ${focus}
+    </p>
 
-  return text.slice(
-    0,
-    35
-  ) + "…";
+    <ul>
+
+      ${questions
+        .slice(0,3)
+        .map(q =>
+          `<li style="margin-bottom:8px;">
+            ${escapeHtml(q)}
+          </li>`
+        )
+        .join("")
+      }
+
+    </ul>
+
+    <p>
+      💡 自分に合う問いを一つ選んで、
+      最後の振り返りに生かしてみよう。
+    </p>
+
+  `;
+
+
+  box.classList.remove("hidden");
+
 }
 
 
-/* =========================================
-   振り返り保存
-========================================= */
+/* =================================
+   キャッシュ削除
+================================= */
 
-window.saveReflection = async function(){
+function clearEveryoneCache(){
 
-  if(savingReflection){
+  everyoneCache.clear();
+
+  lastEveryoneCacheKey = "";
+
+}
+
+
+function clearHistoryCache(number){
+
+  historyCache.delete(
+    String(number)
+  );
+
+}
+
+
+/* =================================
+   最後の振り返り本文を取り出す
+================================= */
+
+function normalizeForComparison(text){
+
+  return String(text || "")
+    .replace(
+      /[\s　、。,.!?！？「」『』（）()【】［］\[\]・:：;；]/g,
+      ""
+    )
+    .trim();
+
+}
+
+
+function shortLearningText(
+  text,
+  max = 42
+){
+
+  const t =
+    String(text || "")
+      .replace(/\s+/g," ")
+      .trim();
+
+
+  return t.length > max
+    ? t.slice(0,max) + "…"
+    : t;
+
+}
+
+
+function extractFinalThought(text){
+
+  const t =
+    String(text || "").trim();
+
+
+  if(!t){
+    return "";
+  }
+
+
+  const marker =
+    "【今日の授業での自分の考え】";
+
+
+  const idx =
+    t.lastIndexOf(marker);
+
+
+  if(idx >= 0){
+
+    const result =
+      t.slice(
+        idx + marker.length
+      ).trim();
+
+
+    if(result){
+      return result;
+    }
+
+  }
+
+
+  return t;
+
+}
+
+
+/* =================================
+   学習コメント
+================================= */
+
+function generateLearningComment(
+  initialText,
+  finalText,
+  tool
+){
+
+  const initial =
+    String(initialText || "").trim();
+
+  const final =
+    String(finalText || "").trim();
+
+
+  const ni =
+    normalizeForComparison(initial);
+
+  const nf =
+    normalizeForComparison(final);
+
+
+  if(
+    !final ||
+    nf.length < 3
+  ){
+
+    return "今日の学びについて、まだ十分に言葉にできていないようです。授業で分かったことや考えたことを、一つでも自分の言葉で書いてみましょう。";
+
+  }
+
+
+  const finalShort =
+    shortLearningText(
+      final,
+      42
+    );
+
+
+  if(
+    !initial ||
+    ni.length < 3
+  ){
+
+    if(
+      /分かった|わかった|気づ|気付/.test(final)
+    ){
+
+      return `今日の振り返りには「${finalShort}」と書いていました。授業で分かったことや気付いたことを、自分の言葉で表すことができましたね。`;
+
+    }
+
+
+    if(
+      /理由|なぜ|どうして/.test(final)
+    ){
+
+      return `今日の振り返りには「${finalShort}」と書いていました。理由まで考えたことを、自分の言葉で表すことができましたね。`;
+
+    }
+
+
+    if(
+      /友達|みんな|友だち/.test(final)
+    ){
+
+      return `今日の振り返りには「${finalShort}」と書いていました。友達の考えにも目を向けながら、今日の学びを自分の言葉で表すことができましたね。`;
+
+    }
+
+
+    return `今日の振り返りには「${finalShort}」と書いていました。授業で心に残ったことや考えたことを、自分の言葉で表すことができましたね。`;
+
+  }
+
+
+  const initialShort =
+    shortLearningText(
+      initial,
+      34
+    );
+
+
+  const same =
+    ni === nf ||
+    (
+      ni.length >= 3 &&
+      nf.length >= 3 &&
+      (
+        ni.includes(nf) ||
+        nf.includes(ni)
+      ) &&
+      Math.abs(
+        ni.length - nf.length
+      ) <= 10
+    );
+
+
+  if(same){
+
+    return `最初は「${initialShort}」と考えていました。最後の振り返りからも、その考えを大切にしながら、友達の考えや思考ツールを使って自分の考えを確かめたことが伝わってきますね。`;
+
+  }
+
+
+  const details = [];
+
+
+  if(
+    /友達|みんな|友だち/.test(final)
+  ){
+
+    details.push(
+      "友達の考えを取り入れたこと"
+    );
+
+  }
+
+
+  if(
+    /比べ|くらべ|同じ|違い|ちがい/.test(final)
+  ){
+
+    details.push(
+      "同じところや違いに目を向けたこと"
+    );
+
+  }
+
+
+  if(
+    /理由|なぜ|どうして/.test(final)
+  ){
+
+    details.push(
+      "理由まで考えたこと"
+    );
+
+  }
+
+
+  if(
+    /気づ|気付|分かった|わかった/.test(final)
+  ){
+
+    details.push(
+      "気付いたことを言葉にしたこと"
+    );
+
+  }
+
+
+  if(
+    /もっと|知りたい|これから|今後/.test(final)
+  ){
+
+    details.push(
+      "これから知りたいことにつなげたこと"
+    );
+
+  }
+
+
+  if(
+    /変わ|考え直|見方|改め/.test(final)
+  ){
+
+    details.push(
+      "考えを見つめ直したこと"
+    );
+
+  }
+
+
+  const focus =
+    details.length
+      ? details[0]
+      : "自分の考えを見つめ直したこと";
+
+
+  return `最初は「${initialShort}」と考えていましたが、最後の振り返りには「${finalShort}」と書いていました。${focus}を通して、自分の考えを深めたことが伝わってきますね。`;
+
+}
+
+
+/* =================================
+   学習コメント表示
+================================= */
+
+function showLearningComment(text){
+
+  const b =
+    document.getElementById(
+      "learningComment"
+    );
+
+  const a =
+    document.getElementById(
+      "learningCommentText"
+    );
+
+
+  if(!b || !a){
     return;
   }
 
+
+  if(!text){
+
+    b.classList.add("hidden");
+
+    a.textContent = "";
+
+    return;
+
+  }
+
+
+  a.textContent = text;
+
+  b.classList.remove("hidden");
+
+}
+
+
+/* =================================
+   振り返り保存
+================================= */
+
+window.saveReflection = async function(){
 
   const saveArea =
     document.getElementById(
@@ -2078,10 +2299,18 @@ window.saveReflection = async function(){
         )
       : null;
 
+
   const originalButtonText =
     saveButton
       ? saveButton.textContent
       : "📤 振り返りを提出する";
+
+
+  /* 二重クリック防止 */
+
+  if(savingReflection){
+    return;
+  }
 
 
   let studentNumber =
@@ -2089,7 +2318,37 @@ window.saveReflection = async function(){
       .getElementById(
         "studentNumber"
       )
-      .value.trim();
+      .value
+      .trim();
+
+
+  /*
+    最後の振り返りでは、
+    最初の提出時に保存した出席番号も
+    予備として使用する。
+  */
+
+  if(!studentNumber){
+
+    try{
+
+      studentNumber =
+        sessionStorage.getItem(
+          "thinkingStudentNumber"
+        ) || "";
+
+    }catch(e){}
+
+  }
+
+
+  if(studentNumber){
+
+    document.getElementById(
+      "studentNumber"
+    ).value = studentNumber;
+
+  }
 
 
   const study =
@@ -2097,7 +2356,8 @@ window.saveReflection = async function(){
       .getElementById(
         "study"
       )
-      .value.trim();
+      .value
+      .trim();
 
 
   const aiQuestion =
@@ -2119,8 +2379,15 @@ window.saveReflection = async function(){
     );
 
     return;
+
   }
 
+
+  /*
+    教科・単元は児童が入力するのではなく、
+    先生が開始した現在の授業情報を
+    そのまま使用する。
+  */
 
   const subject =
     lesson.subject || "";
@@ -2131,35 +2398,12 @@ window.saveReflection = async function(){
 
   if(!studentNumber){
 
-    try{
-
-      studentNumber =
-        sessionStorage.getItem(
-          "thinkingStudentNumber"
-        ) || "";
-
-    }catch(e){}
-
-  }
-
-
-  if(studentNumber){
-
-    document.getElementById(
-      "studentNumber"
-    ).value =
-      studentNumber;
-
-  }
-
-
-  if(!studentNumber){
-
     alert(
       "出席番号を入力してください。"
     );
 
     return;
+
   }
 
 
@@ -2170,6 +2414,7 @@ window.saveReflection = async function(){
     );
 
     return;
+
   }
 
 
@@ -2180,6 +2425,7 @@ window.saveReflection = async function(){
     );
 
     return;
+
   }
 
 
@@ -2196,11 +2442,17 @@ window.saveReflection = async function(){
   }
 
 
+  /*
+    思考ツールから来た情報
+  */
+
   let thinkingTool = "";
 
   let thinkingOriginalReflectionId = "";
 
   let thinkingInitialStudy = "";
+
+  let completedFinal = false;
 
 
   try{
@@ -2210,10 +2462,12 @@ window.saveReflection = async function(){
         "thinkingReflectionTool"
       ) || "";
 
+
     thinkingOriginalReflectionId =
       sessionStorage.getItem(
         "thinkingOriginalReflectionId"
       ) || "";
+
 
     thinkingInitialStudy =
       sessionStorage.getItem(
@@ -2223,42 +2477,60 @@ window.saveReflection = async function(){
   }catch(e){}
 
 
-  /*
-    思考ツール名が消えてしまった場合は
-    保存していた下書きから復元
-  */
+  try{
 
-  if(!thinkingTool){
+    let thinkingFlowActive = false;
+
 
     try{
 
-      const draft =
-        JSON.parse(
-          sessionStorage.getItem(
-            "thinkingReflectionDraft"
-          ) || "{}"
-        );
-
-      thinkingTool =
-        draft.tool || "";
+      thinkingFlowActive =
+        sessionStorage.getItem(
+          "thinkingFlowActive"
+        ) === "true";
 
     }catch(e){}
 
-  }
-
-
-  let completedFinal = false;
-
-
-  try{
 
     /*
-      最後の振り返り
+      元の振り返りIDがあれば
+      「最後の振り返り」として扱う。
     */
 
-    if(
-      thinkingOriginalReflectionId
-    ){
+    if(thinkingOriginalReflectionId){
+
+      /*
+        思考ツール名が何らかの理由で
+        一時保存から消えていても、
+        最後の振り返りそのものは保存できるようにする。
+      */
+
+      if(!thinkingTool){
+
+        try{
+
+          const draftRaw =
+            sessionStorage.getItem(
+              "thinkingReflectionDraft"
+            ) || "";
+
+
+          if(draftRaw){
+
+            const draftData =
+              JSON.parse(
+                draftRaw
+              );
+
+            thinkingTool =
+              draftData.tool || "";
+
+          }
+
+        }catch(e){}
+
+      }
+
 
       const originalRef =
         doc(
@@ -2274,9 +2546,7 @@ window.saveReflection = async function(){
         );
 
 
-      if(
-        !originalSnap.exists()
-      ){
+      if(!originalSnap.exists()){
 
         throw new Error(
           "元の振り返りが見つかりません。最初の振り返りからやり直してください。"
@@ -2292,10 +2562,7 @@ window.saveReflection = async function(){
       if(
         Number(
           originalData.studentNumber
-        ) !==
-        Number(
-          studentNumber
-        )
+        ) !== Number(studentNumber)
       ){
 
         throw new Error(
@@ -2337,9 +2604,7 @@ window.saveReflection = async function(){
       await updateDoc(
         originalRef,
         {
-
-          finalReflection:
-            study,
+          finalReflection:study,
 
           finalReflectionDate:
             new Date().toISOString(),
@@ -2358,7 +2623,6 @@ window.saveReflection = async function(){
 
           updatedAt:
             serverTimestamp()
-
         }
       );
 
@@ -2374,14 +2638,11 @@ window.saveReflection = async function(){
         learningComment
       );
 
-    }
+    }else{
 
-
-    /*
-      最初の振り返り
-    */
-
-    else{
+      /*
+        最初の振り返り
+      */
 
       const ref =
         await addDoc(
@@ -2392,9 +2653,7 @@ window.saveReflection = async function(){
           {
 
             studentNumber:
-              Number(
-                studentNumber
-              ),
+              Number(studentNumber),
 
             subject:
               subject,
@@ -2440,10 +2699,6 @@ window.saveReflection = async function(){
         ref.id;
 
 
-      /*
-        最初の振り返りIDを保存
-      */
-
       try{
 
         sessionStorage.setItem(
@@ -2457,15 +2712,13 @@ window.saveReflection = async function(){
         );
 
         sessionStorage.setItem(
-          "thinkingFlowActive",
-          "true"
+          "thinkingStudentNumber",
+          String(studentNumber)
         );
 
         sessionStorage.setItem(
-          "thinkingStudentNumber",
-          String(
-            studentNumber
-          )
+          "thinkingFlowActive",
+          "true"
         );
 
       }catch(e){}
@@ -2474,8 +2727,12 @@ window.saveReflection = async function(){
 
 
     /*
-      最初の提出なら
-      自動で友達の振り返りへ
+      最初の振り返り提出後は
+      「みんなの振り返り」へ自動移動。
+
+      ★今回の重要変更
+      true を渡すことで、
+      この画面では思考ツールへ進むことができる。
     */
 
     if(!completedFinal){
@@ -2511,7 +2768,9 @@ window.saveReflection = async function(){
       savingReflection = false;
 
 
-      await openEveryoneHistory();
+      await openEveryoneHistory(
+        true
+      );
 
 
       return;
@@ -2520,20 +2779,29 @@ window.saveReflection = async function(){
 
 
     /*
-      最後の提出なら
-      完了画面だけを表示
+      履歴キャッシュ削除
     */
 
     clearHistoryCache(
       Number(studentNumber)
     );
 
+
+    /*
+      みんなの振り返りキャッシュ削除
+    */
+
     clearEveryoneCache();
+
 
     selectedReflectionIds = [];
 
     updateSelectedCount();
 
+
+    /*
+      思考ツール情報削除
+    */
 
     try{
 
@@ -2549,6 +2817,99 @@ window.saveReflection = async function(){
         "thinkingReflectionDraft"
       );
 
+
+      if(thinkingOriginalReflectionId){
+
+        sessionStorage.removeItem(
+          "thinkingOriginalReflectionId"
+        );
+
+        sessionStorage.removeItem(
+          "thinkingInitialStudy"
+        );
+
+        sessionStorage.removeItem(
+          "thinkingStudentNumber"
+        );
+
+        sessionStorage.removeItem(
+          "thinkingFlowActive"
+        );
+
+      }
+
+    }catch(e){}
+
+
+    /*
+      AIの問いを閉じる
+    */
+
+    document
+      .getElementById(
+        "adviceBox"
+      )
+      .classList.add("hidden");
+
+
+    /*
+      保存ボタンを隠す
+    */
+
+    document
+      .getElementById(
+        "firstSaveArea"
+      )
+      .classList.add("hidden");
+
+
+    /*
+      最後の提出後は、
+      必ず「提出完了」画面で終了。
+      友達の考えの画面や
+      思考ツールへ自動遷移しない。
+    */
+
+    showPage(
+      "reflectionPage"
+    );
+
+
+    document
+      .getElementById(
+        "firstSaveArea"
+      )
+      .classList.add("hidden");
+
+
+    document
+      .getElementById(
+        "submissionCompleteArea"
+      )
+      .classList.remove("hidden");
+
+
+    submissionCompleted = true;
+
+
+    try{
+
+      sessionStorage.removeItem(
+        "thinkingFlowActive"
+      );
+
+      sessionStorage.removeItem(
+        "thinkingReflectionDraft"
+      );
+
+      sessionStorage.removeItem(
+        "thinkingReflectionTool"
+      );
+
+      sessionStorage.removeItem(
+        "thinkingSourceIds"
+      );
+
       sessionStorage.removeItem(
         "thinkingOriginalReflectionId"
       );
@@ -2558,48 +2919,10 @@ window.saveReflection = async function(){
       );
 
       sessionStorage.removeItem(
-        "thinkingFlowActive"
-      );
-
-      sessionStorage.removeItem(
         "thinkingStudentNumber"
       );
 
     }catch(e){}
-
-
-    document.getElementById(
-      "adviceBox"
-    ).classList.add(
-      "hidden"
-    );
-
-    document.getElementById(
-      "firstSaveArea"
-    ).classList.add(
-      "hidden"
-    );
-
-
-    showPage(
-      "reflectionPage"
-    );
-
-
-    document.getElementById(
-      "firstSaveArea"
-    ).classList.add(
-      "hidden"
-    );
-
-    document.getElementById(
-      "submissionCompleteArea"
-    ).classList.remove(
-      "hidden"
-    );
-
-
-    submissionCompleted = true;
 
 
   }catch(error){
@@ -2615,6 +2938,7 @@ window.saveReflection = async function(){
 
     savingReflection = false;
 
+
     if(saveButton){
 
       saveButton.disabled = false;
@@ -2629,817 +2953,1227 @@ window.saveReflection = async function(){
 };
 
 
-/* =========================================
-   学習コメント
-========================================= */
-
-function generateLearningComment(
-  initialText,
-  finalText,
-  tool
-){
-
-  if(
-    !initialText &&
-    !finalText
-  ){
-
-    return "今日の学びを振り返り、自分の考えをまとめることができました。";
-
-  }
-
-
-  if(
-    finalText.includes("友達")
-  ){
-
-    return "友達の考えを参考にしながら、自分の考えを深めてまとめることができました。";
-
-  }
-
-
-  if(
-    finalText.includes("変わ") ||
-    finalText.includes("深ま")
-  ){
-
-    return "最初の考えからの変化に気付き、自分の考えを深めてまとめることができました。";
-
-  }
-
-
-  if(tool === "compare"){
-
-    return "考えを比べながら、共通点や違いに気付いて自分の考えをまとめることができました。";
-
-  }
-
-
-  if(tool === "web"){
-
-    return "考えを整理しながら、学びのつながりを見付けて自分の考えをまとめることができました。";
-
-  }
-
-
-  if(tool === "jellyfish"){
-
-    return "理由を整理しながら、自分の考えを深めてまとめることができました。";
-
-  }
-
-
-  if(tool === "y"){
-
-    return "いろいろな視点から考えを広げ、自分の考えをまとめることができました。";
-
-  }
-
-
-  if(tool === "beforeAfter"){
-
-    return "学習前と学習後の自分の変化を振り返り、学びをまとめることができました。";
-
-  }
-
-
-  return "友達の考えや思考ツールを活用しながら、自分の考えを深めてまとめることができました。";
-
-}
-
-
-/* =========================================
-   最終考え抽出
-========================================= */
-
-function extractFinalThought(
-  text
-){
-
-  const marker =
-    "【今日の授業での自分の考え】";
-
-  const index =
-    text.lastIndexOf(
-      marker
-    );
-
-  if(index >= 0){
-
-    return text
-      .slice(
-        index + marker.length
-      )
-      .trim();
-
-  }
-
-  return text.trim();
-
-}
-
-
-/* =========================================
-   学習コメント表示
-========================================= */
-
-function showLearningComment(
-  comment
-){
-
-  const area =
-    document.getElementById(
-      "learningComment"
-    );
-
-  if(!area){
-    return;
-  }
-
-  area.innerHTML = `
-
-    <div class="learning-comment-title">
-      🤖 AIからの学びコメント
-    </div>
-
-    <div>
-      ${escapeHtml(comment)}
-    </div>
-
-  `;
-
-}
-
-
-/* =========================================
-   友達の振り返り
-========================================= */
+/* =================================
+   みんなの振り返り
+================================= */
 
 window.openEveryoneHistory =
-  async function(){
+async function(
+  fromInitialReflection = false
+){
 
-    showPage(
-      "everyonePage"
+  /*
+    ★今回の重要変更
+
+    true
+      → 最初の振り返り提出後
+         思考ツールへ進むための画面
+
+    false
+      → トップページから見るだけ
+         思考ツールボタンは表示しない
+  */
+
+  everyoneThinkingEnabled =
+    fromInitialReflection === true;
+
+
+  showPage(
+    "everyonePage"
+  );
+
+
+  selectedReflectionIds = [];
+
+  updateSelectedCount();
+
+
+  const startArea =
+    document.getElementById(
+      "thinkingStartArea"
     );
 
-    await loadEveryoneHistory();
 
-  };
+  if(startArea){
 
+    startArea.classList.toggle(
+      "hidden",
+      !everyoneThinkingEnabled
+    );
 
-/* =========================================
-   友達の振り返り読み込み
-========================================= */
+  }
 
-async function loadEveryoneHistory(){
 
   const lesson =
     await getCurrentLesson();
 
-  const area =
-    document.getElementById(
-      "everyoneLessonArea"
-    );
 
-  const list =
+  const lessonBox =
     document.getElementById(
-      "everyoneList"
+      "everyoneLessonBox"
     );
 
 
   if(!lesson){
 
-    area.innerHTML = `
-      <div class="lesson-status">
-        ⚠️ 現在、授業が開始されていません。
-      </div>
-    `;
+    lessonBox.innerHTML =
+      "🔴 現在、授業が開始されていません。";
 
-    list.innerHTML = "";
+
+    document.getElementById(
+      "everyoneList"
+    ).innerHTML =
+      "先生が授業を開始すると表示されます。";
+
 
     return;
+
   }
 
 
-  area.innerHTML = `
+  lessonBox.innerHTML = `
 
-    <div class="lesson-status">
+    🟢
+    <strong>
+      現在の授業
+    </strong>
 
-      <strong>
-        📚 ${escapeHtml(lesson.subject || "")}
-      </strong>
+    <br><br>
 
-      <br>
+    教科：
+    <strong>
+      ${escapeHtml(
+        lesson.subject || ""
+      )}
+    </strong>
 
-      📖 ${escapeHtml(lesson.unit || "")}
+    <br>
 
-    </div>
+    単元：
+    <strong>
+      ${escapeHtml(
+        lesson.unit || ""
+      )}
+    </strong>
 
   `;
 
 
+  await loadEveryoneData(
+    lesson
+  );
+
+};
+
+
+/* =================================
+   みんなのデータ軽量化版
+================================= */
+
+async function loadEveryoneData(
+  lesson
+){
+
+  const area =
+    document.getElementById(
+      "everyoneList"
+    );
+
+
   const cacheKey =
-    [
-      lesson.lessonId || "",
-      lesson.subject || "",
-      lesson.unit || ""
-    ].join("_");
+    lesson.lessonId
+      ? "lesson:" + lesson.lessonId
+      : "subject:" +
+        lesson.subject +
+        "|" +
+        "unit:" +
+        lesson.unit;
 
 
-  if(
-    everyoneCache.has(
-      cacheKey
-    )
-  ){
+  if(everyoneCache.has(cacheKey)){
 
-    renderEveryone(
+    everyoneData =
       everyoneCache.get(
         cacheKey
-      )
-    );
+      );
+
+    displayEveryoneData();
 
     return;
 
   }
 
 
-  list.innerHTML =
-    "📡 友達の振り返りを読み込んでいます…";
+  area.innerHTML =
+    "📡 みんなの振り返りを読み込んでいます...";
 
 
   try{
 
-    const q =
-      query(
-        collection(
-          db,
-          "manabi"
-        ),
-        where(
-          "lessonId",
-          "==",
-          lesson.lessonId || ""
-        ),
-        where(
-          "subject",
-          "==",
-          lesson.subject || ""
-        ),
-        where(
-          "unit",
-          "==",
-          lesson.unit || ""
-        )
-      );
+    let q;
+
+
+    if(lesson.lessonId){
+
+      q =
+        query(
+          collection(
+            db,
+            "manabi"
+          ),
+          where(
+            "lessonId",
+            "==",
+            lesson.lessonId
+          )
+        );
+
+    }else{
+
+      q =
+        query(
+          collection(
+            db,
+            "manabi"
+          ),
+          where(
+            "subject",
+            "==",
+            lesson.subject
+          ),
+          where(
+            "unit",
+            "==",
+            lesson.unit
+          )
+        );
+
+    }
 
 
     const snapshot =
       await getDocs(q);
 
 
-    const data =
+    /*
+      いったん全データを取得
+    */
+
+    const rawData =
       snapshot.docs
-        .map(
-          d=>({
-            id:d.id,
-            ...d.data()
-          })
-        )
-        .sort(
-          (a,b)=>
-            new Date(b.date) -
-            new Date(a.date)
+        .map(d => ({
+          id:d.id,
+          ...d.data()
+        }))
+        .filter(item => {
+
+          if(lesson.lessonId){
+
+            return (
+              item.lessonId ===
+              lesson.lessonId
+            );
+
+          }
+
+
+          return (
+            item.subject ===
+              lesson.subject &&
+            item.unit ===
+              lesson.unit
+          );
+
+        })
+        .map(item => ({
+
+          id:item.id,
+
+          /*
+            児童番号は表示には使わない。
+            同じ児童の振り返りをまとめるためだけに使用。
+          */
+          studentNumber:
+            item.studentNumber,
+
+          subject:
+            item.subject,
+
+          unit:
+            item.unit,
+
+          study:
+            item.study,
+
+          finalReflection:
+            item.finalReflection || "",
+
+          learningComment:
+            item.learningComment || "",
+
+          deepReflection:
+            item.deepReflection,
+
+          deepLevel:
+            item.deepLevel,
+
+          aiQuestion:
+            item.aiQuestion,
+
+          date:
+            item.date || "",
+
+          updatedAt:
+            item.updatedAt || null
+
+        }));
+
+
+    /*
+      ★今回の変更①
+
+      同じ児童の振り返りが複数ある場合、
+      最新のものを1つだけ残す。
+
+      通常は
+      最初の振り返り → 最後の振り返り
+      が同じFirestore文書を更新するため、
+      その場合も1件だけ表示される。
+    */
+
+    const latestByStudent =
+      new Map();
+
+
+    rawData.forEach(item => {
+
+      const key =
+        String(
+          item.studentNumber ??
+          item.id
         );
+
+
+      const current =
+        latestByStudent.get(
+          key
+        );
+
+
+      if(!current){
+
+        latestByStudent.set(
+          key,
+          item
+        );
+
+        return;
+
+      }
+
+
+      const currentTime =
+        new Date(
+          current.date || 0
+        ).getTime();
+
+
+      const itemTime =
+        new Date(
+          item.date || 0
+        ).getTime();
+
+
+      if(itemTime >= currentTime){
+
+        latestByStudent.set(
+          key,
+          item
+        );
+
+      }
+
+    });
+
+
+    everyoneData =
+      [...latestByStudent.values()];
 
 
     everyoneCache.set(
       cacheKey,
-      data
+      everyoneData
     );
 
 
-    renderEveryone(
-      data
-    );
+    lastEveryoneCacheKey =
+      cacheKey;
+
+
+    displayEveryoneData();
+
 
   }catch(error){
 
     console.error(error);
 
-    list.innerHTML =
-      "読み込みエラー：" +
-      escapeHtml(
-        error.message
-      );
+    area.innerHTML =
+      "❌ 読み込めませんでした。\n" +
+      error.message;
 
   }
 
 }
 
 
-/* =========================================
-   友達の振り返り表示
-========================================= */
+/* =================================
+   みんなの表示
+================================= */
 
-function renderEveryone(
-  data
-){
+function displayEveryoneData(){
 
-  const list =
+  const area =
     document.getElementById(
       "everyoneList"
     );
 
 
-  if(!data.length){
+  if(!everyoneData.length){
 
-    list.innerHTML = `
-      <div class="box">
-        まだ友達の振り返りはありません。
-      </div>
-    `;
+    area.innerHTML =
+      "まだ、この時間の振り返りはありません。";
 
     return;
+
   }
 
 
-  list.innerHTML =
-    data
-      .map(
-        item=>{
+  /*
+    表示順は毎回ランダム。
+    ただし、同じ児童の古い振り返りは
+    すでに latestByStudent で除外済み。
+  */
 
-          const selected =
-            selectedReflectionIds
-              .includes(
-                item.id
-              );
+  const shuffled =
+    [...everyoneData]
+      .sort(
+        () => Math.random() - 0.5
+      );
 
 
-          return `
+  area.innerHTML = "";
 
-            <div
-              class="everyone-card ${
-                selected
-                  ? "selected"
-                  : ""
-              }">
 
-              <span class="anonymous-label">
-                👤 友達の考え
-              </span>
+  shuffled.forEach(item => {
 
-              <p>
+    const card =
+      document.createElement(
+        "div"
+      );
+
+
+    card.className =
+      "everyone-card";
+
+
+    card.dataset.id =
+      item.id;
+
+
+    /*
+      ★名前・出席番号は表示しない。
+
+      ★最後の振り返りがあれば、
+        最後の振り返りだけを表示。
+
+      ★まだ最後の振り返りがなければ、
+        最初の振り返りを表示。
+    */
+
+    card.innerHTML = `
+
+      <span class="anonymous-label">
+        💭 友達の振り返り
+      </span>
+
+      <p>
+        ${escapeHtml(
+          item.finalReflection ||
+          item.study ||
+          ""
+        )}
+      </p>
+
+      ${
+        item.learningComment
+          ? `
+            <div class="learning-comment">
+
+              <div class="learning-comment-title">
+                🌱 今日の学びへのコメント
+              </div>
+
+              <div>
                 ${escapeHtml(
-                  item.finalReflection ||
-                  item.study ||
-                  ""
+                  item.learningComment
                 )}
-              </p>
-
-              <button
-                class="reference-button ${
-                  selected
-                    ? "selected"
-                    : ""
-                }"
-                onclick="toggleReference('${item.id}')">
-
-                ${
-                  selected
-                    ? "👍 参考にしています"
-                    : "👍 この考えを参考にしたい"
-                }
-
-              </button>
+              </div>
 
             </div>
+          `
+          : ""
+      }
 
-          `;
+      ${
+        item.deepReflection
+          ? `
+            <div class="level-box">
+              🌱
+              ${escapeHtml(
+                item.deepReflection
+              )}
+            </div>
+          `
+          : ""
+      }
 
-        }
-      )
-      .join("");
+      <button
+        class="reference-button"
+        onclick="toggleReference('${item.id}')"
+      >
+        👍
+        <span>
+          この考えを参考にしたい
+        </span>
+      </button>
+
+    `;
+
+
+    area.appendChild(
+      card
+    );
+
+  });
 
 }
 
 
-/* =========================================
-   参考にする考えの選択
-========================================= */
+/* =================================
+   参考にしたい
+================================= */
 
 window.toggleReference =
-  function(id){
+function(id){
 
-    const index =
-      selectedReflectionIds
-        .indexOf(id);
+  /*
+    友達の考えは、
+    ここでは「選ぶ／外す」だけ。
+
+    思考ツールへ進むかどうかは、
+    最後に児童が
+    「選んだ考えをもとに考える」
+    を押したときだけ決める。
+  */
+
+  const index =
+    selectedReflectionIds.indexOf(
+      id
+    );
 
 
-    if(index >= 0){
+  if(index >= 0){
 
-      selectedReflectionIds
-        .splice(
-          index,
-          1
+    selectedReflectionIds.splice(
+      index,
+      1
+    );
+
+  }else{
+
+    selectedReflectionIds.push(
+      id
+    );
+
+  }
+
+
+  updateEveryoneCardStyle();
+
+  updateSelectedCount();
+
+};
+
+
+/* =================================
+   選択状態
+================================= */
+
+function updateEveryoneCardStyle(){
+
+  document
+    .querySelectorAll(
+      ".everyone-card"
+    )
+    .forEach(card => {
+
+      const id =
+        card.dataset.id;
+
+
+      const selected =
+        selectedReflectionIds.includes(
+          id
         );
 
-    }else{
 
-      selectedReflectionIds.push(
-        id
+      card.classList.toggle(
+        "selected",
+        selected
       );
 
-    }
+
+      const button =
+        card.querySelector(
+          ".reference-button"
+        );
 
 
-    updateSelectedCount();
+      if(!button){
+        return;
+      }
 
 
-    const lesson =
-      lessonCache;
-
-
-    if(!lesson){
-      return;
-    }
-
-
-    const cacheKey =
-      [
-        lesson.lessonId || "",
-        lesson.subject || "",
-        lesson.unit || ""
-      ].join("_");
-
-
-    if(
-      everyoneCache.has(
-        cacheKey
-      )
-    ){
-
-      renderEveryone(
-        everyoneCache.get(
-          cacheKey
-        )
+      button.classList.toggle(
+        "selected",
+        selected
       );
 
-    }
 
-  };
+      const span =
+        button.querySelector(
+          "span"
+        );
 
 
-/* =========================================
-   選択数表示
-========================================= */
+      if(span){
+
+        span.textContent =
+          selected
+            ? "選択中"
+            : "この考えを参考にしたい";
+
+      }
+
+    });
+
+}
+
+
+/* =================================
+   選択数
+================================= */
 
 function updateSelectedCount(){
 
-  const area =
+  const count =
+    selectedReflectionIds.length;
+
+
+  const countElement =
     document.getElementById(
       "selectedCount"
     );
 
-  if(!area){
-    return;
+
+  if(countElement){
+
+    countElement.textContent =
+      count;
+
   }
 
-  area.textContent =
-    `👍 参考にしたい考え：${selectedReflectionIds.length}個`;
+
+  const startArea =
+    document.getElementById(
+      "thinkingStartArea"
+    );
+
+
+  if(startArea){
+
+    /*
+      ★トップページから開いた場合
+      → 絶対に表示しない
+
+      ★最初の振り返り提出後
+      → 1件以上選んだら表示
+    */
+
+    startArea.classList.toggle(
+      "hidden",
+      !everyoneThinkingEnabled ||
+      count === 0
+    );
+
+  }
 
 }
 
 
-/* =========================================
-   思考ツールを開く
-========================================= */
+/* =================================
+   思考ツール開始
+================================= */
 
 window.openThinkingTools =
-  function(){
+function(){
 
-    if(
-      selectedReflectionIds.length === 0
-    ){
+  if(
+    selectedReflectionIds.length === 0
+  ){
 
-      alert(
-        "まず、参考にしたい友達の考えを選んでください。"
-      );
-
-      return;
-
-    }
-
-
-    showPage(
-      "toolPage"
+    alert(
+      "まず友達の考えを選んでください。"
     );
 
-  };
+    return;
 
+  }
 
-/* =========================================
-   思考ツール選択
-========================================= */
-
-window.selectTool =
-  function(tool){
-
-    selectedTool =
-      tool;
-
-
-    document
-      .querySelectorAll(
-        ".tool-card"
-      )
-      .forEach(card=>{
-        card.classList.remove(
-          "selected"
-        );
-      });
-
-
-    const cards =
-      document.querySelectorAll(
-        ".tool-card"
-      );
-
-
-    const toolList = [
-      "compare",
-      "web",
-      "jellyfish",
-      "y",
-      "beforeAfter"
-    ];
-
-
-    const index =
-      toolList.indexOf(
-        tool
-      );
-
-
-    if(
-      index >= 0 &&
-      cards[index]
-    ){
-
-      cards[index]
-        .classList.add(
-          "selected"
-        );
-
-    }
-
-
-    openThinkingBoard();
-
-  };
-
-
-/* =========================================
-   思考ボードを開く
-========================================= */
-
-function openThinkingBoard(){
 
   showPage(
     "thinkingPage"
   );
 
 
-  const board =
+  cardCounter = 0;
+
+  selectedTool = null;
+
+
+  document.getElementById(
+    "thinkingWorkspace"
+  ).innerHTML = "";
+
+
+  document.getElementById(
+    "thinkingHintArea"
+  ).innerHTML = "";
+
+
+  document.getElementById(
+    "finalThinkingArea"
+  ).innerHTML = "";
+
+
+  displaySelectedReflections();
+
+};
+
+
+/* =================================
+   選択した考え
+================================= */
+
+function displaySelectedReflections(){
+
+  const area =
     document.getElementById(
-      "thinkingBoard"
+      "selectedReflections"
     );
 
 
-  const hint =
+  area.innerHTML = `
+
+    <div class="box">
+
+      <strong>
+        🟢 今選んでいる友達の考え：
+        ${selectedReflectionIds.length}件
+      </strong>
+
+      <p>
+        友達の名前や出席番号は表示されません。
+      </p>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =================================
+   思考ツール選択
+================================= */
+
+window.selectTool =
+function(
+  tool,
+  clickedCard
+){
+
+  selectedTool = tool;
+
+
+  document
+    .querySelectorAll(
+      ".tool-card"
+    )
+    .forEach(card => {
+
+      card.classList.remove(
+        "selected"
+      );
+
+    });
+
+
+  if(clickedCard){
+
+    clickedCard.classList.add(
+      "selected"
+    );
+
+  }
+
+
+  const workspace =
+    document.getElementById(
+      "thinkingWorkspace"
+    );
+
+  const hintArea =
     document.getElementById(
       "thinkingHintArea"
     );
 
-
-  board.innerHTML = "";
-
-  cardCounter = 0;
-
-
-  const toolNames = {
-
-    compare:
-      "🔵 ベン図で比べる",
-
-    web:
-      "🟢 ウェビングで整理する",
-
-    jellyfish:
-      "🟡 クラゲチャートで理由を考える",
-
-    y:
-      "🟣 Yチャートで考えを広げる",
-
-    beforeAfter:
-      "🔴 Before → Afterで自分の変化を見る"
-
-  };
+  const finalArea =
+    document.getElementById(
+      "finalThinkingArea"
+    );
 
 
-  document.getElementById(
-    "thinkingTitle"
-  ).textContent =
-    toolNames[selectedTool] ||
-    "🧠 思考ツール";
+  workspace.innerHTML = "";
 
+  hintArea.innerHTML = "";
 
-  hint.innerHTML = getToolHint(
-    selectedTool
-  );
+  finalArea.innerHTML = "";
 
-
-  buildToolBoard(
-    selectedTool
-  );
-
-
-  addSelectedFriendCards();
-
-}
-
-
-/* =========================================
-   思考ツールヒント
-========================================= */
-
-function getToolHint(
-  tool
-){
 
   const hints = {
 
-    compare:
-      `
-        <h3>🔵 比べてみよう</h3>
-        <div class="hint-question">
-          同じところはどこかな？
-        </div>
-        <div class="hint-question">
-          違うところはどこかな？
-        </div>
-      `,
+    compare:{
 
-    web:
-      `
-        <h3>🟢 つなげて整理しよう</h3>
-        <div class="hint-question">
-          どんな考えがつながっているかな？
-        </div>
-      `,
+      title:
+        "🔵 比べるときのヒント",
 
-    jellyfish:
-      `
-        <h3>🟡 理由を考えよう</h3>
-        <div class="hint-question">
-          「なぜ？」と聞いたら、どんな理由があるかな？
-        </div>
-      `,
+      questions:[
+        "① 同じところはどこかな？",
+        "② 違うところはどこかな？",
+        "③ 比べてみて、新しく気付いたことは？"
+      ]
 
-    y:
-      `
-        <h3>🟣 いろいろな方向から考えよう</h3>
-        <div class="hint-question">
-          見たこと・考えたこと・やってみたいことを整理しよう。
-        </div>
-      `,
+    },
 
-    beforeAfter:
-      `
-        <h3>🔴 自分の変化を見よう</h3>
-        <div class="hint-question">
-          学習する前はどう考えていたかな？
-        </div>
-        <div class="hint-question">
-          今はどう考えているかな？
-        </div>
-      `
+    web:{
+
+      title:
+        "🟢 整理するときのヒント",
+
+      questions:[
+        "① どの考えとどの考えがつながっているかな？",
+        "② 仲間分けできる考えはあるかな？",
+        "③ 中心になる大切な考えはどれかな？"
+      ]
+
+    },
+
+    jellyfish:{
+
+      title:
+        "🟡 理由を考えるときのヒント",
+
+      questions:[
+        "① どうしてそう思ったのかな？",
+        "② その理由をもう一つ考えられるかな？",
+        "③ 友達の考えから、新しい理由を見つけられるかな？"
+      ]
+
+    },
+
+    y:{
+
+      title:
+        "🟣 考えを広げるときのヒント",
+
+      questions:[
+        "① 見て分かったことは何かな？",
+        "② そこから考えたことは何かな？",
+        "③ もっと知りたいことは何かな？"
+      ]
+
+    },
+
+    beforeAfter:{
+
+      title:
+        "🔴 自分の変化を見るときのヒント",
+
+      questions:[
+        "① 友達の考えを見る前はどう考えていたかな？",
+        "② 友達の考えを見て、何が変わったかな？",
+        "③ 今はどんな考えになったかな？"
+      ]
+
+    }
 
   };
 
 
-  return (
-    hints[tool] ||
-    ""
-  );
-
-}
+  const info =
+    hints[tool];
 
 
-/* =========================================
-   思考ボード作成
-========================================= */
+  hintArea.innerHTML = `
 
-function buildToolBoard(
-  tool
-){
+    <div class="thinking-hint">
 
-  const board =
-    document.getElementById(
-      "thinkingBoard"
-    );
+      <h3>
+        ${info.title}
+      </h3>
+
+      ${
+        info.questions
+          .map(q =>
+            `<div class="hint-question">
+              ${q}
+            </div>`
+          )
+          .join("")
+      }
+
+    </div>
+
+  `;
 
 
-  board.className =
-    "thinking-board " +
-    (
-      tool === "compare"
-        ? "compare-board"
-        : tool === "web"
-        ? "web-board"
-        : tool === "jellyfish"
-        ? "jelly-board"
-        : tool === "y"
-        ? "y-board"
-        : "before-board"
-    );
+  /* ツール本体 */
+
+  let boardHTML = "";
 
 
   if(tool === "compare"){
 
-    board.innerHTML = `
+    boardHTML =
+      createCompareTool();
+
+  }else if(tool === "web"){
+
+    boardHTML =
+      createWebTool();
+
+  }else if(tool === "jellyfish"){
+
+    boardHTML =
+      createJellyfishTool();
+
+  }else if(tool === "y"){
+
+    boardHTML =
+      createYTool();
+
+  }else if(tool === "beforeAfter"){
+
+    boardHTML =
+      createBeforeAfterTool();
+
+  }
+
+
+  workspace.innerHTML =
+    boardHTML;
+
+
+  /* 友達カード追加 */
+
+  loadFriendCards();
+
+
+  /* 最後の振り返り */
+
+  finalArea.innerHTML = `
+
+    <div class="final-thinking">
+
+      <h3>
+        ✨ 最後に、自分の考えをまとめよう
+      </h3>
+
+      <p>
+        思考ツールを使って考えたあと、
+        あなたの考えはどうなったかな？
+      </p>
+
+      <textarea
+        id="finalThought"
+        placeholder="友達の考えと比べたり、整理したりして、自分の考えがどう変わったか書こう"
+      ></textarea>
+
+      <button
+        class="to-reflection-button"
+        onclick="thinkingToReflection()"
+      >
+        ✏️ 整理した内容を「振り返り」へ
+      </button>
+
+    </div>
+
+  `;
+
+};
+
+
+/* =================================
+   共通キャンバス
+================================= */
+
+function createBoard(
+  className,
+  title,
+  help
+){
+
+  return `
+
+    <div
+      id="thinkingBoard"
+      class="thinking-board ${className}"
+    >
 
       <div class="board-title">
-        🔵 ベン図
+        ${title}
       </div>
 
-      <div class="venn-label left">
-        自分
+      <div class="board-help">
+        ${help}
       </div>
 
-      <div class="venn-label right">
-        友達
-      </div>
+    </div>
 
+    <div class="board-controls">
+
+      <button
+        class="orange"
+        onclick="addMyCard()"
+      >
+        🟠 ＋ 自分の考え
+      </button>
+
+      <button
+        class="add-card-button"
+        onclick="addNewCard()"
+      >
+        🟣 ＋ 新しいカード
+      </button>
+
+      <button
+        class="save-thinking-button"
+        onclick="saveThinking()"
+      >
+        💾 思考した内容を保存
+      </button>
+
+    </div>
+
+  `;
+
+}
+
+
+/* =================================
+   ベン図
+================================= */
+
+function createCompareTool(){
+
+  return createBoard(
+    "compare-board",
+    "🔵 ベン図 ― 比べてみよう",
+    "友達の考えを動かして、同じところ・違うところに分けよう。"
+  ).replace(
+    "</div>\n\n<div class=\"board-controls\">",
+    `
       <div class="venn-circle venn-left"></div>
 
       <div class="venn-circle venn-right"></div>
+
+      <div class="venn-label left">
+        考えA
+      </div>
+
+      <div class="venn-label right">
+        考えB
+      </div>
 
       <div class="venn-middle">
         同じところ
       </div>
 
-    `;
+    </div>
 
-  }else if(tool === "web"){
+    <div class="board-controls">
+    `
+  );
 
-    board.innerHTML = `
+}
 
-      <div class="board-title">
-        🟢 ウェビング
-      </div>
 
+/* =================================
+   ウェビング
+================================= */
+
+function createWebTool(){
+
+  return createBoard(
+    "web-board",
+    "🟢 ウェビング ― 整理して広げよう",
+    "中心の考えから、関係する考えを自由に広げよう。"
+  ).replace(
+    "</div>\n\n<div class=\"board-controls\">",
+    `
       <div class="web-center">
-        今日の学び
+        中心の考え
       </div>
 
-    `;
+    </div>
 
-  }else if(tool === "jellyfish"){
+    <div class="board-controls">
+    `
+  );
 
-    board.innerHTML = `
+}
 
-      <div class="board-title">
-        🟡 クラゲチャート
-      </div>
 
+/* =================================
+   クラゲ
+================================= */
+
+function createJellyfishTool(){
+
+  return createBoard(
+    "jelly-board",
+    "🟡 クラゲチャート ― 理由を考えよう",
+    "上の考えに対して「なぜ？」「どうして？」を考え、理由を下に置こう。"
+  ).replace(
+    "</div>\n\n<div class=\"board-controls\">",
+    `
       <div class="jelly-instruction">
-        「なぜ？」を考えてみよう
+
+        ① 上：分かったこと・結果
+
+        <br>
+
+        ② 下：なぜ？・どうして？
+        → 理由を書こう
+
       </div>
 
       <div class="jelly-main">
-        自分の考え
+
+        🤔
+        <br>
+        「分かったこと・結果」
+
       </div>
 
       <div class="jelly-tentacle jelly-t1"></div>
-
       <div class="jelly-tentacle jelly-t2"></div>
-
       <div class="jelly-tentacle jelly-t3"></div>
-
       <div class="jelly-tentacle jelly-t4"></div>
 
-    `;
-
-  }else if(tool === "y"){
-
-    board.innerHTML = `
-
-      <div class="board-title">
-        🟣 Yチャート
+      <div
+        class="jelly-reason"
+        style="left:8%;top:500px;"
+      >
+        ② なぜ？
+        <br>
+        どうして？
+        <br>
+        <span style="font-size:13px;">
+          理由を書こう
+        </span>
       </div>
 
+      <div
+        class="jelly-reason"
+        style="left:30%;top:530px;"
+      >
+        ② なぜ？
+        <br>
+        どうして？
+        <br>
+        <span style="font-size:13px;">
+          理由を書こう
+        </span>
+      </div>
+
+      <div
+        class="jelly-reason"
+        style="right:30%;top:530px;"
+      >
+        ② なぜ？
+        <br>
+        どうして？
+        <br>
+        <span style="font-size:13px;">
+          理由を書こう
+        </span>
+      </div>
+
+      <div
+        class="jelly-reason"
+        style="right:8%;top:500px;"
+      >
+        ② なぜ？
+        <br>
+        どうして？
+        <br>
+        <span style="font-size:13px;">
+          理由を書こう
+        </span>
+      </div>
+
+    </div>
+
+    <div class="board-controls">
+    `
+  );
+
+}
+
+
+/* =================================
+   Yチャート
+================================= */
+
+function createYTool(){
+
+  return createBoard(
+    "y-board",
+    "🟣 Yチャート ― 考えを広げよう",
+    "3つの視点から友達の考えを見て、自分の考えを広げよう。"
+  ).replace(
+    "</div>\n\n<div class=\"board-controls\">",
+    `
+      <div class="y-line left"></div>
+
+      <div class="y-line middle"></div>
+
+      <div class="y-line right"></div>
+
       <div class="y-label y-see">
-        👀 見たこと
+        👀 見て分かったこと
       </div>
 
       <div class="y-label y-think">
@@ -3447,265 +4181,220 @@ function buildToolBoard(
       </div>
 
       <div class="y-label y-want">
-        🌟 やってみたいこと
+        🔎 もっと知りたいこと
       </div>
 
-      <div class="y-line left"></div>
-
-      <div class="y-line middle"></div>
-
-      <div class="y-line right"></div>
-
       <div class="y-center">
-        今日の学び
+        🧠
+        <br>
+        3つの視点から考えたこと
       </div>
 
       <div class="y-own-area">
 
         <strong>
-          ✏️ 自分の考えをまとめよう
+          ✏️ 自分の考え
         </strong>
 
         <textarea
-          placeholder="友達の考えを参考にして、自分はどう考えるかな？">
-        </textarea>
+          id="yOwnThought"
+          placeholder="3つの視点から考えて、自分はどう思う？"
+        ></textarea>
 
       </div>
 
-    `;
+    </div>
 
-  }else if(tool === "beforeAfter"){
-
-    board.innerHTML = `
-
-      <div class="board-title">
-        🔴 Before → After
-      </div>
-
-      <div class="before-title">
-        Before
-      </div>
-
-      <div class="after-title">
-        After
-      </div>
-
-      <div class="before-help">
-        学習する前の自分の考え
-      </div>
-
-      <div class="after-help">
-        学習した後の自分の考え
-      </div>
-
-      <div class="change-arrow">
-        →
-      </div>
-
-    `;
-
-  }
-
-
-  const addButton =
-    document.createElement(
-      "button"
-    );
-
-
-  addButton.className =
-    "purple";
-
-  addButton.textContent =
-    "🟣 新しいカードを追加";
-
-
-  addButton.style.position =
-    "absolute";
-
-  addButton.style.bottom =
-    "12px";
-
-  addButton.style.right =
-    "12px";
-
-  addButton.style.zIndex =
-    "100";
-
-
-  addButton.onclick =
-    window.addNewCard;
-
-
-  board.appendChild(
-    addButton
+    <div class="board-controls">
+    `
   );
 
 }
 
 
-/* =========================================
-   選択した友達の考えをカード化
-========================================= */
+/* =================================
+   Before After
+================================= */
 
-async function addSelectedFriendCards(){
+function createBeforeAfterTool(){
 
-  if(
-    !selectedReflectionIds.length
-  ){
-    return;
-  }
+  return createBoard(
+    "before-board",
+    "🔴 Before → After ― 自分の変化を見よう",
+    "友達の考えを見る前と後で、自分の考えがどう変わったか整理しよう。"
+  ).replace(
+    "</div>\n\n<div class=\"board-controls\">",
+    `
+      <div class="before-title">
+        BEFORE
+      </div>
 
+      <div class="after-title">
+        AFTER
+      </div>
 
-  const lesson =
-    await getCurrentLesson();
+      <div class="before-help">
+        友達の考えを見る前は、
+        <br>
+        どう考えていたかな？
+      </div>
 
+      <div class="after-help">
+        友達の考えを見た後、
+        <br>
+        どう考えるようになったかな？
+      </div>
 
-  if(!lesson){
-    return;
-  }
+      <div class="change-arrow">
+        ➡️
+      </div>
 
+    </div>
 
-  const q =
-    query(
-      collection(
-        db,
-        "manabi"
-      ),
-      where(
-        "lessonId",
-        "==",
-        lesson.lessonId || ""
-      )
-    );
-
-
-  try{
-
-    const snapshot =
-      await getDocs(q);
-
-
-    const selected =
-      snapshot.docs
-        .map(
-          d=>({
-            id:d.id,
-            ...d.data()
-          })
-        )
-        .filter(
-          item=>
-            selectedReflectionIds
-              .includes(
-                item.id
-              )
-        );
-
-
-    let x = 40;
-
-    let y = 250;
-
-
-    selected.forEach(
-      item=>{
-
-        addCardToBoard({
-
-          type:
-            "friend",
-
-          reflectionId:
-            item.id,
-
-          text:
-            item.finalReflection ||
-            item.study ||
-            "",
-
-          x:x,
-
-          y:y
-
-        });
-
-
-        x += 240;
-
-
-        if(
-          x > 700
-        ){
-
-          x = 40;
-
-          y += 160;
-
-        }
-
-      }
-    );
-
-
-    addCardToBoard({
-
-      type:
-        "mine",
-
-      reflectionId:
-        "",
-
-      text:
-        sessionStorage.getItem(
-          "thinkingInitialStudy"
-        ) || "",
-
-      x:40,
-
-      y:y + 170
-
-    });
-
-
-  }catch(error){
-
-    console.error(error);
-
-  }
+    <div class="board-controls">
+    `
+  );
 
 }
 
 
-/* =========================================
+/* =================================
+   友達カード
+================================= */
+
+function loadFriendCards(){
+
+  const board =
+    document.getElementById(
+      "thinkingBoard"
+    );
+
+
+  if(!board){
+    return;
+  }
+
+
+  if(!Array.isArray(
+    selectedReflectionIds
+  )){
+    return;
+  }
+
+
+  if(!Array.isArray(
+    everyoneData
+  )){
+    return;
+  }
+
+
+  selectedReflectionIds
+    .forEach(
+      (id,index) => {
+
+        const item =
+          everyoneData.find(
+            x =>
+              String(x.id) ===
+              String(id)
+          );
+
+
+        if(!item){
+          return;
+        }
+
+
+        const text =
+          String(
+            item.finalReflection ||
+            item.study ||
+            ""
+          ).trim();
+
+
+        if(!text){
+          return;
+        }
+
+
+        addCardToBoard({
+
+          type:"friend",
+
+          text:text,
+
+          x:
+            30 +
+            (index % 3) *
+            250,
+
+          y:
+            110 +
+            Math.floor(
+              index / 3
+            ) *
+            170,
+
+          reflectionId:
+            String(id)
+
+        });
+
+      }
+    );
+
+}
+
+
+/* =================================
+   自分のカード
+================================= */
+
+window.addMyCard =
+function(){
+
+  addCardToBoard({
+
+    type:"mine",
+
+    text:"",
+
+    x:420,
+
+    y:160
+
+  });
+
+};
+
+
+/* =================================
    新しいカード
-========================================= */
+================================= */
 
 window.addNewCard =
-  function(){
+function(){
 
-    addCardToBoard({
+  addCardToBoard({
 
-      type:
-        "new",
+    type:"new",
 
-      text:
-        "",
+    text:"",
 
-      x:
-        300,
+    x:300,
 
-      y:
-        270
+    y:270
 
-    });
+  });
 
-  };
+};
 
 
-/* =========================================
+/* =================================
    カード生成
-========================================= */
+================================= */
 
 function addCardToBoard(
   data
@@ -3733,17 +4422,13 @@ function addCardToBoard(
     );
 
 
-  card.id =
-    id;
-
+  card.id = id;
 
   card.className =
     "thought-card";
 
 
-  if(
-    data.type === "friend"
-  ){
+  if(data.type === "friend"){
 
     card.classList.add(
       "friend"
@@ -3776,8 +4461,8 @@ function addCardToBoard(
     data.type === "friend"
       ? "🟢 友達の考え"
       : data.type === "mine"
-      ? "🟠 自分の考え"
-      : "🟣 新しいカード";
+        ? "🟠 自分の考え"
+        : "🟣 新しいカード";
 
 
   card.innerHTML = `
@@ -3788,21 +4473,24 @@ function addCardToBoard(
 
     <div
       class="card-resize-handle"
-      aria-label="カードの大きさを変える">
+      aria-label="カードの大きさを変える"
+    >
       ↘
     </div>
 
     <button
       class="card-delete"
-      onclick="deleteThinkingCard('${id}')">
+      onclick="deleteThinkingCard('${id}')"
+    >
       ×
     </button>
 
     <textarea
       class="card-text"
-      placeholder="ここに考えを書こう">${escapeHtml(
-        data.text || ""
-      )}</textarea>
+      placeholder="ここに考えを書こう"
+    >${escapeHtml(
+      data.text || ""
+    )}</textarea>
 
   `;
 
@@ -3837,30 +4525,32 @@ function addCardToBoard(
 }
 
 
-/* =========================================
+/* =================================
    カード削除
-========================================= */
+================================= */
 
 window.deleteThinkingCard =
-  function(id){
+function(id){
 
-    const card =
-      document.getElementById(
-        id
-      );
-
-    if(!card){
-      return;
-    }
-
-    card.remove();
-
-  };
+  const card =
+    document.getElementById(
+      id
+    );
 
 
-/* =========================================
+  if(!card){
+    return;
+  }
+
+
+  card.remove();
+
+};
+
+
+/* =================================
    カードドラッグ
-========================================= */
+================================= */
 
 function makeDraggable(
   element
@@ -3880,17 +4570,15 @@ function makeDraggable(
   let dragging = false;
 
   let startX = 0;
-
   let startY = 0;
 
   let originalLeft = 0;
-
   let originalTop = 0;
 
 
   handle.addEventListener(
     "pointerdown",
-    event=>{
+    event => {
 
       event.preventDefault();
 
@@ -3901,6 +4589,7 @@ function makeDraggable(
 
       startY =
         event.clientY;
+
 
       originalLeft =
         element.offsetLeft;
@@ -3927,7 +4616,7 @@ function makeDraggable(
 
   handle.addEventListener(
     "pointermove",
-    event=>{
+    event => {
 
       if(!dragging){
         return;
@@ -3948,6 +4637,7 @@ function makeDraggable(
       const dx =
         event.clientX -
         startX;
+
 
       const dy =
         event.clientY -
@@ -3991,9 +4681,10 @@ function makeDraggable(
 
   handle.addEventListener(
     "pointerup",
-    event=>{
+    event => {
 
       dragging = false;
+
 
       try{
 
@@ -4009,9 +4700,9 @@ function makeDraggable(
 }
 
 
-/* =========================================
+/* =================================
    カードサイズ変更
-========================================= */
+================================= */
 
 function makeResizable(
   element
@@ -4031,17 +4722,15 @@ function makeResizable(
   let resizing = false;
 
   let sx = 0;
-
   let sy = 0;
 
   let sw = 0;
-
   let sh = 0;
 
 
   handle.addEventListener(
     "pointerdown",
-    e=>{
+    e => {
 
       e.preventDefault();
 
@@ -4076,7 +4765,7 @@ function makeResizable(
 
   handle.addEventListener(
     "pointermove",
-    e=>{
+    e => {
 
       if(!resizing){
         return;
@@ -4135,9 +4824,10 @@ function makeResizable(
 
 
   const stop =
-    e=>{
+    e => {
 
       resizing = false;
+
 
       try{
 
@@ -4155,6 +4845,7 @@ function makeResizable(
     stop
   );
 
+
   handle.addEventListener(
     "pointercancel",
     stop
@@ -4163,9 +4854,9 @@ function makeResizable(
 }
 
 
-/* =========================================
+/* =================================
    思考内容を集める
-========================================= */
+================================= */
 
 function collectThinkingData(){
 
@@ -4185,498 +4876,189 @@ function collectThinkingData(){
       ".thought-card"
     )
   ]
-    .map(
-      card=>{
+    .map(card => {
 
-        const textarea =
-          card.querySelector(
-            ".card-text"
-          );
-
-
-        let type =
-          "新しいカード";
+      const textarea =
+        card.querySelector(
+          ".card-text"
+        );
 
 
-        if(
-          card.classList.contains(
-            "friend"
-          )
-        ){
-
-          type =
-            "友達の考え";
-
-        }else if(
-          card.classList.contains(
-            "mine"
-          )
-        ){
-
-          type =
-            "自分の考え";
-
-        }
+      let type =
+        "新しいカード";
 
 
-        return {
+      if(
+        card.classList.contains(
+          "friend"
+        )
+      ){
 
-          type:
-            type,
+        type =
+          "友達の考え";
 
-          text:
-            textarea
-              ? textarea.value.trim()
-              : "",
+      }else if(
+        card.classList.contains(
+          "mine"
+        )
+      ){
 
-          x:
-            card.offsetLeft,
-
-          y:
-            card.offsetTop,
-
-          width:
-            card.offsetWidth,
-
-          height:
-            card.offsetHeight
-
-        };
+        type =
+          "自分の考え";
 
       }
-    )
+
+
+      return {
+
+        type:type,
+
+        text:
+          textarea
+            ? textarea.value.trim()
+            : "",
+
+        x:
+          card.offsetLeft,
+
+        y:
+          card.offsetTop,
+
+        width:
+          card.offsetWidth,
+
+        height:
+          card.offsetHeight
+
+      };
+
+    })
     .filter(
-      card=>
+      card =>
         card.text.length > 0
     );
 
 }
 
 
-/* =========================================
+/* =================================
    思考内容保存
-========================================= */
+================================= */
 
 window.saveThinking =
-  async function(
-    showMessage = true
-  ){
+async function(
+  showMessage = true
+){
 
-    const lesson =
-      await getCurrentLesson();
+  const lesson =
+    await getCurrentLesson();
 
 
-    if(!lesson){
+  if(!lesson){
 
-      if(showMessage){
-
-        alert(
-          "授業が終了しています。"
-        );
-
-      }
-
-      return false;
-    }
-
-
-    const board =
-      document.getElementById(
-        "thinkingBoard"
-      );
-
-
-    if(!board){
-
-      if(showMessage){
-
-        alert(
-          "思考ツールを選択してください。"
-        );
-
-      }
-
-      return false;
-    }
-
-
-    if(!selectedTool){
-
-      if(showMessage){
-
-        alert(
-          "思考ツールを選択してください。"
-        );
-
-      }
-
-      return false;
-    }
-
-
-    const finalThought =
-      document.getElementById(
-        "finalThought"
-      )?.value.trim() || "";
-
-
-    if(!finalThought){
-
-      if(showMessage){
-
-        alert(
-          "最後に、自分の考えを書いてください。"
-        );
-
-      }
-
-      return false;
-    }
-
-
-    const cards =
-      collectThinkingData();
-
-
-    if(!cards.length){
-
-      if(showMessage){
-
-        alert(
-          "カードに考えを書いてください。"
-        );
-
-      }
-
-      return false;
-    }
-
-
-    try{
-
-      await addDoc(
-        collection(
-          db,
-          "thinking"
-        ),
-        {
-
-          lessonId:
-            lesson.lessonId || "",
-
-          subject:
-            lesson.subject || "",
-
-          unit:
-            lesson.unit || "",
-
-          selectedReflectionIds:
-            selectedReflectionIds,
-
-          tool:
-            selectedTool,
-
-          cards:
-            cards,
-
-          finalThought:
-            finalThought,
-
-          date:
-            new Date().toISOString(),
-
-          createdAt:
-            serverTimestamp()
-
-        }
-      );
-
-
-      if(showMessage){
-
-        alert(
-          "🧠 思考した内容を保存しました！\n\n" +
-          "自分の考えの変化も記録されました。"
-        );
-
-      }
-
-
-      return true;
-
-    }catch(error){
-
-      console.error(error);
-
-
-      if(showMessage){
-
-        alert(
-          "思考した内容を保存できませんでした。\n\n" +
-          error.message
-        );
-
-      }
-
-
-      return false;
-
-    }
-
-  };
-
-
-/* =========================================
-   思考ツール → 最後の振り返り
-========================================= */
-
-window.thinkingToReflection =
-  async function(){
-
-    const finalThought =
-      document.getElementById(
-        "finalThought"
-      )?.value.trim() || "";
-
-
-    if(!finalThought){
-
-      alert(
-        "最後に、自分の考えをまとめてから進みましょう。"
-      );
-
-      return;
-    }
-
-
-    const cards =
-      collectThinkingData();
-
-
-    if(!cards.length){
-
-      alert(
-        "カードに考えを書いてから、振り返りへ進みましょう。"
-      );
-
-      return;
-    }
-
-
-    const lesson =
-      await getCurrentLesson();
-
-
-    if(!lesson){
+    if(showMessage){
 
       alert(
         "授業が終了しています。"
       );
 
-      return;
     }
 
+    return false;
 
-    const friendTexts =
-      cards
-        .filter(
-          card=>
-            card.type ===
-            "友達の考え"
-        )
-        .map(
-          card=>
-            card.text
-        );
+  }
 
 
-    const myTexts =
-      cards
-        .filter(
-          card=>
-            card.type ===
-            "自分の考え"
-        )
-        .map(
-          card=>
-            card.text
-        );
+  const board =
+    document.getElementById(
+      "thinkingBoard"
+    );
 
 
-    const newTexts =
-      cards
-        .filter(
-          card=>
-            card.type ===
-            "新しいカード"
-        )
-        .map(
-          card=>
-            card.text
-        );
+  if(!board){
 
+    if(showMessage){
 
-    let draftText = "";
-
-
-    draftText +=
-      "【思考ツールで整理したこと】\n";
-
-
-    const toolNames = {
-
-      compare:
-        "ベン図で比べました。",
-
-      web:
-        "ウェビングで整理しました。",
-
-      jellyfish:
-        "クラゲチャートで理由を考えました。",
-
-      y:
-        "Yチャートで考えを広げました。",
-
-      beforeAfter:
-        "Before → Afterで自分の変化を整理しました。"
-
-    };
-
-
-    draftText +=
-      toolNames[selectedTool] ||
-      "思考ツールを使って考えました。";
-
-
-    if(friendTexts.length){
-
-      draftText +=
-        "\n\n【友達の考えから参考にしたこと】\n";
-
-
-      friendTexts.forEach(
-        text=>{
-
-          draftText +=
-            "・" +
-            text +
-            "\n";
-
-        }
+      alert(
+        "思考ツールを選択してください。"
       );
 
     }
 
+    return false;
 
-    if(myTexts.length){
-
-      draftText +=
-        "\n【自分の考え】\n";
+  }
 
 
-      myTexts.forEach(
-        text=>{
+  if(!selectedTool){
 
-          draftText +=
-            "・" +
-            text +
-            "\n";
+    if(showMessage){
 
-        }
+      alert(
+        "思考ツールを選択してください。"
       );
 
     }
 
+    return false;
 
-    if(newTexts.length){
-
-      draftText +=
-        "\n【整理して見つけたこと】\n";
+  }
 
 
-      newTexts.forEach(
-        text=>{
+  const finalThought =
+    document
+      .getElementById(
+        "finalThought"
+      )
+      ?.value
+      .trim() || "";
 
-          draftText +=
-            "・" +
-            text +
-            "\n";
 
-        }
+  if(!finalThought){
+
+    if(showMessage){
+
+      alert(
+        "最後に、自分の考えを書いてください。"
       );
 
     }
 
+    return false;
 
-    draftText +=
-      "\n【今日の授業での自分の考え】\n";
-
-
-    draftText +=
-      finalThought;
+  }
 
 
-    /*
-      sessionStorageへ保存
-    */
-
-    try{
-
-      const originalId =
-        sessionStorage.getItem(
-          "thinkingOriginalReflectionId"
-        ) ||
-        currentReflectionId ||
-        "";
+  const cards =
+    collectThinkingData();
 
 
-      const initialStudy =
-        sessionStorage.getItem(
-          "thinkingInitialStudy"
-        ) || "";
+  if(!cards.length){
+
+    if(showMessage){
+
+      alert(
+        "カードに考えを書いてください。"
+      );
+
+    }
+
+    return false;
+
+  }
 
 
-      const currentStudentNumber =
-        document.getElementById(
-          "studentNumber"
-        )?.value.trim() || "";
+  try{
 
+    await addDoc(
+      collection(
+        db,
+        "thinking"
+      ),
+      {
 
-      if(originalId){
-
-        sessionStorage.setItem(
-          "thinkingOriginalReflectionId",
-          originalId
-        );
-
-      }
-
-
-      if(initialStudy){
-
-        sessionStorage.setItem(
-          "thinkingInitialStudy",
-          initialStudy
-        );
-
-      }
-
-
-      if(currentStudentNumber){
-
-        sessionStorage.setItem(
-          "thinkingStudentNumber",
-          currentStudentNumber
-        );
-
-      }
-
-    }catch(e){}
-
-
-    sessionStorage.setItem(
-      "thinkingReflectionDraft",
-      JSON.stringify({
+        lessonId:
+          lesson.lessonId || "",
 
         subject:
           lesson.subject || "",
@@ -4684,233 +5066,536 @@ window.thinkingToReflection =
         unit:
           lesson.unit || "",
 
+        selectedReflectionIds:
+          selectedReflectionIds,
+
         tool:
           selectedTool,
 
-        text:
-          draftText
+        cards:
+          cards,
 
-      })
+        finalThought:
+          finalThought,
+
+        date:
+          new Date().toISOString(),
+
+        createdAt:
+          serverTimestamp()
+
+      }
     );
 
 
-    sessionStorage.setItem(
-      "thinkingReflectionTool",
-      selectedTool
-    );
+    if(showMessage){
 
-
-    sessionStorage.setItem(
-      "thinkingSourceIds",
-      JSON.stringify(
-        selectedReflectionIds
-      )
-    );
-
-
-    try{
-
-      sessionStorage.setItem(
-        "thinkingFlowActive",
-        "true"
+      alert(
+        "🧠 思考した内容を保存しました！\n\n" +
+        "自分の考えの変化も記録されました。"
       );
 
-    }catch(e){}
+    }
 
 
-    await openReflection();
+    return true;
+
+  }catch(error){
+
+    console.error(error);
+
+
+    if(showMessage){
+
+      alert(
+        "思考した内容を保存できませんでした。\n\n" +
+        error.message
+      );
+
+    }
+
+
+    return false;
+
+  }
+
+};
+
+
+/* =================================
+   思考ツール → 振り返り
+================================= */
+
+window.thinkingToReflection =
+async function(){
+
+  const finalThought =
+    document
+      .getElementById(
+        "finalThought"
+      )
+      ?.value
+      .trim() || "";
+
+
+  if(!finalThought){
+
+    alert(
+      "最後に、自分の考えをまとめてから進みましょう。"
+    );
+
+    return;
+
+  }
+
+
+  const cards =
+    collectThinkingData();
+
+
+  if(!cards.length){
+
+    alert(
+      "カードに考えを書いてから、振り返りへ進みましょう。"
+    );
+
+    return;
+
+  }
+
+
+  const lesson =
+    await getCurrentLesson();
+
+
+  if(!lesson){
+
+    alert(
+      "授業が終了しています。"
+    );
+
+    return;
+
+  }
+
+
+  const friendTexts =
+    cards
+      .filter(
+        card =>
+          card.type ===
+          "友達の考え"
+      )
+      .map(
+        card =>
+          card.text
+      );
+
+
+  const myTexts =
+    cards
+      .filter(
+        card =>
+          card.type ===
+          "自分の考え"
+      )
+      .map(
+        card =>
+          card.text
+      );
+
+
+  const newTexts =
+    cards
+      .filter(
+        card =>
+          card.type ===
+          "新しいカード"
+      )
+      .map(
+        card =>
+          card.text
+      );
+
+
+  let draftText = "";
+
+
+  draftText +=
+    "【思考ツールで整理したこと】\n";
+
+
+  const toolNames = {
+
+    compare:
+      "ベン図で比べました。",
+
+    web:
+      "ウェビングで整理しました。",
+
+    jellyfish:
+      "クラゲチャートで理由を考えました。",
+
+    y:
+      "Yチャートで考えを広げました。",
+
+    beforeAfter:
+      "Before → Afterで自分の変化を整理しました。"
 
   };
 
 
-/* =========================================
-   下書きを反映
-========================================= */
+  draftText +=
+    toolNames[selectedTool] ||
+    "思考ツールを使って考えました。";
 
-function applyThinkingDraft(){
 
-  const study =
-    document.getElementById(
-      "study"
+  if(friendTexts.length){
+
+    draftText +=
+      "\n\n【友達の考えから参考にしたこと】\n";
+
+
+    friendTexts.forEach(
+      text => {
+
+        draftText +=
+          "・" +
+          text +
+          "\n";
+
+      }
     );
 
-
-  if(!study){
-    return;
   }
 
 
+  if(myTexts.length){
+
+    draftText +=
+      "\n【自分の考え】\n";
+
+
+    myTexts.forEach(
+      text => {
+
+        draftText +=
+          "・" +
+          text +
+          "\n";
+
+      }
+    );
+
+  }
+
+
+  if(newTexts.length){
+
+    draftText +=
+      "\n【整理して見つけたこと】\n";
+
+
+    newTexts.forEach(
+      text => {
+
+        draftText +=
+          "・" +
+          text +
+          "\n";
+
+      }
+    );
+
+  }
+
+
+  draftText +=
+    "\n【今日の授業での自分の考え】\n";
+
+
+  draftText +=
+    finalThought;
+
+
+  /* sessionStorageへ保存 */
+
   try{
 
-    const draft =
-      JSON.parse(
-        sessionStorage.getItem(
-          "thinkingReflectionDraft"
-        ) || "{}"
+    const originalId =
+      sessionStorage.getItem(
+        "thinkingOriginalReflectionId"
+      ) ||
+      currentReflectionId ||
+      "";
+
+
+    const initialStudy =
+      sessionStorage.getItem(
+        "thinkingInitialStudy"
+      ) || "";
+
+
+    const currentStudentNumber =
+      document
+        .getElementById(
+          "studentNumber"
+        )
+        ?.value
+        .trim() || "";
+
+
+    if(originalId){
+
+      sessionStorage.setItem(
+        "thinkingOriginalReflectionId",
+        originalId
       );
 
+    }
 
-    if(draft.text){
 
-      study.value =
-        draft.text;
+    if(initialStudy){
+
+      sessionStorage.setItem(
+        "thinkingInitialStudy",
+        initialStudy
+      );
+
+    }
+
+
+    if(currentStudentNumber){
+
+      sessionStorage.setItem(
+        "thinkingStudentNumber",
+        currentStudentNumber
+      );
 
     }
 
   }catch(e){}
 
-}
+
+  sessionStorage.setItem(
+    "thinkingReflectionDraft",
+    JSON.stringify({
+
+      subject:
+        lesson.subject || "",
+
+      unit:
+        lesson.unit || "",
+
+      tool:
+        selectedTool,
+
+      text:
+        draftText
+
+    })
+  );
 
 
-/* =========================================
-   自分の履歴
-========================================= */
+  /*
+    思考ツール名も保存
+  */
+
+  sessionStorage.setItem(
+    "thinkingReflectionTool",
+    selectedTool
+  );
+
+
+  sessionStorage.setItem(
+    "thinkingSourceIds",
+    JSON.stringify(
+      selectedReflectionIds
+    )
+  );
+
+
+  try{
+
+    sessionStorage.setItem(
+      "thinkingFlowActive",
+      "true"
+    );
+
+  }catch(e){}
+
+
+  /*
+    振り返りへ
+  */
+
+  await openReflection();
+
+};
+
+
+/* =================================
+   履歴
+================================= */
 
 window.openHistory =
-  function(){
+function(){
 
-    showPage(
-      "historyPage"
+  everyoneThinkingEnabled =
+    false;
+
+
+  showPage(
+    "historyPage"
+  );
+
+
+  document.getElementById(
+    "historyNumber"
+  ).value = "";
+
+
+  document.getElementById(
+    "historyList"
+  ).innerHTML = "";
+
+};
+
+
+/* =================================
+   自分の履歴軽量化版
+================================= */
+
+window.loadMyHistory =
+async function(){
+
+  const number =
+    document
+      .getElementById(
+        "historyNumber"
+      )
+      .value
+      .trim();
+
+
+  if(!number){
+
+    alert(
+      "出席番号を入力してください。"
+    );
+
+    return;
+
+  }
+
+
+  const area =
+    document.getElementById(
+      "historyList"
     );
 
 
-    document.getElementById(
-      "historyNumber"
-    ).value = "";
+  /*
+    キャッシュ
+  */
+
+  const cacheKey =
+    String(number);
 
 
-    document.getElementById(
-      "historyList"
-    ).innerHTML = "";
+  if(
+    historyCache.has(
+      cacheKey
+    )
+  ){
 
-  };
-
-
-/* =========================================
-   自分の履歴読み込み
-========================================= */
-
-window.loadMyHistory =
-  async function(){
-
-    const number =
-      document.getElementById(
-        "historyNumber"
-      ).value.trim();
-
-
-    if(!number){
-
-      alert(
-        "出席番号を入力してください。"
-      );
-
-      return;
-
-    }
-
-
-    const area =
-      document.getElementById(
-        "historyList"
-      );
-
-
-    const cacheKey =
-      String(number);
-
-
-    if(
-      historyCache.has(
+    const cached =
+      historyCache.get(
         cacheKey
-      )
-    ){
+      );
 
-      const cached =
-        historyCache.get(
-          cacheKey
+
+    displayMyHistory(
+      cached
+    );
+
+
+    return;
+
+  }
+
+
+  area.innerHTML =
+    "📡 振り返りを読み込んでいます...";
+
+
+  try{
+
+    const q =
+      query(
+        collection(
+          db,
+          "manabi"
+        ),
+        where(
+          "studentNumber",
+          "==",
+          Number(number)
+        )
+      );
+
+
+    const snapshot =
+      await getDocs(q);
+
+
+    const data =
+      snapshot.docs
+        .map(
+          d => ({
+            id:d.id,
+            ...d.data()
+          })
+        )
+        .sort(
+          (a,b) =>
+            new Date(b.date) -
+            new Date(a.date)
         );
 
 
-      displayMyHistory(
-        cached
-      );
+    /*
+      キャッシュ
+    */
+
+    historyCache.set(
+      cacheKey,
+      data
+    );
 
 
-      return;
+    displayMyHistory(
+      data
+    );
 
-    }
+  }catch(error){
 
+    console.error(error);
 
     area.innerHTML =
-      "📡 振り返りを読み込んでいます...";
-
-
-    try{
-
-      const q =
-        query(
-          collection(
-            db,
-            "manabi"
-          ),
-          where(
-            "studentNumber",
-            "==",
-            Number(number)
-          )
-        );
-
-
-      const snapshot =
-        await getDocs(
-          q
-        );
-
-
-      const data =
-        snapshot.docs
-          .map(
-            d=>({
-              id:d.id,
-              ...d.data()
-            })
-          )
-          .sort(
-            (a,b)=>
-              new Date(b.date) -
-              new Date(a.date)
-          );
-
-
-      historyCache.set(
-        cacheKey,
-        data
+      "読み込みエラー：" +
+      escapeHtml(
+        error.message
       );
 
+  }
 
-      displayMyHistory(
-        data
-      );
-
-    }catch(error){
-
-      console.error(error);
-
-      area.innerHTML =
-        "読み込みエラー：" +
-        escapeHtml(
-          error.message
-        );
-
-    }
-
-  };
+};
 
 
-/* =========================================
+/* =================================
    自分の履歴表示
-========================================= */
+================================= */
 
 function displayMyHistory(
   data
@@ -4928,13 +5613,14 @@ function displayMyHistory(
       "まだ振り返りがありません。";
 
     return;
+
   }
 
 
   area.innerHTML =
     data
       .map(
-        item=>`
+        item => `
 
           <div class="everyone-card">
 
@@ -4993,37 +5679,40 @@ function displayMyHistory(
 }
 
 
-/* =========================================
-   履歴更新
-========================================= */
+/* =================================
+   履歴を強制更新
+================================= */
 
 window.refreshMyHistory =
-  async function(){
+async function(){
 
-    const number =
-      document.getElementById(
+  const number =
+    document
+      .getElementById(
         "historyNumber"
-      ).value.trim();
+      )
+      .value
+      .trim();
 
 
-    if(!number){
-      return;
-    }
+  if(!number){
+    return;
+  }
 
 
-    clearHistoryCache(
-      Number(number)
-    );
+  clearHistoryCache(
+    Number(number)
+  );
 
 
-    await loadMyHistory();
+  await loadMyHistory();
 
-  };
+};
 
 
-/* =========================================
+/* =================================
    日付
-========================================= */
+================================= */
 
 function formatDate(
   value
@@ -5035,9 +5724,7 @@ function formatDate(
 
 
   const d =
-    new Date(
-      value
-    );
+    new Date(value);
 
 
   if(
@@ -5046,9 +5733,7 @@ function formatDate(
     )
   ){
 
-    return String(
-      value
-    );
+    return String(value);
 
   }
 
@@ -5065,9 +5750,9 @@ function formatDate(
 }
 
 
-/* =========================================
+/* =================================
    HTML安全化
-========================================= */
+================================= */
 
 function escapeHtml(
   value
@@ -5083,25 +5768,28 @@ function escapeHtml(
   }
 
 
-  return String(
-    value
-  )
+  return String(value)
+
     .replaceAll(
       "&",
       "&amp;"
     )
+
     .replaceAll(
       "<",
       "&lt;"
     )
+
     .replaceAll(
       ">",
       "&gt;"
     )
+
     .replaceAll(
       '"',
       "&quot;"
     )
+
     .replaceAll(
       "'",
       "&#039;"
@@ -5110,9 +5798,9 @@ function escapeHtml(
 }
 
 
-/* =========================================
+/* =================================
    初期処理
-========================================= */
+================================= */
 
 getCurrentLesson();
 
