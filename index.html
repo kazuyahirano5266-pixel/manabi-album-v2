@@ -709,6 +709,14 @@ button:hover{opacity:.9;}
   margin-top:8px;
 }
 
+.save-status{
+  margin-top:15px;
+  padding:14px;
+  border-radius:10px;
+  background:#eef7ff;
+  font-weight:bold;
+}
+
 @media(max-width:900px){
   .tool-grid{
     grid-template-columns:repeat(3,1fr);
@@ -1637,10 +1645,10 @@ document.getElementById("adviceBox");
 const subject=
 document.getElementById("subject").value;
 
+if(!box)return;
+
 const draft=
 getThinkingDraft();
-
-if(!box)return;
 
 const text=
 (draft&&draft.text?
@@ -1934,31 +1942,9 @@ return `最初は「${initialShort}」と考えていましたが、最後の振
 }
 
 
-function showLearningComment(text){
-
-const b=
-document.getElementById("learningComment");
-
-const a=
-document.getElementById("learningCommentText");
-
-if(!b||!a)return;
-
-if(!text){
-
-b.classList.add("hidden");
-a.textContent="";
-
-return;
-
-}
-
-a.textContent=text;
-
-b.classList.remove("hidden");
-
-}
-
+/* =========================================================
+   最初の振り返りを保存
+   ========================================================= */
 
 window.saveReflection=async function(){
 
@@ -2024,127 +2010,13 @@ return;
 
 savingReflection=true;
 
-let thinkingTool="";
-let thinkingOriginalReflectionId="";
-let thinkingInitialStudy="";
-let completedFinal=false;
-
 try{
 
-thinkingTool=
-sessionStorage.getItem(
-"thinkingReflectionTool"
-)||"";
-
-thinkingOriginalReflectionId=
-sessionStorage.getItem(
-"thinkingOriginalReflectionId"
-)||"";
-
-thinkingInitialStudy=
-sessionStorage.getItem(
-"thinkingInitialStudy"
-)||"";
-
-
-let thinkingFlowActive=false;
-
-try{
-
-thinkingFlowActive=
-sessionStorage.getItem(
-"thinkingFlowActive"
-)==="true";
-
-}
-catch(e){}
-
-
-if(
-thinkingFlowActive&&
-thinkingOriginalReflectionId&&
-thinkingTool
-){
-
-const originalRef=
-doc(
-db,
-"manabi",
-thinkingOriginalReflectionId
-);
-
-const originalSnap=
-await getDoc(originalRef);
-
-if(!originalSnap.exists()){
-
-throw new Error(
-"元の振り返りが見つかりません。最初の振り返りからやり直してください。"
-);
-
-}
-
-const originalData=
-originalSnap.data()||{};
-
-if(
-Number(originalData.studentNumber)!==
-Number(studentNumber)
-){
-
-throw new Error(
-"出席番号が最初の振り返りと一致していません。"
-);
-
-}
-
-const finalThought=
-extractFinalThought(study);
-
-const learningComment=
-generateLearningComment(
-thinkingInitialStudy,
-finalThought,
-thinkingTool
-);
-
-let sourceIds=[];
-
-try{
-
-sourceIds=
-JSON.parse(
-sessionStorage.getItem(
-"thinkingSourceIds"
-)||"[]"
-);
-
-}
-catch(e){}
-
-await updateDoc(
-originalRef,
-{
-finalReflection:study,
-finalReflectionDate:
-new Date().toISOString(),
-thinkingTool:thinkingTool,
-thinkingSourceIds:sourceIds,
-learningComment:learningComment,
-reflectionStage:"completed",
-updatedAt:serverTimestamp()
-}
-);
-
-currentReflectionId=
-thinkingOriginalReflectionId;
-
-completedFinal=true;
-
-showLearningComment(learningComment);
-
-}
-else{
+/*
+  ここでは必ず「最初の振り返り」として新規作成。
+  FirestoreのドキュメントIDを取得した直後に
+  sessionStorageへ保存する。
+*/
 
 const ref=
 await addDoc(
@@ -2181,7 +2053,21 @@ lessonId:
 lesson.lessonId||"",
 
 thinkingTool:
-thinkingTool,
+"",
+
+thinkingSourceIds:[],
+
+thinkingCards:[],
+
+thinkingFinalThought:"",
+
+finalReflection:"",
+
+finalReflectionDate:"",
+
+learningComment:"",
+
+reflectionStage:"initial",
 
 date:
 new Date().toISOString(),
@@ -2195,6 +2081,11 @@ serverTimestamp()
 currentReflectionId=
 ref.id;
 
+
+/*
+  Firestoreへの保存が成功してから
+  「思考ツールへ進むための情報」を保存する。
+*/
 try{
 
 sessionStorage.setItem(
@@ -2213,12 +2104,18 @@ sessionStorage.setItem(
 );
 
 }
-catch(e){}
+catch(storageError){
 
+console.error(
+"sessionStorage保存エラー:",
+storageError
+);
+
+/*
+  Firestore保存そのものは成功しているため、
+  IDを画面内にも保持しておく。
+*/
 }
-
-
-if(!completedFinal){
 
 clearHistoryCache(
 Number(studentNumber)
@@ -2247,70 +2144,13 @@ sessionStorage.removeItem(
 }
 catch(e){}
 
+
+/*
+  保存成功後にのみ、みんなの振り返りへ進む。
+*/
 savingReflection=false;
 
 await openEveryoneHistory(true);
-
-return;
-
-}
-
-
-clearHistoryCache(
-Number(studentNumber)
-);
-
-clearEveryoneCache();
-
-selectedReflectionIds=[];
-
-updateSelectedCount();
-
-try{
-
-sessionStorage.removeItem(
-"thinkingReflectionTool"
-);
-
-sessionStorage.removeItem(
-"thinkingSourceIds"
-);
-
-sessionStorage.removeItem(
-"thinkingReflectionDraft"
-);
-
-sessionStorage.removeItem(
-"thinkingOriginalReflectionId"
-);
-
-sessionStorage.removeItem(
-"thinkingInitialStudy"
-);
-
-sessionStorage.removeItem(
-"thinkingFlowActive"
-);
-
-}
-catch(e){}
-
-
-document.getElementById(
-"adviceBox"
-).classList.add("hidden");
-
-document.getElementById(
-"firstSaveArea"
-).classList.add("hidden");
-
-showPage("reflectionPage");
-
-document.getElementById(
-"submissionCompleteArea"
-).classList.remove("hidden");
-
-submissionCompleted=true;
 
 }
 catch(error){
@@ -2318,12 +2158,10 @@ catch(error){
 console.error(error);
 
 alert(
-"保存できませんでした。\n"+
+"最初の振り返りを保存できませんでした。\n\n"+
+"入力した内容はそのまま残しています。\n\n"+
 error.message
 );
-
-}
-finally{
 
 savingReflection=false;
 
@@ -2331,6 +2169,10 @@ savingReflection=false;
 
 };
 
+
+/* =========================================================
+   みんなの振り返り
+   ========================================================= */
 
 window.openEveryoneHistory=
 async function(fromInitialReflection=false){
@@ -2792,6 +2634,10 @@ count===0
 
 }
 
+
+/* =========================================================
+   思考ツール
+   ========================================================= */
 
 window.openThinkingTools=function(){
 
@@ -3476,6 +3322,20 @@ Math.max(0,data.x||0)+"px";
 card.style.top=
 Math.max(80,data.y||80)+"px";
 
+if(data.width){
+
+card.style.width=
+Math.max(150,data.width)+"px";
+
+}
+
+if(data.height){
+
+card.style.height=
+Math.max(90,data.height)+"px";
+
+}
+
 board.appendChild(card);
 
 makeDraggable(card);
@@ -3780,6 +3640,10 @@ card=>card.text.length>0
 }
 
 
+/* =========================================================
+   思考内容の保存
+   ========================================================= */
+
 window.saveThinking=async function(
 showMessage=true
 ){
@@ -3790,7 +3654,7 @@ await getCurrentLesson();
 if(!lesson){
 
 if(showMessage)
-alert("授業が終了しています。");
+alert("授業情報を取得できませんでした。");
 
 return false;
 
@@ -3913,6 +3777,10 @@ return false;
 };
 
 
+/* =========================================================
+   思考ツール → 最後の振り返り
+   ========================================================= */
+
 window.thinkingToReflection=
 async function(){
 
@@ -3944,13 +3812,28 @@ return;
 
 }
 
-const lesson=
+
+/*
+  ここでは「現在の授業がactiveかどうか」だけを
+  最終保存の条件にしない。
+  最初の振り返りを保存した時点でlessonIdを確定しているため、
+  先生が授業を終了しても最後の振り返りを保存できるようにする。
+*/
+
+let lesson=
+currentLesson;
+
+if(!lesson){
+
+lesson=
 await getCurrentLesson();
+
+}
 
 if(!lesson){
 
 alert(
-"授業が終了しています。"
+"授業情報を取得できませんでした。"
 );
 
 return;
@@ -4060,30 +3943,100 @@ draftText+=
 draftText+=
 finalThought;
 
+
+/*
+  最初の振り返りIDを最優先で取得。
+*/
+let originalId="";
+
 try{
 
-const originalId=
+originalId=
 sessionStorage.getItem(
 "thinkingOriginalReflectionId"
-)||
-currentReflectionId||
-"";
+)||"";
 
-const initialStudy=
+}
+catch(e){}
+
+if(!originalId){
+
+originalId=
+currentReflectionId||"";
+
+}
+
+if(!originalId){
+
+alert(
+"最初の振り返りの保存情報を確認できませんでした。\n\n"+
+"最初の振り返りからもう一度やり直してください。"
+);
+
+return;
+
+}
+
+
+/*
+  最初の振り返りが本当に存在するかを
+  この時点で確認する。
+*/
+try{
+
+const originalRef=
+doc(
+db,
+"manabi",
+originalId
+);
+
+const originalSnap=
+await getDoc(originalRef);
+
+if(!originalSnap.exists()){
+
+alert(
+"最初の振り返りの記録が見つかりません。\n\n"+
+"最初の振り返りからもう一度やり直してください。"
+);
+
+return;
+
+}
+
+
+/*
+  IDと初期振り返りを確認してから保存情報を作る。
+*/
+const originalData=
+originalSnap.data()||{};
+
+let initialStudy=
+String(
+originalData.study||""
+);
+
+if(!initialStudy){
+
+try{
+
+initialStudy=
 sessionStorage.getItem(
 "thinkingInitialStudy"
 )||"";
 
-if(originalId){
+}
+catch(e){}
+
+}
+
+try{
 
 sessionStorage.setItem(
 "thinkingOriginalReflectionId",
 originalId
 );
-
-}
-
-if(initialStudy){
 
 sessionStorage.setItem(
 "thinkingInitialStudy",
@@ -4091,19 +4044,26 @@ initialStudy
 );
 
 }
-
-}
 catch(e){}
 
+
+/*
+  最終振り返りへ戻るための情報を先に保存。
+  Firestore更新は「最後の保存ボタン」で行う。
+*/
 sessionStorage.setItem(
 "thinkingReflectionDraft",
 JSON.stringify({
 
 subject:
-lesson.subject||"",
+originalData.subject||
+lesson.subject||
+"",
 
 unit:
-lesson.unit||"",
+originalData.unit||
+lesson.unit||
+"",
 
 tool:
 selectedTool,
@@ -4126,20 +4086,489 @@ selectedReflectionIds
 )
 );
 
-try{
-
 sessionStorage.setItem(
 "thinkingFlowActive",
 "true"
 );
 
+currentReflectionId=
+originalId;
+
+
+/*
+  思考ツールの内容もthinkingコレクションへ保存。
+  ここが失敗しても、最後の振り返り保存まで
+  児童を進められるようにする。
+*/
+try{
+
+await addDoc(
+collection(db,"thinking"),
+{
+
+lessonId:
+originalData.lessonId||
+lesson.lessonId||
+"",
+
+subject:
+originalData.subject||
+lesson.subject||
+"",
+
+unit:
+originalData.unit||
+lesson.unit||
+"",
+
+reflectionId:
+originalId,
+
+selectedReflectionIds:
+selectedReflectionIds,
+
+tool:
+selectedTool,
+
+cards:
+cards,
+
+finalThought:
+finalThought,
+
+date:
+new Date().toISOString(),
+
+createdAt:
+serverTimestamp()
+
 }
-catch(e){}
+);
+
+}
+catch(thinkingSaveError){
+
+console.error(
+"思考内容の自動保存エラー:",
+thinkingSaveError
+);
+
+/*
+  thinkingコレクションへの保存が失敗しても、
+  manabiの最終振り返り保存は続けられるようにする。
+*/
+}
+
+
+/*
+  思考内容を元のmanabiにも保持する。
+  これによりthinkingコレクションへの保存が失敗しても
+  最終記録の中に思考内容が残る。
+*/
+try{
+
+await updateDoc(
+originalRef,
+{
+
+thinkingTool:
+selectedTool,
+
+thinkingSourceIds:
+selectedReflectionIds,
+
+thinkingCards:
+cards,
+
+thinkingFinalThought:
+finalThought,
+
+updatedAt:
+serverTimestamp()
+
+}
+);
+
+}
+catch(thinkingUpdateError){
+
+console.error(
+"思考内容のmanabi保存エラー:",
+thinkingUpdateError
+);
+
+/*
+  ここで停止させず、最後の振り返りへ進める。
+*/
+
+}
+
+}
+catch(error){
+
+console.error(error);
+
+alert(
+"思考ツールから振り返りへ移動できませんでした。\n\n"+
+error.message
+);
+
+return;
+
+}
 
 await openReflection();
 
 };
 
+
+/* =========================================================
+   最終振り返りの保存
+   ========================================================= */
+
+window.saveFinalReflection=async function(){
+
+return false;
+
+};
+
+
+/*
+  saveReflectionを共通の保存入口として使用する。
+  最後の振り返りの場合は上のflow情報を検出して
+  updateDocする。
+*/
+
+const originalSaveReflection=
+window.saveReflection;
+
+window.saveReflection=
+async function(){
+
+if(savingReflection)return;
+
+const isFinalFlow=
+sessionStorage.getItem(
+"thinkingFlowActive"
+)==="true"
+&&
+!!sessionStorage.getItem(
+"thinkingOriginalReflectionId"
+);
+
+if(!isFinalFlow){
+
+await originalSaveReflection();
+
+return;
+
+}
+
+savingReflection=true;
+
+const studyEl=
+document.getElementById("study");
+
+const studentEl=
+document.getElementById("studentNumber");
+
+const study=
+studyEl.value.trim();
+
+const studentNumber=
+studentEl.value.trim();
+
+if(!studentNumber){
+
+alert("出席番号を入力してください。");
+
+savingReflection=false;
+
+return;
+
+}
+
+if(!study){
+
+alert("最後の振り返りを書いてください。");
+
+savingReflection=false;
+
+return;
+
+}
+
+
+/*
+  ★重要
+  最終保存では「授業がactiveか」を確認しない。
+  元のFirestoreドキュメントIDを使って直接更新する。
+*/
+let originalId="";
+
+try{
+
+originalId=
+sessionStorage.getItem(
+"thinkingOriginalReflectionId"
+)||"";
+
+}
+catch(e){}
+
+if(!originalId){
+
+originalId=
+currentReflectionId||"";
+
+}
+
+if(!originalId){
+
+alert(
+"最初の振り返りの保存情報が見つかりません。\n\n"+
+"最後の振り返りを保存できないため、最初からやり直してください。"
+);
+
+savingReflection=false;
+
+return;
+
+}
+
+try{
+
+const originalRef=
+doc(
+db,
+"manabi",
+originalId
+);
+
+const originalSnap=
+await getDoc(originalRef);
+
+if(!originalSnap.exists()){
+
+throw new Error(
+"最初の振り返りの記録がFirestoreに見つかりません。"
+);
+
+}
+
+const originalData=
+originalSnap.data()||{};
+
+if(
+Number(originalData.studentNumber)!==
+Number(studentNumber)
+){
+
+throw new Error(
+"出席番号が最初の振り返りと一致していません。"
+);
+
+}
+
+const finalThought=
+extractFinalThought(study);
+
+const initialStudy=
+String(
+originalData.study||
+sessionStorage.getItem(
+"thinkingInitialStudy"
+)||
+""
+);
+
+const thinkingTool=
+sessionStorage.getItem(
+"thinkingReflectionTool"
+)||"";
+
+let sourceIds=[];
+
+try{
+
+sourceIds=
+JSON.parse(
+sessionStorage.getItem(
+"thinkingSourceIds"
+)||"[]"
+);
+
+}
+catch(e){
+
+sourceIds=[];
+
+}
+
+
+/*
+  学びへのコメントを生成。
+  AI入力欄への回答機能ではなく、
+  最終振り返りをもとにしたコメントだけ。
+*/
+const learningComment=
+generateLearningComment(
+initialStudy,
+finalThought,
+thinkingTool
+);
+
+
+/*
+  ★★★★★
+  最重要部分
+  FirestoreのupdateDocが成功するまで
+  「保存完了」にはしない。
+*/
+await updateDoc(
+originalRef,
+{
+
+finalReflection:
+study,
+
+finalReflectionDate:
+new Date().toISOString(),
+
+thinkingTool:
+thinkingTool,
+
+thinkingSourceIds:
+sourceIds,
+
+learningComment:
+learningComment,
+
+reflectionStage:
+"completed",
+
+updatedAt:
+serverTimestamp()
+
+}
+);
+
+
+/*
+  ここまで来たらFirestoreへの最終保存成功。
+*/
+currentReflectionId=
+originalId;
+
+clearHistoryCache(
+Number(studentNumber)
+);
+
+clearEveryoneCache();
+
+selectedReflectionIds=[];
+
+updateSelectedCount();
+
+showLearningComment(
+learningComment
+);
+
+document.getElementById(
+"adviceBox"
+).classList.add("hidden");
+
+document.getElementById(
+"firstSaveArea"
+).classList.add("hidden");
+
+document.getElementById(
+"finalReflectionNotice"
+).classList.add("hidden");
+
+document.getElementById(
+"thinkingDraftNotice"
+).classList.add("hidden");
+
+showPage("reflectionPage");
+
+document.getElementById(
+"submissionCompleteArea"
+).classList.remove("hidden");
+
+submissionCompleted=true;
+
+
+/*
+  ★重要
+  保存成功後にのみセッション情報を削除。
+*/
+try{
+
+sessionStorage.removeItem(
+"thinkingReflectionTool"
+);
+
+sessionStorage.removeItem(
+"thinkingSourceIds"
+);
+
+sessionStorage.removeItem(
+"thinkingReflectionDraft"
+);
+
+sessionStorage.removeItem(
+"thinkingOriginalReflectionId"
+);
+
+sessionStorage.removeItem(
+"thinkingInitialStudy"
+);
+
+sessionStorage.removeItem(
+"thinkingFlowActive"
+);
+
+}
+catch(e){}
+
+alert(
+"🎉 最後の振り返りを保存しました！"
+);
+
+}
+catch(error){
+
+console.error(
+"最終振り返り保存エラー:",
+error
+);
+
+/*
+  ★保存失敗時は絶対に
+  sessionStorageを削除しない。
+  児童がもう一度保存できるようにする。
+*/
+alert(
+"最後の振り返りを保存できませんでした。\n\n"+
+"入力した内容は消していません。\n\n"+
+"通信状況を確認して、もう一度「振り返りを提出する」を押してください。\n\n"+
+"エラー："+error.message
+);
+
+}
+finally{
+
+savingReflection=false;
+
+}
+
+};
+
+
+/* =========================================================
+   最終振り返り画面でのボタン表示
+   ========================================================= */
 
 window.openHistory=function(){
 
@@ -4278,15 +4707,47 @@ ${escapeHtml(item.unit||"")}
 
 </h3>
 
+${
+item.study
+?
+`
+<div class="box">
+
+<strong>✏️ 最初の振り返り</strong>
+
 <p>
-
-${escapeHtml(
-item.finalReflection||
-item.study||
-""
-)}
-
+${escapeHtml(item.study)}
 </p>
+
+</div>
+`
+:""
+}
+
+${
+item.finalReflection
+?
+`
+<div class="level-box">
+
+<strong>🌟 最後の振り返り</strong>
+
+<p>
+${escapeHtml(item.finalReflection)}
+</p>
+
+</div>
+`
+:""
+}
+
+${
+!item.finalReflection&&item.study
+?
+`
+`
+:""
+}
 
 ${
 item.deepReflection
@@ -4339,6 +4800,15 @@ ${escapeHtml(item.learningComment)}
 `).join("");
 
 };
+
+
+/*
+  最終振り返り画面に来たとき、
+  「提出する」ボタンの処理をそのまま利用する。
+  openReflection後にsaveReflectionが最終版へ切り替わるため、
+  HTML側のonclickは変更不要。
+*/
+
 
 </script>
 
