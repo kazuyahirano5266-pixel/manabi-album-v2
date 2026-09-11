@@ -80,6 +80,11 @@ button{
 
 button:hover{opacity:.9;}
 
+button:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+}
+
 .green{background:#4d9c68;}
 .orange{background:#d68c36;}
 .purple{background:#7656a8;}
@@ -717,6 +722,17 @@ button:hover{opacity:.9;}
   font-weight:bold;
 }
 
+.retry-button{
+  background:#4c8dcc;
+  margin-top:12px;
+}
+
+.loading-box{
+  text-align:center;
+  padding:25px 10px;
+  color:#555;
+}
+
 @media(max-width:900px){
   .tool-grid{
     grid-template-columns:repeat(3,1fr);
@@ -857,7 +873,7 @@ placeholder="今日の授業で分かったこと、考えたことを書こう"
 
 <div id="firstSaveArea">
 
-<button class="green" onclick="saveReflection()">
+<button id="reflectionSubmitButton" class="green" onclick="saveReflection()">
 📤 振り返りを提出する
 </button>
 
@@ -1075,7 +1091,7 @@ max="50"
 placeholder="出席番号を入力"
 >
 
-<button onclick="loadMyHistory()">
+<button id="historyLoadButton" onclick="loadMyHistory()">
 🔍 振り返りを見る
 </button>
 
@@ -1157,13 +1173,127 @@ let submissionCompleted=false;
 let lessonCache=null;
 let lessonCacheTime=0;
 
-const LESSON_CACHE_MS=15000;
+/*
+=========================================================
+読み込み安定化設定
+=========================================================
+*/
+
+const LESSON_CACHE_MS=8000;
+
+const FIREBASE_RETRY_COUNT=3;
+
+const FIREBASE_RETRY_DELAY=700;
+
+const FIREBASE_TIMEOUT_MS=10000;
 
 const everyoneCache=new Map();
 const historyCache=new Map();
 
 let lastEveryoneCacheKey="";
 
+let lessonLoadingPromise=null;
+
+
+/*
+=========================================================
+共通：待機
+=========================================================
+*/
+
+function wait(ms){
+
+return new Promise(
+resolve=>setTimeout(resolve,ms)
+);
+
+}
+
+
+/*
+=========================================================
+共通：Firebase処理の再試行
+=========================================================
+*/
+
+async function firebaseWithRetry(
+operation,
+label="Firebase読み込み"
+){
+
+let lastError=null;
+
+for(
+let attempt=1;
+attempt<=FIREBASE_RETRY_COUNT;
+attempt++
+){
+
+try{
+
+const timeoutPromise=
+new Promise(
+(_,reject)=>
+setTimeout(
+()=>{
+reject(
+new Error(
+label+
+"がタイムアウトしました。"
+)
+);
+},
+FIREBASE_TIMEOUT_MS
+)
+);
+
+const result=
+await Promise.race([
+operation(),
+timeoutPromise
+]);
+
+return result;
+
+}
+catch(error){
+
+lastError=error;
+
+console.error(
+`${label} 失敗 ${attempt}/${FIREBASE_RETRY_COUNT}`,
+error
+);
+
+if(
+attempt<
+FIREBASE_RETRY_COUNT
+){
+
+await wait(
+FIREBASE_RETRY_DELAY*
+attempt
+);
+
+}
+
+}
+
+}
+
+throw lastError||
+new Error(
+label+"に失敗しました。"
+);
+
+}
+
+
+/*
+=========================================================
+HTMLエスケープ
+=========================================================
+*/
 
 function escapeHtml(text){
 
@@ -1228,6 +1358,13 @@ showPage("homePage");
 };
 
 
+/*
+=========================================================
+授業情報取得
+★読み込み安定化
+=========================================================
+*/
+
 async function getCurrentLesson(options={}){
 
 const force=options.force===true;
@@ -1244,6 +1381,24 @@ return lessonCache;
 
 }
 
+
+/*
+  同時に複数回呼ばれた場合、
+  Firebaseへ同じ読み込みを何度も送らない。
+*/
+if(
+lessonLoadingPromise &&
+!force
+){
+
+return lessonLoadingPromise;
+
+}
+
+
+lessonLoadingPromise=
+(async()=>{
+
 try{
 
 const ref=
@@ -1254,7 +1409,10 @@ db,
 );
 
 const snap=
-await getDoc(ref);
+await firebaseWithRetry(
+()=>getDoc(ref),
+"授業情報の読み込み"
+);
 
 if(!snap.exists()){
 
@@ -1287,34 +1445,72 @@ return data;
 }
 catch(error){
 
-console.error(error);
+console.error(
+"授業情報取得エラー:",
+error
+);
 
+/*
+  読み込み失敗時に古い授業情報を
+  currentLessonとして残さない。
+*/
 currentLesson=null;
 
 return null;
 
 }
+finally{
+
+lessonLoadingPromise=null;
+
+}
+
+})();
+
+return lessonLoadingPromise;
 
 }
 
 
-window.refreshLesson=function(){
+window.refreshLesson=
+async function(){
 
 lessonCache=null;
 lessonCacheTime=0;
 
-return getCurrentLesson({force:true});
+lessonLoadingPromise=null;
+
+return getCurrentLesson({
+force:true
+});
 
 };
 
 
+/*
+=========================================================
+授業情報表示
+★失敗しても「再読み込み」ボタンを表示
+=========================================================
+*/
+
 async function displayCurrentLesson(){
+
+const area=
+document.getElementById(
+"currentLessonBox"
+);
+
+if(!area)return;
+
+area.innerHTML=`
+<div class="loading-box loading">
+📡 授業情報を読み込んでいます...
+</div>
+`;
 
 const lesson=
 await getCurrentLesson();
-
-const area=
-document.getElementById("currentLessonBox");
 
 if(!lesson){
 
@@ -1328,6 +1524,15 @@ area.innerHTML=`
 
 先生が授業を開始すると、
 教科・単元が自動表示されます。
+
+<br><br>
+
+<button
+class="retry-button"
+onclick="retryLessonLoad()"
+>
+🔄 授業情報をもう一度読み込む
+</button>
 
 </div>
 
@@ -1369,6 +1574,23 @@ lesson.unit||"";
 
 }
 
+
+window.retryLessonLoad=
+async function(){
+
+lessonCache=null;
+lessonCacheTime=0;
+
+await displayCurrentLesson();
+
+};
+
+
+/*
+=========================================================
+思考ツールドラフト
+=========================================================
+*/
 
 function getThinkingDraft(){
 
@@ -1430,6 +1652,12 @@ showAdvice();
 }
 
 
+/*
+=========================================================
+振り返り画面
+=========================================================
+*/
+
 window.openReflection=async function(){
 
 showPage("reflectionPage");
@@ -1479,6 +1707,8 @@ document.getElementById("aiQuestion").textContent="";
 savingReflection=false;
 submissionCompleted=false;
 
+showLearningComment("");
+
 if(returningFromThinking){
 
 title.textContent="🌟 最後の振り返り";
@@ -1486,7 +1716,9 @@ title.textContent="🌟 最後の振り返り";
 finalNotice.classList.remove("hidden");
 
 currentReflectionId=
-sessionStorage.getItem("thinkingOriginalReflectionId")||null;
+sessionStorage.getItem(
+"thinkingOriginalReflectionId"
+)||null;
 
 }
 else{
@@ -1521,6 +1753,12 @@ showFinalAdvice();
 
 };
 
+
+/*
+=========================================================
+AIからの問い
+=========================================================
+*/
 
 window.showAdvice=function(){
 
@@ -1636,6 +1874,12 @@ box.classList.remove("hidden");
 
 };
 
+
+/*
+=========================================================
+最後の振り返り AI提案
+=========================================================
+*/
 
 function showFinalAdvice(){
 
@@ -1942,10 +2186,11 @@ return `最初は「${initialShort}」と考えていましたが、最後の振
 }
 
 
-/* =========================================================
-   ★今回追加
-   学びへのコメントを画面に表示する
-   ========================================================= */
+/*
+=========================================================
+学びへのコメント表示
+=========================================================
+*/
 
 function showLearningComment(comment){
 
@@ -1978,11 +2223,13 @@ area.classList.add("hidden");
 }
 
 
-/* =========================================================
-   最初の振り返りを保存
-   ========================================================= */
+/*
+=========================================================
+最初の振り返り保存
+=========================================================
+*/
 
-window.saveReflection=async function(){
+async function saveInitialReflection(){
 
 if(savingReflection)return;
 
@@ -2002,11 +2249,18 @@ document.getElementById(
 ).textContent;
 
 const lesson=
-await getCurrentLesson();
+await getCurrentLesson({
+force:true
+});
 
 if(!lesson){
 
-alert("授業が開始されていません。");
+alert(
+"授業情報を取得できませんでした。\n\n"+
+"授業が開始されているか確認して、もう一度お試しください。"
+);
+
+await displayCurrentLesson();
 
 return;
 
@@ -2046,16 +2300,23 @@ return;
 
 savingReflection=true;
 
+const submitButton=
+document.getElementById(
+"reflectionSubmitButton"
+);
+
+if(submitButton){
+
+submitButton.disabled=true;
+submitButton.textContent="📡 保存しています...";
+
+}
+
 try{
 
-/*
-  ここでは必ず「最初の振り返り」として新規作成。
-  FirestoreのドキュメントIDを取得した直後に
-  sessionStorageへ保存する。
-*/
-
 const ref=
-await addDoc(
+await firebaseWithRetry(
+()=>addDoc(
 collection(db,"manabi"),
 {
 
@@ -2112,16 +2373,13 @@ createdAt:
 serverTimestamp()
 
 }
+),
+"最初の振り返りの保存"
 );
 
 currentReflectionId=
 ref.id;
 
-
-/*
-  Firestoreへの保存が成功してから
-  「思考ツールへ進むための情報」を保存する。
-*/
 try{
 
 sessionStorage.setItem(
@@ -2147,10 +2405,6 @@ console.error(
 storageError
 );
 
-/*
-  Firestore保存そのものは成功しているため、
-  IDを画面内にも保持しておく。
-*/
 }
 
 clearHistoryCache(
@@ -2180,11 +2434,14 @@ sessionStorage.removeItem(
 }
 catch(e){}
 
-
-/*
-  保存成功後にのみ、みんなの振り返りへ進む。
-*/
 savingReflection=false;
+
+if(submitButton){
+
+submitButton.disabled=false;
+submitButton.textContent="📤 振り返りを提出する";
+
+}
 
 await openEveryoneHistory(true);
 
@@ -2196,19 +2453,29 @@ console.error(error);
 alert(
 "最初の振り返りを保存できませんでした。\n\n"+
 "入力した内容はそのまま残しています。\n\n"+
-error.message
+"通信状況を確認して、もう一度「振り返りを提出する」を押してください。\n\n"+
+"エラー："+error.message
 );
 
 savingReflection=false;
 
+if(submitButton){
+
+submitButton.disabled=false;
+submitButton.textContent="📤 振り返りを提出する";
+
 }
 
-};
+}
+
+}
 
 
-/* =========================================================
-   みんなの振り返り
-   ========================================================= */
+/*
+=========================================================
+みんなの振り返り
+=========================================================
+*/
 
 window.openEveryoneHistory=
 async function(fromInitialReflection=false){
@@ -2249,18 +2516,47 @@ fromInitialReflection
 
 updateSelectedCount();
 
-const lesson=
-await getCurrentLesson();
-
 const lessonBox=
 document.getElementById(
 "everyoneLessonBox"
 );
 
+lessonBox.innerHTML=`
+<div class="loading-box loading">
+📡 授業情報を読み込んでいます...
+</div>
+`;
+
+const lesson=
+await getCurrentLesson({
+force:true
+});
+
 if(!lesson){
 
 lessonBox.innerHTML=
-"🔴 現在、授業が開始されていません。";
+`
+
+<div class="box">
+
+🔴 現在、授業が開始されていません。
+
+<br><br>
+
+先生が授業を開始すると表示されます。
+
+<br><br>
+
+<button
+class="retry-button"
+onclick="retryEveryoneLoad(${fromInitialReflection})"
+>
+🔄 もう一度読み込む
+</button>
+
+</div>
+
+`;
 
 document.getElementById(
 "everyoneList"
@@ -2299,6 +2595,21 @@ fromInitialReflection
 };
 
 
+window.retryEveryoneLoad=
+async function(fromInitialReflection=false){
+
+lessonCache=null;
+lessonCacheTime=0;
+
+everyoneCache.clear();
+
+await openEveryoneHistory(
+fromInitialReflection
+);
+
+};
+
+
 async function loadEveryoneData(
 lesson,
 fromInitialReflection=false
@@ -2328,7 +2639,11 @@ return;
 }
 
 area.innerHTML=
-"📡 みんなの振り返りを読み込んでいます...";
+`
+<div class="loading-box loading">
+📡 みんなの振り返りを読み込んでいます...
+</div>
+`;
 
 try{
 
@@ -2367,7 +2682,10 @@ lesson.unit
 }
 
 const snapshot=
-await getDocs(q);
+await firebaseWithRetry(
+()=>getDocs(q),
+"みんなの振り返りの読み込み"
+);
 
 everyoneData=
 snapshot.docs
@@ -2422,8 +2740,32 @@ catch(error){
 console.error(error);
 
 area.innerHTML=
-"❌ 読み込めませんでした。<br>"+
-escapeHtml(error.message);
+`
+
+<div class="box">
+
+❌ みんなの振り返りを読み込めませんでした。
+
+<br><br>
+
+通信状況を確認して、もう一度お試しください。
+
+<br><br>
+
+<button
+class="retry-button"
+onclick="retryEveryoneLoad(${fromInitialReflection})"
+>
+🔄 もう一度読み込む
+</button>
+
+<p class="cache-note">
+${escapeHtml(error.message)}
+</p>
+
+</div>
+
+`;
 
 }
 
@@ -2671,9 +3013,11 @@ count===0
 }
 
 
-/* =========================================================
-   思考ツール
-   ========================================================= */
+/*
+=========================================================
+思考ツール
+=========================================================
+*/
 
 window.openThinkingTools=function(){
 
@@ -3676,21 +4020,27 @@ card=>card.text.length>0
 }
 
 
-/* =========================================================
-   思考内容の保存
-   ========================================================= */
+/*
+=========================================================
+思考内容保存
+=========================================================
+*/
 
 window.saveThinking=async function(
 showMessage=true
 ){
 
 const lesson=
-await getCurrentLesson();
+await getCurrentLesson({
+force:true
+});
 
 if(!lesson){
 
 if(showMessage)
-alert("授業情報を取得できませんでした。");
+alert(
+"授業情報を取得できませんでした。"
+);
 
 return false;
 
@@ -3747,7 +4097,8 @@ return false;
 
 try{
 
-await addDoc(
+await firebaseWithRetry(
+()=>addDoc(
 collection(db,"thinking"),
 {
 
@@ -3779,6 +4130,8 @@ createdAt:
 serverTimestamp()
 
 }
+),
+"思考内容の保存"
 );
 
 if(showMessage){
@@ -3813,9 +4166,11 @@ return false;
 };
 
 
-/* =========================================================
-   思考ツール → 最後の振り返り
-   ========================================================= */
+/*
+=========================================================
+思考ツール → 最後の振り返り
+=========================================================
+*/
 
 window.thinkingToReflection=
 async function(){
@@ -3848,21 +4203,15 @@ return;
 
 }
 
-
-/*
-  ここでは「現在の授業がactiveかどうか」だけを
-  最終保存の条件にしない。
-  最初の振り返りを保存した時点でlessonIdを確定しているため、
-  先生が授業を終了しても最後の振り返りを保存できるようにする。
-*/
-
 let lesson=
 currentLesson;
 
 if(!lesson){
 
 lesson=
-await getCurrentLesson();
+await getCurrentLesson({
+force:true
+});
 
 }
 
@@ -3979,10 +4328,6 @@ draftText+=
 draftText+=
 finalThought;
 
-
-/*
-  最初の振り返りIDを最優先で取得。
-*/
 let originalId="";
 
 try{
@@ -4013,11 +4358,6 @@ return;
 
 }
 
-
-/*
-  最初の振り返りが本当に存在するかを
-  この時点で確認する。
-*/
 try{
 
 const originalRef=
@@ -4028,7 +4368,10 @@ originalId
 );
 
 const originalSnap=
-await getDoc(originalRef);
+await firebaseWithRetry(
+()=>getDoc(originalRef),
+"最初の振り返りの確認"
+);
 
 if(!originalSnap.exists()){
 
@@ -4041,10 +4384,6 @@ return;
 
 }
 
-
-/*
-  IDと初期振り返りを確認してから保存情報を作る。
-*/
 const originalData=
 originalSnap.data()||{};
 
@@ -4082,11 +4421,6 @@ initialStudy
 }
 catch(e){}
 
-
-/*
-  最終振り返りへ戻るための情報を先に保存。
-  Firestore更新は「最後の保存ボタン」で行う。
-*/
 sessionStorage.setItem(
 "thinkingReflectionDraft",
 JSON.stringify({
@@ -4132,13 +4466,13 @@ originalId;
 
 
 /*
-  思考ツールの内容もthinkingコレクションへ保存。
-  ここが失敗しても、最後の振り返り保存まで
-  児童を進められるようにする。
+  思考内容の自動保存。
+  失敗しても最後の振り返りへ進める。
 */
 try{
 
-await addDoc(
+await firebaseWithRetry(
+()=>addDoc(
 collection(db,"thinking"),
 {
 
@@ -4179,6 +4513,8 @@ createdAt:
 serverTimestamp()
 
 }
+),
+"思考内容の自動保存"
 );
 
 }
@@ -4189,21 +4525,12 @@ console.error(
 thinkingSaveError
 );
 
-/*
-  thinkingコレクションへの保存が失敗しても、
-  manabiの最終振り返り保存は続けられるようにする。
-*/
 }
 
-
-/*
-  思考内容を元のmanabiにも保持する。
-  これによりthinkingコレクションへの保存が失敗しても
-  最終記録の中に思考内容が残る。
-*/
 try{
 
-await updateDoc(
+await firebaseWithRetry(
+()=>updateDoc(
 originalRef,
 {
 
@@ -4223,6 +4550,8 @@ updatedAt:
 serverTimestamp()
 
 }
+),
+"思考内容の記録"
 );
 
 }
@@ -4232,10 +4561,6 @@ console.error(
 "思考内容のmanabi保存エラー:",
 thinkingUpdateError
 );
-
-/*
-  ここで停止させず、最後の振り返りへ進める。
-*/
 
 }
 
@@ -4258,9 +4583,11 @@ await openReflection();
 };
 
 
-/* =========================================================
-   最終振り返りの保存
-   ========================================================= */
+/*
+=========================================================
+最終振り返り
+=========================================================
+*/
 
 window.saveFinalReflection=async function(){
 
@@ -4270,20 +4597,29 @@ return false;
 
 
 /*
-  saveReflectionを共通の保存入口として使用する。
-  最後の振り返りの場合は上のflow情報を検出して
-  updateDocする。
+=========================================================
+保存入口
+=========================================================
 */
 
 const originalSaveReflection=
-window.saveReflection;
+async function(){
+
+await saveInitialReflection();
+
+};
+
 
 window.saveReflection=
 async function(){
 
 if(savingReflection)return;
 
-const isFinalFlow=
+let isFinalFlow=false;
+
+try{
+
+isFinalFlow=
 sessionStorage.getItem(
 "thinkingFlowActive"
 )==="true"
@@ -4291,6 +4627,9 @@ sessionStorage.getItem(
 !!sessionStorage.getItem(
 "thinkingOriginalReflectionId"
 );
+
+}
+catch(e){}
 
 if(!isFinalFlow){
 
@@ -4301,6 +4640,18 @@ return;
 }
 
 savingReflection=true;
+
+const submitButton=
+document.getElementById(
+"reflectionSubmitButton"
+);
+
+if(submitButton){
+
+submitButton.disabled=true;
+submitButton.textContent="📡 保存しています...";
+
+}
 
 const studyEl=
 document.getElementById("study");
@@ -4320,6 +4671,13 @@ alert("出席番号を入力してください。");
 
 savingReflection=false;
 
+if(submitButton){
+
+submitButton.disabled=false;
+submitButton.textContent="📤 振り返りを提出する";
+
+}
+
 return;
 
 }
@@ -4330,16 +4688,17 @@ alert("最後の振り返りを書いてください。");
 
 savingReflection=false;
 
+if(submitButton){
+
+submitButton.disabled=false;
+submitButton.textContent="📤 振り返りを提出する";
+
+}
+
 return;
 
 }
 
-
-/*
-  ★重要
-  最終保存では「授業がactiveか」を確認しない。
-  元のFirestoreドキュメントIDを使って直接更新する。
-*/
 let originalId="";
 
 try{
@@ -4368,6 +4727,13 @@ alert(
 
 savingReflection=false;
 
+if(submitButton){
+
+submitButton.disabled=false;
+submitButton.textContent="📤 振り返りを提出する";
+
+}
+
 return;
 
 }
@@ -4382,7 +4748,10 @@ originalId
 );
 
 const originalSnap=
-await getDoc(originalRef);
+await firebaseWithRetry(
+()=>getDoc(originalRef),
+"最終保存前の記録確認"
+);
 
 if(!originalSnap.exists()){
 
@@ -4441,12 +4810,6 @@ sourceIds=[];
 
 }
 
-
-/*
-  学びへのコメントを生成。
-  AI入力欄への回答機能ではなく、
-  最終振り返りをもとにしたコメントだけ。
-*/
 const learningComment=
 generateLearningComment(
 initialStudy,
@@ -4456,12 +4819,15 @@ thinkingTool
 
 
 /*
-  ★★★★★
-  最重要部分
-  FirestoreのupdateDocが成功するまで
-  「保存完了」にはしない。
+=========================================================
+最重要
+Firestore updateDoc成功まで完了表示しない。
+失敗した場合、sessionStorageも消さない。
+=========================================================
 */
-await updateDoc(
+
+await firebaseWithRetry(
+()=>updateDoc(
 originalRef,
 {
 
@@ -4487,12 +4853,17 @@ updatedAt:
 serverTimestamp()
 
 }
+),
+"最後の振り返りの保存"
 );
 
 
 /*
-  ここまで来たらFirestoreへの最終保存成功。
+=========================================================
+ここまで来たらFirestore保存成功
+=========================================================
 */
+
 currentReflectionId=
 originalId;
 
@@ -4536,8 +4907,7 @@ submissionCompleted=true;
 
 
 /*
-  ★重要
-  保存成功後にのみセッション情報を削除。
+  保存成功後だけセッション情報を削除
 */
 try{
 
@@ -4568,6 +4938,15 @@ sessionStorage.removeItem(
 }
 catch(e){}
 
+savingReflection=false;
+
+if(submitButton){
+
+submitButton.disabled=false;
+submitButton.textContent="📤 振り返りを提出する";
+
+}
+
 alert(
 "🎉 最後の振り返りを保存しました！"
 );
@@ -4581,9 +4960,7 @@ error
 );
 
 /*
-  ★保存失敗時は絶対に
-  sessionStorageを削除しない。
-  児童がもう一度保存できるようにする。
+  保存失敗時はsessionStorageを絶対に削除しない。
 */
 alert(
 "最後の振り返りを保存できませんでした。\n\n"+
@@ -4592,21 +4969,25 @@ alert(
 "エラー："+error.message
 );
 
-}
-finally{
-
 savingReflection=false;
+
+if(submitButton){
+
+submitButton.disabled=false;
+submitButton.textContent="📤 振り返りを提出する";
+
+}
 
 }
 
 };
 
 
-/* =========================================================
-   最終振り返り画面に来たとき、
-   「提出する」ボタンの処理をそのまま利用する。
-   ========================================================= */
-
+/*
+=========================================================
+履歴
+=========================================================
+*/
 
 window.openHistory=function(){
 
@@ -4645,6 +5026,11 @@ document.getElementById(
 "historyList"
 );
 
+const button=
+document.getElementById(
+"historyLoadButton"
+);
+
 const cacheKey=
 String(number);
 
@@ -4660,7 +5046,17 @@ return;
 }
 
 area.innerHTML=
-"📡 振り返りを読み込んでいます...";
+`
+<div class="loading-box loading">
+📡 振り返りを読み込んでいます...
+</div>
+`;
+
+if(button){
+
+button.disabled=true;
+button.textContent="📡 読み込み中...";
+}
 
 try{
 
@@ -4675,7 +5071,10 @@ Number(number)
 );
 
 const snapshot=
-await getDocs(q);
+await firebaseWithRetry(
+()=>getDocs(q),
+"自分の振り返りの読み込み"
+);
 
 const data=
 snapshot.docs
@@ -4702,8 +5101,42 @@ catch(error){
 console.error(error);
 
 area.innerHTML=
-"読み込みエラー："+
-escapeHtml(error.message);
+`
+
+<div class="box">
+
+❌ 振り返りを読み込めませんでした。
+
+<br><br>
+
+通信状況を確認して、もう一度お試しください。
+
+<br><br>
+
+<button
+class="retry-button"
+onclick="loadMyHistory()"
+>
+🔄 もう一度読み込む
+</button>
+
+<p class="cache-note">
+${escapeHtml(error.message)}
+</p>
+
+</div>
+
+`;
+
+}
+finally{
+
+if(button){
+
+button.disabled=false;
+button.textContent="🔍 振り返りを見る";
+
+}
 
 }
 
@@ -4780,14 +5213,6 @@ ${escapeHtml(item.finalReflection)}
 }
 
 ${
-!item.finalReflection&&item.study
-?
-`
-`
-:""
-}
-
-${
 item.deepReflection
 ?
 `
@@ -4841,12 +5266,34 @@ ${escapeHtml(item.learningComment)}
 
 
 /*
-  最終振り返り画面に来たとき、
-  「提出する」ボタンの処理をそのまま利用する。
-  openReflection後にsaveReflectionが最終版へ切り替わるため、
-  HTML側のonclickは変更不要。
+=========================================================
+起動時
+=========================================================
 */
 
+/*
+  Firebase初期化直後に授業情報を先読みする。
+  失敗してもページ自体は通常どおり操作可能。
+*/
+(async function(){
+
+try{
+
+await getCurrentLesson({
+force:true
+});
+
+}
+catch(error){
+
+console.error(
+"起動時授業情報取得エラー:",
+error
+);
+
+}
+
+})();
 
 </script>
 
