@@ -1943,6 +1943,42 @@ return `最初は「${initialShort}」と考えていましたが、最後の振
 
 
 /* =========================================================
+   ★今回追加
+   学びへのコメントを画面に表示する
+   ========================================================= */
+
+function showLearningComment(comment){
+
+const area=
+document.getElementById(
+"learningComment"
+);
+
+const text=
+document.getElementById(
+"learningCommentText"
+);
+
+if(!area||!text)return;
+
+text.textContent=
+comment||"";
+
+if(comment){
+
+area.classList.remove("hidden");
+
+}
+else{
+
+area.classList.add("hidden");
+
+}
+
+}
+
+
+/* =========================================================
    最初の振り返りを保存
    ========================================================= */
 
@@ -4567,8 +4603,10 @@ savingReflection=false;
 
 
 /* =========================================================
-   最終振り返り画面でのボタン表示
+   最終振り返り画面に来たとき、
+   「提出する」ボタンの処理をそのまま利用する。
    ========================================================= */
+
 
 window.openHistory=function(){
 
