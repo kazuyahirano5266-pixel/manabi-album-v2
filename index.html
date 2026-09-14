@@ -733,6 +733,60 @@ button:disabled{
   color:#555;
 }
 
+/* =========================================
+   ① 読み込み停止時の復帰表示
+========================================= */
+
+.recovery-overlay{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:9999;
+  padding:12px;
+  background:rgba(255,255,255,.97);
+  border-top:3px solid #4c8dcc;
+  box-shadow:0 -3px 15px rgba(0,0,0,.15);
+  text-align:center;
+}
+
+.recovery-overlay strong{
+  display:block;
+  font-size:16px;
+  margin-bottom:4px;
+}
+
+.recovery-overlay p{
+  margin:5px 0;
+  font-size:14px;
+  line-height:1.6;
+}
+
+.recovery-overlay button{
+  margin:5px 3px;
+}
+
+.recovery-reload{
+  background:#4c8dcc;
+}
+
+.recovery-home{
+  background:#777;
+}
+
+.resume-notice{
+  background:#eef7ff;
+  border:3px solid #4c8dcc;
+  border-radius:15px;
+  padding:15px;
+  margin-bottom:15px;
+  text-align:center;
+}
+
+.resume-notice strong{
+  color:#3d72a8;
+}
+
 @media(max-width:900px){
   .tool-grid{
     grid-template-columns:repeat(3,1fr);
@@ -857,7 +911,7 @@ placeholder="出席番号を入力"
 
 <textarea
 id="study"
-oninput="showAdvice()"
+oninput="showAdvice();saveRecoveryState();"
 placeholder="今日の授業で分かったこと、考えたことを書こう"
 ></textarea>
 
@@ -1173,6 +1227,7 @@ let submissionCompleted=false;
 let lessonCache=null;
 let lessonCacheTime=0;
 
+
 /*
 =========================================================
 読み込み安定化設定
@@ -1197,6 +1252,25 @@ let lessonLoadingPromise=null;
 
 /*
 =========================================================
+① 再読み込み・途中復帰用設定
+=========================================================
+*/
+
+const RECOVERY_KEY="manabiAlbumRecoveryV2";
+
+const RECOVERY_VERSION=1;
+
+const RECOVERY_LOAD_TIMEOUT_MS=12000;
+
+let recoveryLoadTimer=null;
+
+let recoveryRestoring=false;
+
+let recoveryReloading=false;
+
+
+/*
+=========================================================
 共通：待機
 =========================================================
 */
@@ -1212,81 +1286,556 @@ resolve=>setTimeout(resolve,ms)
 
 /*
 =========================================================
-共通：Firebase処理の再試行
+① 復帰情報保存
 =========================================================
 */
 
-async function firebaseWithRetry(
-operation,
-label="Firebase読み込み"
-){
+function getCurrentVisiblePage(){
 
-let lastError=null;
+const pages=[
+"homePage",
+"reflectionPage",
+"everyonePage",
+"thinkingPage",
+"historyPage"
+];
 
-for(
-let attempt=1;
-attempt<=FIREBASE_RETRY_COUNT;
-attempt++
-){
+for(const id of pages){
+
+const el=document.getElementById(id);
+
+if(el&&!el.classList.contains("hidden")){
+
+return id;
+
+}
+
+}
+
+return "homePage";
+
+}
+
+
+function safeSetRecovery(data){
 
 try{
 
-const timeoutPromise=
-new Promise(
-(_,reject)=>
-setTimeout(
-()=>{
-reject(
-new Error(
-label+
-"がタイムアウトしました。"
-)
+localStorage.setItem(
+RECOVERY_KEY,
+JSON.stringify({
+version:RECOVERY_VERSION,
+savedAt:Date.now(),
+...data
+})
 );
-},
-FIREBASE_TIMEOUT_MS
-)
-);
-
-const result=
-await Promise.race([
-operation(),
-timeoutPromise
-]);
-
-return result;
 
 }
 catch(error){
 
-lastError=error;
-
 console.error(
-`${label} 失敗 ${attempt}/${FIREBASE_RETRY_COUNT}`,
+"復帰情報の保存に失敗しました:",
 error
 );
 
-if(
-attempt<
-FIREBASE_RETRY_COUNT
+}
+
+}
+
+
+function getRecoveryState(){
+
+try{
+
+const raw=
+localStorage.getItem(
+RECOVERY_KEY
+);
+
+if(!raw)return null;
+
+const data=
+JSON.parse(raw);
+
+if(!data)return null;
+
+if(data.version!==RECOVERY_VERSION){
+
+localStorage.removeItem(
+RECOVERY_KEY
+);
+
+return null;
+
+}
+
+return data;
+
+}
+catch(error){
+
+console.error(
+"復帰情報の読み込みに失敗しました:",
+error
+);
+
+return null;
+
+}
+
+}
+
+
+function clearRecoveryState(){
+
+try{
+
+localStorage.removeItem(
+RECOVERY_KEY
+);
+
+}
+catch(error){
+
+console.error(
+"復帰情報の削除に失敗しました:",
+error
+);
+
+}
+
+}
+
+
+function saveRecoveryState(extra={}){
+
+if(recoveryRestoring)return;
+
+try{
+
+const page=
+getCurrentVisiblePage();
+
+const studentNumber=
+document.getElementById(
+"studentNumber"
+)?.value||"";
+
+const historyNumber=
+document.getElementById(
+"historyNumber"
+)?.value||"";
+
+const study=
+document.getElementById(
+"study"
+)?.value||"";
+
+const finalThought=
+document.getElementById(
+"finalThought"
+)?.value||"";
+
+const yOwnThought=
+document.getElementById(
+"yOwnThought"
+)?.value||"";
+
+const cards=
+collectThinkingDataForRecovery();
+
+const state={
+
+page:page,
+
+studentNumber:studentNumber,
+
+historyNumber:historyNumber,
+
+study:study,
+
+subject:
+document.getElementById("subject")?.value||"",
+
+unit:
+document.getElementById("unit")?.value||"",
+
+currentReflectionId:
+currentReflectionId||"",
+
+selectedReflectionIds:
+Array.isArray(selectedReflectionIds)
+?
+[...selectedReflectionIds]
+:
+[],
+
+selectedTool:
+selectedTool||null,
+
+finalThought:finalThought,
+
+yOwnThought:yOwnThought,
+
+cards:cards,
+
+thinkingFlowActive:
+isThinkingFlowActive(),
+
+thinkingOriginalReflectionId:
+getSessionValue(
+"thinkingOriginalReflectionId"
+),
+
+thinkingInitialStudy:
+getSessionValue(
+"thinkingInitialStudy"
+),
+
+thinkingReflectionTool:
+getSessionValue(
+"thinkingReflectionTool"
+),
+
+thinkingSourceIds:
+parseSessionArray(
+"thinkingSourceIds"
+),
+
+thinkingReflectionDraft:
+getSessionValue(
+"thinkingReflectionDraft"
+)
+
+};
+
+safeSetRecovery({
+...state,
+...extra
+});
+
+}
+catch(error){
+
+console.error(
+"復帰情報保存エラー:",
+error
+);
+
+}
+
+}
+
+
+function collectThinkingDataForRecovery(){
+
+const board=
+document.getElementById(
+"thinkingBoard"
+);
+
+if(!board)return [];
+
+return [
+...board.querySelectorAll(
+".thought-card"
+)
+]
+.map(card=>{
+
+const textarea=
+card.querySelector(
+".card-text"
+);
+
+let type="new";
+
+if(card.classList.contains("friend")){
+
+type="friend";
+
+}
+else if(card.classList.contains("mine")){
+
+type="mine";
+
+}
+
+return{
+
+type:type,
+
+text:
+textarea?
+textarea.value:
+"",
+
+x:
+card.offsetLeft,
+
+y:
+card.offsetTop,
+
+width:
+card.offsetWidth,
+
+height:
+card.offsetHeight,
+
+reflectionId:
+card.dataset.reflectionId||""
+
+};
+
+});
+
+}
+
+
+function getSessionValue(key){
+
+try{
+
+return sessionStorage.getItem(key)||"";
+
+}
+catch(e){
+
+return "";
+
+}
+
+}
+
+
+function parseSessionArray(key){
+
+try{
+
+const value=
+sessionStorage.getItem(key);
+
+if(!value)return [];
+
+const parsed=
+JSON.parse(value);
+
+return Array.isArray(parsed)
+?
+parsed
+:
+[];
+
+}
+catch(e){
+
+return [];
+
+}
+
+}
+
+
+function setSessionValue(key,value){
+
+try{
+
+sessionStorage.setItem(
+key,
+value
+);
+
+}
+catch(error){
+
+console.error(
+"sessionStorage保存エラー:",
+error
+);
+
+}
+
+}
+
+
+function isThinkingFlowActive(){
+
+try{
+
+return(
+sessionStorage.getItem(
+"thinkingFlowActive"
+)==="true"
+);
+
+}
+catch(e){
+
+return false;
+
+}
+
+}
+
+
+/*
+=========================================================
+① 読み込み停止監視
+=========================================================
+*/
+
+function clearRecoveryLoadTimer(){
+
+if(recoveryLoadTimer){
+
+clearTimeout(
+recoveryLoadTimer
+);
+
+recoveryLoadTimer=null;
+
+}
+
+}
+
+
+function startRecoveryLoadTimer(message="読み込みに時間がかかっています。"){
+
+clearRecoveryLoadTimer();
+
+recoveryLoadTimer=
+setTimeout(
+()=>{
+
+showRecoveryOverlay(
+message
+);
+
+},
+RECOVERY_LOAD_TIMEOUT_MS
+);
+
+}
+
+
+function showRecoveryOverlay(
+message=
+"読み込みが止まっている可能性があります。"
 ){
 
-await wait(
-FIREBASE_RETRY_DELAY*
-attempt
+let overlay=
+document.getElementById(
+"recoveryOverlay"
+);
+
+if(!overlay){
+
+overlay=
+document.createElement("div");
+
+overlay.id=
+"recoveryOverlay";
+
+overlay.className=
+"recovery-overlay";
+
+document.body.appendChild(
+overlay
 );
 
 }
 
-}
+overlay.innerHTML=`
+
+<strong>📡 読み込みに時間がかかっています</strong>
+
+<p>
+${escapeHtml(message)}
+<br>
+再読み込みしても、現在の学習地点から再開できます。
+</p>
+
+<button
+class="recovery-reload"
+onclick="retryFromRecovery()"
+>
+🔄 今の続きから再読み込み
+</button>
+
+<button
+class="recovery-home"
+onclick="closeRecoveryOverlay()"
+>
+そのまま待つ
+</button>
+
+`;
 
 }
 
-throw lastError||
-new Error(
-label+"に失敗しました。"
+
+function closeRecoveryOverlay(){
+
+const overlay=
+document.getElementById(
+"recoveryOverlay"
 );
 
+if(overlay){
+
+overlay.remove();
+
 }
+
+clearRecoveryLoadTimer();
+
+}
+
+
+window.retryFromRecovery=
+async function(){
+
+if(recoveryReloading)return;
+
+recoveryReloading=true;
+
+saveRecoveryState({
+lastRecoveryAttempt:
+Date.now()
+});
+
+const overlay=
+document.getElementById(
+"recoveryOverlay"
+);
+
+if(overlay){
+
+overlay.innerHTML=`
+
+<strong>🔄 再読み込みしています</strong>
+
+<p>
+現在の学習地点を確認しています...
+</p>
+
+`;
+
+}
+
+await wait(300);
+
+location.reload();
+
+};
+
+
+window.closeRecoveryOverlay=
+function(){
+
+closeRecoveryOverlay();
+
+};
 
 
 /*
@@ -1347,6 +1896,25 @@ if(el)el.classList.add("hidden");
 const target=document.getElementById(id);
 
 if(target)target.classList.remove("hidden");
+
+if(
+id==="homePage" &&
+!recoveryRestoring
+){
+
+/*
+  トップページへ戻る操作をした場合は
+  復帰地点を解除する。
+*/
+clearRecoveryState();
+
+}
+
+else if(!recoveryRestoring){
+
+saveRecoveryState();
+
+}
 
 }
 
@@ -1450,13 +2018,9 @@ console.error(
 error
 );
 
-/*
-  読み込み失敗時に古い授業情報を
-  currentLessonとして残さない。
-*/
 currentLesson=null;
 
-return null;
+throw error;
 
 }
 finally{
@@ -1490,7 +2054,7 @@ force:true
 /*
 =========================================================
 授業情報表示
-★失敗しても「再読み込み」ボタンを表示
+★失敗時と「授業未開始」を区別
 =========================================================
 */
 
@@ -1509,8 +2073,18 @@ area.innerHTML=`
 </div>
 `;
 
+startRecoveryLoadTimer(
+"授業情報の読み込みが止まっています。"
+);
+
+try{
+
 const lesson=
 await getCurrentLesson();
+
+clearRecoveryLoadTimer();
+
+closeRecoveryOverlay();
 
 if(!lesson){
 
@@ -1572,6 +2146,46 @@ lesson.subject||"";
 document.getElementById("unit").value=
 lesson.unit||"";
 
+saveRecoveryState();
+
+}
+catch(error){
+
+clearRecoveryLoadTimer();
+
+area.innerHTML=`
+
+<div class="box">
+
+❌ 授業情報の読み込みに失敗しました。
+
+<br><br>
+
+通信状況を確認して、もう一度お試しください。
+
+<br><br>
+
+<button
+class="retry-button"
+onclick="retryLessonLoad()"
+>
+🔄 もう一度読み込む
+</button>
+
+<p class="cache-note">
+${escapeHtml(error.message)}
+</p>
+
+</div>
+
+`;
+
+showRecoveryOverlay(
+"授業情報の読み込みに失敗しました。"
+);
+
+}
+
 }
 
 
@@ -1580,6 +2194,9 @@ async function(){
 
 lessonCache=null;
 lessonCacheTime=0;
+lessonLoadingPromise=null;
+
+closeRecoveryOverlay();
 
 await displayCurrentLesson();
 
@@ -1649,6 +2266,8 @@ document.getElementById(
 
 showAdvice();
 
+saveRecoveryState();
+
 }
 
 
@@ -1674,6 +2293,9 @@ sessionStorage.getItem("thinkingFlowActive")==="true"
 }
 catch(e){}
 
+const recovery=
+getRecoveryState();
+
 const study=
 document.getElementById("study");
 
@@ -1694,6 +2316,15 @@ document.getElementById("submissionCompleteArea");
 
 const title=
 document.querySelector("#reflectionPage h2");
+
+const shouldRestoreDraft=
+!returningFromThinking &&
+recovery &&
+recovery.page==="reflectionPage" &&
+(
+recovery.study||
+recovery.studentNumber
+);
 
 study.value="";
 advice.classList.add("hidden");
@@ -1719,6 +2350,49 @@ currentReflectionId=
 sessionStorage.getItem(
 "thinkingOriginalReflectionId"
 )||null;
+
+}
+else if(shouldRestoreDraft){
+
+title.textContent="✏️ 今日の振り返り";
+
+currentReflectionId=
+recovery.currentReflectionId||
+null;
+
+document.getElementById(
+"studentNumber"
+).value=
+recovery.studentNumber||"";
+
+document.getElementById(
+"study"
+).value=
+recovery.study||"";
+
+if(recovery.subject){
+
+document.getElementById(
+"subject"
+).value=
+recovery.subject;
+
+}
+
+if(recovery.unit){
+
+document.getElementById(
+"unit"
+).value=
+recovery.unit;
+
+}
+
+if(recovery.study){
+
+showAdvice();
+
+}
 
 }
 else{
@@ -1750,6 +2424,8 @@ applyThinkingDraft();
 showFinalAdvice();
 
 }
+
+saveRecoveryState();
 
 };
 
@@ -2434,6 +3110,16 @@ sessionStorage.removeItem(
 }
 catch(e){}
 
+saveRecoveryState({
+page:"everyonePage",
+studentNumber:
+studentNumber,
+currentReflectionId:
+ref.id,
+selectedReflectionIds:[],
+selectedTool:null
+});
+
 savingReflection=false;
 
 if(submitButton){
@@ -2456,6 +3142,8 @@ alert(
 "通信状況を確認して、もう一度「振り返りを提出する」を押してください。\n\n"+
 "エラー："+error.message
 );
+
+saveRecoveryState();
 
 savingReflection=false;
 
@@ -2482,7 +3170,27 @@ async function(fromInitialReflection=false){
 
 showPage("everyonePage");
 
+const recovery=
+getRecoveryState();
+
+const shouldRestoreSelection=
+recoveryRestoring &&
+recovery &&
+Array.isArray(
+recovery.selectedReflectionIds
+);
+
+if(shouldRestoreSelection){
+
+selectedReflectionIds=
+[...recovery.selectedReflectionIds];
+
+}
+else{
+
 selectedReflectionIds=[];
+
+}
 
 const startArea=
 document.getElementById(
@@ -2498,7 +3206,7 @@ if(startArea){
 
 startArea.classList.toggle(
 "hidden",
-!fromInitialReflection
+selectedReflectionIds.length===0
 );
 
 }
@@ -2527,10 +3235,18 @@ lessonBox.innerHTML=`
 </div>
 `;
 
+startRecoveryLoadTimer(
+"みんなの振り返りを読み込んでいます。"
+);
+
+try{
+
 const lesson=
 await getCurrentLesson({
 force:true
 });
+
+clearRecoveryLoadTimer();
 
 if(!lesson){
 
@@ -2563,6 +3279,10 @@ document.getElementById(
 ).innerHTML=
 "先生が授業を開始すると表示されます。";
 
+showRecoveryOverlay(
+"授業情報を取得できませんでした。"
+);
+
 return;
 
 }
@@ -2592,6 +3312,46 @@ lesson,
 fromInitialReflection
 );
 
+}
+catch(error){
+
+clearRecoveryLoadTimer();
+
+lessonBox.innerHTML=`
+
+<div class="box">
+
+❌ みんなの振り返りを読み込めませんでした。
+
+<br><br>
+
+<button
+class="retry-button"
+onclick="retryEveryoneLoad(${fromInitialReflection})"
+>
+🔄 もう一度読み込む
+</button>
+
+<p class="cache-note">
+${escapeHtml(error.message)}
+</p>
+
+</div>
+
+`;
+
+showRecoveryOverlay(
+"みんなの振り返りの読み込みに失敗しました。"
+);
+
+}
+
+saveRecoveryState({
+page:"everyonePage",
+selectedReflectionIds:
+[...selectedReflectionIds]
+});
+
 };
 
 
@@ -2602,6 +3362,8 @@ lessonCache=null;
 lessonCacheTime=0;
 
 everyoneCache.clear();
+
+closeRecoveryOverlay();
 
 await openEveryoneHistory(
 fromInitialReflection
@@ -2645,6 +3407,10 @@ area.innerHTML=
 </div>
 `;
 
+startRecoveryLoadTimer(
+"みんなの振り返りの読み込みが止まっています。"
+);
+
 try{
 
 let q;
@@ -2686,6 +3452,8 @@ await firebaseWithRetry(
 ()=>getDocs(q),
 "みんなの振り返りの読み込み"
 );
+
+clearRecoveryLoadTimer();
 
 everyoneData=
 snapshot.docs
@@ -2737,6 +3505,8 @@ fromInitialReflection
 }
 catch(error){
 
+clearRecoveryLoadTimer();
+
 console.error(error);
 
 area.innerHTML=
@@ -2766,6 +3536,10 @@ ${escapeHtml(error.message)}
 </div>
 
 `;
+
+showRecoveryOverlay(
+"みんなの振り返りの読み込みに失敗しました。"
+);
 
 }
 
@@ -2829,6 +3603,16 @@ card.className="everyone-card";
 
 card.dataset.id=item.id;
 
+if(
+selectedReflectionIds.includes(
+item.id
+)
+){
+
+card.classList.add("selected");
+
+}
+
 if(fromInitialReflection){
 
 card.innerHTML=`
@@ -2877,12 +3661,24 @@ ${escapeHtml(item.deepReflection)}
 }
 
 <button
-class="reference-button"
+class="reference-button ${
+selectedReflectionIds.includes(item.id)
+?
+"selected"
+:
+""
+}"
 onclick="toggleReference('${item.id}')"
 >
 👍
 <span>
-この考えを参考にしたい
+${
+selectedReflectionIds.includes(item.id)
+?
+"選択中"
+:
+"この考えを参考にしたい"
+}
 </span>
 </button>
 
@@ -2934,6 +3730,12 @@ selectedReflectionIds.push(id);
 updateEveryoneCardStyle();
 
 updateSelectedCount();
+
+saveRecoveryState({
+page:"everyonePage",
+selectedReflectionIds:
+[...selectedReflectionIds]
+});
 
 };
 
@@ -3050,6 +3852,12 @@ document.getElementById(
 ).innerHTML="";
 
 displaySelectedReflections();
+
+saveRecoveryState({
+page:"thinkingPage",
+selectedReflectionIds:
+[...selectedReflectionIds]
+});
 
 };
 
@@ -3225,6 +4033,7 @@ finalArea.innerHTML=`
 <textarea
 id="finalThought"
 placeholder="友達の考えと比べたり、整理したりして、自分の考えがどう変わったか書こう"
+oninput="saveRecoveryState()"
 ></textarea>
 
 <button
@@ -3237,6 +4046,20 @@ onclick="thinkingToReflection()"
 </div>
 
 `;
+
+document.getElementById(
+"finalThought"
+).addEventListener(
+"input",
+saveRecoveryState
+);
+
+saveRecoveryState({
+page:"thinkingPage",
+selectedTool:tool,
+selectedReflectionIds:
+[...selectedReflectionIds]
+});
 
 };
 
@@ -3544,6 +4367,61 @@ return;
 if(!Array.isArray(everyoneData))
 return;
 
+const recovery=
+getRecoveryState();
+
+const recoveryCards=
+recoveryRestoring &&
+recovery &&
+Array.isArray(recovery.cards)
+?
+recovery.cards
+:
+null;
+
+if(recoveryCards&&recoveryCards.length){
+
+recoveryCards.forEach(card=>{
+
+addCardToBoard({
+
+type:
+card.type==="friend"
+?
+"friend"
+:
+card.type==="mine"
+?
+"mine"
+:
+"new",
+
+text:
+card.text||"",
+
+x:
+card.x,
+
+y:
+card.y,
+
+width:
+card.width,
+
+height:
+card.height,
+
+reflectionId:
+card.reflectionId||""
+
+});
+
+});
+
+return;
+
+}
+
 selectedReflectionIds.forEach(
 (id,index)=>{
 
@@ -3599,6 +4477,8 @@ y:160
 
 });
 
+saveRecoveryState();
+
 };
 
 
@@ -3615,6 +4495,8 @@ x:300,
 y:270
 
 });
+
+saveRecoveryState();
 
 };
 
@@ -3721,6 +4603,18 @@ board.appendChild(card);
 makeDraggable(card);
 makeResizable(card);
 
+const textarea=
+card.querySelector(".card-text");
+
+if(textarea){
+
+textarea.addEventListener(
+"input",
+()=>saveRecoveryState()
+);
+
+}
+
 }
 
 
@@ -3732,6 +4626,8 @@ document.getElementById(id);
 if(!card)return;
 
 card.remove();
+
+saveRecoveryState();
 
 };
 
@@ -3823,6 +4719,8 @@ newLeft+"px";
 element.style.top=
 newTop+"px";
 
+saveRecoveryState();
+
 });
 
 handle.addEventListener(
@@ -3839,6 +4737,8 @@ event.pointerId
 
 }
 catch(e){}
+
+saveRecoveryState();
 
 });
 
@@ -3938,6 +4838,8 @@ e.pointerId
 
 }
 catch(x){}
+
+saveRecoveryState();
 
 };
 
@@ -4143,6 +5045,8 @@ alert(
 
 }
 
+saveRecoveryState();
+
 return true;
 
 }
@@ -4158,6 +5062,8 @@ error.message
 );
 
 }
+
+saveRecoveryState();
 
 return false;
 
@@ -4578,6 +5484,16 @@ return;
 
 }
 
+saveRecoveryState({
+page:"reflectionPage",
+currentReflectionId:
+originalId,
+selectedReflectionIds:
+[...selectedReflectionIds],
+selectedTool:
+selectedTool
+});
+
 await openReflection();
 
 };
@@ -4938,6 +5854,12 @@ sessionStorage.removeItem(
 }
 catch(e){}
 
+/*
+  最終保存成功なので、
+  復帰情報もここで完全に削除。
+*/
+clearRecoveryState();
+
 savingReflection=false;
 
 if(submitButton){
@@ -4960,8 +5882,15 @@ error
 );
 
 /*
-  保存失敗時はsessionStorageを絶対に削除しない。
+  保存失敗時はsessionStorageと
+  recovery情報を絶対に削除しない。
 */
+saveRecoveryState({
+page:"reflectionPage",
+currentReflectionId:
+currentReflectionId
+});
+
 alert(
 "最後の振り返りを保存できませんでした。\n\n"+
 "入力した内容は消していません。\n\n"+
@@ -4993,13 +5922,36 @@ window.openHistory=function(){
 
 showPage("historyPage");
 
+const recovery=
+getRecoveryState();
+
+if(
+recoveryRestoring &&
+recovery &&
+recovery.page==="historyPage"
+){
+
+document.getElementById(
+"historyNumber"
+).value=
+recovery.historyNumber||"";
+
+}
+else{
+
 document.getElementById(
 "historyNumber"
 ).value="";
 
+}
+
 document.getElementById(
 "historyList"
 ).innerHTML="";
+
+saveRecoveryState({
+page:"historyPage"
+});
 
 };
 
@@ -5020,6 +5972,11 @@ alert(
 return;
 
 }
+
+saveRecoveryState({
+page:"historyPage",
+historyNumber:number
+});
 
 const area=
 document.getElementById(
@@ -5052,6 +6009,10 @@ area.innerHTML=
 </div>
 `;
 
+startRecoveryLoadTimer(
+"自分の振り返りの読み込みが止まっています。"
+);
+
 if(button){
 
 button.disabled=true;
@@ -5076,6 +6037,9 @@ await firebaseWithRetry(
 "自分の振り返りの読み込み"
 );
 
+clearRecoveryLoadTimer();
+closeRecoveryOverlay();
+
 const data=
 snapshot.docs
 .map(d=>({
@@ -5097,6 +6061,8 @@ displayMyHistory(data);
 
 }
 catch(error){
+
+clearRecoveryLoadTimer();
 
 console.error(error);
 
@@ -5127,6 +6093,10 @@ ${escapeHtml(error.message)}
 </div>
 
 `;
+
+showRecoveryOverlay(
+"自分の振り返りの読み込みに失敗しました。"
+);
 
 }
 finally{
@@ -5267,15 +6237,155 @@ ${escapeHtml(item.learningComment)}
 
 /*
 =========================================================
-起動時
+① 再読み込み後の自動復帰
 =========================================================
 */
 
+async function restoreRecoveryState(){
+
+const recovery=
+getRecoveryState();
+
+if(!recovery){
+
+return false;
+
+}
+
 /*
-  Firebase初期化直後に授業情報を先読みする。
-  失敗してもページ自体は通常どおり操作可能。
+  古すぎる復帰情報は使わない。
+  ただし、通常の授業中の作業を長時間中断する可能性があるため
+  24時間以内を復帰対象とする。
 */
-(async function(){
+const age=
+Date.now()-
+Number(recovery.savedAt||0);
+
+if(
+!Number.isFinite(age)||
+age>24*60*60*1000
+){
+
+clearRecoveryState();
+
+return false;
+
+}
+
+recoveryRestoring=true;
+
+try{
+
+/*
+  sessionStorageが残っている場合はそのまま利用。
+  再読み込みではsessionStorageも通常維持されるが、
+  localStorage側の情報から不足分を補う。
+*/
+
+if(
+recovery.thinkingOriginalReflectionId &&
+!getSessionValue("thinkingOriginalReflectionId")
+){
+
+setSessionValue(
+"thinkingOriginalReflectionId",
+recovery.thinkingOriginalReflectionId
+);
+
+}
+
+if(
+recovery.thinkingInitialStudy &&
+!getSessionValue("thinkingInitialStudy")
+){
+
+setSessionValue(
+"thinkingInitialStudy",
+recovery.thinkingInitialStudy
+);
+
+}
+
+if(
+recovery.thinkingReflectionTool &&
+!getSessionValue("thinkingReflectionTool")
+){
+
+setSessionValue(
+"thinkingReflectionTool",
+recovery.thinkingReflectionTool
+);
+
+}
+
+if(
+Array.isArray(recovery.thinkingSourceIds)&&
+recovery.thinkingSourceIds.length
+){
+
+setSessionValue(
+"thinkingSourceIds",
+JSON.stringify(
+recovery.thinkingSourceIds
+)
+);
+
+}
+
+if(
+recovery.thinkingReflectionDraft &&
+!getSessionValue("thinkingReflectionDraft")
+){
+
+setSessionValue(
+"thinkingReflectionDraft",
+recovery.thinkingReflectionDraft
+);
+
+}
+
+if(
+recovery.thinkingFlowActive
+){
+
+setSessionValue(
+"thinkingFlowActive",
+"true"
+);
+
+}
+
+currentReflectionId=
+recovery.currentReflectionId||
+getSessionValue(
+"thinkingOriginalReflectionId"
+)||
+null;
+
+selectedReflectionIds=
+Array.isArray(
+recovery.selectedReflectionIds
+)
+?
+[...recovery.selectedReflectionIds]
+:
+[];
+
+selectedTool=
+recovery.selectedTool||
+getSessionValue(
+"thinkingReflectionTool"
+)||
+null;
+
+/*
+  まず授業情報を取得。
+  ここでも長時間止まった場合は
+  復帰ボタンを表示する。
+*/
+startRecoveryLoadTimer(
+"前回の学習地点を復元しています。"
+);
 
 try{
 
@@ -5287,8 +6397,302 @@ force:true
 catch(error){
 
 console.error(
+"復帰時の授業情報取得エラー:",
+error
+);
+
+showRecoveryOverlay(
+"授業情報を取得できませんでした。再読み込みしてもう一度お試しください。"
+);
+
+return true;
+
+}
+finally{
+
+clearRecoveryLoadTimer();
+
+}
+
+const page=
+recovery.page||"homePage";
+
+
+/*
+  授業情報が取得できない場合でも、
+  reflection / thinking の復帰地点自体は残す。
+*/
+
+if(page==="reflectionPage"){
+
+await openReflection();
+
+if(
+recovery.studentNumber
+){
+
+document.getElementById(
+"studentNumber"
+).value=
+recovery.studentNumber;
+
+}
+
+if(
+recovery.study&&
+!isThinkingFlowActive()
+){
+
+document.getElementById(
+"study"
+).value=
+recovery.study;
+
+showAdvice();
+
+}
+
+saveRecoveryState();
+
+return true;
+
+}
+
+
+if(page==="everyonePage"){
+
+const isInitial=
+isThinkingFlowActive();
+
+await openEveryoneHistory(
+isInitial
+);
+
+return true;
+
+}
+
+
+if(page==="thinkingPage"){
+
+/*
+  selectedReflectionIdsが残っている場合、
+  まず「みんなの振り返り」を読み込んで
+  友達のカードの本文を再取得する。
+*/
+
+if(
+selectedReflectionIds.length>0
+){
+
+await openEveryoneHistory(true);
+
+showPage("thinkingPage");
+
+cardCounter=0;
+
+const savedTool=
+selectedTool||
+getSessionValue(
+"thinkingReflectionTool"
+);
+
+if(savedTool){
+
+selectedTool=null;
+
+const target=
+document.querySelector(
+`.tool-card[onclick*="'${savedTool}'"]`
+);
+
+selectTool(
+savedTool,
+target
+);
+
+}
+
+restoreThinkingInputs(
+recovery
+);
+
+saveRecoveryState();
+
+return true;
+
+}
+
+/*
+  選択した友達がない場合は、
+  thinkingページに無理に入れず
+  みんなの振り返りへ戻す。
+*/
+
+await openEveryoneHistory(true);
+
+return true;
+
+}
+
+
+if(page==="historyPage"){
+
+openHistory();
+
+if(recovery.historyNumber){
+
+document.getElementById(
+"historyNumber"
+).value=
+recovery.historyNumber;
+
+}
+
+return true;
+
+}
+
+showPage("homePage");
+
+return true;
+
+}
+finally{
+
+recoveryRestoring=false;
+
+}
+
+}
+
+
+function restoreThinkingInputs(recovery){
+
+if(!recovery)return;
+
+const finalThought=
+document.getElementById(
+"finalThought"
+);
+
+if(finalThought){
+
+finalThought.value=
+recovery.finalThought||"";
+
+}
+
+const yOwn=
+document.getElementById(
+"yOwnThought"
+);
+
+if(yOwn){
+
+yOwn.value=
+recovery.yOwnThought||"";
+
+}
+
+const draft=
+getRecoveryState();
+
+if(
+draft&&
+Array.isArray(draft.cards)&&
+draft.cards.length
+){
+
+/*
+  selectTool実行時にloadFriendCards()が
+  recovery.cardsを自動で復元している。
+*/
+}
+
+saveRecoveryState();
+
+}
+
+
+/*
+=========================================================
+起動時
+=========================================================
+*/
+
+/*
+  Firebase初期化直後に授業情報を先読みする。
+  ただし、前回の作業地点が残っている場合は
+  先に復帰処理を行う。
+*/
+
+(async function(){
+
+const recovery=
+getRecoveryState();
+
+if(recovery){
+
+try{
+
+const restored=
+await restoreRecoveryState();
+
+if(restored){
+
+closeRecoveryOverlay();
+
+return;
+
+}
+
+}
+catch(error){
+
+console.error(
+"復帰処理エラー:",
+error
+);
+
+showRecoveryOverlay(
+"前回の作業地点を復元できませんでした。"
+);
+
+return;
+
+}
+
+}
+
+/*
+  復帰情報がない通常起動。
+*/
+try{
+
+startRecoveryLoadTimer(
+"授業情報を読み込んでいます。"
+);
+
+await getCurrentLesson({
+force:true
+});
+
+clearRecoveryLoadTimer();
+closeRecoveryOverlay();
+
+}
+catch(error){
+
+clearRecoveryLoadTimer();
+
+console.error(
 "起動時授業情報取得エラー:",
 error
+);
+
+showRecoveryOverlay(
+"授業情報の読み込みに失敗しました。"
 );
 
 }
