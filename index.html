@@ -1236,12 +1236,26 @@ let lessonCacheTime=0;
 
 const LESSON_CACHE_MS=8000;
 
-const FIREBASE_RETRY_COUNT=3;
+/*
+  Firebase読み込みの最大再試行回数。
+  読み込み系に使用する。
+*/
+const FIREBASE_READ_RETRY_COUNT=3;
 
+/*
+  読み込み再試行までの待ち時間。
+*/
 const FIREBASE_RETRY_DELAY=700;
 
+/*
+  1回のFirebase処理を待つ最大時間。
+*/
 const FIREBASE_TIMEOUT_MS=10000;
 
+/*
+  同じ授業情報を短時間に何度も取得しないための
+  Promise共有。
+*/
 const everyoneCache=new Map();
 const historyCache=new Map();
 
@@ -1279,6 +1293,139 @@ function wait(ms){
 
 return new Promise(
 resolve=>setTimeout(resolve,ms)
+);
+
+}
+
+
+/*
+=========================================================
+Firebase処理の安定化
+=========================================================
+
+重要：
+FirestoreのgetDoc/getDocsなど「読み込み」は
+一時的な通信失敗を想定して再試行する。
+
+addDoc/updateDocなどの「書き込み」は、
+通信がタイムアウトした場合に同じ書き込みを
+自動で繰り返すと二重保存の危険があるため、
+この関数では読み込み系を中心に扱う。
+
+=========================================================
+*/
+
+async function firebaseWithRetry(
+operation,
+operationName="Firebase処理",
+options={}
+){
+
+const retryCount=
+Number.isFinite(options.retryCount)
+?
+Math.max(1,Number(options.retryCount))
+:
+FIREBASE_READ_RETRY_COUNT;
+
+const timeoutMs=
+Number.isFinite(options.timeoutMs)
+?
+Math.max(1000,Number(options.timeoutMs))
+:
+FIREBASE_TIMEOUT_MS;
+
+const retryEnabled=
+options.retry===false
+?
+false
+:
+true;
+
+let lastError=null;
+
+const maxAttempts=
+retryEnabled
+?
+retryCount
+:
+1;
+
+for(let attempt=1;attempt<=maxAttempts;attempt++){
+
+try{
+
+/*
+  Promise.raceで「画面上の待ち時間」を制限する。
+  Firestore側の処理そのものを中断するものではない。
+*/
+const result=
+await Promise.race([
+
+Promise.resolve().then(
+()=>operation()
+),
+
+new Promise(
+(_,reject)=>{
+
+setTimeout(
+()=>{
+
+const timeoutError=
+new Error(
+`${operationName}がタイムアウトしました。`
+);
+
+timeoutError.code=
+"manabi/timeout";
+
+reject(timeoutError);
+
+},
+timeoutMs
+);
+
+}
+
+]);
+
+return result;
+
+}
+catch(error){
+
+lastError=error;
+
+console.error(
+`${operationName} 失敗 ${attempt}/${maxAttempts}:`,
+error
+);
+
+/*
+  最後の1回なら、そのまま上位へ返す。
+*/
+if(attempt>=maxAttempts){
+
+break;
+
+}
+
+/*
+  Firebaseの読み込みに失敗したとき、
+  少し待ってから再試行。
+*/
+await wait(
+FIREBASE_RETRY_DELAY*attempt
+);
+
+}
+
+}
+
+throw lastError||
+new Error(
+`${operationName}に失敗しました。`
 );
 
 }
@@ -1902,10 +2049,6 @@ id==="homePage" &&
 !recoveryRestoring
 ){
 
-/*
-  トップページへ戻る操作をした場合は
-  復帰地点を解除する。
-*/
 clearRecoveryState();
 
 }
@@ -1937,6 +2080,9 @@ async function getCurrentLesson(options={}){
 
 const force=options.force===true;
 
+/*
+  キャッシュが有効ならFirebaseへ行かない。
+*/
 if(
 !force &&
 lessonCache &&
@@ -1951,13 +2097,13 @@ return lessonCache;
 
 
 /*
-  同時に複数回呼ばれた場合、
-  Firebaseへ同じ読み込みを何度も送らない。
+  すでに読み込み中なら、
+  forceであっても同じPromiseを共有する。
+
+  これにより、画面操作によって
+  Firebaseへの同時アクセスが増えるのを防ぐ。
 */
-if(
-lessonLoadingPromise &&
-!force
-){
+if(lessonLoadingPromise){
 
 return lessonLoadingPromise;
 
@@ -1979,7 +2125,12 @@ db,
 const snap=
 await firebaseWithRetry(
 ()=>getDoc(ref),
-"授業情報の読み込み"
+"授業情報の読み込み",
+{
+retryCount:FIREBASE_READ_RETRY_COUNT,
+timeoutMs:FIREBASE_TIMEOUT_MS,
+retry:true
+}
 );
 
 if(!snap.exists()){
@@ -2042,8 +2193,10 @@ async function(){
 lessonCache=null;
 lessonCacheTime=0;
 
-lessonLoadingPromise=null;
-
+/*
+  すでに通信中の場合は、
+  その通信を利用する。
+*/
 return getCurrentLesson({
 force:true
 });
@@ -2194,11 +2347,22 @@ async function(){
 
 lessonCache=null;
 lessonCacheTime=0;
-lessonLoadingPromise=null;
 
 closeRecoveryOverlay();
 
+try{
+
 await displayCurrentLesson();
+
+}
+catch(error){
+
+console.error(
+"授業情報再読み込みエラー:",
+error
+);
+
+}
 
 };
 
@@ -2924,10 +3088,28 @@ document.getElementById(
 "aiQuestion"
 ).textContent;
 
-const lesson=
+let lesson;
+
+try{
+
+lesson=
 await getCurrentLesson({
 force:true
 });
+
+}
+catch(error){
+
+alert(
+"授業情報を取得できませんでした。\n\n"+
+"通信状況を確認して、もう一度お試しください。"
+);
+
+await displayCurrentLesson();
+
+return;
+
+}
 
 if(!lesson){
 
@@ -2987,6 +3169,15 @@ submitButton.disabled=true;
 submitButton.textContent="📡 保存しています...";
 
 }
+
+/*
+  保存直前にも復帰情報を残しておく。
+*/
+saveRecoveryState({
+page:"reflectionPage",
+studentNumber:studentNumber,
+study:study
+});
 
 try{
 
@@ -3050,7 +3241,11 @@ serverTimestamp()
 
 }
 ),
-"最初の振り返りの保存"
+"最初の振り返りの保存",
+{
+retry:false,
+timeoutMs:FIREBASE_TIMEOUT_MS
+}
 );
 
 currentReflectionId=
@@ -3450,7 +3645,12 @@ lesson.unit
 const snapshot=
 await firebaseWithRetry(
 ()=>getDocs(q),
-"みんなの振り返りの読み込み"
+"みんなの振り返りの読み込み",
+{
+retryCount:FIREBASE_READ_RETRY_COUNT,
+timeoutMs:FIREBASE_TIMEOUT_MS,
+retry:true
+}
 );
 
 clearRecoveryLoadTimer();
@@ -4399,20 +4599,11 @@ card.type==="mine"
 text:
 card.text||"",
 
-x:
-card.x,
-
-y:
-card.y,
-
-width:
-card.width,
-
-height:
-card.height,
-
-reflectionId:
-card.reflectionId||""
+x:card.x,
+y:card.y,
+width:card.width,
+height:card.height,
+reflectionId:card.reflectionId||""
 
 });
 
@@ -4578,23 +4769,43 @@ placeholder="ここに考えを書こう"
 
 `;
 
+const safeX=
+Number.isFinite(Number(data.x))
+?
+Number(data.x)
+:
+0;
+
+const safeY=
+Number.isFinite(Number(data.y))
+?
+Number(data.y)
+:
+80;
+
 card.style.left=
-Math.max(0,data.x||0)+"px";
+Math.max(0,safeX)+"px";
 
 card.style.top=
-Math.max(80,data.y||80)+"px";
+Math.max(80,safeY)+"px";
 
-if(data.width){
+if(
+Number.isFinite(Number(data.width)) &&
+Number(data.width)>0
+){
 
 card.style.width=
-Math.max(150,data.width)+"px";
+Math.max(150,Number(data.width))+"px";
 
 }
 
-if(data.height){
+if(
+Number.isFinite(Number(data.height)) &&
+Number(data.height)>0
+){
 
 card.style.height=
-Math.max(90,data.height)+"px";
+Math.max(90,Number(data.height))+"px";
 
 }
 
@@ -4932,10 +5143,27 @@ window.saveThinking=async function(
 showMessage=true
 ){
 
-const lesson=
+let lesson;
+
+try{
+
+lesson=
 await getCurrentLesson({
 force:true
 });
+
+}
+catch(error){
+
+if(showMessage)
+alert(
+"授業情報を取得できませんでした。\n\n"+
+"通信状況を確認して、もう一度お試しください。"
+);
+
+return false;
+
+}
 
 if(!lesson){
 
@@ -4999,6 +5227,10 @@ return false;
 
 try{
 
+/*
+  書き込みは二重保存防止のため
+  自動リトライしない。
+*/
 await firebaseWithRetry(
 ()=>addDoc(
 collection(db,"thinking"),
@@ -5033,7 +5265,11 @@ serverTimestamp()
 
 }
 ),
-"思考内容の保存"
+"思考内容の保存",
+{
+retry:false,
+timeoutMs:FIREBASE_TIMEOUT_MS
+}
 );
 
 if(showMessage){
@@ -5058,7 +5294,9 @@ if(showMessage){
 
 alert(
 "思考した内容を保存できませんでした。\n\n"+
-error.message
+"入力した内容はそのまま残しています。\n\n"+
+"もう一度「思考した内容を保存」を押してください。\n\n"+
+"エラー："+error.message
 );
 
 }
@@ -5114,10 +5352,24 @@ currentLesson;
 
 if(!lesson){
 
+try{
+
 lesson=
 await getCurrentLesson({
 force:true
 });
+
+}
+catch(error){
+
+alert(
+"授業情報を取得できませんでした。\n\n"+
+"通信状況を確認して、もう一度お試しください。"
+);
+
+return;
+
+}
 
 }
 
@@ -5276,7 +5528,12 @@ originalId
 const originalSnap=
 await firebaseWithRetry(
 ()=>getDoc(originalRef),
-"最初の振り返りの確認"
+"最初の振り返りの確認",
+{
+retryCount:FIREBASE_READ_RETRY_COUNT,
+timeoutMs:FIREBASE_TIMEOUT_MS,
+retry:true
+}
 );
 
 if(!originalSnap.exists()){
@@ -5374,6 +5631,7 @@ originalId;
 /*
   思考内容の自動保存。
   失敗しても最後の振り返りへ進める。
+  二重保存防止のため自動リトライはしない。
 */
 try{
 
@@ -5420,7 +5678,11 @@ serverTimestamp()
 
 }
 ),
-"思考内容の自動保存"
+"思考内容の自動保存",
+{
+retry:false,
+timeoutMs:FIREBASE_TIMEOUT_MS
+}
 );
 
 }
@@ -5457,7 +5719,11 @@ serverTimestamp()
 
 }
 ),
-"思考内容の記録"
+"思考内容のmanabi保存",
+{
+retry:false,
+timeoutMs:FIREBASE_TIMEOUT_MS
+}
 );
 
 }
@@ -5477,8 +5743,16 @@ console.error(error);
 
 alert(
 "思考ツールから振り返りへ移動できませんでした。\n\n"+
+"入力した内容は残しています。\n\n"+
 error.message
 );
+
+saveRecoveryState({
+page:"thinkingPage",
+selectedTool:selectedTool,
+selectedReflectionIds:
+[...selectedReflectionIds]
+});
 
 return;
 
@@ -5666,7 +5940,12 @@ originalId
 const originalSnap=
 await firebaseWithRetry(
 ()=>getDoc(originalRef),
-"最終保存前の記録確認"
+"最終保存前の記録確認",
+{
+retryCount:FIREBASE_READ_RETRY_COUNT,
+timeoutMs:FIREBASE_TIMEOUT_MS,
+retry:true
+}
 );
 
 if(!originalSnap.exists()){
@@ -5770,7 +6049,11 @@ serverTimestamp()
 
 }
 ),
-"最後の振り返りの保存"
+"最後の振り返りの保存",
+{
+retry:false,
+timeoutMs:FIREBASE_TIMEOUT_MS
+}
 );
 
 
@@ -6034,7 +6317,12 @@ Number(number)
 const snapshot=
 await firebaseWithRetry(
 ()=>getDocs(q),
-"自分の振り返りの読み込み"
+"自分の振り返りの読み込み",
+{
+retryCount:FIREBASE_READ_RETRY_COUNT,
+timeoutMs:FIREBASE_TIMEOUT_MS,
+retry:true
+}
 );
 
 clearRecoveryLoadTimer();
@@ -6619,12 +6907,6 @@ saveRecoveryState();
 =========================================================
 起動時
 =========================================================
-*/
-
-/*
-  Firebase初期化直後に授業情報を先読みする。
-  ただし、前回の作業地点が残っている場合は
-  先に復帰処理を行う。
 */
 
 (async function(){
