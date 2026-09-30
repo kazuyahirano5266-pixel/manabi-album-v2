@@ -241,9 +241,9 @@
         <div>
           <label style="font-size:13px; font-weight:bold; color:#4a5568;">使用するGeminiモデル：</label>
           <select id="geminiModelSelect" style="margin-bottom:12px;">
-            <option value="gemini-3-flash-preview" selected>Gemini 3 Flash (推奨・最新)</option>
-            <option value="gemini-1.5-flash">Gemini 1.5 Flash (標準)</option>
-            <option value="gemini-1.5-pro">Gemini 1.5 Pro (高精度)</option>
+            <option value="gemini-3-flash-preview" selected>Gemini 3 Flash (推奨・標準)</option>
+            <option value="gemini-3.8-flash">Gemini 3.8 Flash (最新)</option>
+            <option value="gemini-1.5-flash">Gemini 1.5 Flash</option>
           </select>
 
           <label style="font-size:13px; font-weight:bold; color:#4a5568;">生成する所見の標準字数：</label>
@@ -837,6 +837,10 @@
     if (btn) {
       btn.disabled = true;
       btn.innerHTML = '⏳ AIが所見を作成中...';
+    }
+
+    if (!selectedModel || selectedModel.includes("2.5")) {
+      selectedModel = "gemini-3-flash-preview";
     }
 
     const promptText = `
