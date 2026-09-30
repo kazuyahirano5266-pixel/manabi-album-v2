@@ -1,833 +1,846 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>学びアルバム（先生用管理ツール）</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-*{box-sizing:border-box;}
-body{
-  margin:0;
-  font-family:"Noto Sans JP","Yu Gothic",sans-serif;
-  background:#f4f6f9;
-  color:#333;
-}
-header{
-  background:#6b46c1;
-  color:white;
-  padding:16px 24px;
-  font-size:22px;
-  font-weight:bold;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-.header-btn {
-  background: rgba(255,255,255,0.2);
-  border: 1px solid rgba(255,255,255,0.6);
-  color: white;
-  padding: 6px 14px;
-  font-size: 14px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.header-btn:hover {
-  background: rgba(255,255,255,0.3);
-}
-.container{
-  max-width:1200px;
-  margin:auto;
-  padding:20px;
-}
-.box{
-  background:white;
-  border-radius:12px;
-  padding:20px;
-  margin-bottom:20px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.05);
-  border-left: 6px solid #6b46c1;
-}
-.btn{
-  background:#6b46c1;
-  color:white;
-  border:none;
-  padding:10px 18px;
-  font-size:15px;
-  font-weight:bold;
-  border-radius:8px;
-  cursor:pointer;
-  display:inline-block;
-  text-align:center;
-  transition: background 0.2s;
-}
-.btn:hover{
-  background:#553c9a;
-}
-.btn.green{
-  background:#38a169;
-}
-.btn.green:hover{
-  background:#2f855a;
-}
-.btn.blue{
-  background:#3182ce;
-}
-.btn.blue:hover{
-  background:#2b6cb0;
-}
-.btn.gray{
-  background:#a0aec0;
-}
-.btn.gray:hover{
-  background:#718096;
-}
-.btn.sm {
-  padding:6px 12px;
-  font-size:13px;
-}
-input, select, textarea{
-  width:100%;
-  padding:10px 12px;
-  border:1px solid #cbd5e0;
-  border-radius:8px;
-  font-size:15px;
-  margin-top:6px;
-  margin-bottom:12px;
-  background:#fff;
-}
-textarea{
-  min-height:90px;
-  resize:vertical;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学びアルバム（先生用管理ツール）</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: "Noto Sans JP", "Yu Gothic", sans-serif;
+      background: #f4f6f9;
+      color: #333;
+    }
+    header {
+      background: #6b46c1;
+      color: white;
+      padding: 16px 24px;
+      font-size: 22px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .header-btn {
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.6);
+      color: white;
+      padding: 6px 14px;
+      font-size: 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .header-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px;
+    }
+    .box {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+      border-left: 6px solid #6b46c1;
+    }
+    .btn {
+      background: #6b46c1;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      display: inline-block;
+      text-align: center;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #553c9a;
+    }
+    .btn.green {
+      background: #38a169;
+    }
+    .btn.green:hover {
+      background: #2f855a;
+    }
+    .btn.blue {
+      background: #3182ce;
+    }
+    .btn.blue:hover {
+      background: #2b6cb0;
+    }
+    .btn.gray {
+      background: #a0aec0;
+    }
+    .btn.gray:hover {
+      background: #718096;
+    }
+    .btn.sm {
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #cbd5e0;
+      border-radius: 8px;
+      font-size: 15px;
+      margin-top: 6px;
+      margin-bottom: 12px;
+      background: #fff;
+    }
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
 
-/* 児童グリッド UI */
-.student-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
-  margin-top: 15px;
-}
-.student-card {
-  background: #f7fafc;
-  border: 2px solid #cbd5e0;
-  border-radius: 12px;
-  padding: 16px;
-  cursor: pointer;
-  transition: all 0.2s;
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-}
-.student-card:hover {
-  border-color: #6b46c1;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(107, 70, 193, 0.15);
-}
-.student-card.active {
-  background: #faf5ff;
-  border-color: #6b46c1;
-  box-shadow: 0 0 0 2px #d6bcfa;
-}
-.student-badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: #6b46c1;
-  color: white;
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-weight: bold;
-}
+    /* 児童グリッド UI */
+    .student-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .student-card {
+      background: #f7fafc;
+      border: 2px solid #cbd5e0;
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+    .student-card:hover {
+      border-color: #6b46c1;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(107, 70, 193, 0.15);
+    }
+    .student-card.active {
+      background: #faf5ff;
+      border-color: #6b46c1;
+      box-shadow: 0 0 0 2px #d6bcfa;
+    }
+    .student-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #6b46c1;
+      color: white;
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: bold;
+    }
 
-/* 教科・単元カード */
-.unit-block {
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 18px;
-  margin-bottom: 20px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-  border-top: 4px solid #6b46c1;
-}
+    /* 教科・単元カード */
+    .unit-block {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      border-top: 4px solid #6b46c1;
+    }
 
-.reflection-comparison {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  background: #f8fafc;
-  padding: 12px;
-  border-radius: 8px;
-  margin: 10px 0;
-  border: 1px solid #edf2f7;
-}
-@media (max-width: 640px) {
-  .reflection-comparison {
-    grid-template-columns: 1fr;
-  }
-}
-.hidden{
-  display:none !important;
-}
+    .reflection-comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      background: #f8fafc;
+      padding: 12px;
+      border-radius: 8px;
+      margin: 10px 0;
+      border: 1px solid #edf2f7;
+    }
+    @media (max-width: 640px) {
+      .reflection-comparison {
+        grid-template-columns: 1fr;
+      }
+    }
+    .hidden {
+      display: none !important;
+    }
 
-/* モーダル背景 */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.modal-content {
-  background: white;
-  padding: 24px;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 520px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-</style>
+    /* モーダル背景 */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-content {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 520px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <div>📝 学びアルバム【先生用管理ツール】</div>
-  <div style="display:flex; gap:10px; align-items:center;">
-    <button class="header-btn" onclick="openNameSettingModal()" style="background:#fffaf0; color:#dd6b20; font-weight:bold; border-color:#fbd38d;">📛 名簿設定</button>
-    <button class="header-btn" onclick="openApiKeyModal()" style="background:#f0fff4; color:#276749; font-weight:bold; border-color:#9ae6b4;">🔑 AI設定 (Gemini)</button>
-    <button class="header-btn" onclick="refreshAllData()">🔄 データを再読み込み</button>
-  </div>
-</header>
-
-<div class="container">
-
-  <!-- ① 今日の授業設定パネル -->
-  <div class="box">
-    <h3 style="color:#553c9a; margin-top:0; font-size:18px;">📌 児童アプリへ配信する授業の設定</h3>
-    <div style="display:grid; grid-template-columns: 1fr 1fr 120px; gap:12px; align-items:end;">
-      <div>
-        <label style="font-size:13px; font-weight:bold; color:#4a5568;">教科：</label>
-        <input type="text" id="lessonSubjectInput" placeholder="例：算数">
-      </div>
-      <div>
-        <label style="font-size:13px; font-weight:bold; color:#4a5568;">単元名：</label>
-        <input type="text" id="lessonUnitInput" placeholder="例：分数のたし算とひき算">
-      </div>
-      <div>
-        <button class="btn blue" style="width:100%; margin-bottom:12px;" onclick="setTodayLesson()">配信・更新</button>
-      </div>
+  <header>
+    <div>📝 学びアルバム【先生用管理ツール】</div>
+    <div style="display:flex; gap:10px; align-items:center;">
+      <button class="header-btn" onclick="openNameSettingModal()" style="background:#fffaf0; color:#dd6b20; font-weight:bold; border-color:#fbd38d;">📛 名簿設定</button>
+      <button class="header-btn" onclick="openApiKeyModal()" style="background:#f0fff4; color:#276749; font-weight:bold; border-color:#9ae6b4;">🔑 AI設定 (Gemini)</button>
+      <button class="header-btn" onclick="refreshAllData()">🔄 データを再読み込み</button>
     </div>
-    <div id="currentLessonStatus" style="font-size:14px; color:#4a5568; background:#edf2f7; padding:8px 12px; border-radius:6px; margin-top:4px;">
-      現在の設定：読み込み中...
-    </div>
-  </div>
+  </header>
 
-  <!-- ①-2 所見AI生成の文字数設定パネル -->
-  <div class="box" style="border-left-color: #38a169;">
-    <h3 style="color:#2f855a; margin-top:0; font-size:18px;">⚙️ AI所見生成の設定（文字数制限など）</h3>
-    <div style="display:grid; grid-template-columns: 1fr 2fr; gap:15px; align-items:center;">
-      <div>
-        <label style="font-size:13px; font-weight:bold; color:#4a5568;">生成する所見の標準字数：</label>
-        <select id="targetCharCountSelect" style="margin-bottom:6px;" onchange="toggleCustomCharInput()">
-          <option value="80">約 80 文字（短め・ひとこと）</option>
-          <option value="120" selected>約 120 文字（標準）</option>
-          <option value="150">約 150 文字（しっかりめ）</option>
-          <option value="200">約 200 文字（長め）</option>
-          <option value="custom">✏️ 自由指定（自分で文字数を入力）</option>
-        </select>
-        
-        <div id="customCharCountContainer" class="hidden" style="margin-top:6px; background:#f7fafc; padding:8px 12px; border-radius:8px; border:1px solid #cbd5e0;">
-          <label style="font-size:12px; font-weight:bold; color:#4a5568; display:block; margin-bottom:4px;">指定する希望文字数：</label>
-          <div style="display:flex; align-items:center; gap:8px;">
-            <input type="number" id="customCharCountInput" value="100" min="20" max="500" placeholder="例: 100" style="margin-bottom:0; width:120px; text-align:right; font-weight:bold; color:#2f855a;">
-            <span style="font-size:13px; color:#4a5568; font-weight:bold;">文字 程度</span>
-          </div>
+  <div class="container">
+
+    <!-- ① 今日の授業設定パネル -->
+    <div class="box">
+      <h3 style="color:#553c9a; margin-top:0; font-size:18px;">📌 児童アプリへ配信する授業の設定</h3>
+      <div style="display:grid; grid-template-columns: 1fr 1fr 120px; gap:12px; align-items:end;">
+        <div>
+          <label style="font-size:13px; font-weight:bold; color:#4a5568;">教科：</label>
+          <input type="text" id="lessonSubjectInput" placeholder="例：算数">
+        </div>
+        <div>
+          <label style="font-size:13px; font-weight:bold; color:#4a5568;">単元名：</label>
+          <input type="text" id="lessonUnitInput" placeholder="例：分数のたし算とひき算">
+        </div>
+        <div>
+          <button class="btn blue" style="width:100%; margin-bottom:12px;" onclick="setTodayLesson()">配信・更新</button>
         </div>
       </div>
-      <div style="font-size:13px; color:#4a5568; line-height:1.5; background:#f0fff4; padding:10px 14px; border-radius:8px; border:1px solid #c6f6d5;">
-        💡 <strong>安心の2WAY所見生成機能：</strong><br>
-        Gemini APIキーを設定すると本格的な高度AI分析を行います。定型サイズから選ぶか、学校・学年の基準に合わせて「自由指定」で任意の文字数を数字で直接入力することもできます。
+      <div id="currentLessonStatus" style="font-size:14px; color:#4a5568; background:#edf2f7; padding:8px 12px; border-radius:6px; margin-top:4px;">
+        現在の設定：読み込み中...
+      </div>
+    </div>
+
+    <!-- ①-2 所見AI生成の文字数設定パネル -->
+    <div class="box" style="border-left-color: #38a169;">
+      <h3 style="color:#2f855a; margin-top:0; font-size:18px;">⚙️ AI所見生成の設定（モデル選択・文字数制限）</h3>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; align-items:start;">
+        <div>
+          <label style="font-size:13px; font-weight:bold; color:#4a5568;">使用するGeminiモデル：</label>
+          <select id="geminiModelSelect" style="margin-bottom:12px;">
+            <option value="gemini-3-flash-preview" selected>Gemini 3 Flash (推奨・最新)</option>
+            <option value="gemini-1.5-flash">Gemini 1.5 Flash (標準)</option>
+            <option value="gemini-1.5-pro">Gemini 1.5 Pro (高精度)</option>
+          </select>
+
+          <label style="font-size:13px; font-weight:bold; color:#4a5568;">生成する所見の標準字数：</label>
+          <select id="targetCharCountSelect" style="margin-bottom:6px;" onchange="toggleCustomCharInput()">
+            <option value="80">約 80 文字（短め・ひとこと）</option>
+            <option value="120" selected>約 120 文字（標準）</option>
+            <option value="150">約 150 文字（しっかりめ）</option>
+            <option value="200">約 200 文字（長め）</option>
+            <option value="custom">✏️ 自由指定（自分で文字数を入力）</option>
+          </select>
+          
+          <div id="customCharCountContainer" class="hidden" style="margin-top:6px; background:#f7fafc; padding:8px 12px; border-radius:8px; border:1px solid #cbd5e0;">
+            <label style="font-size:12px; font-weight:bold; color:#4a5568; display:block; margin-bottom:4px;">指定する希望文字数：</label>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <input type="number" id="customCharCountInput" value="100" min="20" max="500" placeholder="例: 100" style="margin-bottom:0; width:120px; text-align:right; font-weight:bold; color:#2f855a;">
+              <span style="font-size:13px; color:#4a5568; font-weight:bold;">文字 程度</span>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:13px; color:#4a5568; line-height:1.5; background:#f0fff4; padding:12px 14px; border-radius:8px; border:1px solid #c6f6d5;">
+          💡 <strong>安心の所見生成機能：</strong><br>
+          ・右上「🔑 AI設定」でAPIキーを入力すると、Gemini AIによる評価・所見の自動生成が有効になります。<br>
+          ・API通信に失敗した場合や未入力時は、自動的に「簡易自動生成モード」で動作します。
+        </div>
+      </div>
+    </div>
+
+    <!-- ② 児童別 所見作成・学びの履歴一覧 -->
+    <div class="box">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h2 style="color:#553c9a; margin:0; font-size:20px;">👤 児童別 所見作成・振り返り確認</h2>
+        <button class="btn sm" onclick="loadAllReflectionsForAssessment()">🔄 児童データ再読み込み</button>
+      </div>
+      <p style="color:#666; font-size:14px; margin-bottom:15px;">
+        児童を選択し、教科と単元を順番に選ぶことで、該当する振り返りをピンポイントで確認・所見作成できます。
+      </p>
+
+      <!-- STEP 1: 児童選択一覧 -->
+      <div id="studentSelectSection">
+        <h3 style="color:#2d3748; font-size:15px; margin-bottom:8px;">① 児童を選択してください（出席番号順）</h3>
+        <div id="studentGridArea" class="student-grid">
+          <div style="color:#718096;">データを読み込んでいます...</div>
+        </div>
+      </div>
+
+      <!-- STEP 2: 選択された児童の「教科」および「単元」絞り込み＆結果エリア -->
+      <div id="studentDetailSection" class="hidden" style="margin-top:20px;">
+        <hr style="border:none; border-top:1px solid #e2e8f0; margin:20px 0;">
+        
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:15px; background:#faf5ff; padding:12px 16px; border-radius:10px; border:1px solid #e9d8fd;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <button class="btn sm gray" onclick="backToStudentList()">⬅️ 児童一覧に戻る</button>
+            <h3 id="currentStudentTitle" style="color:#553c9a; margin:0; font-size:20px;">出席番号 ○番 さんの学び履歴</h3>
+          </div>
+          <span id="currentStudentRecordCount" style="background:#6b46c1; color:white; padding:4px 12px; border-radius:12px; font-weight:bold; font-size:14px;">総投稿数: 0件</span>
+        </div>
+
+        <!-- 教科・単元フィルター -->
+        <div style="background:#f7fafc; border:1px solid #e2e8f0; padding:15px; border-radius:10px; margin-bottom:20px;">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
+            <div>
+              <label style="font-weight:bold; color:#553c9a; font-size:14px;">② 教科を選択：</label>
+              <select id="teacherSelectSubject" onchange="onTeacherSubjectChange()">
+                <option value="">-- 教科を選択してください --</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-weight:bold; color:#553c9a; font-size:14px;">③ 単元を選択：</label>
+              <select id="teacherSelectUnit" onchange="onTeacherUnitChange()">
+                <option value="">-- まず教科を選んでください --</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="unitBlockContainer">
+          <!-- 該当する振り返りカードがここに表示されます -->
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- 名簿設定モーダル -->
+  <div id="nameSettingModal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 style="margin-top:0; color:#dd6b20;">📛 児童名簿の設定</h3>
+      <p style="font-size:13px; color:#4a5568; line-height:1.5;">
+        出席番号と名前を<strong>カンマ（ , ）</strong>で区切って入力してください。<br>
+        この設定は<strong>先生のブラウザ内のみに保存</strong>され、サーバーには送信されません。<br>
+        <span style="color:#718096;">例：<br>1,山田 太郎<br>2,佐藤 花子</span>
+      </p>
+      <textarea id="nameInputArea" style="height:180px; font-family:monospace;" placeholder="1,山田 太郎&#10;2,佐藤 花子"></textarea>
+      <div style="display:flex; justify-content:flex-end; gap:10px;">
+        <button class="btn sm gray" onclick="closeNameSettingModal()">キャンセル</button>
+        <button class="btn sm orange" style="background:#dd6b20;" onclick="saveNameSetting()">💾 名簿を保存する</button>
       </div>
     </div>
   </div>
 
-  <!-- ② 児童別 所見作成・学びの履歴一覧 -->
-  <div class="box">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-      <h2 style="color:#553c9a; margin:0; font-size:20px;">👤 児童別 所見作成・振り返り確認</h2>
-      <button class="btn sm" onclick="loadAllReflectionsForAssessment()">🔄 児童データ再読み込み</button>
-    </div>
-    <p style="color:#666; font-size:14px; margin-bottom:15px;">
-      児童を選択し、教科と単元を順番に選ぶことで、該当する振り返りをピンポイントで確認・所見作成できます。
-    </p>
-
-    <!-- STEP 1: 児童選択一覧 -->
-    <div id="studentSelectSection">
-      <h3 style="color:#2d3748; font-size:15px; margin-bottom:8px;">① 児童を選択してください（出席番号順）</h3>
-      <div id="studentGridArea" class="student-grid">
-        <div style="color:#718096;">データを読み込んでいます...</div>
-      </div>
-    </div>
-
-    <!-- STEP 2: 選択された児童の「教科」および「単元」絞り込み＆結果エリア -->
-    <div id="studentDetailSection" class="hidden" style="margin-top:20px;">
-      <hr style="border:none; border-top:1px solid #e2e8f0; margin:20px 0;">
+  <!-- APIキー設定モーダル -->
+  <div id="apiKeyModal" class="modal-overlay hidden">
+    <div class="modal-content">
+      <h3 style="margin-top:0; color:#276749;">🔑 Google Gemini APIキー設定</h3>
+      <p style="font-size:13px; color:#4a5568; line-height:1.5; margin-bottom:10px;">
+        Gemini APIキーを設定すると、AIが児童の変容を分析して高精度な所見を自動生成します。<br>
+        <span style="color:#718096;">※入力されたキーは先生のブラウザ内にのみ保存されます。前後の余計なスペースは自動で除外されます。</span>
+      </p>
+      <label style="font-size:12px; font-weight:bold; color:#2d3748;">APIキー：</label>
+      <input type="password" id="apiKeyInput" placeholder="AIzaSy..." style="font-family:monospace; margin-bottom:8px;">
       
-      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:15px; background:#faf5ff; padding:12px 16px; border-radius:10px; border:1px solid #e9d8fd;">
-        <div style="display:flex; align-items:center; gap:12px;">
-          <button class="btn sm gray" onclick="backToStudentList()">⬅️ 児童一覧に戻る</button>
-          <h3 id="currentStudentTitle" style="color:#553c9a; margin:0; font-size:20px;">出席番号 ○番 さんの学び履歴</h3>
-        </div>
-        <span id="currentStudentRecordCount" style="background:#6b46c1; color:white; padding:4px 12px; border-radius:12px; font-weight:bold; font-size:14px;">総投稿数: 0件</span>
+      <div style="margin-bottom:15px; font-size:12px;">
+        <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" style="color:#3182ce; text-decoration:underline; font-weight:bold;">
+          👉 こちらをクリックして Google AI Studio で無料キーを取得
+        </a>
       </div>
 
-      <!-- 教科・単元フィルター -->
-      <div style="background:#f7fafc; border:1px solid #e2e8f0; padding:15px; border-radius:10px; margin-bottom:20px;">
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px;">
-          <div>
-            <label style="font-weight:bold; color:#553c9a; font-size:14px;">② 教科を選択：</label>
-            <select id="teacherSelectSubject" onchange="onTeacherSubjectChange()">
-              <option value="">-- 教科を選択してください --</option>
-            </select>
-          </div>
-          <div>
-            <label style="font-weight:bold; color:#553c9a; font-size:14px;">③ 単元を選択：</label>
-            <select id="teacherSelectUnit" onchange="onTeacherUnitChange()">
-              <option value="">-- まず教科を選んでください --</option>
-            </select>
-          </div>
+      <div style="display:flex; justify-content:space-between; align-items:center;">
+        <button class="btn sm gray" onclick="clearApiKey()" style="background:#e53e3e;">クリア</button>
+        <div style="display:flex; gap:8px;">
+          <button class="btn sm gray" onclick="closeApiKeyModal()">キャンセル</button>
+          <button class="btn sm green" onclick="saveApiKey()">💾 キーを保存する</button>
         </div>
       </div>
-
-      <div id="unitBlockContainer">
-        <!-- 該当する振り返りカードがここに表示されます -->
-      </div>
-    </div>
-
-  </div>
-
-</div>
-
-<!-- 名簿設定モーダル -->
-<div id="nameSettingModal" class="modal-overlay hidden">
-  <div class="modal-content">
-    <h3 style="margin-top:0; color:#dd6b20;">📛 児童名簿の設定</h3>
-    <p style="font-size:13px; color:#4a5568; line-height:1.5;">
-      出席番号と名前を<strong>カンマ（ , ）</strong>で区切って入力してください。<br>
-      この設定は<strong>先生のブラウザ内のみに保存</strong>され、サーバーには送信されません。<br>
-      <span style="color:#718096;">例：<br>1,山田 太郎<br>2,佐藤 花子</span>
-    </p>
-    <textarea id="nameInputArea" style="height:180px; font-family:monospace;" placeholder="1,山田 太郎&#10;2,佐藤 花子"></textarea>
-    <div style="display:flex; justify-content:flex-end; gap:10px;">
-      <button class="btn sm gray" onclick="closeNameSettingModal()">キャンセル</button>
-      <button class="btn sm orange" style="background:#dd6b20;" onclick="saveNameSetting()">💾 名簿を保存する</button>
     </div>
   </div>
-</div>
 
-<!-- APIキー設定モーダル -->
-<div id="apiKeyModal" class="modal-overlay hidden">
-  <div class="modal-content">
-    <h3 style="margin-top:0; color:#276749;">🔑 Google Gemini APIキー設定</h3>
-    <p style="font-size:13px; color:#4a5568; line-height:1.5; margin-bottom:10px;">
-      Gemini APIキーを設定すると、AIが児童の変容を分析して高精度な所見を自動生成します。<br>
-      <span style="color:#718096;">※入力されたキーは先生のブラウザ内にのみ保存されます。不要なスペースが入らないようご注意ください。</span>
-    </p>
-    <label style="font-size:12px; font-weight:bold; color:#2d3748;">APIキー：</label>
-    <input type="password" id="apiKeyInput" placeholder="AIzaSy..." style="font-family:monospace; margin-bottom:8px;">
-    
-    <div style="margin-bottom:15px; font-size:12px;">
-      <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" style="color:#3182ce; text-decoration:underline; font-weight:bold;">
-        👉 こちらをクリックして Google AI Studio で無料キーを取得
-      </a>
-    </div>
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+  import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+  import { getFirestore, collection, getDocs, doc, getDoc, setDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-      <button class="btn sm gray" onclick="clearApiKey()" style="background:#e53e3e;">クリア</button>
-      <div style="display:flex; gap:8px;">
-        <button class="btn sm gray" onclick="closeApiKeyModal()">キャンセル</button>
-        <button class="btn sm green" onclick="saveApiKey()">💾 キーを保存する</button>
-      </div>
-    </div>
-  </div>
-</div>
+  const firebaseConfig = {
+    apiKey: "AIzaSyA7fBz695BTUL8lxxJ06csf6AfU_DQp3iw",
+    authDomain: "manabi-album-v2.firebaseapp.com",
+    projectId: "manabi-album-v2",
+    storageBucket: "manabi-album-v2.firebasestorage.app",
+    messagingSenderId: "226258471812",
+    appId: "1:226258471812:web:15230ba15e7e0bd7d86bd1"
+  };
 
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-import { getFirestore, collection, getDocs, doc, getDoc, setDoc, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
 
-const firebaseConfig = {
-  apiKey: "AIzaSyA7fBz695BTUL8lxxJ06csf6AfU_DQp3iw",
-  authDomain: "manabi-album-v2.firebaseapp.com",
-  projectId: "manabi-album-v2",
-  storageBucket: "manabi-album-v2.firebasestorage.app",
-  messagingSenderId: "226258471812",
-  appId: "1:226258471812:web:15230ba15e7e0bd7d86bd1"
-};
+  signInAnonymously(auth).catch(err => {
+    console.warn("匿名認証エラー:", err);
+  });
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+  let allReflectionsData = [];
+  let groupedByStudent = {};
+  let currentSelectedStudentNum = null;
+  let studentNames = {}; 
 
-signInAnonymously(auth).catch(err => {
-  console.warn("匿名認証エラー:", err);
-});
+  function escapeHtml(text){
+    return String(text??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+  }
 
-let allReflectionsData = [];
-let groupedByStudent = {};
-let currentSelectedStudentNum = null;
-let studentNames = {}; 
+  function formatDate(date){
+    if(!date)return "";
+    const d=new Date(date);
+    if(Number.isNaN(d.getTime()))return "";
+    return d.toLocaleString("ja-JP",{year:"numeric",month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"});
+  }
 
-function escapeHtml(text){
-  return String(text??"")
-  .replace(/&/g,"&amp;")
-  .replace(/</g,"&lt;")
-  .replace(/>/g,"&gt;")
-  .replace(/"/g,"&quot;")
-  .replace(/'/g,"&#039;");
-}
-
-function formatDate(date){
-  if(!date)return "";
-  const d=new Date(date);
-  if(Number.isNaN(d.getTime()))return "";
-  return d.toLocaleString("ja-JP",{year:"numeric",month:"numeric",day:"numeric",hour:"2-digit",minute:"2-digit"});
-}
-
-/* --- 名簿設定機能 --- */
-function loadStudentNames() {
-  const savedData = localStorage.getItem("manabi_student_names");
-  studentNames = {};
-  if (savedData) {
-    const lines = savedData.split('\n');
-    lines.forEach(line => {
-      const parts = line.split(',');
-      if (parts.length >= 2) {
-        const num = parts[0].trim();
-        const name = parts[1].trim();
-        if (num && name) {
-          studentNames[num] = name;
+  /* --- 名簿設定機能 --- */
+  function loadStudentNames() {
+    const savedData = localStorage.getItem("manabi_student_names");
+    studentNames = {};
+    if (savedData) {
+      const lines = savedData.split('\n');
+      lines.forEach(line => {
+        const parts = line.split(',');
+        if (parts.length >= 2) {
+          const num = parts[0].trim();
+          const name = parts[1].trim();
+          if (num && name) {
+            studentNames[num] = name;
+          }
         }
-      }
-    });
-  }
-}
-
-window.openNameSettingModal = function() {
-  const savedData = localStorage.getItem("manabi_student_names") || "";
-  document.getElementById("nameInputArea").value = savedData;
-  document.getElementById("nameSettingModal").classList.remove("hidden");
-};
-
-window.closeNameSettingModal = function() {
-  document.getElementById("nameSettingModal").classList.add("hidden");
-};
-
-window.saveNameSetting = function() {
-  const text = document.getElementById("nameInputArea").value;
-  localStorage.setItem("manabi_student_names", text);
-  loadStudentNames(); 
-  closeNameSettingModal();
-  renderStudentGrid(); 
-  if (currentSelectedStudentNum) {
-    selectStudent(currentSelectedStudentNum); 
-  }
-};
-
-/* --- Gemini APIキー モーダル設定 --- */
-function getApiKey() {
-  return (localStorage.getItem("gemini_api_key") || "").trim();
-}
-
-window.openApiKeyModal = function() {
-  document.getElementById("apiKeyInput").value = getApiKey();
-  document.getElementById("apiKeyModal").classList.remove("hidden");
-};
-
-window.closeApiKeyModal = function() {
-  document.getElementById("apiKeyModal").classList.add("hidden");
-};
-
-window.saveApiKey = function() {
-  const key = document.getElementById("apiKeyInput").value.trim();
-  localStorage.setItem("gemini_api_key", key);
-  closeApiKeyModal();
-  if (key) {
-    alert("✅ APIキーを保存しました！Gemini AIによる所見生成機能が有効化されました。");
-  } else {
-    alert("APIキーをクリアしました。バックアップ自動生成モードで動作します。");
-  }
-};
-
-window.clearApiKey = function() {
-  localStorage.removeItem("gemini_api_key");
-  document.getElementById("apiKeyInput").value = "";
-  alert("APIキーをクリアしました。");
-  closeApiKeyModal();
-};
-
-/* --- 文字数入力切り替えと取得 --- */
-window.toggleCustomCharInput = function() {
-  const selectVal = document.getElementById("targetCharCountSelect")?.value;
-  const container = document.getElementById("customCharCountContainer");
-  if (container) {
-    if (selectVal === "custom") {
-      container.classList.remove("hidden");
-    } else {
-      container.classList.add("hidden");
-    }
-  }
-};
-
-function getTargetCharCount() {
-  const selectVal = document.getElementById("targetCharCountSelect")?.value;
-  if (selectVal === "custom") {
-    const customVal = parseInt(document.getElementById("customCharCountInput")?.value, 10);
-    return (customVal && customVal > 0) ? customVal : 100;
-  }
-  return parseInt(selectVal, 10) || 120;
-}
-
-/* --- 今日の授業情報設定機能 --- */
-async function loadTodayLesson() {
-  const statusEl = document.getElementById("currentLessonStatus");
-  try {
-    const snap = await getDoc(doc(db, "currentLesson", "today"));
-    if (snap.exists() && snap.data().active) {
-      const data = snap.data();
-      document.getElementById("lessonSubjectInput").value = data.subject || "";
-      document.getElementById("lessonUnitInput").value = data.unit || "";
-      statusEl.innerHTML = `🟢 児童に公開中：<strong>${escapeHtml(data.subject)}</strong> ／ <strong>${escapeHtml(data.unit)}</strong>`;
-    } else {
-      statusEl.textContent = "🔴 現在、設定されている授業はありません。";
-    }
-  } catch(e) {
-    console.error("授業取得エラー:", e);
-    statusEl.textContent = "授業設定の取得に失敗しました。";
-  }
-}
-
-window.setTodayLesson = async function() {
-  const subject = document.getElementById("lessonSubjectInput").value.trim();
-  const unit = document.getElementById("lessonUnitInput").value.trim();
-
-  if (!subject || !unit) {
-    alert("教科と単元名の両方を入力してください。");
-    return;
-  }
-
-  try {
-    const lessonId = "sub_" + subject + "_" + unit;
-    await setDoc(doc(db, "currentLesson", "today"), {
-      subject: subject,
-      unit: unit,
-      lessonId: lessonId,
-      active: true,
-      updatedAt: serverTimestamp()
-    });
-    alert("✅ 児童アプリ用の授業設定を公開・更新しました！");
-    await loadTodayLesson();
-  } catch(e) {
-    console.error("授業設定エラー:", e);
-    alert("❌ 授業設定の更新に失敗しました: " + e.message);
-  }
-};
-
-/* --- 児童別 所見作成機能 --- */
-window.loadAllReflectionsForAssessment = async function() {
-  const grid = document.getElementById("studentGridArea");
-  grid.innerHTML = '<div style="color:#6b46c1; font-weight:bold;">📡 全児童の振り返りデータを読み込んでいます...</div>';
-  
-  try {
-    const snapshot = await getDocs(collection(db, "manabi"));
-    allReflectionsData = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-    
-    groupedByStudent = {};
-    allReflectionsData.forEach(item => {
-      const num = item.studentNumber ? Number(item.studentNumber) : 0;
-      if (!groupedByStudent[num]) {
-        groupedByStudent[num] = [];
-      }
-      groupedByStudent[num].push(item);
-    });
-
-    renderStudentGrid();
-  } catch (e) {
-    console.error("所見データ取得エラー:", e);
-    grid.innerHTML = '<div style="color:#e53e3e;">データの取得に失敗しました。</div>';
-  }
-};
-
-function renderStudentGrid() {
-  const grid = document.getElementById("studentGridArea");
-  const studentNumbers = Object.keys(groupedByStudent).map(Number).sort((a, b) => a - b);
-
-  if (studentNumbers.length === 0) {
-    grid.innerHTML = '<div style="color:#718096; grid-column: 1/-1;">まだ投稿された振り返りデータがありません。</div>';
-    document.getElementById("studentDetailSection").classList.add("hidden");
-    return;
-  }
-
-  grid.innerHTML = "";
-  studentNumbers.forEach(num => {
-    const records = groupedByStudent[num];
-    const card = document.createElement("div");
-    card.className = `student-card ${currentSelectedStudentNum === num ? "active" : ""}`;
-    card.onclick = () => selectStudent(num);
-
-    const name = studentNames[num] ? studentNames[num] : "名前未設定";
-
-    card.innerHTML = `
-      <span class="student-badge">${records.length}件の記録</span>
-      <div style="font-size:24px; margin-bottom:4px;">👤</div>
-      <div style="font-weight:bold; color:#718096; font-size:13px;">${num === 0 ? "番号未設定" : num + " 番"}</div>
-      <div style="font-weight:bold; color:#2d3748; font-size:16px; margin-top:2px;">${num === 0 ? "-" : escapeHtml(name)}</div>
-    `;
-    grid.appendChild(card);
-  });
-
-  if (currentSelectedStudentNum && groupedByStudent[currentSelectedStudentNum]) {
-    selectStudent(currentSelectedStudentNum);
-  }
-}
-
-window.selectStudent = function(studentNum) {
-  currentSelectedStudentNum = studentNum;
-
-  document.querySelectorAll(".student-card").forEach(c => c.classList.remove("active"));
-  
-  const records = groupedByStudent[studentNum] || [];
-  
-  const detailSec = document.getElementById("studentDetailSection");
-  detailSec.classList.remove("hidden");
-
-  const name = studentNames[studentNum] ? studentNames[studentNum] : "名前未設定";
-  const displayName = studentNum === 0 ? "番号未設定" : `${studentNum}番 ${name}`;
-  
-  document.getElementById("currentStudentTitle").textContent = `👤 ${escapeHtml(displayName)} さんの学び履歴`;
-  document.getElementById("currentStudentRecordCount").textContent = `総投稿数: ${records.length}件`;
-
-  const subjectSelect = document.getElementById("teacherSelectSubject");
-  const unitSelect = document.getElementById("teacherSelectUnit");
-
-  const subjects = [...new Set(records.map(r => r.subject).filter(Boolean))];
-  
-  subjectSelect.innerHTML = '<option value="">-- 教科を選択してください --</option><option value="ALL">【すべての教科を表示】</option>';
-  subjects.forEach(sub => {
-    const opt = document.createElement("option");
-    opt.value = sub;
-    opt.textContent = sub;
-    subjectSelect.appendChild(opt);
-  });
-
-  unitSelect.innerHTML = '<option value="">-- まず教科を選んでください --</option>';
-
-  renderReflectionsFilter();
-
-  detailSec.scrollIntoView({ behavior: 'smooth' });
-};
-
-window.onTeacherSubjectChange = function() {
-  const selectedSubject = document.getElementById("teacherSelectSubject").value;
-  const unitSelect = document.getElementById("teacherSelectUnit");
-
-  unitSelect.innerHTML = '<option value="">-- 単元を選択してください --</option><option value="ALL">【すべての単元を表示】</option>';
-
-  if (!selectedSubject || selectedSubject === "ALL") {
-    if(selectedSubject === "ALL") {
-      unitSelect.innerHTML = '<option value="ALL">【すべての単元を表示】</option>';
-    } else {
-      unitSelect.innerHTML = '<option value="">-- まず教科を選んでください --</option>';
-    }
-    renderReflectionsFilter();
-    return;
-  }
-
-  const records = groupedByStudent[currentSelectedStudentNum] || [];
-  const units = [...new Set(
-    records.filter(r => r.subject === selectedSubject).map(r => r.unit).filter(Boolean)
-  )];
-
-  units.forEach(u => {
-    const opt = document.createElement("option");
-    opt.value = u;
-    opt.textContent = u;
-    unitSelect.appendChild(opt);
-  });
-
-  renderReflectionsFilter();
-};
-
-window.onTeacherUnitChange = function() {
-  renderReflectionsFilter();
-};
-
-function renderReflectionsFilter() {
-  const container = document.getElementById("unitBlockContainer");
-  const records = groupedByStudent[currentSelectedStudentNum] || [];
-  const selectedSubject = document.getElementById("teacherSelectSubject").value;
-  const selectedUnit = document.getElementById("teacherSelectUnit").value;
-
-  if (!selectedSubject) {
-    container.innerHTML = `
-      <div style="text-align:center; padding:40px; background:#fff; border-radius:12px; border:2px dashed #cbd5e0; color:#718096;">
-        👆 上のメニューから<strong>「教科」</strong>と<strong>「単元」</strong>を選択してください。
-      </div>
-    `;
-    return;
-  }
-
-  let filtered = records;
-  if (selectedSubject !== "ALL") {
-    filtered = filtered.filter(r => r.subject === selectedSubject);
-  }
-  if (selectedUnit && selectedUnit !== "ALL") {
-    filtered = filtered.filter(r => r.unit === selectedUnit);
-  }
-
-  if (filtered.length === 0) {
-    container.innerHTML = `
-      <div style="text-align:center; padding:30px; background:#fff; border-radius:12px; border:1px solid #e2e8f0; color:#718096;">
-        該当する条件の振り返りが見つかりませんでした。
-      </div>
-    `;
-    return;
-  }
-
-  filtered.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-
-  container.innerHTML = "";
-  filtered.forEach(item => {
-    const block = document.createElement("div");
-    block.className = "unit-block";
-    
-    const initialText = item.study || "（未入力）";
-    const finalText = item.finalReflection || "（まだ深まりの振り返りは未提出です）";
-    const existingAssessment = item.assessment || "";
-
-    block.innerHTML = `
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid #edf2f7; padding-bottom:8px;">
-        <div style="font-weight:bold; font-size:16px; color:#553c9a;">
-          📚 教科：<span style="color:#2b6cb0;">${escapeHtml(item.subject || '未設定')}</span> ｜ 単元：<span style="color:#2b6cb0;">${escapeHtml(item.unit || '未設定')}</span>
-        </div>
-        <small style="color:#718096;">📅 ${formatDate(item.date)}</small>
-      </div>
-
-      <div class="reflection-comparison">
-        <div>
-          <div style="font-size:12px; font-weight:bold; color:#dd6b20; margin-bottom:4px;">✏️ 最初の振り返り</div>
-          <div style="font-size:14px; white-space:pre-wrap; color:#2d3748;">${escapeHtml(initialText)}</div>
-        </div>
-        <div>
-          <div style="font-size:12px; font-weight:bold; color:#38a169; margin-bottom:4px;">🌟 最後の振り返り（思考ツール後）</div>
-          <div style="font-size:14px; white-space:pre-wrap; color:#2d3748;">${escapeHtml(finalText)}</div>
-        </div>
-      </div>
-
-      <div style="margin-top:12px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:8px;">
-          <label style="font-weight:bold; color:#553c9a; font-size:14px;">📝 この学習の所見・評価コメント：</label>
-          <button id="ai_btn_${item.id}" class="btn sm" style="background:#6b46c1;" onclick="generateAiAssessment('${item.id}')">🤖 所見をAI生成</button>
-        </div>
-        <div id="ai_error_msg_${item.id}" style="display:none; color:#c53030; background:#fff5f5; border:1px solid #feb2b2; padding:10px 12px; border-radius:6px; font-size:12px; margin-bottom:8px; line-height:1.5;"></div>
-        <textarea id="assessment_input_${item.id}" placeholder="ここに児童への所見や評価を入力してください..." style="min-height:80px; margin-bottom:8px;">${escapeHtml(existingAssessment)}</textarea>
-        
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <small id="char_count_${item.id}" style="color:#718096; font-weight:bold;">文字数: ${(existingAssessment || "").length} 文字</small>
-          <button class="btn green sm" onclick="saveAssessment('${item.id}')">💾 所見を保存</button>
-        </div>
-      </div>
-    `;
-    container.appendChild(block);
-
-    const textarea = document.getElementById(`assessment_input_${item.id}`);
-    if(textarea) {
-      textarea.addEventListener('input', () => {
-        const cntEl = document.getElementById(`char_count_${item.id}`);
-        if(cntEl) cntEl.textContent = `文字数: ${textarea.value.length} 文字`;
       });
     }
-  });
-}
-
-window.backToStudentList = function() {
-  document.getElementById("studentDetailSection").classList.add("hidden");
-  currentSelectedStudentNum = null;
-  document.querySelectorAll(".student-card").forEach(c => c.classList.remove("active"));
-};
-
-/* --- バックアップ用（オフライン/エラー時）の所見自動生成ロジック --- */
-window.generateFallbackAssessment = function(subject, unit, initialText, finalText, targetCharCount) {
-  const cleanInitial = (initialText || "").replace(/【.*?】/g, '').trim();
-  const cleanFinal = (finalText || "").replace(/【.*?】/g, '').trim();
-
-  let sentence = "";
-  if (cleanFinal && cleanFinal !== "（まだ深まりの振り返りは未提出です）" && cleanFinal !== "未提出") {
-    sentence = `${subject}科の「${unit}」の学習において、思考ツール等を活用しながら自分の考えを整理し、「${cleanFinal.slice(0, 35)}…」と自らの気づきや理解を深く振り返ることができました。`;
-  } else if (cleanInitial && cleanInitial !== "（未入力）") {
-    sentence = `${subject}科の「${unit}」の学習において、自らの疑問や発見をもとに「${cleanInitial.slice(0, 35)}…」と意欲的に振り返りに取り組み、学びを深めることができました。`;
-  } else {
-    sentence = `${subject}科の「${unit}」の学習において、授業全体を通して根拠をもって自分の考えをまとめ、学びの深まりを意識して振り返りを記述することができました。`;
   }
 
-  const targetLen = parseInt(targetCharCount, 10) || 120;
-  if (sentence.length > targetLen + 20) {
-    sentence = sentence.slice(0, Math.max(20, targetLen - 10)) + "…と主体的にまとめられました。";
+  window.openNameSettingModal = function() {
+    const savedData = localStorage.getItem("manabi_student_names") || "";
+    document.getElementById("nameInputArea").value = savedData;
+    document.getElementById("nameSettingModal").classList.remove("hidden");
+  };
+
+  window.closeNameSettingModal = function() {
+    document.getElementById("nameSettingModal").classList.add("hidden");
+  };
+
+  window.saveNameSetting = function() {
+    const text = document.getElementById("nameInputArea").value;
+    localStorage.setItem("manabi_student_names", text);
+    loadStudentNames(); 
+    closeNameSettingModal();
+    renderStudentGrid(); 
+    if (currentSelectedStudentNum) {
+      selectStudent(currentSelectedStudentNum); 
+    }
+  };
+
+  /* --- Gemini APIキー モーダル設定 --- */
+  function getApiKey() {
+    return (localStorage.getItem("gemini_api_key") || "").trim();
   }
-  return sentence;
-};
 
-/* --- 所見AI生成機能 (Gemini API ＋ エラーメッセージ詳細表示付き) --- */
-window.generateAiAssessment = async function(docId) {
-  const item = allReflectionsData.find(x => x.id === docId);
-  if (!item) return;
+  window.openApiKeyModal = function() {
+    document.getElementById("apiKeyInput").value = getApiKey();
+    document.getElementById("apiKeyModal").classList.remove("hidden");
+  };
 
-  const btn = document.getElementById(`ai_btn_${docId}`);
-  const input = document.getElementById(`assessment_input_${docId}`);
-  const errBox = document.getElementById(`ai_error_msg_${docId}`);
-  const targetCharCount = getTargetCharCount();
+  window.closeApiKeyModal = function() {
+    document.getElementById("apiKeyModal").classList.add("hidden");
+  };
 
-  if (errBox) {
-    errBox.style.display = "none";
-    errBox.innerHTML = "";
-  }
-
-  const apiKey = getApiKey();
-  const initial = (item.study || "特になし").trim();
-  const final = (item.finalReflection || "未提出").trim();
-
-  if (!apiKey) {
-    const useFallback = confirm("💡 APIキーが設定されていません。\n\n「OK」を押すとバックアップ機能で所見文案を作成します。\n（APIキーを設定すると本格的なAI分析が利用できます）");
-    if (useFallback) {
-      const generated = generateFallbackAssessment(item.subject || "各教科", item.unit || "該当単元", initial, final, targetCharCount);
-      if (input) {
-        input.value = generated;
-        const cntEl = document.getElementById(`char_count_${docId}`);
-        if (cntEl) cntEl.textContent = `文字数: ${generated.length} 文字（簡易生成モード）`;
-      }
-      return;
+  window.saveApiKey = function() {
+    const key = document.getElementById("apiKeyInput").value.trim();
+    localStorage.setItem("gemini_api_key", key);
+    closeApiKeyModal();
+    if (key) {
+      alert("✅ APIキーを保存しました！Gemini AIによる所見生成機能が有効化されました。");
     } else {
-      window.openApiKeyModal();
-      return;
+      alert("APIキーをクリアしました。バックアップ自動生成モードで動作します。");
+    }
+  };
+
+  window.clearApiKey = function() {
+    localStorage.removeItem("gemini_api_key");
+    document.getElementById("apiKeyInput").value = "";
+    alert("APIキーをクリアしました。");
+    closeApiKeyModal();
+  };
+
+  /* --- 文字数入力切り替えと取得 --- */
+  window.toggleCustomCharInput = function() {
+    const selectVal = document.getElementById("targetCharCountSelect")?.value;
+    const container = document.getElementById("customCharCountContainer");
+    if (container) {
+      if (selectVal === "custom") {
+        container.classList.remove("hidden");
+      } else {
+        container.classList.add("hidden");
+      }
+    }
+  };
+
+  function getTargetCharCount() {
+    const selectVal = document.getElementById("targetCharCountSelect")?.value;
+    if (selectVal === "custom") {
+      const customVal = parseInt(document.getElementById("customCharCountInput")?.value, 10);
+      return (customVal && customVal > 0) ? customVal : 100;
+    }
+    return parseInt(selectVal, 10) || 120;
+  }
+
+  /* --- 今日の授業情報設定機能 --- */
+  async function loadTodayLesson() {
+    const statusEl = document.getElementById("currentLessonStatus");
+    try {
+      const snap = await getDoc(doc(db, "currentLesson", "today"));
+      if (snap.exists() && snap.data().active) {
+        const data = snap.data();
+        document.getElementById("lessonSubjectInput").value = data.subject || "";
+        document.getElementById("lessonUnitInput").value = data.unit || "";
+        statusEl.innerHTML = `🟢 児童に公開中：<strong>${escapeHtml(data.subject)}</strong> ／ <strong>${escapeHtml(data.unit)}</strong>`;
+      } else {
+        statusEl.textContent = "🔴 現在、設定されている授業はありません。";
+      }
+    } catch(e) {
+      console.error("授業取得エラー:", e);
+      statusEl.textContent = "授業設定の取得に失敗しました。";
     }
   }
 
-  if (btn) {
-    btn.disabled = true;
-    btn.innerHTML = '⏳ AIが所見を作成中...';
+  window.setTodayLesson = async function() {
+    const subject = document.getElementById("lessonSubjectInput").value.trim();
+    const unit = document.getElementById("lessonUnitInput").value.trim();
+
+    if (!subject || !unit) {
+      alert("教科と単元名の両方を入力してください。");
+      return;
+    }
+
+    try {
+      const lessonId = "sub_" + subject + "_" + unit;
+      await setDoc(doc(db, "currentLesson", "today"), {
+        subject: subject,
+        unit: unit,
+        lessonId: lessonId,
+        active: true,
+        updatedAt: serverTimestamp()
+      });
+      alert("✅ 児童アプリ用の授業設定を公開・更新しました！");
+      await loadTodayLesson();
+    } catch(e) {
+      console.error("授業設定エラー:", e);
+      alert("❌ 授業設定の更新に失敗しました: " + e.message);
+    }
+  };
+
+  /* --- 児童別 所見作成機能 --- */
+  window.loadAllReflectionsForAssessment = async function() {
+    const grid = document.getElementById("studentGridArea");
+    grid.innerHTML = '<div style="color:#6b46c1; font-weight:bold;">📡 全児童の振り返りデータを読み込んでいます...</div>';
+    
+    try {
+      const snapshot = await getDocs(collection(db, "manabi"));
+      allReflectionsData = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      
+      groupedByStudent = {};
+      allReflectionsData.forEach(item => {
+        const num = item.studentNumber ? Number(item.studentNumber) : 0;
+        if (!groupedByStudent[num]) {
+          groupedByStudent[num] = [];
+        }
+        groupedByStudent[num].push(item);
+      });
+
+      renderStudentGrid();
+    } catch (e) {
+      console.error("所見データ取得エラー:", e);
+      grid.innerHTML = '<div style="color:#e53e3e;">データの取得に失敗しました。</div>';
+    }
+  };
+
+  function renderStudentGrid() {
+    const grid = document.getElementById("studentGridArea");
+    const studentNumbers = Object.keys(groupedByStudent).map(Number).sort((a, b) => a - b);
+
+    if (studentNumbers.length === 0) {
+      grid.innerHTML = '<div style="color:#718096; grid-column: 1/-1;">まだ投稿された振り返りデータがありません。</div>';
+      document.getElementById("studentDetailSection").classList.add("hidden");
+      return;
+    }
+
+    grid.innerHTML = "";
+    studentNumbers.forEach(num => {
+      const records = groupedByStudent[num];
+      const card = document.createElement("div");
+      card.className = `student-card ${currentSelectedStudentNum === num ? "active" : ""}`;
+      card.onclick = () => selectStudent(num);
+
+      const name = studentNames[num] ? studentNames[num] : "名前未設定";
+
+      card.innerHTML = `
+        <span class="student-badge">${records.length}件の記録</span>
+        <div style="font-size:24px; margin-bottom:4px;">👤</div>
+        <div style="font-weight:bold; color:#718096; font-size:13px;">${num === 0 ? "番号未設定" : num + " 番"}</div>
+        <div style="font-weight:bold; color:#2d3748; font-size:16px; margin-top:2px;">${num === 0 ? "-" : escapeHtml(name)}</div>
+      `;
+      grid.appendChild(card);
+    });
+
+    if (currentSelectedStudentNum && groupedByStudent[currentSelectedStudentNum]) {
+      selectStudent(currentSelectedStudentNum);
+    }
   }
 
-  const promptText = `
-あなたは日本の小学校の経験豊富な教員です。児童の学習振り返りデータをもとに、通知表や指導要録にそのまま掲載できるような適切な所見（評語・評価文）を1文〜2文で作成してください。
+  window.selectStudent = function(studentNum) {
+    currentSelectedStudentNum = studentNum;
+
+    document.querySelectorAll(".student-card").forEach(c => c.classList.remove("active"));
+    
+    const records = groupedByStudent[studentNum] || [];
+    
+    const detailSec = document.getElementById("studentDetailSection");
+    detailSec.classList.remove("hidden");
+
+    const name = studentNames[studentNum] ? studentNames[studentNum] : "名前未設定";
+    const displayName = studentNum === 0 ? "番号未設定" : `${studentNum}番 ${name}`;
+    
+    document.getElementById("currentStudentTitle").textContent = `👤 ${escapeHtml(displayName)} さんの学び履歴`;
+    document.getElementById("currentStudentRecordCount").textContent = `総投稿数: ${records.length}件`;
+
+    const subjectSelect = document.getElementById("teacherSelectSubject");
+    const unitSelect = document.getElementById("teacherSelectUnit");
+
+    const subjects = [...new Set(records.map(r => r.subject).filter(Boolean))];
+    
+    subjectSelect.innerHTML = '<option value="">-- 教科を選択してください --</option><option value="ALL">【すべての教科を表示】</option>';
+    subjects.forEach(sub => {
+      const opt = document.createElement("option");
+      opt.value = sub;
+      opt.textContent = sub;
+      subjectSelect.appendChild(opt);
+    });
+
+    unitSelect.innerHTML = '<option value="">-- まず教科を選んでください --</option>';
+
+    renderReflectionsFilter();
+
+    detailSec.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  window.onTeacherSubjectChange = function() {
+    const selectedSubject = document.getElementById("teacherSelectSubject").value;
+    const unitSelect = document.getElementById("teacherSelectUnit");
+
+    unitSelect.innerHTML = '<option value="">-- 単元を選択してください --</option><option value="ALL">【すべての単元を表示】</option>';
+
+    if (!selectedSubject || selectedSubject === "ALL") {
+      if(selectedSubject === "ALL") {
+        unitSelect.innerHTML = '<option value="ALL">【すべての単元を表示】</option>';
+      } else {
+        unitSelect.innerHTML = '<option value="">-- まず教科を選んでください --</option>';
+      }
+      renderReflectionsFilter();
+      return;
+    }
+
+    const records = groupedByStudent[currentSelectedStudentNum] || [];
+    const units = [...new Set(
+      records.filter(r => r.subject === selectedSubject).map(r => r.unit).filter(Boolean)
+    )];
+
+    units.forEach(u => {
+      const opt = document.createElement("option");
+      opt.value = u;
+      opt.textContent = u;
+      unitSelect.appendChild(opt);
+    });
+
+    renderReflectionsFilter();
+  };
+
+  window.onTeacherUnitChange = function() {
+    renderReflectionsFilter();
+  };
+
+  function renderReflectionsFilter() {
+    const container = document.getElementById("unitBlockContainer");
+    const records = groupedByStudent[currentSelectedStudentNum] || [];
+    const selectedSubject = document.getElementById("teacherSelectSubject").value;
+    const selectedUnit = document.getElementById("teacherSelectUnit").value;
+
+    if (!selectedSubject) {
+      container.innerHTML = `
+        <div style="text-align:center; padding:40px; background:#fff; border-radius:12px; border:2px dashed #cbd5e0; color:#718096;">
+          👆 上のメニューから<strong>「教科」</strong>と<strong>「単元」</strong>を選択してください。
+        </div>
+      `;
+      return;
+    }
+
+    let filtered = records;
+    if (selectedSubject !== "ALL") {
+      filtered = filtered.filter(r => r.subject === selectedSubject);
+    }
+    if (selectedUnit && selectedUnit !== "ALL") {
+      filtered = filtered.filter(r => r.unit === selectedUnit);
+    }
+
+    if (filtered.length === 0) {
+      container.innerHTML = `
+        <div style="text-align:center; padding:30px; background:#fff; border-radius:12px; border:1px solid #e2e8f0; color:#718096;">
+          該当する条件の振り返りが見つかりませんでした。
+        </div>
+      `;
+      return;
+    }
+
+    filtered.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
+
+    container.innerHTML = "";
+    filtered.forEach(item => {
+      const block = document.createElement("div");
+      block.className = "unit-block";
+      
+      const initialText = item.study || "（未入力）";
+      const finalText = item.finalReflection || "（まだ深まりの振り返りは未提出です）";
+      const existingAssessment = item.assessment || "";
+
+      block.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid #edf2f7; padding-bottom:8px;">
+          <div style="font-weight:bold; font-size:16px; color:#553c9a;">
+            📚 教科：<span style="color:#2b6cb0;">${escapeHtml(item.subject || '未設定')}</span> ｜ 単元：<span style="color:#2b6cb0;">${escapeHtml(item.unit || '未設定')}</span>
+          </div>
+          <small style="color:#718096;">📅 ${formatDate(item.date)}</small>
+        </div>
+
+        <div class="reflection-comparison">
+          <div>
+            <div style="font-size:12px; font-weight:bold; color:#dd6b20; margin-bottom:4px;">✏️ 最初の振り返り</div>
+            <div style="font-size:14px; white-space:pre-wrap; color:#2d3748;">${escapeHtml(initialText)}</div>
+          </div>
+          <div>
+            <div style="font-size:12px; font-weight:bold; color:#38a169; margin-bottom:4px;">🌟 最後の振り返り（思考ツール後）</div>
+            <div style="font-size:14px; white-space:pre-wrap; color:#2d3748;">${escapeHtml(finalText)}</div>
+          </div>
+        </div>
+
+        <div style="margin-top:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:8px;">
+            <label style="font-weight:bold; color:#553c9a; font-size:14px;">📝 この学習の所見・評価コメント：</label>
+            <button id="ai_btn_${item.id}" class="btn sm" style="background:#6b46c1;" onclick="generateAiAssessment('${item.id}')">🤖 所見をAI生成</button>
+          </div>
+          <div id="ai_error_msg_${item.id}" style="display:none; color:#c53030; background:#fff5f5; border:1px solid #feb2b2; padding:10px 12px; border-radius:6px; font-size:12px; margin-bottom:8px; line-height:1.5;"></div>
+          <textarea id="assessment_input_${item.id}" placeholder="ここに児童への所見や評価を入力してください..." style="min-height:80px; margin-bottom:8px;">${escapeHtml(existingAssessment)}</textarea>
+          
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <small id="char_count_${item.id}" style="color:#718096; font-weight:bold;">文字数: ${(existingAssessment || "").length} 文字</small>
+            <button class="btn green sm" onclick="saveAssessment('${item.id}')">💾 所見を保存</button>
+          </div>
+        </div>
+      `;
+      container.appendChild(block);
+
+      const textarea = document.getElementById(`assessment_input_${item.id}`);
+      if(textarea) {
+        textarea.addEventListener('input', () => {
+          const cntEl = document.getElementById(`char_count_${item.id}`);
+          if(cntEl) cntEl.textContent = `文字数: ${textarea.value.length} 文字`;
+        });
+      }
+    });
+  }
+
+  window.backToStudentList = function() {
+    document.getElementById("studentDetailSection").classList.add("hidden");
+    currentSelectedStudentNum = null;
+    document.querySelectorAll(".student-card").forEach(c => c.classList.remove("active"));
+  };
+
+  /* --- バックアップ用（オフライン/エラー時）の所見自動生成ロジック --- */
+  window.generateFallbackAssessment = function(subject, unit, initialText, finalText, targetCharCount) {
+    const cleanInitial = (initialText || "").replace(/【.*?】/g, '').trim();
+    const cleanFinal = (finalText || "").replace(/【.*?】/g, '').trim();
+
+    let sentence = "";
+    if (cleanFinal && cleanFinal !== "（まだ深まりの振り返りは未提出です）" && cleanFinal !== "未提出") {
+      sentence = `${subject}科の「${unit}」の学習において、思考ツール等を活用しながら自分の考えを整理し、「${cleanFinal.slice(0, 35)}…」と自らの気づきや理解を深く振り返ることができました。`;
+    } else if (cleanInitial && cleanInitial !== "（未入力）") {
+      sentence = `${subject}科の「${unit}」の学習において、自らの疑問や発見をもとに「${cleanInitial.slice(0, 35)}…」と意欲的に振り返りに取り組み、学びを深めることができました。`;
+    } else {
+      sentence = `${subject}科の「${unit}」の学習において、授業全体を通して根拠をもって自分の考えをまとめ、学びの深まりを意識して振り返りを記述することができました。`;
+    }
+
+    const targetLen = parseInt(targetCharCount, 10) || 120;
+    if (sentence.length > targetLen + 20) {
+      sentence = sentence.slice(0, Math.max(20, targetLen - 10)) + "…と主体的にまとめられました。";
+    }
+    return sentence;
+  };
+
+  /* --- 所見AI生成機能 (Gemini API ＋ エラーメッセージ詳細表示付き) --- */
+  window.generateAiAssessment = async function(docId) {
+    const item = allReflectionsData.find(x => x.id === docId);
+    if (!item) return;
+
+    const btn = document.getElementById(`ai_btn_${docId}`);
+    const input = document.getElementById(`assessment_input_${docId}`);
+    const errBox = document.getElementById(`ai_error_msg_${docId}`);
+    const targetCharCount = getTargetCharCount();
+    const selectedModel = document.getElementById("geminiModelSelect")?.value || "gemini-3-flash-preview";
+
+    if (errBox) {
+      errBox.style.display = "none";
+      errBox.innerHTML = "";
+    }
+
+    const apiKey = getApiKey();
+    const initial = (item.study || "特になし").trim();
+    const final = (item.finalReflection || "未提出").trim();
+
+    if (!apiKey) {
+      const useFallback = confirm("💡 APIキーが設定されていません。\n\n「OK」を押すと簡易モードで所見文案を作成します。\n（APIキーを「🔑 AI設定」で登録するとGemini AIが利用できます）");
+      if (useFallback) {
+        const generated = generateFallbackAssessment(item.subject || "各教科", item.unit || "該当単元", initial, final, targetCharCount);
+        if (input) {
+          input.value = generated;
+          const cntEl = document.getElementById(`char_count_${docId}`);
+          if (cntEl) cntEl.textContent = `文字数: ${generated.length} 文字（簡易生成モード）`;
+        }
+        return;
+      } else {
+        window.openApiKeyModal();
+        return;
+      }
+    }
+
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '⏳ AIが所見を作成中...';
+    }
+
+    const promptText = `
+あなたはお教えのプロである日本の小学校教員です。児童の学習振り返りデータをもとに、通知表や指導要録にそのまま掲載できるような適切な所見（評語・評価文）を1文〜2文で作成してください。
 
 【授業情報】
 - 教科: ${item.subject || '未設定'}
@@ -844,86 +857,86 @@ window.generateAiAssessment = async function(docId) {
 4. 返答には解説や「所見:」などの見出し、改行を含めず、所見の本文のみを直接出力してください。
 `;
 
-  try {
-    // 最新の安定版 gemini-2.5-flash エンドポイントへ更新
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: promptText }] }]
-      })
-    });
+    try {
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${apiKey}`;
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: promptText }] }]
+        })
+      });
 
-    if (!response.ok) {
-      const errData = await response.json().catch(() => ({}));
-      const detailedError = errData.error?.message || `HTTP status ${response.status}`;
-      throw new Error(detailedError);
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        const detailedError = errData.error?.message || `HTTP status ${response.status}`;
+        throw new Error(`APIエラー: ${detailedError}`);
+      }
+
+      const data = await response.json();
+      const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
+
+      if (input && generatedText) {
+        input.value = generatedText;
+        const cntEl = document.getElementById(`char_count_${docId}`);
+        if (cntEl) cntEl.textContent = `文字数: ${generatedText.length} 文字`;
+      } else {
+        throw new Error("AIからの応答内容が空でした。");
+      }
+    } catch (e) {
+      console.error("Gemini API Error:", e);
+      
+      if (errBox) {
+        errBox.style.display = "block";
+        errBox.innerHTML = `⚠️ <strong>AI生成エラー:</strong> ${escapeHtml(e.message)}<br><span style="color:#718096; font-size:11px;">※APIキーにスペースが含まれていないか確認してください。またはモデルを「Gemini 1.5 Flash」に変更してお試しください。</span>`;
+      }
+
+      const fallbackText = generateFallbackAssessment(item.subject || "各教科", item.unit || "該当単元", initial, final, targetCharCount);
+      if (input) {
+        input.value = fallbackText;
+        const cntEl = document.getElementById(`char_count_${docId}`);
+        if (cntEl) cntEl.textContent = `文字数: ${fallbackText.length} 文字（バックアップ生成）`;
+      }
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '🤖 所見をAI生成';
+      }
     }
+  };
 
-    const data = await response.json();
-    const generatedText = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || "";
+  window.saveAssessment = async function(docId) {
+    const input = document.getElementById(`assessment_input_${docId}`);
+    if (!input) return;
 
-    if (input && generatedText) {
-      input.value = generatedText;
-      const cntEl = document.getElementById(`char_count_${docId}`);
-      if (cntEl) cntEl.textContent = `文字数: ${generatedText.length} 文字`;
-    } else {
-      throw new Error("AIからの応答内容が空でした。");
+    const text = input.value.trim();
+    try {
+      const ref = doc(db, "manabi", docId);
+      await updateDoc(ref, {
+        assessment: text,
+        assessmentUpdatedAt: serverTimestamp()
+      });
+
+      const item = allReflectionsData.find(x => x.id === docId);
+      if (item) item.assessment = text;
+
+      alert("✅ 所見を保存しました！");
+    } catch (e) {
+      console.error("所見保存エラー:", e);
+      alert("❌ 保存に失敗しました: " + e.message);
     }
-  } catch (e) {
-    console.error("Gemini API Error:", e);
-    
-    if (errBox) {
-      errBox.style.display = "block";
-      errBox.innerHTML = `⚠️ <strong>Gemini API 通信エラー:</strong><br>${escapeHtml(e.message)}<br><span style="color:#718096; font-size:11px;">※自動的にバックアップ生成モードで所見文案を作成しました。キーのコピペミスやネットワーク制限が無いかご確認ください。</span>`;
-    }
+  };
 
-    const fallbackText = generateFallbackAssessment(item.subject || "各教科", item.unit || "該当単元", initial, final, targetCharCount);
-    if (input) {
-      input.value = fallbackText;
-      const cntEl = document.getElementById(`char_count_${docId}`);
-      if (cntEl) cntEl.textContent = `文字数: ${fallbackText.length} 文字（バックアップ生成）`;
-    }
-  } finally {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = '🤖 所見をAI生成';
-    }
-  }
-};
+  window.refreshAllData = async function() {
+    await loadTodayLesson();
+    await window.loadAllReflectionsForAssessment();
+  };
 
-window.saveAssessment = async function(docId) {
-  const input = document.getElementById(`assessment_input_${docId}`);
-  if (!input) return;
-
-  const text = input.value.trim();
-  try {
-    const ref = doc(db, "manabi", docId);
-    await updateDoc(ref, {
-      assessment: text,
-      assessmentUpdatedAt: serverTimestamp()
-    });
-
-    const item = allReflectionsData.find(x => x.id === docId);
-    if (item) item.assessment = text;
-
-    alert("✅ 所見を保存しました！");
-  } catch (e) {
-    console.error("所見保存エラー:", e);
-    alert("❌ 保存に失敗しました: " + e.message);
-  }
-};
-
-window.refreshAllData = async function() {
-  await loadTodayLesson();
-  await window.loadAllReflectionsForAssessment();
-};
-
-window.addEventListener("DOMContentLoaded", () => {
-  loadStudentNames(); 
-  refreshAllData();
-});
-</script>
+  window.addEventListener("DOMContentLoaded", () => {
+    loadStudentNames(); 
+    refreshAllData();
+  });
+  </script>
 
 </body>
 </html>
